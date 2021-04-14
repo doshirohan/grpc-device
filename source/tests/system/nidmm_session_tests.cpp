@@ -10,11 +10,11 @@ namespace system {
 namespace dmm = nidmm_grpc;
 
 const int kViErrorRsrcNFound = -1073807343;
-const char* kViErrorRsrcNFoundMessage = "VISA:  (Hex 0xBFFF0011) Insufficient location information or the device or resource is not present in the system.";
-const char* kTestResourceName = "FakeDevice";
-const char* kSimulatedOptionsString = "Simulate=1, DriverSetup=Model:4065; BoardType:PCI";
-const char* kTestSessionName = "SessionName";
-const char* kInvalidResourceName = "";
+const char* kViErrorResourceNotFoundMessage = "VISA:  (Hex 0xBFFF0011) Insufficient location information or the device or resource is not present in the system.";
+const char* kResourceName = "FakeDevice";
+const char* kOptionsString = "Simulate=1, DriverSetup=Model:4065; BoardType:PCI";
+const char* kSessionName = "SessionName";
+const char* kInvalidRsrc = "";
 
 class NiDMMSessionTest : public ::testing::Test{
     protected:
@@ -30,7 +30,7 @@ class NiDMMSessionTest : public ::testing::Test{
             ResetStubs();
         }
 
-        virtual ~NiDMMSessionTest();
+        virtual ~NiDMMSessionTest() {}
 
         void ResetStubs()
         {
@@ -69,7 +69,7 @@ class NiDMMSessionTest : public ::testing::Test{
 TEST_F(NiDMMSessionTest, InitializeSessionWithDeviceAndSessionName_CreatesDriverSession)
 {
   dmm::InitWithOptionsResponse response;
-  ::grpc::Status status = call_init_with_options(kTestResourceName, kSimulatedOptionsString, kTestSessionName, &response);
+  ::grpc::Status status = call_init_with_options(kResourceName, kOptionsString, kSessionName, &response);
 
   EXPECT_TRUE(status.ok());
   EXPECT_EQ(0, response.status());
@@ -79,7 +79,7 @@ TEST_F(NiDMMSessionTest, InitializeSessionWithDeviceAndSessionName_CreatesDriver
 TEST_F(NiDMMSessionTest, InitializeSessionWithDeviceAndNoSessionName_CreatesDriverSession)
 {
   dmm::InitWithOptionsResponse response;
-  ::grpc::Status status = call_init_with_options(kTestResourceName, kSimulatedOptionsString, "", &response);
+  ::grpc::Status status = call_init_with_options(kResourceName, kOptionsString, "", &response);
 
   EXPECT_TRUE(status.ok());
   EXPECT_EQ(0, response.status());
@@ -89,7 +89,7 @@ TEST_F(NiDMMSessionTest, InitializeSessionWithDeviceAndNoSessionName_CreatesDriv
 TEST_F(NiDMMSessionTest, InitializeSessionWithoutDevice_ReturnsDriverError)
 {
   dmm::InitWithOptionsResponse response;
-  ::grpc::Status status = call_init_with_options(kInvalidResourceName, "", "", &response);
+  ::grpc::Status status = call_init_with_options(kInvalidRsrc, "", "", &response);
 
   EXPECT_TRUE(status.ok());
   EXPECT_EQ(kViErrorRsrcNFound, response.status());
@@ -99,7 +99,7 @@ TEST_F(NiDMMSessionTest, InitializeSessionWithoutDevice_ReturnsDriverError)
 TEST_F(NiDMMSessionTest, InitializedSession_CloseSession_ClosesDriverSession)
 {
   dmm::InitWithOptionsResponse init_response;
-  call_init_with_options(kTestResourceName, kSimulatedOptionsString, kTestSessionName, &init_response);
+  call_init_with_options(kResourceName, kOptionsString, kSessionName, &init_response);
   nidevice_grpc::Session session = init_response.vi();
 
   ::grpc::ClientContext context;
@@ -130,7 +130,7 @@ TEST_F(NiDMMSessionTest, InvalidSession_CloseSession_NoErrorReported)
 TEST_F(NiDMMSessionTest, ErrorFromDriver_GetErrorMessage_ReturnsUserErrorMessage)
 {
   dmm::InitWithOptionsResponse init_response;
-  call_init_with_options(kInvalidResourceName, "", "", &init_response);
+  call_init_with_options(kInvalidRsrc, "", "", &init_response);
   EXPECT_EQ(kViErrorRsrcNFound, init_response.status());
 
   nidevice_grpc::Session session = init_response.vi();
@@ -142,7 +142,7 @@ TEST_F(NiDMMSessionTest, ErrorFromDriver_GetErrorMessage_ReturnsUserErrorMessage
   ::grpc::Status status = GetStub()->GetErrorMessage(&context, error_request, &error_response);
 
   EXPECT_TRUE(status.ok());
-  EXPECT_STREQ(kViErrorRsrcNFoundMessage, error_response.error_message().c_str());
+  EXPECT_STREQ(kViErrorResourceNotFoundMessage, error_response.error_message().c_str());
 }
 
 } // namespace system
