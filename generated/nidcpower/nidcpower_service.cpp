@@ -23,6 +23,82 @@ namespace nidcpower_grpc {
   {
   }
 
+  void NiDCPowerService::Copy(const NIComplexNumber_struct& input, nidcpower_grpc::NIComplexNumber* output) 
+  {
+        output->set_real(input.real);
+        output->set_imaginary(input.imaginary);
+  }
+
+  void NiDCPowerService::Copy(const std::vector<NIComplexNumber_struct>& input, google::protobuf::RepeatedPtrField<nidcpower_grpc::NIComplexNumber>* output) 
+  {
+    for (auto item : input) {
+      auto message = new nidcpower_grpc::NIComplexNumber();
+      Copy(item, message);
+      output->AddAllocated(message);
+    }
+  }
+
+  void NiDCPowerService::Copy(const NILCRMeasurement_struct& input, nidcpower_grpc::NILCRMeasurement* output) 
+  {
+        output->set_vdc(input.Vdc);
+        output->set_idc(input.Idc);
+        output->set_stimulus_frequency(input.stimulusFrequency);
+        Copy(input.ACVoltage, output->mutable_ac_voltage());
+        Copy(input.ACCurrent, output->mutable_ac_current());
+        Copy(input.Z, output->mutable_z());
+        output->set_z_magnitude(input.ZMagnitude);
+        output->set_z_phase(input.ZPhase);
+        Copy(input.Y, output->mutable_y());
+        output->set_y_magnitude(input.YMagnitude);
+        output->set_y_phase(input.YPhase);
+        output->set_ls(input.Ls);
+        output->set_cs(input.Cs);
+        output->set_rs(input.Rs);
+        output->set_lp(input.Lp);
+        output->set_cp(input.Cp);
+        output->set_rp(input.Rp);
+        output->set_d(input.D);
+        output->set_q(input.Q);
+        output->set_measurement_mode(input.measurementMode);
+        output->set_dc_in_compliance(input.dcInCompliance);
+        output->set_ac_in_compliance(input.acInCompliance);
+        output->set_rfu0(input.rfu0);
+        output->set_rfu1(input.rfu1);
+        output->set_rfu2(input.rfu2);
+        output->set_rfu3(input.rfu3);
+        output->set_rfu4(input.rfu4);
+        output->set_rfu5(input.rfu5);
+        output->set_rfu6(input.rfu6);
+        output->set_rfu7(input.rfu7);
+  }
+
+  void NiDCPowerService::Copy(const std::vector<NILCRMeasurement_struct>& input, google::protobuf::RepeatedPtrField<nidcpower_grpc::NILCRMeasurement>* output) 
+  {
+    for (auto item : input) {
+      auto message = new nidcpower_grpc::NILCRMeasurement();
+      Copy(item, message);
+      output->AddAllocated(message);
+    }
+  }
+
+  void NiDCPowerService::Copy(const NILoadCompensationSpot_struct& input, nidcpower_grpc::NILoadCompensationSpot* output) 
+  {
+        output->set_frequency(input.frequency);
+        output->set_primary_type(input.primaryType);
+        output->set_secondary_type(input.secondaryType);
+        output->set_primary_reference(input.primaryReference);
+        output->set_secondary_reference(input.secondaryReference);
+  }
+
+  void NiDCPowerService::Copy(const std::vector<NILoadCompensationSpot_struct>& input, google::protobuf::RepeatedPtrField<nidcpower_grpc::NILoadCompensationSpot>* output) 
+  {
+    for (auto item : input) {
+      auto message = new nidcpower_grpc::NILoadCompensationSpot();
+      Copy(item, message);
+      output->AddAllocated(message);
+    }
+  }
+
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
   ::grpc::Status NiDCPowerService::AbortWithChannels(::grpc::ServerContext* context, const AbortWithChannelsRequest* request, AbortWithChannelsResponse* response)

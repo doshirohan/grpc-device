@@ -173,6 +173,12 @@ public:
 private:
   NiDCPowerLibraryInterface* library_;
   nidevice_grpc::SessionRepository* session_repository_;
+  void Copy(const NIComplexNumber_struct& input, nidcpower_grpc::NIComplexNumber* output);
+  void Copy(const std::vector<NIComplexNumber_struct>& input, google::protobuf::RepeatedPtrField<nidcpower_grpc::NIComplexNumber>* output);
+  void Copy(const NILCRMeasurement_struct& input, nidcpower_grpc::NILCRMeasurement* output);
+  void Copy(const std::vector<NILCRMeasurement_struct>& input, google::protobuf::RepeatedPtrField<nidcpower_grpc::NILCRMeasurement>* output);
+  void Copy(const NILoadCompensationSpot_struct& input, nidcpower_grpc::NILoadCompensationSpot* output);
+  void Copy(const std::vector<NILoadCompensationSpot_struct>& input, google::protobuf::RepeatedPtrField<nidcpower_grpc::NILoadCompensationSpot>* output);
 };
 
 } // namespace nidcpower_grpc
