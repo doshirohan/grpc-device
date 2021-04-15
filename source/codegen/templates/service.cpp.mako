@@ -41,13 +41,13 @@ namespace ${config["namespace_component"]}_grpc {
 %   for custom_type in custom_types:
   void ${service_class_prefix}Service::Copy(const ${custom_type["name"]}& input, ${namespace_prefix}${custom_type["grpc_name"]}* output) 
   {
-%     for field in custom_type["fields"]: 
-        %if field["type"] == 'NIComplexNumber':
-            Copy(input.${field["name"]}, output->mutable_${field["grpc_name"]}());
-        %else:
-            output->set_${field["grpc_name"]}(input.${field["name"]});
-        %endif
-%     endfor
+%for field in custom_type["fields"]: 
+    %if field["type"] == 'NIComplexNumber':
+        Copy(input.${field["name"]}, output->mutable_${field["grpc_name"]}());
+    %else:
+        output->set_${field["grpc_name"]}(input.${field["name"]});
+    %endif
+%endfor
   }
 
   void ${service_class_prefix}Service::Copy(const std::vector<${custom_type["name"]}>& input, google::protobuf::RepeatedPtrField<${namespace_prefix}${custom_type["grpc_name"]}>* output) 
