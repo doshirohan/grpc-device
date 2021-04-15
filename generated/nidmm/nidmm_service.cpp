@@ -67,6 +67,49 @@ namespace nidmm_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
+  ::grpc::Status NiDMMService::CalAdjustACFilter(::grpc::ServerContext* context, const CalAdjustACFilterRequest* request, CalAdjustACFilterResponse* response)
+  {
+    if (context->IsCancelled()) {
+      return ::grpc::Status::CANCELLED;
+    }
+    try {
+      auto vi_grpc_session = request->vi();
+      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
+      ViInt32 mode = request->mode();
+      ViReal64 range = request->range();
+      ViReal64 frequency = request->frequency();
+      ViReal64 expected_value = request->expected_value();
+      auto status = library_->CalAdjustACFilter(vi, mode, range, frequency, expected_value);
+      response->set_status(status);
+      return ::grpc::Status::OK;
+    }
+    catch (nidevice_grpc::LibraryLoadException& ex) {
+      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
+    }
+  }
+
+  //---------------------------------------------------------------------
+  //---------------------------------------------------------------------
+  ::grpc::Status NiDMMService::CalAdjustLC(::grpc::ServerContext* context, const CalAdjustLCRequest* request, CalAdjustLCResponse* response)
+  {
+    if (context->IsCancelled()) {
+      return ::grpc::Status::CANCELLED;
+    }
+    try {
+      auto vi_grpc_session = request->vi();
+      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
+      ViInt32 type = request->type();
+      auto status = library_->CalAdjustLC(vi, type);
+      response->set_status(status);
+      return ::grpc::Status::OK;
+    }
+    catch (nidevice_grpc::LibraryLoadException& ex) {
+      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
+    }
+  }
+
+  //---------------------------------------------------------------------
+  //---------------------------------------------------------------------
   ::grpc::Status NiDMMService::CalAdjustLinearization(::grpc::ServerContext* context, const CalAdjustLinearizationRequest* request, CalAdjustLinearizationResponse* response)
   {
     if (context->IsCancelled()) {
@@ -309,6 +352,47 @@ namespace nidmm_grpc {
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 action = request->action();
       auto status = library_->CloseExtCal(vi, action);
+      response->set_status(status);
+      return ::grpc::Status::OK;
+    }
+    catch (nidevice_grpc::LibraryLoadException& ex) {
+      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
+    }
+  }
+
+  //---------------------------------------------------------------------
+  //---------------------------------------------------------------------
+  ::grpc::Status NiDMMService::ConfigureACBandwidth(::grpc::ServerContext* context, const ConfigureACBandwidthRequest* request, ConfigureACBandwidthResponse* response)
+  {
+    if (context->IsCancelled()) {
+      return ::grpc::Status::CANCELLED;
+    }
+    try {
+      auto vi_grpc_session = request->vi();
+      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
+      ViReal64 ac_minimum_frequency_hz = request->ac_minimum_frequency_hz();
+      ViReal64 ac_maximum_frequency_hz = request->ac_maximum_frequency_hz();
+      auto status = library_->ConfigureACBandwidth(vi, ac_minimum_frequency_hz, ac_maximum_frequency_hz);
+      response->set_status(status);
+      return ::grpc::Status::OK;
+    }
+    catch (nidevice_grpc::LibraryLoadException& ex) {
+      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
+    }
+  }
+
+  //---------------------------------------------------------------------
+  //---------------------------------------------------------------------
+  ::grpc::Status NiDMMService::ConfigureADCCalibration(::grpc::ServerContext* context, const ConfigureADCCalibrationRequest* request, ConfigureADCCalibrationResponse* response)
+  {
+    if (context->IsCancelled()) {
+      return ::grpc::Status::CANCELLED;
+    }
+    try {
+      auto vi_grpc_session = request->vi();
+      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
+      ViInt32 adc_calibration = request->adc_calibration();
+      auto status = library_->ConfigureADCCalibration(vi, adc_calibration);
       response->set_status(status);
       return ::grpc::Status::OK;
     }
@@ -961,10 +1045,35 @@ namespace nidmm_grpc {
       auto vi_grpc_session = request->vi();
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViStatus error_code = request->error_code();
-      std::string error_message('\0');
+      std::string error_message;
       auto status = library_->error_message(vi, error_code, (ViChar*)error_message.data());
       response->set_status(status);
       if (status == 0) {
+        response->set_error_message(error_message);
+      }
+      return ::grpc::Status::OK;
+    }
+    catch (nidevice_grpc::LibraryLoadException& ex) {
+      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
+    }
+  }
+
+  //---------------------------------------------------------------------
+  //---------------------------------------------------------------------
+  ::grpc::Status NiDMMService::ErrorQuery(::grpc::ServerContext* context, const ErrorQueryRequest* request, ErrorQueryResponse* response)
+  {
+    if (context->IsCancelled()) {
+      return ::grpc::Status::CANCELLED;
+    }
+    try {
+      auto vi_grpc_session = request->vi();
+      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
+      ViStatus error_code {};
+      std::string error_message;
+      auto status = library_->error_query(vi, &error_code, (ViChar*)error_message.data());
+      response->set_status(status);
+      if (status == 0) {
+        response->set_error_code(error_code);
         response->set_error_message(error_message);
       }
       return ::grpc::Status::OK;
@@ -1115,9 +1224,9 @@ namespace nidmm_grpc {
       ViReal64 range = request->range();
       ViReal64 resolution = request->resolution();
       ViReal64 measurement = request->measurement();
-      std::string mode_string('\0');
-      std::string range_string('\0');
-      std::string data_string('\0');
+      std::string mode_string;
+      std::string range_string;
+      std::string data_string;
       auto status = library_->FormatMeasAbsolute(measurement_function, range, resolution, measurement, (ViChar*)mode_string.data(), (ViChar*)range_string.data(), (ViChar*)data_string.data());
       response->set_status(status);
       if (status == 0) {
@@ -1381,7 +1490,7 @@ namespace nidmm_grpc {
       auto vi_grpc_session = request->vi();
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 buffer_size = request->buffer_size();
-      std::string info('\0');
+      std::string info;
       auto status = library_->GetCalUserDefinedInfo(vi, buffer_size, (ViChar*)info.data());
       response->set_status(status);
       if (status == 0) {
@@ -1429,7 +1538,7 @@ namespace nidmm_grpc {
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 index = request->index();
       ViInt32 buffer_size = request->buffer_size();
-      std::string channel_string('\0');
+      std::string channel_string;
       auto status = library_->GetChannelName(vi, index, buffer_size, (ViChar*)channel_string.data());
       response->set_status(status);
       if (status == 0) {
@@ -1511,7 +1620,7 @@ namespace nidmm_grpc {
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViStatus error_code = request->error_code();
       ViInt32 buffer_size = request->buffer_size();
-      std::string error_message('\0');
+      std::string error_message;
       auto status = library_->GetErrorMessage(vi, error_code, buffer_size, (ViChar*)error_message.data());
       response->set_status(status);
       if (status == 0) {
@@ -1605,7 +1714,7 @@ namespace nidmm_grpc {
       auto vi_grpc_session = request->vi();
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 buffer_size = request->buffer_size();
-      std::string coercion_record('\0');
+      std::string coercion_record;
       auto status = library_->GetNextCoercionRecord(vi, buffer_size, (ViChar*)coercion_record.data());
       response->set_status(status);
       if (status == 0) {
@@ -1629,7 +1738,7 @@ namespace nidmm_grpc {
       auto vi_grpc_session = request->vi();
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 buffer_size = request->buffer_size();
-      std::string interchange_warning('\0');
+      std::string interchange_warning;
       auto status = library_->GetNextInterchangeWarning(vi, buffer_size, (ViChar*)interchange_warning.data());
       response->set_status(status);
       if (status == 0) {
@@ -1721,6 +1830,38 @@ namespace nidmm_grpc {
       response->set_status(status);
       if (status == 0) {
         response->mutable_vi()->set_id(vi);
+      }
+      return ::grpc::Status::OK;
+    }
+    catch (nidevice_grpc::LibraryLoadException& ex) {
+      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
+    }
+  }
+
+  //---------------------------------------------------------------------
+  //---------------------------------------------------------------------
+  ::grpc::Status NiDMMService::Init(::grpc::ServerContext* context, const InitRequest* request, InitResponse* response)
+  {
+    if (context->IsCancelled()) {
+      return ::grpc::Status::CANCELLED;
+    }
+    try {
+      ViRsrc resource_name = (ViRsrc)request->resource_name().c_str();
+      ViBoolean id_query = request->id_query();
+      ViBoolean reset_device = request->reset_device();
+
+      auto init_lambda = [&] () -> std::tuple<int, uint32_t> {
+        ViSession vi;
+        int status = library_->init(resource_name, id_query, reset_device, &vi);
+        return std::make_tuple(status, vi);
+      };
+      uint32_t session_id = 0;
+      const std::string& session_name = request->session_name();
+      auto cleanup_lambda = [&] (uint32_t id) { library_->close(id); };
+      int status = session_repository_->add_session(session_name, init_lambda, cleanup_lambda, session_id);
+      response->set_status(status);
+      if (status == 0) {
+        response->mutable_vi()->set_id(session_id);
       }
       return ::grpc::Status::OK;
     }
@@ -2103,6 +2244,31 @@ namespace nidmm_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
+  ::grpc::Status NiDMMService::RevisionQuery(::grpc::ServerContext* context, const RevisionQueryRequest* request, RevisionQueryResponse* response)
+  {
+    if (context->IsCancelled()) {
+      return ::grpc::Status::CANCELLED;
+    }
+    try {
+      auto vi_grpc_session = request->vi();
+      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
+      std::string instrument_driver_revision;
+      std::string firmware_revision;
+      auto status = library_->revision_query(vi, (ViChar*)instrument_driver_revision.data(), (ViChar*)firmware_revision.data());
+      response->set_status(status);
+      if (status == 0) {
+        response->set_instrument_driver_revision(instrument_driver_revision);
+        response->set_firmware_revision(firmware_revision);
+      }
+      return ::grpc::Status::OK;
+    }
+    catch (nidevice_grpc::LibraryLoadException& ex) {
+      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
+    }
+  }
+
+  //---------------------------------------------------------------------
+  //---------------------------------------------------------------------
   ::grpc::Status NiDMMService::SelfCal(::grpc::ServerContext* context, const SelfCalRequest* request, SelfCalResponse* response)
   {
     if (context->IsCancelled()) {
@@ -2131,7 +2297,7 @@ namespace nidmm_grpc {
       auto vi_grpc_session = request->vi();
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt16 self_test_result {};
-      std::string self_test_message('\0');
+      std::string self_test_message;
       auto status = library_->self_test(vi, &self_test_result, (ViChar*)self_test_message.data());
       response->set_status(status);
       if (status == 0) {

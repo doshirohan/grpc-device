@@ -59,7 +59,7 @@ set(metadata_dir ${CMAKE_SOURCE_DIR}/source/codegen/metadata)
 set(service_output_dir ${CMAKE_SOURCE_DIR}/generated)
 set(codegen_dir ${CMAKE_SOURCE_DIR}/source/codegen)
 set(custom_dir ${CMAKE_SOURCE_DIR}/source/custom)
-set(nidrivers "nidmm" "nifake" "niscope" "niswitch")
+set(nidrivers "nidmm" "nifake" "niscope" "niswitch" "nisync")
 
 #----------------------------------------------------------------------
 # Create NI Driver APIs proto and server files
@@ -67,15 +67,18 @@ set(nidrivers "nidmm" "nifake" "niscope" "niswitch")
 set(codegen_scripts
   "${codegen_dir}/common_helpers.py"
   "${codegen_dir}/generate_service.py"
-  "${codegen_dir}/handler_helpers.py"
-  "${codegen_dir}/library_interface.h.mako"
-  "${codegen_dir}/library.cpp.mako"
-  "${codegen_dir}/library.h.mako"
-  "${codegen_dir}/mock_library.h.mako"
-  "${codegen_dir}/proto.mako"
+  "${codegen_dir}/service_helpers.py"
   "${codegen_dir}/proto_helpers.py"
-  "${codegen_dir}/service.cpp.mako"
-  "${codegen_dir}/service.h.mako")
+  "${codegen_dir}/metadata_mutation.py"
+  "${codegen_dir}/templates/library_interface.h.mako"
+  "${codegen_dir}/templates/library.cpp.mako"
+  "${codegen_dir}/templates/library.h.mako"
+  "${codegen_dir}/templates/mock_library.h.mako"
+  "${codegen_dir}/templates/proto.mako"
+  "${codegen_dir}/templates/proto_helpers.mako"
+  "${codegen_dir}/templates/service.cpp.mako"
+  "${codegen_dir}/templates/service_helpers.mako"
+  "${codegen_dir}/templates/service.h.mako")
 
 # Populated in the api loop below.
 set(nidriver_service_srcs "")
@@ -189,8 +192,8 @@ target_link_libraries(ni_grpc_device_server
 
 if(WIN32)
   target_link_libraries(ni_grpc_device_server Delayimp niScope niswitch nidmm)
-  set_target_properties(ni_grpc_device_server PROPERTIES LINK_FLAGS "/DELAYLOAD:niScope.dll /DELAYLOAD:niswitch.dll /DELAYLOAD:nidmm.dll")
-  set(ni_grpc_device_server CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}  /DELAYLOAD:niScope.dll /DELAYLOAD:niswitch.dll /DELAYLOAD:nidmm.dll")
+  set_target_properties(ni_grpc_device_server PROPERTIES LINK_FLAGS "/DELAYLOAD:niScope.dll /DELAYLOAD:niswitch.dll /DELAYLOAD:nidmm.dll /DELAYLOAD:nisync.dll")
+  set(ni_grpc_device_server CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}  /DELAYLOAD:niScope.dll /DELAYLOAD:niswitch.dll /DELAYLOAD:nidmm.dll /DELAYLOAD:nisync.dll")
 endif()
 
 #----------------------------------------------------------------------
@@ -285,10 +288,10 @@ target_link_libraries(UnitTestsRunner
 #----------------------------------------------------------------------
 add_custom_command(
   TARGET UnitTestsRunner POST_BUILD
-  COMMAND  ${CMAKE_COMMAND} -E copy_directory 
+  COMMAND  ${CMAKE_COMMAND} -E copy_directory
            ${CMAKE_SOURCE_DIR}/source/tests/assets/
            $<TARGET_FILE_DIR:UnitTestsRunner>/)
-           
+
 add_executable(SystemTestsRunner
     "source/tests/utilities/run_all_tests.cpp"
     "source/tests/system/session_utilities_service_tests.cpp"
@@ -298,6 +301,7 @@ add_executable(SystemTestsRunner
     "source/tests/system/niswitch_session_tests.cpp"
     "source/tests/system/nidmm_driver_api_tests.cpp"
     "source/tests/system/nidmm_session_tests.cpp"
+    "source/tests/system/nisync_session_tests.cpp"
     "source/server/device_enumerator.cpp"
     "source/server/session_repository.cpp"
     "source/server/semaphore.cpp"
@@ -316,8 +320,8 @@ target_link_libraries(SystemTestsRunner
 
 if(WIN32)
     target_link_libraries(SystemTestsRunner Delayimp niScope niswitch nidmm)
-    set_target_properties(SystemTestsRunner PROPERTIES LINK_FLAGS "/DELAYLOAD:niScope.dll /DELAYLOAD:niswitch.dll /DELAYLOAD:nidmm.dll")
-    set(SystemTestsRunner CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}  /DELAYLOAD:niScope.dll /DELAYLOAD:niswitch.dll /DELAYLOAD:nidmm.dll")
+    set_target_properties(SystemTestsRunner PROPERTIES LINK_FLAGS "/DELAYLOAD:niScope.dll /DELAYLOAD:niswitch.dll /DELAYLOAD:nidmm.dll /DELAYLOAD:nisync.dll")
+    set(SystemTestsRunner CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}  /DELAYLOAD:niScope.dll /DELAYLOAD:niswitch.dll /DELAYLOAD:nidmm.dll /DELAYLOAD:nisync.dll")
 endif()
 
 # Hook up different google test runners to CTest
