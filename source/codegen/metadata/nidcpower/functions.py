@@ -2606,7 +2606,8 @@ functions = {
         'direction': 'out',
         'type': 'ViReal64[]',
         'size': {
-          'mechanism': 'source-code'
+          'mechanism': 'source-code',
+          'size': 'number_of_channels'
         }
       },
       {
@@ -2614,7 +2615,8 @@ functions = {
         'direction': 'out',
         'type': 'ViReal64[]',
         'size': {
-          'mechanism': 'source-code'
+          'mechanism': 'source-code',
+          'size': 'number_of_channels'
         }
       }
     ],
