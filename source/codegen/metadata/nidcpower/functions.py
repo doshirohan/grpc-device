@@ -1907,6 +1907,47 @@ functions = {
     ],
     'returns': 'ViStatus'
   },
+  'FetchMultipleLcr': {
+    'cname': 'niDCPower_FetchMultipleLCR',
+    'parameters': [
+      {
+        'name': 'vi',
+        'direction': 'in',
+        'type': 'ViSession'
+      },
+      {
+        'name': 'channelName',
+        'direction': 'in',
+        'type': 'ViConstString'
+      },
+      {
+        'name': 'timeout',
+        'direction': 'in',
+        'type': 'ViReal64'
+      },
+      {
+        'name': 'count',
+        'direction': 'in',
+        'type': 'ViInt32'
+      },
+      {
+        'name': 'measurements',
+        'direction': 'out',
+        'size': {
+          'mechanism': 'custom-code',
+          'value': 'count'
+        },
+        'type': 'struct NILCRMeasurement_struct[]',
+        'grpc_type': 'repeated NILCRMeasurement'
+       },
+      {
+        'name': 'actualSampleCount',
+        'direction': 'out',
+        'type': 'ViInt32'
+      }
+    ],
+    'returns': 'ViStatus'
+  },
   'GetAttributeViBoolean': {
     'parameters': [
       {
@@ -2495,6 +2536,32 @@ functions = {
         'size': {
           'mechanism': 'source-code'
         }
+      }
+    ],
+    'returns': 'ViStatus'
+  },
+    'MeasureMultipleLcr': {
+    'cname': 'niDCPower_MeasureMultipleLCR',
+    'parameters': [
+      {
+        'name': 'vi',
+        'direction': 'in',
+        'type': 'ViSession'
+      },
+      {
+        'name': 'channelName',
+        'direction': 'in',
+        'type': 'ViConstString'
+      },
+      {
+        'name': 'measurements',
+        'direction': 'out',
+        'size': {
+          'mechanism': 'custom-code',
+          'value' : 'number_of_channels'
+        },
+        'type': 'struct NILCRMeasurement_struct[]',
+        'grpc_type': 'repeated NILCRMeasurement'
       }
     ],
     'returns': 'ViStatus'

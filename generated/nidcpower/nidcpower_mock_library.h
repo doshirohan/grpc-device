@@ -115,6 +115,7 @@ class NiDCPowerMockLibrary : public nidcpower_grpc::NiDCPowerLibraryInterface {
   MOCK_METHOD(ViStatus, ExportAttributeConfigurationFile, (ViSession vi, ViConstString filePath), (override));
   MOCK_METHOD(ViStatus, ExportSignal, (ViSession vi, ViInt32 signal, ViConstString signalIdentifier, ViConstString outputTerminal), (override));
   MOCK_METHOD(ViStatus, FetchMultiple, (ViSession vi, ViConstString channelName, ViReal64 timeout, ViInt32 count, ViReal64 voltageMeasurements[], ViReal64 currentMeasurements[], ViBoolean inCompliance[], ViInt32* actualCount), (override));
+  MOCK_METHOD(ViStatus, FetchMultipleLcr, (ViSession vi, ViConstString channelName, ViReal64 timeout, ViInt32 count, NILCRMeasurement_struct measurements[], ViInt32* actualSampleCount), (override));
   MOCK_METHOD(ViStatus, GetAttributeViBoolean, (ViSession vi, ViConstString channelName, ViAttr attributeId, ViBoolean* attributeValue), (override));
   MOCK_METHOD(ViStatus, GetAttributeViInt32, (ViSession vi, ViConstString channelName, ViAttr attributeId, ViInt32* attributeValue), (override));
   MOCK_METHOD(ViStatus, GetAttributeViInt64, (ViSession vi, ViConstString channelName, ViAttr attributeId, ViInt64* attributeValue), (override));
@@ -140,6 +141,7 @@ class NiDCPowerMockLibrary : public nidcpower_grpc::NiDCPowerLibraryInterface {
   MOCK_METHOD(ViStatus, LockSession, (ViSession vi, ViBoolean* callerHasLock), (override));
   MOCK_METHOD(ViStatus, Measure, (ViSession vi, ViConstString channelName, ViInt32 measurementType, ViReal64* measurement), (override));
   MOCK_METHOD(ViStatus, MeasureMultiple, (ViSession vi, ViConstString channelName, ViReal64 voltageMeasurements[], ViReal64 currentMeasurements[]), (override));
+  MOCK_METHOD(ViStatus, MeasureMultipleLcr, (ViSession vi, ViConstString channelName, NILCRMeasurement_struct measurements[]), (override));
   MOCK_METHOD(ViStatus, QueryInCompliance, (ViSession vi, ViConstString channelName, ViBoolean* inCompliance), (override));
   MOCK_METHOD(ViStatus, QueryMaxCurrentLimit, (ViSession vi, ViConstString channelName, ViReal64 voltageLevel, ViReal64* maxCurrentLimit), (override));
   MOCK_METHOD(ViStatus, QueryMaxVoltageLevel, (ViSession vi, ViConstString channelName, ViReal64 currentLimit, ViReal64* maxVoltageLevel), (override));

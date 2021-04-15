@@ -113,6 +113,7 @@ class NiDCPowerLibraryInterface {
   virtual ViStatus ExportAttributeConfigurationFile(ViSession vi, ViConstString filePath) = 0;
   virtual ViStatus ExportSignal(ViSession vi, ViInt32 signal, ViConstString signalIdentifier, ViConstString outputTerminal) = 0;
   virtual ViStatus FetchMultiple(ViSession vi, ViConstString channelName, ViReal64 timeout, ViInt32 count, ViReal64 voltageMeasurements[], ViReal64 currentMeasurements[], ViBoolean inCompliance[], ViInt32* actualCount) = 0;
+  virtual ViStatus FetchMultipleLcr(ViSession vi, ViConstString channelName, ViReal64 timeout, ViInt32 count, NILCRMeasurement_struct measurements[], ViInt32* actualSampleCount) = 0;
   virtual ViStatus GetAttributeViBoolean(ViSession vi, ViConstString channelName, ViAttr attributeId, ViBoolean* attributeValue) = 0;
   virtual ViStatus GetAttributeViInt32(ViSession vi, ViConstString channelName, ViAttr attributeId, ViInt32* attributeValue) = 0;
   virtual ViStatus GetAttributeViInt64(ViSession vi, ViConstString channelName, ViAttr attributeId, ViInt64* attributeValue) = 0;
@@ -138,6 +139,7 @@ class NiDCPowerLibraryInterface {
   virtual ViStatus LockSession(ViSession vi, ViBoolean* callerHasLock) = 0;
   virtual ViStatus Measure(ViSession vi, ViConstString channelName, ViInt32 measurementType, ViReal64* measurement) = 0;
   virtual ViStatus MeasureMultiple(ViSession vi, ViConstString channelName, ViReal64 voltageMeasurements[], ViReal64 currentMeasurements[]) = 0;
+  virtual ViStatus MeasureMultipleLcr(ViSession vi, ViConstString channelName, NILCRMeasurement_struct measurements[]) = 0;
   virtual ViStatus QueryInCompliance(ViSession vi, ViConstString channelName, ViBoolean* inCompliance) = 0;
   virtual ViStatus QueryMaxCurrentLimit(ViSession vi, ViConstString channelName, ViReal64 voltageLevel, ViReal64* maxCurrentLimit) = 0;
   virtual ViStatus QueryMaxVoltageLevel(ViSession vi, ViConstString channelName, ViReal64 currentLimit, ViReal64* maxVoltageLevel) = 0;

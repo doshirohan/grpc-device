@@ -114,6 +114,7 @@ service NiDCPower {
   rpc ExportAttributeConfigurationFile(ExportAttributeConfigurationFileRequest) returns (ExportAttributeConfigurationFileResponse);
   rpc ExportSignal(ExportSignalRequest) returns (ExportSignalResponse);
   rpc FetchMultiple(FetchMultipleRequest) returns (FetchMultipleResponse);
+  rpc FetchMultipleLcr(FetchMultipleLcrRequest) returns (FetchMultipleLcrResponse);
   rpc GetAttributeViBoolean(GetAttributeViBooleanRequest) returns (GetAttributeViBooleanResponse);
   rpc GetAttributeViInt32(GetAttributeViInt32Request) returns (GetAttributeViInt32Response);
   rpc GetAttributeViInt64(GetAttributeViInt64Request) returns (GetAttributeViInt64Response);
@@ -139,6 +140,7 @@ service NiDCPower {
   rpc LockSession(LockSessionRequest) returns (LockSessionResponse);
   rpc Measure(MeasureRequest) returns (MeasureResponse);
   rpc MeasureMultiple(MeasureMultipleRequest) returns (MeasureMultipleResponse);
+  rpc MeasureMultipleLcr(MeasureMultipleLcrRequest) returns (MeasureMultipleLcrResponse);
   rpc QueryInCompliance(QueryInComplianceRequest) returns (QueryInComplianceResponse);
   rpc QueryMaxCurrentLimit(QueryMaxCurrentLimitRequest) returns (QueryMaxCurrentLimitResponse);
   rpc QueryMaxVoltageLevel(QueryMaxVoltageLevelRequest) returns (QueryMaxVoltageLevelResponse);
@@ -1481,6 +1483,19 @@ message FetchMultipleResponse {
   sint32 actual_count = 5;
 }
 
+message FetchMultipleLcrRequest {
+  nidevice_grpc.Session vi = 1;
+  string channel_name = 2;
+  double timeout = 3;
+  sint32 count = 4;
+}
+
+message FetchMultipleLcrResponse {
+  int32 status = 1;
+  repeated NILCRMeasurement measurements = 2;
+  sint32 actual_sample_count = 3;
+}
+
 message GetAttributeViBooleanRequest {
   nidevice_grpc.Session vi = 1;
   string channel_name = 2;
@@ -1739,6 +1754,16 @@ message MeasureMultipleResponse {
   int32 status = 1;
   repeated double voltage_measurements = 2;
   repeated double current_measurements = 3;
+}
+
+message MeasureMultipleLcrRequest {
+  nidevice_grpc.Session vi = 1;
+  string channel_name = 2;
+}
+
+message MeasureMultipleLcrResponse {
+  int32 status = 1;
+  repeated NILCRMeasurement measurements = 2;
 }
 
 message QueryInComplianceRequest {

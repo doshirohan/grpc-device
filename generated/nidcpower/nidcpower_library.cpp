@@ -119,6 +119,7 @@ NiDCPowerLibrary::NiDCPowerLibrary() : shared_library_(kLibraryName)
   function_pointers_.ExportAttributeConfigurationFile = reinterpret_cast<ExportAttributeConfigurationFilePtr>(shared_library_.get_function_pointer("niDCPower_ExportAttributeConfigurationFile"));
   function_pointers_.ExportSignal = reinterpret_cast<ExportSignalPtr>(shared_library_.get_function_pointer("niDCPower_ExportSignal"));
   function_pointers_.FetchMultiple = reinterpret_cast<FetchMultiplePtr>(shared_library_.get_function_pointer("niDCPower_FetchMultiple"));
+  function_pointers_.FetchMultipleLcr = reinterpret_cast<FetchMultipleLcrPtr>(shared_library_.get_function_pointer("niDCPower_FetchMultipleLCR"));
   function_pointers_.GetAttributeViBoolean = reinterpret_cast<GetAttributeViBooleanPtr>(shared_library_.get_function_pointer("niDCPower_GetAttributeViBoolean"));
   function_pointers_.GetAttributeViInt32 = reinterpret_cast<GetAttributeViInt32Ptr>(shared_library_.get_function_pointer("niDCPower_GetAttributeViInt32"));
   function_pointers_.GetAttributeViInt64 = reinterpret_cast<GetAttributeViInt64Ptr>(shared_library_.get_function_pointer("niDCPower_GetAttributeViInt64"));
@@ -144,6 +145,7 @@ NiDCPowerLibrary::NiDCPowerLibrary() : shared_library_(kLibraryName)
   function_pointers_.LockSession = reinterpret_cast<LockSessionPtr>(shared_library_.get_function_pointer("niDCPower_LockSession"));
   function_pointers_.Measure = reinterpret_cast<MeasurePtr>(shared_library_.get_function_pointer("niDCPower_Measure"));
   function_pointers_.MeasureMultiple = reinterpret_cast<MeasureMultiplePtr>(shared_library_.get_function_pointer("niDCPower_MeasureMultiple"));
+  function_pointers_.MeasureMultipleLcr = reinterpret_cast<MeasureMultipleLcrPtr>(shared_library_.get_function_pointer("niDCPower_MeasureMultipleLCR"));
   function_pointers_.QueryInCompliance = reinterpret_cast<QueryInCompliancePtr>(shared_library_.get_function_pointer("niDCPower_QueryInCompliance"));
   function_pointers_.QueryMaxCurrentLimit = reinterpret_cast<QueryMaxCurrentLimitPtr>(shared_library_.get_function_pointer("niDCPower_QueryMaxCurrentLimit"));
   function_pointers_.QueryMaxVoltageLevel = reinterpret_cast<QueryMaxVoltageLevelPtr>(shared_library_.get_function_pointer("niDCPower_QueryMaxVoltageLevel"));
@@ -1356,6 +1358,18 @@ ViStatus NiDCPowerLibrary::FetchMultiple(ViSession vi, ViConstString channelName
 #endif
 }
 
+ViStatus NiDCPowerLibrary::FetchMultipleLcr(ViSession vi, ViConstString channelName, ViReal64 timeout, ViInt32 count, NILCRMeasurement_struct measurements[], ViInt32* actualSampleCount)
+{
+  if (!function_pointers_.FetchMultipleLcr) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niDCPower_FetchMultipleLCR.");
+  }
+#if defined(_MSC_VER)
+  return niDCPower_FetchMultipleLCR(vi, channelName, timeout, count, measurements, actualSampleCount);
+#else
+  return function_pointers_.FetchMultipleLcr(vi, channelName, timeout, count, measurements, actualSampleCount);
+#endif
+}
+
 ViStatus NiDCPowerLibrary::GetAttributeViBoolean(ViSession vi, ViConstString channelName, ViAttr attributeId, ViBoolean* attributeValue)
 {
   if (!function_pointers_.GetAttributeViBoolean) {
@@ -1653,6 +1667,18 @@ ViStatus NiDCPowerLibrary::MeasureMultiple(ViSession vi, ViConstString channelNa
   return niDCPower_MeasureMultiple(vi, channelName, voltageMeasurements, currentMeasurements);
 #else
   return function_pointers_.MeasureMultiple(vi, channelName, voltageMeasurements, currentMeasurements);
+#endif
+}
+
+ViStatus NiDCPowerLibrary::MeasureMultipleLcr(ViSession vi, ViConstString channelName, NILCRMeasurement_struct measurements[])
+{
+  if (!function_pointers_.MeasureMultipleLcr) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niDCPower_MeasureMultipleLCR.");
+  }
+#if defined(_MSC_VER)
+  return niDCPower_MeasureMultipleLCR(vi, channelName, measurements);
+#else
+  return function_pointers_.MeasureMultipleLcr(vi, channelName, measurements);
 #endif
 }
 

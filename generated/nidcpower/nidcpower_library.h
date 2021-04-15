@@ -116,6 +116,7 @@ class NiDCPowerLibrary : public nidcpower_grpc::NiDCPowerLibraryInterface {
   ViStatus ExportAttributeConfigurationFile(ViSession vi, ViConstString filePath);
   ViStatus ExportSignal(ViSession vi, ViInt32 signal, ViConstString signalIdentifier, ViConstString outputTerminal);
   ViStatus FetchMultiple(ViSession vi, ViConstString channelName, ViReal64 timeout, ViInt32 count, ViReal64 voltageMeasurements[], ViReal64 currentMeasurements[], ViBoolean inCompliance[], ViInt32* actualCount);
+  ViStatus FetchMultipleLcr(ViSession vi, ViConstString channelName, ViReal64 timeout, ViInt32 count, NILCRMeasurement_struct measurements[], ViInt32* actualSampleCount);
   ViStatus GetAttributeViBoolean(ViSession vi, ViConstString channelName, ViAttr attributeId, ViBoolean* attributeValue);
   ViStatus GetAttributeViInt32(ViSession vi, ViConstString channelName, ViAttr attributeId, ViInt32* attributeValue);
   ViStatus GetAttributeViInt64(ViSession vi, ViConstString channelName, ViAttr attributeId, ViInt64* attributeValue);
@@ -141,6 +142,7 @@ class NiDCPowerLibrary : public nidcpower_grpc::NiDCPowerLibraryInterface {
   ViStatus LockSession(ViSession vi, ViBoolean* callerHasLock);
   ViStatus Measure(ViSession vi, ViConstString channelName, ViInt32 measurementType, ViReal64* measurement);
   ViStatus MeasureMultiple(ViSession vi, ViConstString channelName, ViReal64 voltageMeasurements[], ViReal64 currentMeasurements[]);
+  ViStatus MeasureMultipleLcr(ViSession vi, ViConstString channelName, NILCRMeasurement_struct measurements[]);
   ViStatus QueryInCompliance(ViSession vi, ViConstString channelName, ViBoolean* inCompliance);
   ViStatus QueryMaxCurrentLimit(ViSession vi, ViConstString channelName, ViReal64 voltageLevel, ViReal64* maxCurrentLimit);
   ViStatus QueryMaxVoltageLevel(ViSession vi, ViConstString channelName, ViReal64 currentLimit, ViReal64* maxVoltageLevel);
@@ -264,6 +266,7 @@ class NiDCPowerLibrary : public nidcpower_grpc::NiDCPowerLibraryInterface {
   using ExportAttributeConfigurationFilePtr = ViStatus (*)(ViSession vi, ViConstString filePath);
   using ExportSignalPtr = ViStatus (*)(ViSession vi, ViInt32 signal, ViConstString signalIdentifier, ViConstString outputTerminal);
   using FetchMultiplePtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViReal64 timeout, ViInt32 count, ViReal64 voltageMeasurements[], ViReal64 currentMeasurements[], ViBoolean inCompliance[], ViInt32* actualCount);
+  using FetchMultipleLcrPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViReal64 timeout, ViInt32 count, NILCRMeasurement_struct measurements[], ViInt32* actualSampleCount);
   using GetAttributeViBooleanPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViAttr attributeId, ViBoolean* attributeValue);
   using GetAttributeViInt32Ptr = ViStatus (*)(ViSession vi, ViConstString channelName, ViAttr attributeId, ViInt32* attributeValue);
   using GetAttributeViInt64Ptr = ViStatus (*)(ViSession vi, ViConstString channelName, ViAttr attributeId, ViInt64* attributeValue);
@@ -289,6 +292,7 @@ class NiDCPowerLibrary : public nidcpower_grpc::NiDCPowerLibraryInterface {
   using LockSessionPtr = ViStatus (*)(ViSession vi, ViBoolean* callerHasLock);
   using MeasurePtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViInt32 measurementType, ViReal64* measurement);
   using MeasureMultiplePtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViReal64 voltageMeasurements[], ViReal64 currentMeasurements[]);
+  using MeasureMultipleLcrPtr = ViStatus (*)(ViSession vi, ViConstString channelName, NILCRMeasurement_struct measurements[]);
   using QueryInCompliancePtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViBoolean* inCompliance);
   using QueryMaxCurrentLimitPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViReal64 voltageLevel, ViReal64* maxCurrentLimit);
   using QueryMaxVoltageLevelPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViReal64 currentLimit, ViReal64* maxVoltageLevel);
@@ -412,6 +416,7 @@ class NiDCPowerLibrary : public nidcpower_grpc::NiDCPowerLibraryInterface {
     ExportAttributeConfigurationFilePtr ExportAttributeConfigurationFile;
     ExportSignalPtr ExportSignal;
     FetchMultiplePtr FetchMultiple;
+    FetchMultipleLcrPtr FetchMultipleLcr;
     GetAttributeViBooleanPtr GetAttributeViBoolean;
     GetAttributeViInt32Ptr GetAttributeViInt32;
     GetAttributeViInt64Ptr GetAttributeViInt64;
@@ -437,6 +442,7 @@ class NiDCPowerLibrary : public nidcpower_grpc::NiDCPowerLibraryInterface {
     LockSessionPtr LockSession;
     MeasurePtr Measure;
     MeasureMultiplePtr MeasureMultiple;
+    MeasureMultipleLcrPtr MeasureMultipleLcr;
     QueryInCompliancePtr QueryInCompliance;
     QueryMaxCurrentLimitPtr QueryMaxCurrentLimit;
     QueryMaxVoltageLevelPtr QueryMaxVoltageLevel;
