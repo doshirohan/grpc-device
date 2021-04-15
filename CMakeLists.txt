@@ -191,7 +191,7 @@ target_link_libraries(ni_grpc_device_server
    )
 
 if(WIN32)
-  target_link_libraries(ni_grpc_device_server Delayimp niScope niswitch nidmm)
+  target_link_libraries(ni_grpc_device_server Delayimp niScope niswitch nidmm nisync)
   set_target_properties(ni_grpc_device_server PROPERTIES LINK_FLAGS "/DELAYLOAD:niScope.dll /DELAYLOAD:niswitch.dll /DELAYLOAD:nidmm.dll /DELAYLOAD:nisync.dll")
   set(ni_grpc_device_server CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}  /DELAYLOAD:niScope.dll /DELAYLOAD:niswitch.dll /DELAYLOAD:nidmm.dll /DELAYLOAD:nisync.dll")
 endif()
@@ -295,13 +295,8 @@ add_custom_command(
 add_executable(SystemTestsRunner
     "source/tests/utilities/run_all_tests.cpp"
     "source/tests/system/session_utilities_service_tests.cpp"
-    "source/tests/system/niscope_driver_api_tests.cpp"
-    "source/tests/system/niscope_session_tests.cpp"
-    "source/tests/system/niswitch_driver_api_tests.cpp"
-    "source/tests/system/niswitch_session_tests.cpp"
     "source/tests/system/nidmm_driver_api_tests.cpp"
     "source/tests/system/nidmm_session_tests.cpp"
-    "source/tests/system/nisync_session_tests.cpp"
     "source/server/device_enumerator.cpp"
     "source/server/session_repository.cpp"
     "source/server/semaphore.cpp"
