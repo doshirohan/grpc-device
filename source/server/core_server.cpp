@@ -4,6 +4,8 @@
 #include <niswitch/niswitch_service.h>
 #include <nidmm/nidmm_library.h>
 #include <nidmm/nidmm_service.h>
+#include <nisync/nisync_library.h>
+#include <nisync/nisync_service.h>
 
 #include "server_configuration_parser.h"
 #include "server_security_configuration.h"
@@ -54,6 +56,10 @@ static void RunServer(const std::string& config_file_path)
   nidmm_grpc::NiDMMLibrary nidmm_library;
   nidmm_grpc::NiDMMService nidmm_service(&nidmm_library, &session_repository);
   builder.RegisterService(&nidmm_service);
+  
+  nisync_grpc::NiSyncLibrary nisync_library;
+  nisync_grpc::NiSyncService nisync_service(&nisync_library, &session_repository);
+  builder.RegisterService(&nisync_service);
 
   // Assemble the server.
   auto server = builder.BuildAndStart();
