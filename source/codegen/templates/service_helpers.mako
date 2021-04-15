@@ -211,7 +211,7 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
 %>\
 %     if common_helpers.is_struct(parameter):
       std::vector<${underlying_param_type}> ${parameter_name}(${size}, ${underlying_param_type}());
-% elif handler_helpers.is_string_arg(parameter):
+% elif service_helpers.is_string_arg(parameter):
   % if type(size) == str and len(size) > 0:
       std::string ${parameter_name}(${size}, '\0');
   % else:
