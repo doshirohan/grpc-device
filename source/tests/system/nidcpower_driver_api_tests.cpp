@@ -139,3 +139,7 @@ TEST_F(NiDCPowerDriverApiTest, NiDCPowerReset_SendRequest_ResetCompletesSuccessf
   EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
 }
+
+}  // namespace system
+}  // namespace tests
+}  // namespace ni
