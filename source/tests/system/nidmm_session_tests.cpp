@@ -9,8 +9,8 @@ namespace system {
 
 namespace dmm = nidmm_grpc;
 
-const int kViErrorRsrcNFound = -1073807343;
-const char* kViErrorResourceNotFoundMessage = "VISA:  (Hex 0xBFFF0011) Insufficient location information or the device or resource is not present in the system.";
+const int kViErrorRsrcNFound = -1074118656;
+const char* kViErrorResourceNotFoundMessage = "Device was not recognized. The device is not supported with this driver or version.";
 const char* kResourceName = "FakeDevice";
 const char* kOptionsString = "Simulate=1, DriverSetup=Model:4065; BoardType:PCI";
 const char* kSessionName = "SessionName";
