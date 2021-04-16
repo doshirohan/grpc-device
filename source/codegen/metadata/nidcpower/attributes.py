@@ -44,7 +44,7 @@ attributes = {
         'type': 'ViString'
     },
     1050021: {
-        'access': 'read only',
+        'access': 'read-write',
         'channel_based': False,
         'name': 'INTERCHANGE_CHECK',
         'resettable': False,
@@ -377,6 +377,7 @@ attributes = {
         'enum': 'DigitalEdge',
         'name': 'DIGITAL_EDGE_SOURCE_TRIGGER_EDGE',
         'resettable': False,
+        'type': 'ViInt32'
     },
     1150032: {
         'access': 'read-write',
