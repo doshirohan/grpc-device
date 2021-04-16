@@ -1,7 +1,7 @@
 # 
 # This example performs continuous multipoint acquisition and prints the number of points read and average value of measurements.
 # 
-# The gRPC API is built from the C API.  NI-DMM documentation is installed with the driver at:
+# The gRPC API is built from the C API. NI-DMM documentation is installed with the driver at:
 # C:\Program Files (x86)\IVI Foundation\IVI\Drivers\niDMM\Documentation\English\DMM.chm
 #
 # Getting Started:
