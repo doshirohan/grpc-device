@@ -42,7 +42,7 @@ namespace ${config["namespace_component"]}_grpc {
   void ${service_class_prefix}Service::Copy(const ${custom_type["name"]}& input, ${namespace_prefix}${custom_type["grpc_name"]}* output) 
   {
 %for field in custom_type["fields"]: 
-    %if field["type"] == 'NIComplexNumber':
+    %if field["type"] in [c["grpc_name"] for c in custom_types]:
         Copy(input.${field["name"]}, output->mutable_${field["grpc_name"]}());
     %else:
         output->set_${field["grpc_name"]}(input.${field["name"]});
