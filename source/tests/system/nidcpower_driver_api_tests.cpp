@@ -112,3 +112,30 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
   std::unique_ptr<::grpc::Server> server_;
 };
 
+TEST_F(NiDCPowerDriverApiTest, NiDCPowerSelfTest_SendRequest_SelfTestCompletesSuccessfully)
+{
+  ::grpc::ClientContext context;
+  dcpower::SelfTestRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  dcpower::SelfTestResponse response;
+
+  ::grpc::Status status = GetStub()->SelfTest(&context, request, &response);
+
+  EXPECT_TRUE(status.ok());
+  expect_api_success(response.status());
+  EXPECT_EQ(0, response.self_test_result());
+  EXPECT_LT(0, strlen(response.self_test_message().c_str()));
+}
+
+TEST_F(NiDCPowerDriverApiTest, NiDCPowerReset_SendRequest_ResetCompletesSuccessfully)
+{
+  ::grpc::ClientContext context;
+  dcpower::ResetRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  dcpower::ResetResponse response;
+
+  ::grpc::Status status = GetStub()->Reset(&context, request, &response);
+
+  EXPECT_TRUE(status.ok());
+  expect_api_success(response.status());
+}
