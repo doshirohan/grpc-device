@@ -65,14 +65,11 @@ NiDMMLibrary::NiDMMLibrary() : shared_library_(kLibraryName)
   function_pointers_.ConfigureWaveformCoupling = reinterpret_cast<ConfigureWaveformCouplingPtr>(shared_library_.get_function_pointer("niDMM_ConfigureWaveformCoupling"));
   function_pointers_.Control = reinterpret_cast<ControlPtr>(shared_library_.get_function_pointer("niDMM_Control"));
   function_pointers_.Disable = reinterpret_cast<DisablePtr>(shared_library_.get_function_pointer("niDMM_Disable"));
-  function_pointers_.error_message = reinterpret_cast<error_messagePtr>(shared_library_.get_function_pointer("niDMM_error_message"));
-  function_pointers_.error_query = reinterpret_cast<error_queryPtr>(shared_library_.get_function_pointer("niDMM_error_query"));
   function_pointers_.ExportAttributeConfigurationBuffer = reinterpret_cast<ExportAttributeConfigurationBufferPtr>(shared_library_.get_function_pointer("niDMM_ExportAttributeConfigurationBuffer"));
   function_pointers_.ExportAttributeConfigurationFile = reinterpret_cast<ExportAttributeConfigurationFilePtr>(shared_library_.get_function_pointer("niDMM_ExportAttributeConfigurationFile"));
   function_pointers_.Fetch = reinterpret_cast<FetchPtr>(shared_library_.get_function_pointer("niDMM_Fetch"));
   function_pointers_.FetchMultiPoint = reinterpret_cast<FetchMultiPointPtr>(shared_library_.get_function_pointer("niDMM_FetchMultiPoint"));
   function_pointers_.FetchWaveform = reinterpret_cast<FetchWaveformPtr>(shared_library_.get_function_pointer("niDMM_FetchWaveform"));
-  function_pointers_.FormatMeasAbsolute = reinterpret_cast<FormatMeasAbsolutePtr>(shared_library_.get_function_pointer("niDMM_FormatMeasAbsolute"));
   function_pointers_.GetApertureTimeInfo = reinterpret_cast<GetApertureTimeInfoPtr>(shared_library_.get_function_pointer("niDMM_GetApertureTimeInfo"));
   function_pointers_.GetAttributeViBoolean = reinterpret_cast<GetAttributeViBooleanPtr>(shared_library_.get_function_pointer("niDMM_GetAttributeViBoolean"));
   function_pointers_.GetAttributeViInt32 = reinterpret_cast<GetAttributeViInt32Ptr>(shared_library_.get_function_pointer("niDMM_GetAttributeViInt32"));
@@ -667,30 +664,6 @@ ViStatus NiDMMLibrary::Disable(ViSession vi)
 #endif
 }
 
-ViStatus NiDMMLibrary::error_message(ViSession vi, ViStatus errorCode, ViChar errorMessage[256])
-{
-  if (!function_pointers_.error_message) {
-    throw nidevice_grpc::LibraryLoadException("Could not find niDMM_error_message.");
-  }
-#if defined(_MSC_VER)
-  return niDMM_error_message(vi, errorCode, errorMessage);
-#else
-  return function_pointers_.error_message(vi, errorCode, errorMessage);
-#endif
-}
-
-ViStatus NiDMMLibrary::error_query(ViSession vi, ViStatus* errorCode, ViChar errorMessage[])
-{
-  if (!function_pointers_.error_query) {
-    throw nidevice_grpc::LibraryLoadException("Could not find niDMM_error_query.");
-  }
-#if defined(_MSC_VER)
-  return niDMM_error_query(vi, errorCode, errorMessage);
-#else
-  return function_pointers_.error_query(vi, errorCode, errorMessage);
-#endif
-}
-
 ViStatus NiDMMLibrary::ExportAttributeConfigurationBuffer(ViSession vi, ViInt32 size, ViInt8 configuration[])
 {
   if (!function_pointers_.ExportAttributeConfigurationBuffer) {
@@ -748,18 +721,6 @@ ViStatus NiDMMLibrary::FetchWaveform(ViSession vi, ViInt32 maximumTime, ViInt32 
   return niDMM_FetchWaveform(vi, maximumTime, arraySize, waveformArray, actualNumberOfPoints);
 #else
   return function_pointers_.FetchWaveform(vi, maximumTime, arraySize, waveformArray, actualNumberOfPoints);
-#endif
-}
-
-ViStatus NiDMMLibrary::FormatMeasAbsolute(ViInt32 measurementFunction, ViReal64 range, ViReal64 resolution, ViReal64 measurement, ViChar modeString[], ViChar rangeString[], ViChar dataString[])
-{
-  if (!function_pointers_.FormatMeasAbsolute) {
-    throw nidevice_grpc::LibraryLoadException("Could not find niDMM_FormatMeasAbsolute.");
-  }
-#if defined(_MSC_VER)
-  return niDMM_FormatMeasAbsolute(measurementFunction, range, resolution, measurement, modeString, rangeString, dataString);
-#else
-  return function_pointers_.FormatMeasAbsolute(measurementFunction, range, resolution, measurement, modeString, rangeString, dataString);
 #endif
 }
 

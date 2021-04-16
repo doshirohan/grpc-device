@@ -60,14 +60,11 @@ service NiDMM {
   rpc ConfigureWaveformCoupling(ConfigureWaveformCouplingRequest) returns (ConfigureWaveformCouplingResponse);
   rpc Control(ControlRequest) returns (ControlResponse);
   rpc Disable(DisableRequest) returns (DisableResponse);
-  rpc ErrorMessage(ErrorMessageRequest) returns (ErrorMessageResponse);
-  rpc ErrorQuery(ErrorQueryRequest) returns (ErrorQueryResponse);
   rpc ExportAttributeConfigurationBuffer(ExportAttributeConfigurationBufferRequest) returns (ExportAttributeConfigurationBufferResponse);
   rpc ExportAttributeConfigurationFile(ExportAttributeConfigurationFileRequest) returns (ExportAttributeConfigurationFileResponse);
   rpc Fetch(FetchRequest) returns (FetchResponse);
   rpc FetchMultiPoint(FetchMultiPointRequest) returns (FetchMultiPointResponse);
   rpc FetchWaveform(FetchWaveformRequest) returns (FetchWaveformResponse);
-  rpc FormatMeasAbsolute(FormatMeasAbsoluteRequest) returns (FormatMeasAbsoluteResponse);
   rpc GetApertureTimeInfo(GetApertureTimeInfoRequest) returns (GetApertureTimeInfoResponse);
   rpc GetAttributeViBoolean(GetAttributeViBooleanRequest) returns (GetAttributeViBooleanResponse);
   rpc GetAttributeViInt32(GetAttributeViInt32Request) returns (GetAttributeViInt32Response);
@@ -842,26 +839,6 @@ message DisableResponse {
   int32 status = 1;
 }
 
-message ErrorMessageRequest {
-  nidevice_grpc.Session vi = 1;
-  sint32 error_code = 2;
-}
-
-message ErrorMessageResponse {
-  int32 status = 1;
-  string error_message = 2;
-}
-
-message ErrorQueryRequest {
-  nidevice_grpc.Session vi = 1;
-}
-
-message ErrorQueryResponse {
-  int32 status = 1;
-  sint32 error_code = 2;
-  string error_message = 3;
-}
-
 message ExportAttributeConfigurationBufferRequest {
   nidevice_grpc.Session vi = 1;
 }
@@ -912,20 +889,6 @@ message FetchWaveformResponse {
   int32 status = 1;
   repeated double waveform_array = 2;
   sint32 actual_number_of_points = 3;
-}
-
-message FormatMeasAbsoluteRequest {
-  sint32 measurement_function = 1;
-  double range = 2;
-  double resolution = 3;
-  double measurement = 4;
-}
-
-message FormatMeasAbsoluteResponse {
-  int32 status = 1;
-  string mode_string = 2;
-  string range_string = 3;
-  string data_string = 4;
 }
 
 message GetApertureTimeInfoRequest {

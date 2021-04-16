@@ -1195,66 +1195,6 @@ functions = {
         ],
         'returns': 'ViStatus'
     },
-    'error_message': {
-        'codegen_method': 'public',
-        'documentation': {
-            'description': '\nTakes the **Error_Code** returned by the instrument driver functions,\ninterprets it, and returns it as a user-readable string.\n'
-        },
-        'is_error_handling': True,
-        'parameters': [
-            {
-                'direction': 'in',
-                'documentation': {
-                    'description': '\nIdentifies a particular instrument session. You obtain the **vi**\nparameter from niDMM_init or niDMM_InitWithOptions. The default is\nNone.\n'
-                },
-                'name': 'vi',
-                'type': 'ViSession'
-            },
-            {
-                'direction': 'in',
-                'documentation': {
-                    'description': '\nThe **error_code** returned from the instrument. The default is 0,\nindicating VI_SUCCESS.\n'
-                },
-                'name': 'errorCode',
-                'type': 'ViStatus'
-            },
-            {
-                'direction': 'out',
-                'documentation': {
-                    'description': 'The error information formatted into a string.'
-                },
-                'name': 'errorMessage',
-                'size': {
-                    'mechanism': 'fixed',
-                    'value': 256
-                },
-                'type': 'ViChar[]'
-            }
-        ],
-        'returns': 'ViStatus',
-        'use_session_lock': False
-    },
-    "error_query": {
-        "codegen_method":"public",
-        "parameters": [
-        {
-            "name": "vi",
-            "direction": "in",
-            "type": "ViSession"
-        },
-        {
-            "name": "errorCode",
-            "direction": "out",
-            "type": "ViStatus"
-        },
-        {
-            "name": "errorMessage",
-            "direction": "out",
-            "type": "ViChar[]"
-        }
-        ],
-        "returns": "ViStatus"
-    },
     'ExportAttributeConfigurationBuffer': {
         'documentation': {
             'description': '\nExports the attribute configuration of the session to the specified\nconfiguration buffer.\n\nYou can export and import session attribute configurations only between\ndevices with identical model numbers.\n\nThis function verifies that the attributes you have configured for the\nsession are valid. If the configuration is invalid, NI‑DMM returns an\nerror.\n\n**Coercion Behavior for Certain Devices**\n\nImported and exported attribute configurations contain coerced values\nfor the following NI‑DMM devices:\n\n-  PXI/PCI/PCIe/USB‑4065\n-  PXI/PCI‑4070\n-  PXI‑4071\n-  PXI‑4072\n\nNI‑DMM coerces attribute values when the value you set is within the\nallowed range for the attribute but is not one of the discrete valid\nvalues the attribute supports. For example, for an attribute that\ncoerces values up, if you choose a value of 4 when the adjacent valid\nvalues are 1 and 10, the attribute coerces the value to 10.\n\n**Related Topics:**\n\n`Using Attributes and Properties with\nNI‑DMM <REPLACE_DRIVER_SPECIFIC_URL_1(attributes)>`__\n\n`Setting Attributes Before Reading\nAttributes <REPLACE_DRIVER_SPECIFIC_URL_1(setting_before_reading_attributes)>`__\n',
@@ -1482,47 +1422,6 @@ functions = {
             }
         ],
         'returns': 'ViStatus'
-    },
-    "FormatMeasAbsolute": {
-        "codegen_method":"public",
-        "parameters": [
-        {
-            "name": "measurementFunction",
-            "direction": "in",
-            "type": "ViInt32"
-        },
-        {
-            "name": "range",
-            "direction": "in",
-            "type": "ViReal64"
-        },
-        {
-            "name": "resolution",
-            "direction": "in",
-            "type": "ViReal64"
-        },
-        {
-            "name": "measurement",
-            "direction": "in",
-            "type": "ViReal64"
-        },
-        {
-            "name": "modeString",
-            "direction": "out",
-            "type": "ViChar[]"
-        },
-        {
-            "name": "rangeString",
-            "direction": "out",
-            "type": "ViChar[]"
-        },
-        {
-            "name": "dataString",
-            "direction": "out",
-            "type": "ViChar[]"
-        }
-        ],
-        "returns": "ViStatus"
     },
     "GetApertureTimeInfo": {
         "codegen_method":"public",
