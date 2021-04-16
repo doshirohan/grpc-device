@@ -12,9 +12,6 @@
 # For instructions on how to use protoc to generate gRPC client interfaces, see our "Creating a gRPC Client" wiki page.
 # Link: https://github.com/ni/grpc-device/wiki/Creating-a-gRPC-Client
 #
-# Refer to the NI DMM Support Manual page to determine the valid channel and resource names for your NI-DMM module.
-# Link : https://zone.ni.com/reference/en-XX/help/370384V-01/TOC151.htm
-#
 # Running from command line:
 #
 # Server machine's IP address, port number, and resource name can be passed as separate command line arguments.
