@@ -66,11 +66,11 @@ def CheckForError (vi, status) :
 
 # Converts an error code returned by NI-DMM into a user-readable string.
 def ThrowOnError (vi, error_code):
-    error_message_request = nidmm_types.ErrorMessageRequest(
+    error_message_request = nidmm_types.GetErrorMessageRequest(
         vi = vi,
         error_code = error_code
     )
-    error_message_response = nidmm_client.ErrorMessage(error_message_request)
+    error_message_response = nidmm_client.GetErrorMessage(error_message_request)
     raise Exception (error_message_response.error_message)
 
 try:
