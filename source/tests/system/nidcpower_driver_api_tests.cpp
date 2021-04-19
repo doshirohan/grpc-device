@@ -97,7 +97,6 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     dcpower::ErrorMessageResponse response;
 
     ::grpc::Status status = GetStub()->ErrorMessage(&context, request, &response);
-
     EXPECT_TRUE(status.ok());
     EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
     return response.error_message();
