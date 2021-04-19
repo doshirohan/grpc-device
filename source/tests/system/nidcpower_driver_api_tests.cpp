@@ -426,9 +426,9 @@ TEST_F(NiDCPowerDriverApiTest, VoltageLevelConfiguredAndExportedToBuffer_ResetAn
   }
   dcpower::ImportAttributeConfigurationBufferResponse response;
   ::grpc::Status status = GetStub()->ImportAttributeConfigurationBuffer(&context, request, &response);
-
   EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
+
   ViReal64 actual_voltage_level = get_real64_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_VOLTAGE_LEVEL);
   EXPECT_EQ(expected_voltage_level, actual_voltage_level);
 }
