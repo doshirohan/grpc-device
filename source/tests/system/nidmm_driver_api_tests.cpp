@@ -218,27 +218,6 @@ TEST_F(NiDMMDriverApiTest, NiDMMSetViReal64Attribute_SendRequest_GetViReal64Attr
   EXPECT_EQ(expected_value, get_attribute_value);
 }
 
-TEST_F(NiDMMDriverApiTest, NiDMMSetViStringAttribute_SendRequest_GetViStringAttributeMatches)
-{
-  const char* channel_name = "";
-  const dmm::NiDMMAttributes attribute_to_set = dmm::NiDMMAttributes::NIDMM_ATTRIBUTE_DRIVER_SETUP;
-  const ViString expected_value = "Simulate=1, DriverSetup=Model:4065; BoardType:PCI";
-  ::grpc::ClientContext context;
-  dmm::SetAttributeViStringRequest request;
-  request.mutable_vi()->set_id(GetSessionId());
-  request.set_channel_name(channel_name);
-  request.set_attribute_id(attribute_to_set);
-  request.set_attribute_value(expected_value);
-  dmm::SetAttributeViStringResponse response;
-
-  ::grpc::Status status = GetStub()->SetAttributeViString(&context, request, &response);
-
-  EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());
-  std::string get_attribute_value = get_string_attribute(channel_name, attribute_to_set);
-  EXPECT_STREQ(expected_value, get_attribute_value.c_str());
-}
-
 TEST_F(NiDMMDriverApiTest, NiDMMSetViInt32Attribute_SendRequest_GetViInt32AttributeMatches)
 {
   const char* channel_name = "";
@@ -302,23 +281,10 @@ TEST_F(NiDMMDriverApiTest, NiDMMConfigureCurrentSourse_SendRequest_ConfigureComp
     ::grpc::ClientContext context;
     dmm::ConfigureCurrentSourceRequest request;
     request.mutable_vi()->set_id(GetSessionId());
-    request.set_current_source(10);
+    request.set_current_source(0.0001);
     dmm::ConfigureCurrentSourceResponse response;
 
     ::grpc::Status status = GetStub()->ConfigureCurrentSource(&context, request, &response);
-
-    EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
-}
-
-TEST_F(NiDMMDriverApiTest, NiDMMSelfCal_SendRequest_SelfCalCompletesSuccessfully)
-{
-    ::grpc::ClientContext context;
-    dmm::SelfCalRequest request;
-    request.mutable_vi()->set_id(GetSessionId());
-    dmm::SelfCalResponse response;
-
-    ::grpc::Status status = GetStub()->SelfCal(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
     expect_api_success(response.status());

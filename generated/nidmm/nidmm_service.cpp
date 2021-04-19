@@ -1390,7 +1390,7 @@ namespace nidmm_grpc {
       auto vi_grpc_session = request->vi();
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 buffer_size = request->buffer_size();
-      std::string info;
+      std::string info(256, '\0');
       auto status = library_->GetCalUserDefinedInfo(vi, buffer_size, (ViChar*)info.data());
       response->set_status(status);
       if (status == 0) {
@@ -2083,7 +2083,7 @@ namespace nidmm_grpc {
       auto vi_grpc_session = request->vi();
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt16 self_test_result {};
-      std::string self_test_message;
+      std::string self_test_message(256, '\0');
       auto status = library_->self_test(vi, &self_test_result, (ViChar*)self_test_message.data());
       response->set_status(status);
       if (status == 0) {
