@@ -199,6 +199,7 @@ TEST_F(NiDMMDriverApiTest, NiDMMSetViReal64Attribute_SendRequest_GetViReal64Attr
   ::grpc::Status status = GetStub()->SetAttributeViReal64(&context, request, &response);
   EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
+  
   ViReal64 get_attribute_value = get_real64_attribute(channel_name, attribute_to_set);
   EXPECT_EQ(expected_value, get_attribute_value);
 }
