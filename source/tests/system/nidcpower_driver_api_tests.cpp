@@ -172,7 +172,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     return response.attribute_value();
   }
 
-  void configure_output_function(const char* channel_name, int function)
+  void configure_output_function(const char* channel_name, ViInt32 function)
   {
     ::grpc::ClientContext context;
     dcpower::ConfigureOutputFunctionRequest request;
