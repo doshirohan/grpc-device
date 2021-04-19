@@ -182,6 +182,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     dcpower::ConfigureOutputFunctionResponse response;
 
     ::grpc::Status status = GetStub()->ConfigureOutputFunction(&context, request, &response);
+
     EXPECT_TRUE(status.ok());
     expect_api_success(response.status());
   }
