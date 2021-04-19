@@ -231,7 +231,41 @@ TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetViInt32Attribute_SendRequest_GetViInt
   EXPECT_EQ(expected_value, get_attribute_value);
 }
 
+TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetViReal64Attribute_SendRequest_GetViReal64AttributeMatches)
+{
+  // Attribute 'NIDCPOWER_ATTRIBUTE_MEASURE_WHEN' is set to 'MEASURE_WHEN_NIDCPOWER_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE' 
+  // before setting attribute 'NIDCPOWER_ATTRIBUTE_SOURCE_DELAY'.
+  
+  const char* channel_list = "0";
+  const dcpower::NiDCPowerAttributes attribute_to_set_measurewhen = dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_MEASURE_WHEN;
+  const ViInt32 expected_value_measurewhen = dcpower::MeasureWhen::MEASURE_WHEN_NIDCPOWER_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE;
+  ::grpc::ClientContext context_ViInt32;
+  dcpower::SetAttributeViInt32Request request_ViInt32;
+  request_ViInt32.mutable_vi()->set_id(GetSessionId());
+  request_ViInt32.set_channel_name(channel_list);
+  request_ViInt32.set_attribute_id(attribute_to_set_measurewhen);
+  request_ViInt32.set_attribute_value(expected_value_measurewhen);
+  dcpower::SetAttributeViInt32Response response_ViInt32;
+  ::grpc::Status status_ViInt32 = GetStub()->SetAttributeViInt32(&context_ViInt32, request_ViInt32, &response_ViInt32);
+  EXPECT_TRUE(status_ViInt32.ok());
+  expect_api_success(response_ViInt32.status());
 
+  const dcpower::NiDCPowerAttributes attribute_to_set_sourcedelay = dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_SOURCE_DELAY;
+  const ViReal64 expected_value_sourcedelay = 2.516;
+  ::grpc::ClientContext context_ViReal64;
+  dcpower::SetAttributeViReal64Request request_ViReal64;
+  request_ViReal64.mutable_vi()->set_id(GetSessionId());
+  request_ViReal64.set_channel_name(channel_list);
+  request_ViReal64.set_attribute_id(attribute_to_set_sourcedelay);
+  request_ViReal64.set_attribute_value(expected_value_sourcedelay);
+  dcpower::SetAttributeViReal64Response response_ViReal64;
+  ::grpc::Status status_ViReal64 = GetStub()->SetAttributeViReal64(&context_ViReal64, request_ViReal64, &response_ViReal64);
+  EXPECT_TRUE(status_ViReal64.ok());
+  expect_api_success(response_ViReal64.status());
+  
+  ViReal64 get_attribute_value_sourcedelay = get_real64_attribute(channel_list, attribute_to_set_sourcedelay);
+  EXPECT_EQ(expected_value_sourcedelay, get_attribute_value_sourcedelay);
+}
 
 }  // namespace system
 }  // namespace tests
