@@ -187,7 +187,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     expect_api_success(response.status());
   }
 
-  void configure_voltage_level(const char* channel_name, double level)
+  void configure_voltage_level(const char* channel_name, ViReal64 level)
   {
     ::grpc::ClientContext context;
     dcpower::ConfigureVoltageLevelRequest request;
@@ -385,7 +385,7 @@ TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetViStringAttribute_SendRequest_GetViSt
 TEST_F(NiDCPowerDriverApiTest, VoltageLevelConfiguredAndExportedToBuffer_ResetAndImportConfigurationFromBuffer_ConfigurationIsImportedSuccessfully)
 {
   const char* channel_name = "0";
-  double voltage_level = 3.0;
+  ViReal64 voltage_level = 3.0;
   configure_output_function(channel_name, dcpower::OutputFunction::OUTPUT_FUNCTION_NIDCPOWER_VAL_DC_VOLTAGE);
   configure_voltage_level(channel_name, voltage_level);
   auto export_buffer_response = export_attribute_configuration_buffer();
@@ -404,7 +404,7 @@ TEST_F(NiDCPowerDriverApiTest, VoltageLevelConfiguredAndExportedToBuffer_ResetAn
 
   EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
-  double actual_voltage_level = get_real64_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_VOLTAGE_LEVEL);
+  ViReal64 actual_voltage_level = get_real64_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_VOLTAGE_LEVEL);
   EXPECT_EQ(voltage_level, actual_voltage_level);
 }
 
