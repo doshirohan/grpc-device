@@ -324,6 +324,27 @@ TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetViStringAttribute_SendRequest_GetViSt
   EXPECT_STREQ(expected_value, get_attribute_value.c_str());
 }
 
+TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetViInt64Attribute_SendRequest_GetViInt64AttributeMatches)
+{
+  const char* channel_list = "";
+  const dcpower::NiDCPowerAttributes attribute_to_set = dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_ACTIVE_ADVANCED_SEQUENCE_STEP;
+  const ViInt64 expected_value = 0;
+  ::grpc::ClientContext context;
+  dcpower::SetAttributeViInt64Request request;
+  request.mutable_vi()->set_id(GetSessionId());
+  request.set_channel_name(channel_list);
+  request.set_attribute_id(attribute_to_set);
+  request.set_attribute_value(expected_value);
+  dcpower::SetAttributeViInt64Response response;
+
+  ::grpc::Status status = GetStub()->SetAttributeViInt64(&context, request, &response);
+  EXPECT_TRUE(status.ok());
+  expect_api_success(response.status());
+
+  ViInt64 get_attribute_value = get_int64_attribute(channel_list, attribute_to_set);
+  EXPECT_EQ(expected_value, get_attribute_value);
+}
+
 }  // namespace system
 }  // namespace tests
 }  // namespace ni
