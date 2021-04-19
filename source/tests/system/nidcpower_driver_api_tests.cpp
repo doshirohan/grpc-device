@@ -172,6 +172,63 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     return response.attribute_value();
   }
 
+  void configure_output_function(const char* channel_name, int function)
+  {
+    ::grpc::ClientContext context;
+    dcpower::ConfigureOutputFunctionRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_channel_name(channel_name);
+    request.set_function(function);
+    dcpower::ConfigureOutputFunctionResponse response;
+
+    ::grpc::Status status = GetStub()->ConfigureOutputFunction(&context, request, &response);
+    EXPECT_TRUE(status.ok());
+    expect_api_success(response.status());
+  }
+
+  void configure_voltage_level(const char* channel_name, double level)
+  {
+    ::grpc::ClientContext context;
+    dcpower::ConfigureVoltageLevelRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_channel_name(channel_name);
+    request.set_level(level);
+    dcpower::ConfigureVoltageLevelResponse response;
+
+    ::grpc::Status status = GetStub()->ConfigureVoltageLevel(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    expect_api_success(response.status());
+  }
+
+  dcpower::ExportAttributeConfigurationBufferResponse export_attribute_configuration_buffer()
+  {
+    ::grpc::ClientContext context;
+    dcpower::ExportAttributeConfigurationBufferRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    dcpower::ExportAttributeConfigurationBufferResponse response;
+
+    ::grpc::Status status = GetStub()->ExportAttributeConfigurationBuffer(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    expect_api_success(response.status());
+    return response;
+  }
+
+  void reset_with_channels(const char* channel_name)
+  {
+    ::grpc::ClientContext context;
+    dcpower::ResetWithChannelsRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_channel_name(channel_name);
+    dcpower::ResetWithChannelsResponse response;
+
+    ::grpc::Status status = GetStub()->ResetWithChannels(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    expect_api_success(response.status());
+  }
+
  private:
   std::shared_ptr<::grpc::Channel> channel_;
   std::unique_ptr<::nidevice_grpc::Session> driver_session_;
@@ -231,7 +288,31 @@ TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetViInt32Attribute_SendRequest_GetViInt
   EXPECT_EQ(expected_value, get_attribute_value);
 }
 
+TEST_F(NiDCPowerDriverApiTest, VoltageLevelConfiguredAndExportedToBuffer_ResetAndImportConfigurationFromBuffer_ConfigurationIsImportedSuccessfully)
+{
+  const char* channel_name = "0";
+  double voltage_level = 3.0;
+  configure_output_function(channel_name, dcpower::OutputFunction::OUTPUT_FUNCTION_NIDCPOWER_VAL_DC_VOLTAGE);
+  configure_voltage_level(channel_name, voltage_level);
+  auto export_buffer_response = export_attribute_configuration_buffer();
 
+  reset_with_channels(channel_name);
+  ::grpc::ClientContext context;
+  dcpower::ImportAttributeConfigurationBufferRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  for (int i = 0; i < export_buffer_response.configuration_size(); i++)
+  {
+    auto configuration = export_buffer_response.configuration(i);
+    request.add_configuration(configuration);
+  }
+  dcpower::ImportAttributeConfigurationBufferResponse response;
+  ::grpc::Status status = GetStub()->ImportAttributeConfigurationBuffer(&context, request, &response);
+
+  EXPECT_TRUE(status.ok());
+  expect_api_success(response.status());
+  double actual_voltage_level = get_real64_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_VOLTAGE_LEVEL);
+  EXPECT_EQ(voltage_level, actual_voltage_level);
+}
 
 }  // namespace system
 }  // namespace tests
