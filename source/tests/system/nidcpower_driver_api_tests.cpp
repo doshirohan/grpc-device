@@ -269,6 +269,9 @@ TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetViReal64Attribute_SendRequest_GetViRe
 
 TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetBoolAttribute_SendRequest_GetBoolAttributeMatches)
 {
+  // Attribute 'NIDCPOWER_ATTRIBUTE_MEASURE_WHEN' is set to 'MEASURE_WHEN_NIDCPOWER_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE' 
+  // before setting attribute 'NIDCPOWER_ATTRIBUTE_MEASURE_RECORD_LENGTH_IS_FINITE'.
+
   const char* channel_list = "0";
   const dcpower::NiDCPowerAttributes attribute_to_set_measurewhen = dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_MEASURE_WHEN;
   const ViInt32 expected_value_measurewhen = dcpower::MeasureWhen::MEASURE_WHEN_NIDCPOWER_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE;
@@ -298,6 +301,27 @@ TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetBoolAttribute_SendRequest_GetBoolAttr
 
   ViBoolean get_attribute_value = get_bool_attribute(channel_list, attribute_to_set_measurerecordlengthisfinite);
   EXPECT_EQ(expected_value_measurerecordlengthisfinite, get_attribute_value);
+}
+
+TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetViStringAttribute_SendRequest_GetViStringAttributeMatches)
+{
+  const char* channel_list = "0";
+  const dcpower::NiDCPowerAttributes attribute_to_set = dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_EXPORTED_START_TRIGGER_OUTPUT_TERMINAL;
+  const ViString expected_value = "/Dev1/PXI_Trig0";
+  ::grpc::ClientContext context;
+  dcpower::SetAttributeViStringRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  request.set_channel_name(channel_list);
+  request.set_attribute_id(attribute_to_set);
+  request.set_attribute_value(expected_value);
+  dcpower::SetAttributeViStringResponse response;
+
+  ::grpc::Status status = GetStub()->SetAttributeViString(&context, request, &response);
+  EXPECT_TRUE(status.ok());
+  expect_api_success(response.status());
+
+  std::string get_attribute_value = get_string_attribute(channel_list, attribute_to_set);
+  EXPECT_STREQ(expected_value, get_attribute_value.c_str());
 }
 
 }  // namespace system
