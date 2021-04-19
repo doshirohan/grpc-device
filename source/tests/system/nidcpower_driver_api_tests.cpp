@@ -267,6 +267,39 @@ TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetViReal64Attribute_SendRequest_GetViRe
   EXPECT_EQ(expected_value_sourcedelay, get_attribute_value_sourcedelay);
 }
 
+TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetBoolAttribute_SendRequest_GetBoolAttributeMatches)
+{
+  const char* channel_list = "0";
+  const dcpower::NiDCPowerAttributes attribute_to_set_measurewhen = dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_MEASURE_WHEN;
+  const ViInt32 expected_value_measurewhen = dcpower::MeasureWhen::MEASURE_WHEN_NIDCPOWER_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE;
+  ::grpc::ClientContext context_ViInt32;
+  dcpower::SetAttributeViInt32Request request_ViInt32;
+  request_ViInt32.mutable_vi()->set_id(GetSessionId());
+  request_ViInt32.set_channel_name(channel_list);
+  request_ViInt32.set_attribute_id(attribute_to_set_measurewhen);
+  request_ViInt32.set_attribute_value(expected_value_measurewhen);
+  dcpower::SetAttributeViInt32Response response_ViInt32;
+  ::grpc::Status status_ViInt32 = GetStub()->SetAttributeViInt32(&context_ViInt32, request_ViInt32, &response_ViInt32);
+  EXPECT_TRUE(status_ViInt32.ok());
+  expect_api_success(response_ViInt32.status());
+  
+  const dcpower::NiDCPowerAttributes attribute_to_set_measurerecordlengthisfinite = dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_MEASURE_RECORD_LENGTH_IS_FINITE;
+  const ViBoolean expected_value_measurerecordlengthisfinite = false;
+  ::grpc::ClientContext context_ViBoolean;
+  dcpower::SetAttributeViBooleanRequest request_ViBoolean;
+  request_ViBoolean.mutable_vi()->set_id(GetSessionId());
+  request_ViBoolean.set_channel_name(channel_list);
+  request_ViBoolean.set_attribute_id(attribute_to_set_measurerecordlengthisfinite);
+  request_ViBoolean.set_attribute_value(expected_value_measurerecordlengthisfinite);
+  dcpower::SetAttributeViBooleanResponse response_ViBoolean;
+  ::grpc::Status status_ViBoolean = GetStub()->SetAttributeViBoolean(&context_ViBoolean, request_ViBoolean, &response_ViBoolean);
+  EXPECT_TRUE(status_ViBoolean.ok());
+  expect_api_success(response_ViBoolean.status());
+
+  ViBoolean get_attribute_value = get_bool_attribute(channel_list, attribute_to_set_measurerecordlengthisfinite);
+  EXPECT_EQ(expected_value_measurerecordlengthisfinite, get_attribute_value);
+}
+
 }  // namespace system
 }  // namespace tests
 }  // namespace ni
