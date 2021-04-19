@@ -1,6 +1,37 @@
-# -*- coding: utf-8 -*-
-# This file is generated from NI-DMM API metadata version 19.6.0d7
 attributes = {
+    1050002: {
+        'access': 'read-write',
+        'channel_based': False,
+        'documentation': {
+            'description': '\nSpecifies whether to validate attribute values and function parameters. If enabled, the instrument driver validates the parameter values passed to driver functions. Range checking parameters is very useful for debugging. After the user program is validated, this attribute can be set to VI_FALSE (0) to disable range checking and maximize performance. The default value is VI_TRUE (1). Use the niDMM_InitWithOptions function to override this setting.\n',
+        },
+        'lv_property': 'Inherent IVI Attributes:User Options:Range Check',
+        'name': 'RANGE_CHECK',
+        'resettable': False,
+        'type': 'ViBoolean'
+    },
+    1050003: {
+        'access': 'read-write',
+        'channel_based': False,
+        'documentation': {
+            'description': '\nSpecifies whether the instrument driver queries the instrument status after each operation. Querying the instrument status is very useful for debugging. After the user program is validated, this attribute can be set to VI_FALSE (0) to disable status checking and maximize performance. The instrument driver can choose to ignore status checking for particular attributes regardless of the setting of this attribute. The default value is VI_TRUE (1). Use niDMM_InitWithOptions to override this setting.\n'
+        },
+        'lv_property': 'Inherent IVI Attributes:User Options:Query Instrument Status',
+        'name': 'QUERY_INSTRUMENT_STATUS',
+        'resettable': False,
+        'type': 'ViBoolean'
+    },
+    1050004: {
+        'access': 'read-write',
+        'channel_based': False,
+        'documentation': {
+            'description': '\nSpecifies whether to cache the value of attributes. When caching is enabled, the instrument driver keeps track of the current instrument settings and avoids sending redundant commands to the instrument. Thus, it significantly increases execution speed. The instrument driver can choose to always cache or to never cache particular attributes regardless of the setting of this attribute. The default value is VI_TRUE (1). Use the niDMM_InitWithOptions function to override this setting.\n'
+        },
+        'lv_property': 'Inherent IVI Attributes:User Options:Cache',
+        'name': 'CACHE',
+        'resettable': False,
+        'type': 'ViBoolean'
+    },
     1050005: {
         'access': 'read-write',
         'channel_based': False,
@@ -9,6 +40,17 @@ attributes = {
         },
         'lv_property': 'Inherent IVI Attributes:User Options:Simulate',
         'name': 'SIMULATE',
+        'resettable': False,
+        'type': 'ViBoolean'
+    },
+    1050006: {
+        'access': 'read-write',
+        'channel_based': False,
+        'documentation': {
+            'description': '\nSpecifies whether the IVI engine keeps a list of the value coercions it makes for ViInt32 and ViReal64 attributes. Call niDMM_GetNextCoercionRecord to extract and delete the oldest coercion record from the list. The default value is VI_FALSE (0). Use the niDMM_InitWithOptions function to override this setting.\n'
+        },
+        'lv_property': 'Inherent IVI Attributes:User Options:Read Coercions',
+        'name': 'READ_COERCIONS',
         'resettable': False,
         'type': 'ViBoolean'
     },
@@ -23,6 +65,17 @@ attributes = {
         'resettable': False,
         'type': 'ViString'
     },
+    1050021: {
+        'access': 'read only',
+        'channel_based': False,
+        'documentation': {
+            'description': '\nSpecifies whether to perform interchangeability checking and log interchangeability warnings when you call niDMM functions. Interchangeability warnings indicate that using your application with a different instrument might cause different behavior. Use niDMM_GetNextInterchangeWarning to extract interchange warnings. Use niDMM_ClearInterchangeWarnings to clear the list of interchangeability warnings without reading them. Interchangeability checking examines the attributes in a capability group only if you specify a value for at least one attribute within that group. Interchangeability warnings can occur when an attribute affects the behavior of the instrument and you have not set that attribute, or the attribute has been invalidated since you set it.\n'
+        },
+        'lv_property': 'Inherent IVI Attributes:User Options:Interchange Check',
+        'name': 'INTERCHANGE_CHECK',
+        'resettable': False,
+        'type': 'ViBoolean'
+    },
     1050203: {
         'access': 'read only',
         'channel_based': False,
@@ -33,6 +86,17 @@ attributes = {
         'name': 'CHANNEL_COUNT',
         'resettable': False,
         'type': 'ViInt32'
+    },
+    1050302: {
+        'access': 'read only',
+        'channel_based': False,
+        'documentation': {
+            'description': 'The prefix for the specific instrument driver. The name of each user-callable function in this driver starts with this prefix. The prefix can be up to a maximum of eight characters.'
+        },
+        'lv_property': 'Inherent IVI Attributes:Instrument Capabilities:Specific Driver Prefix',
+        'name': 'SPECIFIC_DRIVER_PREFIX',
+        'resettable': False,
+        'type': 'ViString'
     },
     1050304: {
         'access': 'read only',
@@ -56,6 +120,17 @@ attributes = {
         'resettable': False,
         'type': 'ViString'
     },
+    1050322: {
+        'access': 'read only',
+        'channel_based': False,
+        'documentation': {
+            'description': ''
+        },
+        'lv_property': '',
+        'name': 'IO_SESSION',
+        'resettable': False,
+        'type': 'ViSession'
+    },
     1050327: {
         'access': 'read only',
         'channel_based': False,
@@ -64,6 +139,17 @@ attributes = {
         },
         'lv_property': 'Inherent IVI Attributes:Specific Driver Capabilities:Supported Instrument Models',
         'name': 'SUPPORTED_INSTRUMENT_MODELS',
+        'resettable': False,
+        'type': 'ViString'
+    },
+    1050401: {
+        'access': 'read only',
+        'channel_based': False,
+        'documentation': {
+            'description': '\nA string containing the capabilities and extension groups supported by the specific driver.\n'
+        },
+        'lv_property': 'Inherent IVI Attributes:Specific Driver Capabilities:Group Capabilities',
+        'name': 'GROUP_CAPABILITIES',
         'resettable': False,
         'type': 'ViString'
     },
@@ -144,6 +230,50 @@ attributes = {
         'resettable': False,
         'type': 'ViString'
     },
+    1050515: {
+        'access': 'read only',
+        'channel_based': False,
+        'documentation': {
+            'description': '\nThe major version number of the class specification for the specific driver.\n'
+        },
+        'lv_property': 'Inherent IVI Attributes:Specific Driver Identification:Specific Driver Class Spec Major Version',
+        'name': 'SPECIFIC_DRIVER_CLASS_SPEC_MAJOR_VERSION',
+        'resettable': False,
+        'type': 'ViInt32'
+    },
+    1050516: {
+        'access': 'read only',
+        'channel_based': False,
+        'documentation': {
+            'description': '\nThe minor version number of the class specification for the specific driver.\n'
+        },
+        'lv_property': 'Inherent IVI Attributes:Specific Driver Identification:Specific Driver Class Spec Minor Version',
+        'name': 'SPECIFIC_DRIVER_CLASS_SPEC_MINOR_VERSION',
+        'resettable': False,
+        'type': 'ViInt32'
+    },
+    1050519: {
+        'access': 'read only',
+        'channel_based': False,
+        'documentation': {
+            'description': ''
+        },
+        'lv_property': '',
+        'name': 'CLASS_DRIVER_CLASS_SPEC_MAJOR_VERSION',
+        'resettable': False,
+        'type': 'ViInt32'
+    },
+    1050520: {
+        'access': 'read only',
+        'channel_based': False,
+        'documentation': {
+            'description': ''
+        },
+        'lv_property': '',
+        'name': 'CLASS_DRIVER_CLASS_SPEC_MINOR_VERSION',
+        'resettable': False,
+        'type': 'ViInt32'
+    },
     1050551: {
         'access': 'read only',
         'channel_based': False,
@@ -154,6 +284,39 @@ attributes = {
         'name': 'SPECIFIC_DRIVER_REVISION',
         'resettable': False,
         'type': 'ViString'
+    },
+    1150002: {
+        'access': 'read-write',
+        'channel_based': False,
+        'documentation': {
+            'description': '\nSpecifies the polarity of the generated measurement complete signal.\n'
+        },
+        'lv_property': 'Trigger:Meas Dest Slope',
+        'name': 'MEAS_DEST_SLOPE',
+        'resettable': False,
+        'type': 'ViInt32'
+    },
+    1150003: {
+        'access': 'read-write',
+        'channel_based': False,
+        'documentation': {
+            'description': ''
+        },
+        'lv_property': '',
+        'name': 'SHUNT_VALUE',
+        'resettable': False,
+        'type': 'ViReal64'
+    },
+    1150010: {
+        'access': 'read-write',
+        'channel_based': False,
+        'documentation': {
+            'description': '\nSpecifies the edge of the signal from the specified sample trigger source on which the DMM is triggered.\n'
+        },
+        'lv_property': 'Multi Point Acquisition:Sample Trigger Slope',
+        'name': 'SAMPLE_TRIGGER_SLOPE',
+        'resettable': False,
+        'type': 'ViInt32'
     },
     1150014: {
         'access': 'read-write',
@@ -279,6 +442,17 @@ attributes = {
         },
         'lv_property': 'Configuration:Advanced:Number Of Averages',
         'name': 'NUMBER_OF_AVERAGES',
+        'resettable': False,
+        'type': 'ViInt32'
+    },
+    1150034: {
+        'access': 'read-write',
+        'channel_based': False,
+        'documentation': {
+            'description': '\nSpecifies the number of measurements transferred at a time from the instrument to an internal buffer. When set to NIDMM_VAL_LATENCY_AUTO (-1), NI-DMM chooses the transfer size.\n'
+        },
+        'lv_property': 'Multi Point Acquisition:Advanced:Latency',
+        'name': 'LATENCY',
         'resettable': False,
         'type': 'ViInt32'
     },
@@ -782,5 +956,16 @@ attributes = {
         'name': 'POWERLINE_FREQ',
         'resettable': False,
         'type': 'ViReal64'
+    },
+    1250334: {
+        'access': 'read-write',
+        'channel_based': False,
+        'documentation': {
+            'description': 'Specifies the edge of the signal from the specified trigger source on which the DMM is triggered.\n'
+        },
+        'lv_property': 'Trigger:Trigger Slope',
+        'name': 'TRIGGER_SLOPE',
+        'resettable': False,
+        'type': 'ViInt32'
     }
 }
