@@ -355,6 +355,79 @@ functions = {
     ],
     'returns': 'ViStatus'
   },
+  'CreateAdvancedSequenceWithChannels': {
+    'parameters': [
+      {
+        'name': 'vi',
+        'direction': 'in',
+        'type': 'ViSession'
+      },
+      {
+        'name': 'channelName',
+        'direction': 'in',
+        'type': 'ViConstString'
+      },
+      {
+        'name': 'sequenceName',
+        'direction': 'in',
+        'type': 'ViConstString'
+      },
+      {
+        'name': 'attributeIdCount',
+        'direction': 'in',
+        'type': 'ViInt32'
+      },
+      {
+        'name': 'attributeIds',
+        'direction': 'in',
+        'type': 'ViInt32[]',
+        'size': {
+          'mechanism': 'len',
+          'value': 'attributeIdCount'
+        }
+      },
+      {
+        'name': 'setAsActiveSequence',
+        'direction': 'in',
+        'type': 'ViBoolean'
+      }
+    ],
+    'returns': 'ViStatus'
+  },
+  'CreateAdvancedSequence': {
+    'parameters': [
+      {
+        'name': 'vi',
+        'direction': 'in',
+        'type': 'ViSession'
+      },
+      {
+        'name': 'sequenceName',
+        'direction': 'in',
+        'type': 'ViConstString'
+      },
+      {
+        'name': 'attributeIdCount',
+        'direction': 'in',
+        'type': 'ViInt32'
+      },
+      {
+        'name': 'attributeIds',
+        'direction': 'in',
+        'type': 'ViInt32[]',
+        'size': {
+          'mechanism': 'len',
+          'value': 'attributeIdCount'
+        }
+      },
+      {
+        'name': 'setAsActiveSequence',
+        'direction': 'in',
+        'type': 'ViBoolean'
+      }
+    ],
+    'returns': 'ViStatus'
+  },
   'DeleteAdvancedSequenceWithChannels': {
     'parameters': [
       {
@@ -1809,6 +1882,30 @@ functions = {
     ],
     'returns': 'ViStatus'
   },
+  'ExportAttributeConfigurationBuffer': {
+    'parameters': [
+      {
+        'name': 'vi',
+        'direction': 'in',
+        'type': 'ViSession'
+      },
+      {
+        'name': 'size',
+        'direction': 'in',
+        'type': 'ViInt32'
+      },
+      {
+        'name': 'configuration',
+        'direction': 'out',
+        'type': 'ViAddr[]',
+        'size': {
+          'mechanism': 'ivi-dance',
+          'value': 'size'
+        }
+      }
+    ],
+    'returns': 'ViStatus'
+  },
   'ExportAttributeConfigurationFile': {
     'parameters': [
       {
@@ -2346,6 +2443,30 @@ functions = {
         'name': 'temperature',
         'direction': 'out',
         'type': 'ViReal64'
+      }
+    ],
+    'returns': 'ViStatus'
+  },
+  'ImportAttributeConfigurationBuffer': {
+    'parameters': [
+      {
+        'name': 'vi',
+        'direction': 'in',
+        'type': 'ViSession'
+      },
+      {
+        'name': 'size',
+        'direction': 'in',
+        'type': 'ViInt32'
+      },
+      {
+        'name': 'configuration',
+        'direction': 'in',
+        'type': 'ViAddr[]',
+        'size': {
+          'mechanism': 'len',
+          'value': 'size'
+        }
       }
     ],
     'returns': 'ViStatus'
