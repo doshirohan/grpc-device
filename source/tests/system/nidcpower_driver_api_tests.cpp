@@ -288,6 +288,41 @@ TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetViInt32Attribute_SendRequest_GetViInt
   EXPECT_EQ(expected_value, get_attribute_value);
 }
 
+TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetViReal64Attribute_SendRequest_GetViReal64AttributeMatches)
+{
+  // Attribute 'NIDCPOWER_ATTRIBUTE_MEASURE_WHEN' is set to 'MEASURE_WHEN_NIDCPOWER_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE' 
+  // before setting attribute 'NIDCPOWER_ATTRIBUTE_SOURCE_DELAY'.
+  
+  const char* channel_list = "0";
+  const dcpower::NiDCPowerAttributes attribute_to_set_measurewhen = dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_MEASURE_WHEN;
+  const ViInt32 expected_value_measurewhen = dcpower::MeasureWhen::MEASURE_WHEN_NIDCPOWER_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE;
+  ::grpc::ClientContext context_ViInt32;
+  dcpower::SetAttributeViInt32Request request_ViInt32;
+  request_ViInt32.mutable_vi()->set_id(GetSessionId());
+  request_ViInt32.set_channel_name(channel_list);
+  request_ViInt32.set_attribute_id(attribute_to_set_measurewhen);
+  request_ViInt32.set_attribute_value(expected_value_measurewhen);
+  dcpower::SetAttributeViInt32Response response_ViInt32;
+  ::grpc::Status status_ViInt32 = GetStub()->SetAttributeViInt32(&context_ViInt32, request_ViInt32, &response_ViInt32);
+  EXPECT_TRUE(status_ViInt32.ok());
+  expect_api_success(response_ViInt32.status());
+
+  const dcpower::NiDCPowerAttributes attribute_to_set_sourcedelay = dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_SOURCE_DELAY;
+  const ViReal64 expected_value_sourcedelay = 2.516;
+  ::grpc::ClientContext context_ViReal64;
+  dcpower::SetAttributeViReal64Request request_ViReal64;
+  request_ViReal64.mutable_vi()->set_id(GetSessionId());
+  request_ViReal64.set_channel_name(channel_list);
+  request_ViReal64.set_attribute_id(attribute_to_set_sourcedelay);
+  request_ViReal64.set_attribute_value(expected_value_sourcedelay);
+  dcpower::SetAttributeViReal64Response response_ViReal64;
+  ::grpc::Status status_ViReal64 = GetStub()->SetAttributeViReal64(&context_ViReal64, request_ViReal64, &response_ViReal64);
+  EXPECT_TRUE(status_ViReal64.ok());
+  expect_api_success(response_ViReal64.status());
+  
+  ViReal64 get_attribute_value_sourcedelay = get_real64_attribute(channel_list, attribute_to_set_sourcedelay);
+  EXPECT_EQ(expected_value_sourcedelay, get_attribute_value_sourcedelay);
+}
 TEST_F(NiDCPowerDriverApiTest, VoltageLevelConfiguredAndExportedToBuffer_ResetAndImportConfigurationFromBuffer_ConfigurationIsImportedSuccessfully)
 {
   const char* channel_name = "0";
@@ -308,10 +343,61 @@ TEST_F(NiDCPowerDriverApiTest, VoltageLevelConfiguredAndExportedToBuffer_ResetAn
   dcpower::ImportAttributeConfigurationBufferResponse response;
   ::grpc::Status status = GetStub()->ImportAttributeConfigurationBuffer(&context, request, &response);
 
+TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetBoolAttribute_SendRequest_GetBoolAttributeMatches)
+{
+  // Attribute 'NIDCPOWER_ATTRIBUTE_MEASURE_WHEN' is set to 'MEASURE_WHEN_NIDCPOWER_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE' 
+  // before setting attribute 'NIDCPOWER_ATTRIBUTE_MEASURE_RECORD_LENGTH_IS_FINITE'.
+
+  const char* channel_list = "0";
+  const dcpower::NiDCPowerAttributes attribute_to_set_measurewhen = dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_MEASURE_WHEN;
+  const ViInt32 expected_value_measurewhen = dcpower::MeasureWhen::MEASURE_WHEN_NIDCPOWER_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE;
+  ::grpc::ClientContext context_ViInt32;
+  dcpower::SetAttributeViInt32Request request_ViInt32;
+  request_ViInt32.mutable_vi()->set_id(GetSessionId());
+  request_ViInt32.set_channel_name(channel_list);
+  request_ViInt32.set_attribute_id(attribute_to_set_measurewhen);
+  request_ViInt32.set_attribute_value(expected_value_measurewhen);
+  dcpower::SetAttributeViInt32Response response_ViInt32;
+  ::grpc::Status status_ViInt32 = GetStub()->SetAttributeViInt32(&context_ViInt32, request_ViInt32, &response_ViInt32);
+  EXPECT_TRUE(status_ViInt32.ok());
+  expect_api_success(response_ViInt32.status());
+  
+  const dcpower::NiDCPowerAttributes attribute_to_set_measurerecordlengthisfinite = dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_MEASURE_RECORD_LENGTH_IS_FINITE;
+  const ViBoolean expected_value_measurerecordlengthisfinite = false;
+  ::grpc::ClientContext context_ViBoolean;
+  dcpower::SetAttributeViBooleanRequest request_ViBoolean;
+  request_ViBoolean.mutable_vi()->set_id(GetSessionId());
+  request_ViBoolean.set_channel_name(channel_list);
+  request_ViBoolean.set_attribute_id(attribute_to_set_measurerecordlengthisfinite);
+  request_ViBoolean.set_attribute_value(expected_value_measurerecordlengthisfinite);
+  dcpower::SetAttributeViBooleanResponse response_ViBoolean;
+  ::grpc::Status status_ViBoolean = GetStub()->SetAttributeViBoolean(&context_ViBoolean, request_ViBoolean, &response_ViBoolean);
+  EXPECT_TRUE(status_ViBoolean.ok());
+  expect_api_success(response_ViBoolean.status());
+
+  ViBoolean get_attribute_value = get_bool_attribute(channel_list, attribute_to_set_measurerecordlengthisfinite);
+  EXPECT_EQ(expected_value_measurerecordlengthisfinite, get_attribute_value);
+}
+
+TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetViStringAttribute_SendRequest_GetViStringAttributeMatches)
+{
+  const char* channel_list = "0";
+  const dcpower::NiDCPowerAttributes attribute_to_set = dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_EXPORTED_START_TRIGGER_OUTPUT_TERMINAL;
+  const ViString expected_value = "/Dev1/PXI_Trig0";
+  ::grpc::ClientContext context;
+  dcpower::SetAttributeViStringRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  request.set_channel_name(channel_list);
+  request.set_attribute_id(attribute_to_set);
+  request.set_attribute_value(expected_value);
+  dcpower::SetAttributeViStringResponse response;
+
+  ::grpc::Status status = GetStub()->SetAttributeViString(&context, request, &response);
   EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
-  double actual_voltage_level = get_real64_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_VOLTAGE_LEVEL);
-  EXPECT_EQ(voltage_level, actual_voltage_level);
+
+  std::string get_attribute_value = get_string_attribute(channel_list, attribute_to_set);
+  EXPECT_STREQ(expected_value, get_attribute_value.c_str());
 }
 
 }  // namespace system
