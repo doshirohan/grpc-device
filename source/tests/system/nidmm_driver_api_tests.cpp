@@ -72,8 +72,8 @@ class NiDMMDriverApiTest : public ::testing::Test {
             ::grpc::Status status = GetStub()->InitWithOptions(&context, request, &response);
             driver_session_ = std::make_unique<nidevice_grpc::Session>(response.vi());
 
-            ASSERT_TRUE(status.ok());
-            ASSERT_EQ(kDMMDriverApiSuccess, response.status());
+            EXPECT_TRUE(status.ok());
+            expect_api_success(response.status());
         }
 
         void close_driver_session()
@@ -99,7 +99,7 @@ class NiDMMDriverApiTest : public ::testing::Test {
 
             ::grpc::Status status = GetStub()->GetErrorMessage(&context, request, &response);
             EXPECT_TRUE(status.ok());
-            EXPECT_EQ(kDMMDriverApiSuccess, response.status());
+            expect_api_success(response.status());
             return response.error_message();
         }
 
@@ -140,20 +140,6 @@ class NiDMMDriverApiTest : public ::testing::Test {
             request.set_attribute_id(attribute_id);
             dmm::GetAttributeViReal64Response response;
             ::grpc::Status status = GetStub()->GetAttributeViReal64(&context, request, &response);
-            EXPECT_TRUE(status.ok());
-            expect_api_success(response.status());
-            return response.attribute_value();
-        }
-
-        std::string get_string_attribute(const char* channel_name, dmm::NiDMMAttributes attribute_id)
-        {
-            ::grpc::ClientContext context;
-            dmm::GetAttributeViStringRequest request;
-            request.mutable_vi()->set_id(GetSessionId());
-            request.set_channel_name(channel_name);
-            request.set_attribute_id(attribute_id);
-            dmm::GetAttributeViStringResponse response;
-            ::grpc::Status status = GetStub()->GetAttributeViString(&context, request, &response);
             EXPECT_TRUE(status.ok());
             expect_api_success(response.status());
             return response.attribute_value();
@@ -211,7 +197,6 @@ TEST_F(NiDMMDriverApiTest, NiDMMSetViReal64Attribute_SendRequest_GetViReal64Attr
   dmm::SetAttributeViReal64Response response;
 
   ::grpc::Status status = GetStub()->SetAttributeViReal64(&context, request, &response);
-  
   EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
   ViReal64 get_attribute_value = get_real64_attribute(channel_name, attribute_to_set);
