@@ -102,6 +102,37 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     return response.error_message();
   }
 
+  void configure_output_function(const char* channel_name, ViInt32 function)
+  {
+    ::grpc::ClientContext context;
+    dcpower::ConfigureOutputFunctionRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_channel_name(channel_name);
+    request.set_function(function);
+    dcpower::ConfigureOutputFunctionResponse response;
+
+    ::grpc::Status status = GetStub()->ConfigureOutputFunction(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    expect_api_success(response.status());
+  }
+
+  ViReal64 get_real64_attribute(const char* channel_list, dcpower::NiDCPowerAttributes attribute_id)
+  {
+    ::grpc::ClientContext context;
+    dcpower::GetAttributeViReal64Request request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_channel_name(channel_list);
+    request.set_attribute_id(attribute_id);
+    dcpower::GetAttributeViReal64Response response;
+
+    ::grpc::Status status = GetStub()->GetAttributeViReal64(&context, request, &response);
+    
+    EXPECT_TRUE(status.ok());
+    expect_api_success(response.status());
+    return response.attribute_value();
+  }
+
  private:
   std::shared_ptr<::grpc::Channel> channel_;
   std::unique_ptr<::nidevice_grpc::Session> driver_session_;
@@ -138,6 +169,46 @@ TEST_F(NiDCPowerDriverApiTest, NiDCPowerReset_SendRequest_ResetCompletesSuccessf
 
   EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
+}
+
+TEST_F(NiDCPowerDriverApiTest, ConfiguredOutputFunction_ConfigureVoltageLevel_ConfigurationIsSuccessful)
+{
+  const char* channel_name = "0";
+  ViReal64 expected_voltage_level = 3.0;
+  configure_output_function(channel_name, dcpower::OutputFunction::OUTPUT_FUNCTION_NIDCPOWER_VAL_DC_VOLTAGE);
+
+  ::grpc::ClientContext context;
+  dcpower::ConfigureVoltageLevelRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  request.set_channel_name(channel_name);
+  request.set_level(expected_voltage_level);
+  dcpower::ConfigureVoltageLevelResponse response;
+  ::grpc::Status status = GetStub()->ConfigureVoltageLevel(&context, request, &response);
+  EXPECT_TRUE(status.ok());
+  expect_api_success(response.status());
+
+  ViReal64 actual_voltage_level = get_real64_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_VOLTAGE_LEVEL);
+  EXPECT_EQ(expected_voltage_level, actual_voltage_level);
+}
+
+TEST_F(NiDCPowerDriverApiTest, ConfiguredOutputFunction_ConfigureCurrentLimit_ConfigurationIsSuccessful)
+{
+  const char* channel_name = "0";
+  ViReal64 expected_current_level = 3.0;
+  configure_output_function(channel_name, dcpower::OutputFunction::OUTPUT_FUNCTION_NIDCPOWER_VAL_DC_CURRENT);
+
+  ::grpc::ClientContext context;
+  dcpower::ConfigureCurrentLevelRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  request.set_channel_name(channel_name);
+  request.set_level(expected_current_level);
+  dcpower::ConfigureCurrentLevelResponse response;
+  ::grpc::Status status = GetStub()->ConfigureCurrentLevel(&context, request, &response);
+  EXPECT_TRUE(status.ok());
+  expect_api_success(response.status());
+
+  ViReal64 actual_current_level = get_real64_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_CURRENT_LEVEL);
+  EXPECT_EQ(expected_current_level, actual_current_level);
 }
 
 }  // namespace system
