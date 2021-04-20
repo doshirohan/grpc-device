@@ -97,8 +97,8 @@ namespace nifake_grpc {
       if (status == 0) {
         int i = 0;
         for (auto item : an_array) {
-            an_array_mutable_data[i] = item;
-            i++;
+          an_array_mutable_data[i] = item;
+          i++;
         }
       }
       return ::grpc::Status::OK;

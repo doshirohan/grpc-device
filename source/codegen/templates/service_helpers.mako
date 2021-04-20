@@ -265,8 +265,8 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
 %     elif parameter['type'] == 'ViBoolean[]':
         int i = 0;
         for (auto item : ${parameter_name}) {
-            ${parameter_name}_mutable_data[i] = item;
-            i++;
+          ${parameter_name}_mutable_data[i] = item;
+          i++;
         }
 %     endif
 %   elif parameter['type'] == 'ViSession':

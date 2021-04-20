@@ -2186,8 +2186,8 @@ namespace nidcpower_grpc {
       if (status == 0) {
         int i = 0;
         for (auto item : in_compliance) {
-            in_compliance_mutable_data[i] = item;
-            i++;
+          in_compliance_mutable_data[i] = item;
+          i++;
         }
         response->set_actual_count(actual_count);
       }
