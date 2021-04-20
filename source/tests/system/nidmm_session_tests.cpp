@@ -16,29 +16,29 @@ const char* kOptionsString = "Simulate=1, DriverSetup=Model:4065; BoardType:PCI"
 const char* kSessionName = "SessionName";
 const char* kInvalidRsrc = "";
 
-class NiDMMSessionTest : public ::testing::Test{
+class NiDmmSessionTest : public ::testing::Test{
     protected:
-        NiDMMSessionTest()
+        NiDmmSessionTest()
         {
             ::grpc::ServerBuilder builder;
             session_repository_ = std::make_unique<nidevice_grpc::SessionRepository>();
-            nidmm_library_ = std::make_unique<dmm::NiDMMLibrary>();
-            nidmm_service_ = std::make_unique<dmm::NiDMMService>(nidmm_library_.get(), session_repository_.get());
+            nidmm_library_ = std::make_unique<dmm::NiDmmLibrary>();
+            nidmm_service_ = std::make_unique<dmm::NiDmmService>(nidmm_library_.get(), session_repository_.get());
             builder.RegisterService(nidmm_service_.get());
 
             server_ = builder.BuildAndStart();
             ResetStubs();
         }
 
-        virtual ~NiDMMSessionTest() {}
+        virtual ~NiDmmSessionTest() {}
 
         void ResetStubs()
         {
             channel_ = server_->InProcessChannel(::grpc::ChannelArguments());
-            nidmm_stub_ = dmm::NiDMM::NewStub(channel_);
+            nidmm_stub_ = dmm::NiDmm::NewStub(channel_);
         }
 
-        std::unique_ptr<dmm::NiDMM::Stub>& GetStub()
+        std::unique_ptr<dmm::NiDmm::Stub>& GetStub()
         {
             return nidmm_stub_;
         }
@@ -59,14 +59,14 @@ class NiDMMSessionTest : public ::testing::Test{
 
     private:
         std::shared_ptr<::grpc::Channel> channel_;
-        std::unique_ptr<dmm::NiDMM::Stub> nidmm_stub_;
+        std::unique_ptr<dmm::NiDmm::Stub> nidmm_stub_;
         std::unique_ptr<nidevice_grpc::SessionRepository> session_repository_;
-        std::unique_ptr<dmm::NiDMMLibrary> nidmm_library_;
-        std::unique_ptr<dmm::NiDMMService> nidmm_service_;
+        std::unique_ptr<dmm::NiDmmLibrary> nidmm_library_;
+        std::unique_ptr<dmm::NiDmmService> nidmm_service_;
         std::unique_ptr<::grpc::Server> server_;
 };
 
-TEST_F(NiDMMSessionTest, InitializeSessionWithDeviceAndSessionName_CreatesDriverSession)
+TEST_F(NiDmmSessionTest, InitializeSessionWithDeviceAndSessionName_CreatesDriverSession)
 {
   dmm::InitWithOptionsResponse response;
   ::grpc::Status status = call_init_with_options(kResourceName, kOptionsString, kSessionName, &response);
@@ -76,7 +76,7 @@ TEST_F(NiDMMSessionTest, InitializeSessionWithDeviceAndSessionName_CreatesDriver
   EXPECT_NE(0, response.vi().id());
 }
 
-TEST_F(NiDMMSessionTest, InitializeSessionWithDeviceAndNoSessionName_CreatesDriverSession)
+TEST_F(NiDmmSessionTest, InitializeSessionWithDeviceAndNoSessionName_CreatesDriverSession)
 {
   dmm::InitWithOptionsResponse response;
   ::grpc::Status status = call_init_with_options(kResourceName, kOptionsString, "", &response);
@@ -86,7 +86,7 @@ TEST_F(NiDMMSessionTest, InitializeSessionWithDeviceAndNoSessionName_CreatesDriv
   EXPECT_NE(0, response.vi().id());
 }
 
-TEST_F(NiDMMSessionTest, InitializeSessionWithoutDevice_ReturnsDriverError)
+TEST_F(NiDmmSessionTest, InitializeSessionWithoutDevice_ReturnsDriverError)
 {
   dmm::InitWithOptionsResponse response;
   ::grpc::Status status = call_init_with_options(kInvalidRsrc, "", "", &response);
@@ -96,7 +96,7 @@ TEST_F(NiDMMSessionTest, InitializeSessionWithoutDevice_ReturnsDriverError)
   EXPECT_EQ(0, response.vi().id());
 }
 
-TEST_F(NiDMMSessionTest, InitializedSession_CloseSession_ClosesDriverSession)
+TEST_F(NiDmmSessionTest, InitializedSession_CloseSession_ClosesDriverSession)
 {
   dmm::InitWithOptionsResponse init_response;
   call_init_with_options(kResourceName, kOptionsString, kSessionName, &init_response);
@@ -112,7 +112,7 @@ TEST_F(NiDMMSessionTest, InitializedSession_CloseSession_ClosesDriverSession)
   EXPECT_EQ(0, close_response.status());
 }
 
-TEST_F(NiDMMSessionTest, InvalidSession_CloseSession_NoErrorReported)
+TEST_F(NiDmmSessionTest, InvalidSession_CloseSession_NoErrorReported)
 {
   nidevice_grpc::Session session;
   session.set_id(NULL);
@@ -127,7 +127,7 @@ TEST_F(NiDMMSessionTest, InvalidSession_CloseSession_NoErrorReported)
   EXPECT_EQ(0, response.status());
 }
 
-TEST_F(NiDMMSessionTest, ErrorFromDriver_GetErrorMessage_ReturnsUserErrorMessage)
+TEST_F(NiDmmSessionTest, ErrorFromDriver_GetErrorMessage_ReturnsUserErrorMessage)
 {
   dmm::InitWithOptionsResponse init_response;
   call_init_with_options(kInvalidRsrc, "", "", &init_response);
