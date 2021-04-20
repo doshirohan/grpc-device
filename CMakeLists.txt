@@ -300,7 +300,6 @@ add_executable(SystemTestsRunner
     "source/tests/system/niswitch_driver_api_tests.cpp"
     "source/tests/system/niswitch_session_tests.cpp"
     "source/tests/system/nisync_session_tests.cpp"
-    "source/tests/system/nidmm_driver_api_tests.cpp"
     "source/server/device_enumerator.cpp"
     "source/server/session_repository.cpp"
     "source/server/semaphore.cpp"
