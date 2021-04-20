@@ -3,9 +3,6 @@ functions = {
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': '\nIdentifies a particular instrument session. You obtain the **vi**\nparameter from niDMM_init or niDMM_InitWithOptions. The default is\nNone.\n'
-                },
                 'name': 'vi',
                 'type': 'ViSession'
             }
@@ -284,9 +281,6 @@ functions = {
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': '\nIdentifies a particular instrument session. You obtain the **vi**\nparameter from niDMM_init or niDMM_InitWithOptions. The default is\nNone.\n'
-                },
                 'name': 'vi',
                 'type': 'ViSession'
             }
@@ -577,6 +571,26 @@ functions = {
         },
         {
             "name": "powerLineFrequencyHz",
+            "direction": "in",
+            "type": "ViReal64"
+        }
+        ],
+        "returns": "ViStatus"
+    },
+    "ConfigureShortCableCompValues": {
+        "parameters": [
+        {
+            "name": "vi",
+            "direction": "in",
+            "type": "ViSession"
+        },
+        {
+            "name": "resistance",
+            "direction": "in",
+            "type": "ViReal64"
+        },
+        {
+            "name": "reactance",
             "direction": "in",
             "type": "ViReal64"
         }
