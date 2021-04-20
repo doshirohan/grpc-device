@@ -86,7 +86,22 @@ namespace nifake_grpc {
       return ::grpc::Status::CANCELLED;
     }
     try {
-      return ::grpc::Status(::grpc::UNIMPLEMENTED, "TODO: This server handler has not been implemented.");
+      auto vi_grpc_session = request->vi();
+      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
+      ViInt32 number_of_elements = request->number_of_elements();
+      std::vector<ViBoolean> an_array(number_of_elements, ViBoolean());
+      response->mutable_an_array()->Resize(number_of_elements, 0);
+      auto an_array_mutable_data = response->mutable_an_array()->mutable_data();
+      auto status = library_->BoolArrayOutputFunction(vi, number_of_elements, (ViBoolean*)an_array.data());
+      response->set_status(status);
+      if (status == 0) {
+        int i = 0;
+        for (auto item : an_array) {
+            an_array_mutable_data[i] = item;
+            i++;
+        }
+      }
+      return ::grpc::Status::OK;
     }
     catch (nidevice_grpc::LibraryLoadException& ex) {
       return ::grpc::Status(::grpc::NOT_FOUND, ex.what());

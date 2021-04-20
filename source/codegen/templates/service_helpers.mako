@@ -213,13 +213,17 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
 %>\
 %     if common_helpers.is_struct(parameter):
       std::vector<${underlying_param_type}> ${parameter_name}(${size}, ${underlying_param_type}());
+%     elif underlying_param_type == 'ViBoolean':
+      std::vector<${underlying_param_type}> ${parameter_name}(${size}, ${underlying_param_type}());
+      response->mutable_${parameter_name}()->Resize(${size}, 0);
+      auto ${parameter_name}_mutable_data = response->mutable_${parameter_name}()->mutable_data();
 %     elif service_helpers.is_string_arg(parameter):
       std::string ${parameter_name}(${size}, '\0');
 %     elif underlying_param_type == 'ViAddr':
       response->mutable_${parameter_name}()->Resize(${size}, 0);
       ${underlying_param_type}* ${parameter_name} = reinterpret_cast<${underlying_param_type}*>(response->mutable_${parameter_name}()->mutable_data());
 %     else:
-      response->mutable_${parameter_name}()->Resize(${size}, 0); 
+      response->mutable_${parameter_name}()->Resize(${size}, 0);
       ${underlying_param_type}* ${parameter_name} = response->mutable_${parameter_name}()->mutable_data();
 %     endif
 %   else:
@@ -258,6 +262,12 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
         response->set_${parameter_name}(${parameter_name});
 %     elif common_helpers.is_struct(parameter):
         Copy(${parameter_name}, response->mutable_${parameter_name}());
+%     elif parameter['type'] == 'ViBoolean[]':
+        int i = 0;
+        for (auto item : ${parameter_name}) {
+            ${parameter_name}_mutable_data[i] = item;
+            i++;
+        }
 %     endif
 %   elif parameter['type'] == 'ViSession':
         response->mutable_${parameter_name}()->set_id(${parameter_name});
