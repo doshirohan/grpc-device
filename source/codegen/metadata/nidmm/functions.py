@@ -3,9 +3,6 @@ functions = {
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': '\nIdentifies a particular instrument session. You obtain the **vi**\nparameter from niDMM_init or niDMM_InitWithOptions. The default is\nNone.\n'
-                },
                 'name': 'vi',
                 'type': 'ViSession'
             }
@@ -284,9 +281,6 @@ functions = {
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': '\nIdentifies a particular instrument session. You obtain the **vi**\nparameter from niDMM_init or niDMM_InitWithOptions. The default is\nNone.\n'
-                },
                 'name': 'vi',
                 'type': 'ViSession'
             }
