@@ -10,6 +10,8 @@ namespace system {
 namespace dcpower = nidcpower_grpc;
 
 const int kdcpowerDriverApiSuccess = 0;
+const int kdcpowerViErrorRsrcNotFound = -1073807343;
+const char * kdcpowerViErrorRsrcNotFoundMessage = "VISA:  (Hex 0xBFFF0011) Insufficient location information or the device or resource is not present in the system."; 
 
 class NiDCPowerDriverApiTest : public ::testing::Test {
  protected:
@@ -136,6 +138,13 @@ TEST_F(NiDCPowerDriverApiTest, PerformReset_CompletesSuccessfuly)
 
   EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
+}
+
+TEST_F(NiDCPowerDriverApiTest, GetErrorMessageFunction_ErrorMessageMatches)
+{
+  std::string actual_error_message = get_error_message(kdcpowerViErrorRsrcNotFound);
+
+  EXPECT_STREQ(kdcpowerViErrorRsrcNotFoundMessage, actual_error_message.c_str());
 }
 
 }  // namespace system
