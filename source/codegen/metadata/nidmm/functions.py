@@ -286,7 +286,6 @@ functions = {
             }
         ],
         'returns': 'ViStatus',
-        'use_session_lock': False
     },
     "CloseExtCal": {       
         "parameters": [
@@ -1291,7 +1290,6 @@ functions = {
             }
         ],
         'returns': 'ViStatus',
-        'use_session_lock': False
     },
     "GetErrorMessage": {
         "parameters": [
@@ -1486,7 +1484,6 @@ functions = {
             }
         ],
         'returns': 'ViStatus',
-        'use_session_lock': False
     },
     'Initiate': {
         'parameters': [
@@ -1561,9 +1558,7 @@ functions = {
                 'type': 'ViBoolean'
             }
         ],
-        'render_in_session_base': True,
         'returns': 'ViStatus',
-        'use_session_lock': False
     },
     'PerformOpenCableComp': {
         'parameters': [
@@ -1941,8 +1936,6 @@ functions = {
                 'type': 'ViBoolean'
             }
         ],
-        'render_in_session_base': True,
         'returns': 'ViStatus',
-        'use_session_lock': False
     }
 }
