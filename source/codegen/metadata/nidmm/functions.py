@@ -1152,6 +1152,7 @@ functions = {
         {
             "name": "calType",
             "direction": "in",
+            "enum": "CaliberationType",
             "type": "ViInt32"
         },
         {
@@ -1172,6 +1173,7 @@ functions = {
             {
                 'direction': 'in',
                 'name': 'calType',
+                "enum": "CaliberationType",
                 'type': 'ViInt32'
             },
             {
@@ -1345,6 +1347,7 @@ functions = {
             {
                 'direction': 'in',
                 'name': 'calType',
+                "enum": "CaliberationType",
                 'type': 'ViInt32'
             },
             {

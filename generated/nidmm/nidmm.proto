@@ -229,6 +229,13 @@ enum CableCompensationType {
   CABLE_COMPENSATION_TYPE_NIDMM_VAL_CABLE_COMP_OPEN_AND_SHORT = 3;
 }
 
+enum CaliberationType {
+  option allow_alias = true;
+  CALIBERATION_TYPE_UNSPECIFIED = 0;
+  CALIBERATION_TYPE_NIDMM_VAL_INTERNAL_AREA = 0;
+  CALIBERATION_TYPE_NIDMM_VAL_EXTERNAL_AREA = 1;
+}
+
 enum DCBias {
   option allow_alias = true;
   D_C_BIAS_UNSPECIFIED = 0;
@@ -974,7 +981,10 @@ message GetAutoRangeValueResponse {
 
 message GetCalCountRequest {
   nidevice_grpc.Session vi = 1;
-  sint32 cal_type = 2;
+  oneof cal_type_enum {
+    CaliberationType cal_type = 2;
+    sint32 cal_type_raw = 3;
+  }
 }
 
 message GetCalCountResponse {
@@ -984,7 +994,10 @@ message GetCalCountResponse {
 
 message GetCalDateAndTimeRequest {
   nidevice_grpc.Session vi = 1;
-  sint32 cal_type = 2;
+  oneof cal_type_enum {
+    CaliberationType cal_type = 2;
+    sint32 cal_type_raw = 3;
+  }
 }
 
 message GetCalDateAndTimeResponse {
@@ -1056,7 +1069,10 @@ message GetExtCalRecommendedIntervalResponse {
 
 message GetLastCalTempRequest {
   nidevice_grpc.Session vi = 1;
-  sint32 cal_type = 2;
+  oneof cal_type_enum {
+    CaliberationType cal_type = 2;
+    sint32 cal_type_raw = 3;
+  }
 }
 
 message GetLastCalTempResponse {
