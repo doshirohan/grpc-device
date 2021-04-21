@@ -80,26 +80,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->Close(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
-  }
-
-  void expect_api_success(int error_status)
-  {
-    EXPECT_EQ(kdcpowerDriverApiSuccess, error_status) << get_error_message(error_status);
-  }
-
-  std::string get_error_message(int error_status)
-  {
-    ::grpc::ClientContext context;
-    dcpower::ErrorMessageRequest request;
-    request.mutable_vi()->set_id(GetSessionId());
-    request.set_error_code(error_status);
-    dcpower::ErrorMessageResponse response;
-
-    ::grpc::Status status = GetStub()->ErrorMessage(&context, request, &response);
-    EXPECT_TRUE(status.ok());
     EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
-    return response.error_message();
   }
 
   ViBoolean get_bool_attribute(const char* channel_list, dcpower::NiDCPowerAttributes attribute_id)
@@ -114,7 +95,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->GetAttributeViBoolean(&context, request, &response);
     
     EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
     return response.attribute_value();
   }
 
@@ -130,7 +111,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->GetAttributeViInt32(&context, request, &response);
     
     EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
     return response.attribute_value();
   }
 
@@ -146,7 +127,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->GetAttributeViInt64(&context, request, &response);
     
     EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
     return response.attribute_value();
   }
 
@@ -162,7 +143,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->GetAttributeViReal64(&context, request, &response);
     
     EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
     return response.attribute_value();
   }
 
@@ -178,7 +159,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->GetAttributeViString(&context, request, &response);
     
     EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
     return response.attribute_value();
   }
 
@@ -197,7 +178,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->SetAttributeViInt32(&context, request, &response);
     
     EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   }
 
  private:
@@ -220,7 +201,7 @@ TEST_F(NiDCPowerDriverApiTest, NiDCPowerSelfTest_SendRequest_SelfTestCompletesSu
   ::grpc::Status status = GetStub()->SelfTest(&context, request, &response);
 
   EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());
+  EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   EXPECT_EQ(0, response.self_test_result());
   EXPECT_LT(0, strlen(response.self_test_message().c_str()));
 }
@@ -235,7 +216,7 @@ TEST_F(NiDCPowerDriverApiTest, NiDCPowerReset_SendRequest_ResetCompletesSuccessf
   ::grpc::Status status = GetStub()->Reset(&context, request, &response);
 
   EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());
+  EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
 }
 
 TEST_F(NiDCPowerDriverApiTest, SetAttributeViInt32_GetAttributeViInt32ReturnsSameValue)
@@ -253,7 +234,7 @@ TEST_F(NiDCPowerDriverApiTest, SetAttributeViInt32_GetAttributeViInt32ReturnsSam
   ::grpc::Status status = GetStub()->SetAttributeViInt32(&context, request, &response);
   
   EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());
+  EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   ViInt32 get_attribute_value = get_int32_attribute(channel_name, attribute_to_set);
   EXPECT_EQ(expected_value, get_attribute_value);
 }
@@ -280,7 +261,7 @@ TEST_F(NiDCPowerDriverApiTest, SetAttributeViReal64_GetAttributeViReal64ReturnsS
   ::grpc::Status status = GetStub()->SetAttributeViReal64(&context, request, &response);
   
   EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());
+  EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   ViReal64 get_attribute_value_sourcedelay = get_real64_attribute(channel_name, attribute_to_set);
   EXPECT_EQ(expected_value, get_attribute_value_sourcedelay);
 }
@@ -307,7 +288,7 @@ TEST_F(NiDCPowerDriverApiTest, SetAttributeViBoolean_GetAttributeViBooleanReturn
   ::grpc::Status status = GetStub()->SetAttributeViBoolean(&context, request, &response);
   
   EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());
+  EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   ViBoolean get_attribute_value = get_bool_attribute(channel_name, attribute_to_set);
   EXPECT_EQ(expected_value, get_attribute_value);
 }
@@ -327,7 +308,7 @@ TEST_F(NiDCPowerDriverApiTest, SetAttributeViString_GetAttributeViStringReturnsS
   ::grpc::Status status = GetStub()->SetAttributeViString(&context, request, &response);
   
   EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());
+  EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   std::string get_attribute_value = get_string_attribute(channel_name, attribute_to_set);
   EXPECT_STREQ(expected_value, get_attribute_value.c_str());
 }
@@ -347,7 +328,7 @@ TEST_F(NiDCPowerDriverApiTest, SetAttributeViInt64_GetAttributeViInt64ReturnsSam
   ::grpc::Status status = GetStub()->SetAttributeViInt64(&context, request, &response);
   
   EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());
+  EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   ViInt64 get_attribute_value = get_int64_attribute(channel_name, attribute_to_set);
   EXPECT_EQ(expected_value, get_attribute_value);
 }
