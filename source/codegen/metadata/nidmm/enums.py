@@ -147,6 +147,30 @@ enums = {
             }
         ]
     },
+    'CompensatedOhms': {
+        'values': [
+            {
+                'name': 'NIDMM_VAL_OFFSET_COMP_OHMS_OFF',
+                'value': 0
+            },
+            {
+                'name': 'NIDMM_VAL_OFFSET_COMP_OHMS_ON',
+                'value': 1
+            }
+        ]
+    },
+    'DCBias': {
+        'values': [
+            {
+                'name': 'NIDMM_VAL_DC_BIAS_OFF',
+                'value': 0
+            },
+            {
+                'name': 'NIDMM_VAL_DC_BIAS_ON',
+                'value': 1
+            }
+        ]
+    },
     'DCNoiseRejection': {
         'values': [
             {
@@ -480,6 +504,22 @@ enums = {
                 },
                 'name': 'NIDMM_VAL_TEMP_RTD_PT3928',
                 'value': 6
+            }
+        ]
+    },
+    'Range': {
+        'values': [
+            {
+                'name': 'NIDMM_VAL_AUTO_RANGE_ON',
+                'value': -1
+            },
+            {
+                'name': 'NIDMM_VAL_AUTO_RANGE_OFF',
+                'value': -2
+            },
+            {
+                'name': 'NIDMM_VAL_AUTO_RANGE_ONCE',
+                'value': -3
             }
         ]
     },
