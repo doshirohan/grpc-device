@@ -10,8 +10,6 @@ namespace system {
 namespace dcpower = nidcpower_grpc;
 
 const int kdcpowerDriverApiSuccess = 0;
-const int kdcpowerViErrorRsrcNotFound = -1073807343;
-const char * kdcpowerViErrorRsrcNotFoundMessage = "VISA:  (Hex 0xBFFF0011) Insufficient location information or the device or resource is not present in the system."; 
 
 class NiDCPowerDriverApiTest : public ::testing::Test {
  protected:
@@ -82,26 +80,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->Close(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
-  }
-
-  void expect_api_success(int error_status)
-  {
-    EXPECT_EQ(kdcpowerDriverApiSuccess, error_status) << get_error_message(error_status);
-  }
-
-  std::string get_error_message(int error_status)
-  {
-    ::grpc::ClientContext context;
-    dcpower::ErrorMessageRequest request;
-    request.mutable_vi()->set_id(GetSessionId());
-    request.set_error_code(error_status);
-    dcpower::ErrorMessageResponse response;
-
-    ::grpc::Status status = GetStub()->ErrorMessage(&context, request, &response);
-    EXPECT_TRUE(status.ok());
     EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
-    return response.error_message();
   }
 
  private:
@@ -123,7 +102,7 @@ TEST_F(NiDCPowerDriverApiTest, PerformSelfTest_CompletesSuccessfuly)
   ::grpc::Status status = GetStub()->SelfTest(&context, request, &response);
 
   EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());
+  EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   EXPECT_EQ(0, response.self_test_result());
   EXPECT_LT(0, response.self_test_message().size());
 }
@@ -137,14 +116,7 @@ TEST_F(NiDCPowerDriverApiTest, PerformReset_CompletesSuccessfuly)
   ::grpc::Status status = GetStub()->Reset(&context, request, &response);
 
   EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());
-}
-
-TEST_F(NiDCPowerDriverApiTest, GetErrorMessageFunction_ErrorMessageMatches)
-{
-  std::string actual_error_message = get_error_message(kdcpowerViErrorRsrcNotFound);
-
-  EXPECT_STREQ(kdcpowerViErrorRsrcNotFoundMessage, actual_error_message.c_str());
+  EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
 }
 
 }  // namespace system
