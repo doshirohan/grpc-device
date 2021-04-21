@@ -193,7 +193,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->ConfigureOutputFunction(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   }
 
   void configure_voltage_level(const char* channel_name, ViReal64 level)
@@ -208,7 +208,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->ConfigureVoltageLevel(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   }
 
   dcpower::ExportAttributeConfigurationBufferResponse export_attribute_configuration_buffer()
@@ -221,7 +221,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->ExportAttributeConfigurationBuffer(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
     return response;
   }
 
@@ -236,7 +236,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->ResetWithChannels(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   }
 
   void import_attribute_configuration_buffer(dcpower::ExportAttributeConfigurationBufferResponse export_buffer_response)
@@ -251,7 +251,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->ImportAttributeConfigurationBuffer(&context, import_request, &import_response);
 
     EXPECT_TRUE(status.ok());
-    expect_api_success(import_response.status());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, import_response.status());
   }
 
  private:
