@@ -454,6 +454,22 @@ enums = {
             }
         ]
     },
+    'Range': {
+        'values': [
+            {
+                'name': 'NIDMM_VAL_AUTO_RANGE_ON',
+                'value': -1
+            },
+            {
+                'name': 'NIDMM_VAL_AUTO_RANGE_OFF',
+                'value': -2
+            },
+            {
+                'name': 'NIDMM_VAL_AUTO_RANGE_ONCE',
+                'value': -3
+            }
+        ]
+    },
     'RTDType': {
         'values': [
             {
@@ -504,22 +520,6 @@ enums = {
                 },
                 'name': 'NIDMM_VAL_TEMP_RTD_PT3928',
                 'value': 6
-            }
-        ]
-    },
-    'Range': {
-        'values': [
-            {
-                'name': 'NIDMM_VAL_AUTO_RANGE_ON',
-                'value': -1
-            },
-            {
-                'name': 'NIDMM_VAL_AUTO_RANGE_OFF',
-                'value': -2
-            },
-            {
-                'name': 'NIDMM_VAL_AUTO_RANGE_ONCE',
-                'value': -3
             }
         ]
     },

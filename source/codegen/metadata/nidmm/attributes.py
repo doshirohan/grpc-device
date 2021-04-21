@@ -208,6 +208,7 @@ attributes = {
             'description': '\nFor the NI 4070/4071/4072 only, enables or disables offset compensated ohms.\n'
         },
         'lv_property': 'Configuration:Measurement Options:Offset Compensated Ohms',
+        'enums': 'CompensatedOhms',
         'name': 'OFFSET_COMP_OHMS',
         'resettable': False,
         'type': 'ViInt32'
@@ -379,6 +380,7 @@ attributes = {
             'description': '\nFor the NI 4072 only, controls the available DC bias for capacitance measurements.\n'
         },
         'lv_property': 'Configuration:Measurement Options:Capacitance and Inductance:Advanced:DC Bias',
+        'enum': 'DCBias',
         'name': 'DC_BIAS',
         'resettable': False,
         'type': 'ViInt32'
@@ -525,6 +527,7 @@ attributes = {
             'description': '\nSpecifies the measurement range. Use positive values to represent the  absolute value of the maximum expected measurement. The value is in units  appropriate for the current value of the NIDMM_ATTR_FUNCTION attribute. For  example, if NIDMM_ATTR_FUNCTION is set to NIDMM_VAL_VOLTS, the units are  volts.\nThe NI 4050 and NI 4060 only support Auto Range when the trigger and  sample trigger is set to IMMEDIATE.\nNIDMM_VAL_AUTO_RANGE_ON -1.0\nNI-DMM performs an Auto Range before acquiring the measurement.\nNIDMM_VAL_AUTO_RANGE_OFF -2.0\nNI-DMM sets the Range to the current NIDMM_ATTR_AUTO_RANGE_VALUE and uses this range  for all subsequent measurements until the measurement configuration is changed.\nNIDMM_VAL_AUTO_RANGE_ONCE -3.0\nNI-DMM performs an Auto Range before acquiring the next measurement. The NIDMM_ATTR_AUTO_RANGE_VALUE  is stored and used for all subsequent measurements until the measurement configuration is changed.\n'
         },
         'lv_property': 'Configuration:Range',
+        'enum': 'Range',
         'name': 'RANGE',
         'resettable': False,
         'type': 'ViReal64'
@@ -768,6 +771,7 @@ attributes = {
         },
         'enum': 'AutoZero',
         'lv_property': 'Configuration:Measurement Options:Auto Zero',
+        'enum': 'AutoZero',
         'name': 'AUTO_ZERO',
         'resettable': False,
         'type': 'ViInt32'
