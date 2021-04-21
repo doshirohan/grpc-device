@@ -148,6 +148,7 @@ NiDCPowerLibrary::NiDCPowerLibrary() : shared_library_(kLibraryName)
   function_pointers_.LockSession = reinterpret_cast<LockSessionPtr>(shared_library_.get_function_pointer("niDCPower_LockSession"));
   function_pointers_.Measure = reinterpret_cast<MeasurePtr>(shared_library_.get_function_pointer("niDCPower_Measure"));
   function_pointers_.MeasureMultiple = reinterpret_cast<MeasureMultiplePtr>(shared_library_.get_function_pointer("niDCPower_MeasureMultiple"));
+  function_pointers_.ParseChannelCount = reinterpret_cast<ParseChannelCountPtr>(shared_library_.get_function_pointer("niDCPower_ParseChannelCount"));
   function_pointers_.QueryInCompliance = reinterpret_cast<QueryInCompliancePtr>(shared_library_.get_function_pointer("niDCPower_QueryInCompliance"));
   function_pointers_.QueryMaxCurrentLimit = reinterpret_cast<QueryMaxCurrentLimitPtr>(shared_library_.get_function_pointer("niDCPower_QueryMaxCurrentLimit"));
   function_pointers_.QueryMaxVoltageLevel = reinterpret_cast<QueryMaxVoltageLevelPtr>(shared_library_.get_function_pointer("niDCPower_QueryMaxVoltageLevel"));
@@ -1705,6 +1706,18 @@ ViStatus NiDCPowerLibrary::MeasureMultiple(ViSession vi, ViConstString channelNa
   return niDCPower_MeasureMultiple(vi, channelName, voltageMeasurements, currentMeasurements);
 #else
   return function_pointers_.MeasureMultiple(vi, channelName, voltageMeasurements, currentMeasurements);
+#endif
+}
+
+ViStatus NiDCPowerLibrary::ParseChannelCount(ViSession vi, ViConstString channelsString, ViUInt32* numberOfChannels)
+{
+  if (!function_pointers_.ParseChannelCount) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niDCPower_ParseChannelCount.");
+  }
+#if defined(_MSC_VER)
+  return niDCPower_ParseChannelCount(vi, channelsString, numberOfChannels);
+#else
+  return function_pointers_.ParseChannelCount(vi, channelsString, numberOfChannels);
 #endif
 }
 

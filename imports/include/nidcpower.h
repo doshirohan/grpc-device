@@ -842,6 +842,11 @@ extern "C" {
       ViReal64 voltageMeasurements[],
       ViReal64 currentMeasurements[]);
 
+   ViStatus _VI_FUNC niDCPower_ParseChannelCount(
+      ViSession vi,
+      ViConstString channelsString,
+      ViUInt32* numberOfChannels);
+
    ViStatus _VI_FUNC niDCPower_FetchMultiple(
       ViSession vi,
       ViConstString channelName,

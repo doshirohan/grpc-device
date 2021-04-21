@@ -2870,6 +2870,30 @@ namespace nidcpower_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
+  ::grpc::Status NiDCPowerService::ParseChannelCount(::grpc::ServerContext* context, const ParseChannelCountRequest* request, ParseChannelCountResponse* response)
+  {
+    if (context->IsCancelled()) {
+      return ::grpc::Status::CANCELLED;
+    }
+    try {
+      auto vi_grpc_session = request->vi();
+      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
+      ViConstString channels_string = request->channels_string().c_str();
+      ViUInt32 number_of_channels {};
+      auto status = library_->ParseChannelCount(vi, channels_string, &number_of_channels);
+      response->set_status(status);
+      if (status == 0) {
+        response->set_number_of_channels(number_of_channels);
+      }
+      return ::grpc::Status::OK;
+    }
+    catch (nidevice_grpc::LibraryLoadException& ex) {
+      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
+    }
+  }
+
+  //---------------------------------------------------------------------
+  //---------------------------------------------------------------------
   ::grpc::Status NiDCPowerService::QueryInCompliance(::grpc::ServerContext* context, const QueryInComplianceRequest* request, QueryInComplianceResponse* response)
   {
     if (context->IsCancelled()) {
