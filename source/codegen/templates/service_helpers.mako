@@ -158,6 +158,7 @@ ${initialize_standard_input_param(function_name, parameter)}\
   request_snippet = f'request->{field_name}()'
   c_type = parameter['type']
   c_type_pointer = c_type.replace('[]','*')
+  c_type_underlying_type = common_helpers.get_underlying_type_name(c_type)
 %>\
 % if c_type == 'ViConstString':
       ${c_type} ${parameter_name} = ${request_snippet}.c_str();\
@@ -165,6 +166,13 @@ ${initialize_standard_input_param(function_name, parameter)}\
       ${c_type} ${parameter_name} = (${c_type})${request_snippet}.c_str();\
 % elif c_type == 'ViInt8[]' or c_type == 'ViChar[]':
       ${c_type_pointer} ${parameter_name} = (${c_type[:-2]}*)${request_snippet}.c_str();\
+% elif c_type == 'ViBoolean[]':
+      auto ${parameter_name}_data = ${request_snippet}.data();
+      int ${parameter_name}_size = request->${field_name}_size();
+      std::vector<${c_type_underlying_type}> ${parameter_name};
+      for (int i=0; i< ${parameter_name}_size; i++) {
+          ${parameter_name}.push_back(${c_type_underlying_type}(${parameter_name}_data[i]));
+      }
 % elif 'enum' in parameter:
 <%
 PascalFieldName = common_helpers.snake_to_pascal(field_name)

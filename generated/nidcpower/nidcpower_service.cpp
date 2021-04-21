@@ -2181,7 +2181,7 @@ namespace nidcpower_grpc {
       response->mutable_in_compliance()->Resize(count, 0);
       auto in_compliance_mutable_data = response->mutable_in_compliance()->mutable_data();
       ViInt32 actual_count {};
-      auto status = library_->FetchMultiple(vi, channel_name, timeout, count, voltage_measurements, current_measurements, (ViBoolean*)in_compliance.data(), &actual_count);
+      auto status = library_->FetchMultiple(vi, channel_name, timeout, count, voltage_measurements, current_measurements, in_compliance.data(), &actual_count);
       response->set_status(status);
       if (status == 0) {
         int i = 0;

@@ -92,7 +92,7 @@ namespace nifake_grpc {
       std::vector<ViBoolean> an_array(number_of_elements, ViBoolean());
       response->mutable_an_array()->Resize(number_of_elements, 0);
       auto an_array_mutable_data = response->mutable_an_array()->mutable_data();
-      auto status = library_->BoolArrayOutputFunction(vi, number_of_elements, (ViBoolean*)an_array.data());
+      auto status = library_->BoolArrayOutputFunction(vi, number_of_elements, an_array.data());
       response->set_status(status);
       if (status == 0) {
         int i = 0;
