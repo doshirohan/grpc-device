@@ -258,6 +258,21 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     expect_api_success(response.status());
   }
 
+  void import_attribute_configuration_buffer(dcpower::ExportAttributeConfigurationBufferResponse export_buffer_response)
+  {
+    ::grpc::ClientContext context;
+    dcpower::ImportAttributeConfigurationBufferRequest import_request;
+    import_request.mutable_vi()->set_id(GetSessionId());
+    auto exported_configuration = export_buffer_response.configuration();
+    import_request.mutable_configuration()->Add(exported_configuration.begin(), exported_configuration.end());
+    dcpower::ImportAttributeConfigurationBufferResponse import_response;
+
+    ::grpc::Status status = GetStub()->ImportAttributeConfigurationBuffer(&context, import_request, &import_response);
+
+    EXPECT_TRUE(status.ok());
+    expect_api_success(import_response.status());
+  }
+
  private:
   std::shared_ptr<::grpc::Channel> channel_;
   std::unique_ptr<::nidevice_grpc::Session> driver_session_;
@@ -410,27 +425,19 @@ TEST_F(NiDCPowerDriverApiTest, NiDCPowerSetViInt64Attribute_SendRequest_GetViInt
 TEST_F(NiDCPowerDriverApiTest, VoltageLevelConfiguredAndExportedToBuffer_ResetAndImportConfigurationFromBuffer_ConfigurationIsImportedSuccessfully)
 {
   const char* channel_name = "0";
-  ViReal64 expected_voltage_level = 3.0;
-  configure_output_function(channel_name, dcpower::OutputFunction::OUTPUT_FUNCTION_NIDCPOWER_VAL_DC_VOLTAGE);
+  auto expected_output_function = dcpower::OutputFunction::OUTPUT_FUNCTION_NIDCPOWER_VAL_DC_VOLTAGE;
+  auto expected_voltage_level = 3.0;
+  configure_output_function(channel_name, expected_output_function);
   configure_voltage_level(channel_name, expected_voltage_level);
   auto export_buffer_response = export_attribute_configuration_buffer();
 
   reset_with_channels(channel_name);
-  ::grpc::ClientContext context;
-  dcpower::ImportAttributeConfigurationBufferRequest request;
-  request.mutable_vi()->set_id(GetSessionId());
-  for (int i = 0; i < export_buffer_response.configuration_size(); i++)
-  {
-    auto configuration = export_buffer_response.configuration(i);
-    request.add_configuration(configuration);
-  }
-  dcpower::ImportAttributeConfigurationBufferResponse response;
-  ::grpc::Status status = GetStub()->ImportAttributeConfigurationBuffer(&context, request, &response);
-  EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());
+  import_attribute_configuration_buffer(export_buffer_response);
 
-  ViReal64 actual_voltage_level = get_real64_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_VOLTAGE_LEVEL);
+  auto actual_voltage_level = get_real64_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_VOLTAGE_LEVEL);
+  auto actual_output_function = get_int32_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_OUTPUT_FUNCTION);
   EXPECT_EQ(expected_voltage_level, actual_voltage_level);
+  EXPECT_EQ(expected_output_function, actual_output_function);
 }
 
 }  // namespace system
