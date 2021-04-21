@@ -54,7 +54,7 @@ if len(sys.argv) >= 4:
 
 # Create the communication channel for the remote host and create connections to the NI-DMM and session services.
 channel = grpc.insecure_channel(f"{server_address}:{server_port}")
-nidmm_client = grpc_nidmm.NiDMMStub(channel)
+nidmm_client = grpc_nidmm.NiDmmStub(channel)
 
 any_error = False
 # Checks for errors. If any, throws an exception to stop the execution.
