@@ -81,6 +81,7 @@ functions = {
         {
             "name": "type",
             "direction": "in",
+            "enum": "LCCalibration",
             "type": "ViInt32"
         }
         ],
@@ -126,6 +127,7 @@ functions = {
         {
             "name": "type",
             "direction": "in",
+            "enum": "MiscCalibration",
             "type": "ViInt32"
         }
         ],
@@ -297,6 +299,7 @@ functions = {
         {
             "name": "action",
             "direction": "in",
+            "enum": "CalibrationCloseAction",
             "type": "ViInt32"
         }
         ],
@@ -1152,7 +1155,7 @@ functions = {
         {
             "name": "calType",
             "direction": "in",
-            "enum": "CaliberationType",
+            "enum": "CalibrationType",
             "type": "ViInt32"
         },
         {
@@ -1173,7 +1176,7 @@ functions = {
             {
                 'direction': 'in',
                 'name': 'calType',
-                "enum": "CaliberationType",
+                "enum": "CalibrationType",
                 'type': 'ViInt32'
             },
             {
@@ -1347,7 +1350,7 @@ functions = {
             {
                 'direction': 'in',
                 'name': 'calType',
-                "enum": "CaliberationType",
+                "enum": "CalibrationType",
                 'type': 'ViInt32'
             },
             {

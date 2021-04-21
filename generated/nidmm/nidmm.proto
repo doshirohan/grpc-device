@@ -229,11 +229,18 @@ enum CableCompensationType {
   CABLE_COMPENSATION_TYPE_NIDMM_VAL_CABLE_COMP_OPEN_AND_SHORT = 3;
 }
 
-enum CaliberationType {
+enum CalibrationType {
   option allow_alias = true;
-  CALIBERATION_TYPE_UNSPECIFIED = 0;
-  CALIBERATION_TYPE_NIDMM_VAL_INTERNAL_AREA = 0;
-  CALIBERATION_TYPE_NIDMM_VAL_EXTERNAL_AREA = 1;
+  CALIBRATION_TYPE_UNSPECIFIED = 0;
+  CALIBRATION_TYPE_NIDMM_VAL_INTERNAL_AREA = 0;
+  CALIBRATION_TYPE_NIDMM_VAL_EXTERNAL_AREA = 1;
+}
+
+enum CalibrationCloseAction {
+  option allow_alias = true;
+  CALIBRATION_CLOSE_ACTION_UNSPECIFIED = 0;
+  CALIBRATION_CLOSE_ACTION_NIDMM_EXTCAL_ACTION_ABORT = 0;
+  CALIBRATION_CLOSE_ACTION_NIDMM_EXTCAL_ACTION_SAVE = 1;
 }
 
 enum DCBias {
@@ -279,6 +286,18 @@ enum LCCalculationModel {
   L_C_CALCULATION_MODEL_NIDMM_VAL_CALC_MODEL_PARALLEL = 1;
 }
 
+enum LCCalibration {
+  option allow_alias = true;
+  L_C_CALIBRATION_UNSPECIFIED = 0;
+  L_C_CALIBRATION_NIDMM_EXTCAL_LC_OPEN = 0;
+  L_C_CALIBRATION_NIDMM_EXTCAL_LC_SHORT = 1;
+  L_C_CALIBRATION_NIDMM_EXTCAL_LC_25OHM = 2;
+  L_C_CALIBRATION_NIDMM_EXTCAL_LC_1KOHM = 3;
+  L_C_CALIBRATION_NIDMM_EXTCAL_LC_5KOHM = 4;
+  L_C_CALIBRATION_NIDMM_EXTCAL_LC_100KOHM = 5;
+  L_C_CALIBRATION_NIDMM_EXTCAL_LC_125OHM = 6;
+}
+
 enum MeasurementCompleteDest {
   MEASUREMENT_COMPLETE_DEST_UNSPECIFIED = 0;
   MEASUREMENT_COMPLETE_DEST_NIDMM_VAL_NONE = -1;
@@ -292,6 +311,23 @@ enum MeasurementCompleteDest {
   MEASUREMENT_COMPLETE_DEST_NIDMM_VAL_PXI_TRIG6 = 117;
   MEASUREMENT_COMPLETE_DEST_NIDMM_VAL_PXI_TRIG7 = 118;
   MEASUREMENT_COMPLETE_DEST_NIDMM_VAL_LBR_TRIG0 = 1003;
+}
+
+enum MiscCalibration {
+  option allow_alias = true;
+  MISC_CALIBRATION_UNSPECIFIED = 0;
+  MISC_CALIBRATION_NIDMM_EXTCAL_MISCCAL_VREF = 0;
+  MISC_CALIBRATION_NIDMM_EXTCAL_MISCCAL_RREF = 1;
+  MISC_CALIBRATION_NIDMM_EXTCAL_MISCCAL_ZINT = 2;
+  MISC_CALIBRATION_NIDMM_EXTCAL_MISCCAL_2WIRELEAKAGE = 3;
+  MISC_CALIBRATION_NIDMM_EXTCAL_MISCCAL_4WIRELEAKAGE = 4;
+  MISC_CALIBRATION_NIDMM_EXTCAL_MISCCAL_SECTION = 5;
+  MISC_CALIBRATION_NIDMM_EXTCAL_MISCCAL_VREF_DC_VOLTAGE = 6;
+  MISC_CALIBRATION_NIDMM_EXTCAL_MISCCAL_VREF_DC_CURRENT = 7;
+  MISC_CALIBRATION_NIDMM_EXTCAL_MISCCAL_VREF_AC_VOLTAGE = 8;
+  MISC_CALIBRATION_NIDMM_EXTCAL_MISCCAL_VREF_AC_CURRENT = 9;
+  MISC_CALIBRATION_NIDMM_EXTCAL_MISCCAL_VREF_RESISTANCE = 10;
+  MISC_CALIBRATION_NIDMM_EXTCAL_MISCCAL_VOLTAGE_AC_FILTER = 11;
 }
 
 enum OperationMode {
@@ -432,7 +468,10 @@ message CalAdjustACFilterResponse {
 
 message CalAdjustLCRequest {
   nidevice_grpc.Session vi = 1;
-  sint32 type = 2;
+  oneof type_enum {
+    LCCalibration type = 2;
+    sint32 type_raw = 3;
+  }
 }
 
 message CalAdjustLCResponse {
@@ -453,7 +492,10 @@ message CalAdjustLinearizationResponse {
 
 message CalAdjustMiscRequest {
   nidevice_grpc.Session vi = 1;
-  sint32 type = 2;
+  oneof type_enum {
+    MiscCalibration type = 2;
+    sint32 type_raw = 3;
+  }
 }
 
 message CalAdjustMiscResponse {
@@ -541,7 +583,10 @@ message CloseResponse {
 
 message CloseExtCalRequest {
   nidevice_grpc.Session vi = 1;
-  sint32 action = 2;
+  oneof action_enum {
+    CalibrationCloseAction action = 2;
+    sint32 action_raw = 3;
+  }
 }
 
 message CloseExtCalResponse {
@@ -982,7 +1027,7 @@ message GetAutoRangeValueResponse {
 message GetCalCountRequest {
   nidevice_grpc.Session vi = 1;
   oneof cal_type_enum {
-    CaliberationType cal_type = 2;
+    CalibrationType cal_type = 2;
     sint32 cal_type_raw = 3;
   }
 }
@@ -995,7 +1040,7 @@ message GetCalCountResponse {
 message GetCalDateAndTimeRequest {
   nidevice_grpc.Session vi = 1;
   oneof cal_type_enum {
-    CaliberationType cal_type = 2;
+    CalibrationType cal_type = 2;
     sint32 cal_type_raw = 3;
   }
 }
@@ -1070,7 +1115,7 @@ message GetExtCalRecommendedIntervalResponse {
 message GetLastCalTempRequest {
   nidevice_grpc.Session vi = 1;
   oneof cal_type_enum {
-    CaliberationType cal_type = 2;
+    CalibrationType cal_type = 2;
     sint32 cal_type_raw = 3;
   }
 }
