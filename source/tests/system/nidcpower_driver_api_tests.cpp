@@ -80,26 +80,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->Close(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
-  }
-
-  void expect_api_success(int error_status)
-  {
-    EXPECT_EQ(kdcpowerDriverApiSuccess, error_status) << get_error_message(error_status);
-  }
-
-  std::string get_error_message(int error_status)
-  {
-    ::grpc::ClientContext context;
-    dcpower::ErrorMessageRequest request;
-    request.mutable_vi()->set_id(GetSessionId());
-    request.set_error_code(error_status);
-    dcpower::ErrorMessageResponse response;
-
-    ::grpc::Status status = GetStub()->ErrorMessage(&context, request, &response);
-    EXPECT_TRUE(status.ok());
     EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
-    return response.error_message();
   }
 
   void configure_output_function(const char* channel_name, ViInt32 function)
@@ -114,7 +95,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->ConfigureOutputFunction(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   }
 
   ViReal64 get_real64_attribute(const char* channel_list, dcpower::NiDCPowerAttributes attribute_id)
@@ -129,7 +110,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->GetAttributeViReal64(&context, request, &response);
     
     EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
     return response.attribute_value();
   }
 
@@ -145,7 +126,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->GetAttributeViInt32(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
     return response.attribute_value();
   }
 
@@ -169,7 +150,7 @@ TEST_F(NiDCPowerDriverApiTest, NiDCPowerSelfTest_SendRequest_SelfTestCompletesSu
   ::grpc::Status status = GetStub()->SelfTest(&context, request, &response);
 
   EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());
+  EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   EXPECT_EQ(0, response.self_test_result());
   EXPECT_LT(0, strlen(response.self_test_message().c_str()));
 }
@@ -184,7 +165,7 @@ TEST_F(NiDCPowerDriverApiTest, NiDCPowerReset_SendRequest_ResetCompletesSuccessf
   ::grpc::Status status = GetStub()->Reset(&context, request, &response);
 
   EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());
+  EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
 }
 
 TEST_F(NiDCPowerDriverApiTest, ConfigureOutputFunctionAndVoltageLevel_ConfiguresSuccessfully)
@@ -201,7 +182,7 @@ TEST_F(NiDCPowerDriverApiTest, ConfigureOutputFunctionAndVoltageLevel_Configures
   dcpower::ConfigureVoltageLevelResponse response;
   ::grpc::Status status = GetStub()->ConfigureVoltageLevel(&context, request, &response);
   EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());
+  EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
 
   ViReal64 actual_voltage_level = get_real64_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_VOLTAGE_LEVEL);
   ViInt32 actual_output_function_value = get_int32_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_OUTPUT_FUNCTION);
@@ -223,7 +204,7 @@ TEST_F(NiDCPowerDriverApiTest, ConfiguresOutputFunctionAndCurrentLevel_Configure
   dcpower::ConfigureCurrentLevelResponse response;
   ::grpc::Status status = GetStub()->ConfigureCurrentLevel(&context, request, &response);
   EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());
+  EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
 
   ViReal64 actual_current_level = get_real64_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_CURRENT_LEVEL);
   ViInt32 actual_output_function_value = get_int32_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_OUTPUT_FUNCTION);
