@@ -161,7 +161,6 @@ TEST_F(NiDmmDriverApiTest, SelfTest_CompletesSuccessfully)
   dmm::SelfTestRequest request;
   request.mutable_vi()->set_id(GetSessionId());
   dmm::SelfTestResponse response;
-
   ::grpc::Status status = GetStub()->SelfTest(&context, request, &response);
 
   EXPECT_TRUE(status.ok());
@@ -176,7 +175,6 @@ TEST_F(NiDmmDriverApiTest, Reset_CompletesSuccessfully)
   dmm::ResetRequest request;
   request.mutable_vi()->set_id(GetSessionId());
   dmm::ResetResponse response;
-
   ::grpc::Status status = GetStub()->Reset(&context, request, &response);
 
   EXPECT_TRUE(status.ok());
@@ -195,11 +193,11 @@ TEST_F(NiDmmDriverApiTest, SetViReal64Attribute_GetViReal64Attribute_ValueMatche
   request.set_attribute_id(attribute_to_set);
   request.set_attribute_value(expected_value);
   dmm::SetAttributeViReal64Response response;
-
   ::grpc::Status status = GetStub()->SetAttributeViReal64(&context, request, &response);
+  ViReal64 get_attribute_value = get_real64_attribute(channel_name, attribute_to_set);
+
   EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
-  ViReal64 get_attribute_value = get_real64_attribute(channel_name, attribute_to_set);
   EXPECT_EQ(expected_value, get_attribute_value);
 }
 
@@ -215,11 +213,11 @@ TEST_F(NiDmmDriverApiTest, SetViInt32Attribute_GetViInt32Attribute_ValueMatchesS
   request.set_attribute_id(attribute_to_set);
   request.set_attribute_value(expected_value);
   dmm::SetAttributeViInt32Response response;
-
   ::grpc::Status status = GetStub()->SetAttributeViInt32(&context, request, &response);
+  ViInt32 get_attribute_value = get_int32_attribute(channel_name, attribute_to_set);
+
   EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
-  ViInt32 get_attribute_value = get_int32_attribute(channel_name, attribute_to_set);
   EXPECT_EQ(expected_value, get_attribute_value);
 }
 
@@ -235,11 +233,11 @@ TEST_F(NiDmmDriverApiTest, SetViBooleanAttribute_GetViBooleanAttribute_ValueMatc
   request.set_attribute_id(attribute_to_set);
   request.set_attribute_value(expected_value);
   dmm::SetAttributeViBooleanResponse response;
-
   ::grpc::Status status = GetStub()->SetAttributeViBoolean(&context, request, &response);
+  ViBoolean get_attribute_value = get_bool_attribute(channel_name, attribute_to_set);
+
   EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
-  ViBoolean get_attribute_value = get_bool_attribute(channel_name, attribute_to_set);
   EXPECT_EQ(expected_value, get_attribute_value);
 }
 
@@ -252,7 +250,6 @@ TEST_F(NiDmmDriverApiTest, ConfigureMeasurementAbsolute_CompletesSuccessfully)
     request.set_range(10);
     request.set_resolution_absolute(5.5);
     dmm::ConfigureMeasurementAbsoluteResponse response;
-
     ::grpc::Status status = GetStub()->ConfigureMeasurementAbsolute(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
@@ -266,7 +263,6 @@ TEST_F(NiDmmDriverApiTest, ConfigureCurrentSourse_CompletesSuccessfully)
     request.mutable_vi()->set_id(GetSessionId());
     request.set_current_source(0.0001);
     dmm::ConfigureCurrentSourceResponse response;
-
     ::grpc::Status status = GetStub()->ConfigureCurrentSource(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
