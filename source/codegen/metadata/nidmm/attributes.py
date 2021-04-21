@@ -208,7 +208,7 @@ attributes = {
             'description': '\nFor the NI 4070/4071/4072 only, enables or disables offset compensated ohms.\n'
         },
         'lv_property': 'Configuration:Measurement Options:Offset Compensated Ohms',
-        'enums': 'CompensatedOhms',
+        'enum': 'CompensatedOhms',
         'name': 'OFFSET_COMP_OHMS',
         'resettable': False,
         'type': 'ViInt32'

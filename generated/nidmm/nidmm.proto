@@ -243,6 +243,13 @@ enum CalibrationCloseAction {
   CALIBRATION_CLOSE_ACTION_NIDMM_EXTCAL_ACTION_SAVE = 1;
 }
 
+enum CompensatedOhms {
+  option allow_alias = true;
+  COMPENSATED_OHMS_UNSPECIFIED = 0;
+  COMPENSATED_OHMS_NIDMM_VAL_OFFSET_COMP_OHMS_OFF = 0;
+  COMPENSATED_OHMS_NIDMM_VAL_OFFSET_COMP_OHMS_ON = 1;
+}
+
 enum DCBias {
   option allow_alias = true;
   D_C_BIAS_UNSPECIFIED = 0;
