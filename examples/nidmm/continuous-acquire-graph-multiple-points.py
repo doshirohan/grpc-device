@@ -34,13 +34,13 @@ session_name = "NI-DMM-Session"
 
 # Resource name and options for a simulated 4065 client. Change them according to the NI-DMM model.
 resource = "SimulatedDMM"
-options = "Simulate=1, DriverSetup=Model:4082; BoardType:PXIe"
+options = "Simulate=1, DriverSetup=Model:4065; BoardType:PCI"
 
 # parameters
 MAXPTSTOREAD        = 1000
-config_range        = 10
+config_range        = 10.0
 resolution          = 5.5
-measurementType     = nidmm_types.Function.FUNCTION_NIDMM_VAL_AC_VOLTS
+measurementType     = nidmm_types.Function.FUNCTION_NIDMM_VAL_DC_VOLTS
 powerlineFreq       = 60.0
 
 # Read in cmd args
@@ -138,10 +138,7 @@ try:
     print("\nReading values in loop. CTRL+C or Close window to stop.\n")
 
     try:
-        while True:
-            if closed:
-                break
-
+        while not closed:
             pts_available = 0
             # Check available data
             read_status_response = nidmm_client.ReadStatus(nidmm_types.ReadStatusRequest(
