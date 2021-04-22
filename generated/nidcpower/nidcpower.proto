@@ -143,6 +143,7 @@ service NiDCPower {
   rpc LockSession(LockSessionRequest) returns (LockSessionResponse);
   rpc Measure(MeasureRequest) returns (MeasureResponse);
   rpc MeasureMultiple(MeasureMultipleRequest) returns (MeasureMultipleResponse);
+  rpc ParseChannelCount(ParseChannelCountRequest) returns (ParseChannelCountResponse);
   rpc QueryInCompliance(QueryInComplianceRequest) returns (QueryInComplianceResponse);
   rpc QueryMaxCurrentLimit(QueryMaxCurrentLimitRequest) returns (QueryMaxCurrentLimitResponse);
   rpc QueryMaxVoltageLevel(QueryMaxVoltageLevelRequest) returns (QueryMaxVoltageLevelResponse);
@@ -1756,6 +1757,16 @@ message MeasureMultipleResponse {
   int32 status = 1;
   repeated double voltage_measurements = 2;
   repeated double current_measurements = 3;
+}
+
+message ParseChannelCountRequest {
+  nidevice_grpc.Session vi = 1;
+  string channels_string = 2;
+}
+
+message ParseChannelCountResponse {
+  int32 status = 1;
+  uint32 number_of_channels = 2;
 }
 
 message QueryInComplianceRequest {
