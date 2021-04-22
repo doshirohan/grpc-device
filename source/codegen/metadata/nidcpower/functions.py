@@ -2622,6 +2622,26 @@ functions = {
     ],
     'returns': 'ViStatus'
   },
+  'ParseChannelCount': {
+    'parameters': [
+      {
+        'direction': 'in',
+        'name': 'vi',
+        'type': 'ViSession'
+      },
+      {
+        'direction': 'in',
+        'name': 'channelsString',
+        'type': 'ViConstString'
+      },
+      {
+        'direction': 'out',
+        'name': 'numberOfChannels',
+        'type': 'ViUInt32'
+      }
+    ],
+    'returns': 'ViStatus'
+  },
   'QueryInCompliance': {
     'parameters': [
       {
