@@ -34,13 +34,13 @@ session_name = "NI-DMM-Session"
 
 # Resource name and options for a simulated 4065 client. Change them according to the NI-DMM model.
 resource = "SimulatedDMM"
-options = "Simulate=1, DriverSetup=Model:4065; BoardType:PCI"
+options = "Simulate=1, DriverSetup=Model:4082; BoardType:PXIe"
 
 # parameters
 MAXPTSTOREAD        = 1000
-config_range        = 10.00
+config_range        = 10
 resolution          = 5.5
-measurementType     = nidmm_types.Function.FUNCTION_NIDMM_VAL_DC_VOLTS
+measurementType     = nidmm_types.Function.FUNCTION_NIDMM_VAL_AC_VOLTS
 powerlineFreq       = 60.0
 
 # Read in cmd args
@@ -128,10 +128,20 @@ try:
     fig.show()
     fig.canvas.draw()
 
-    print("\nReading values in loop. CTRL+C to stop.\n")
+    # Handle closing of plot window
+    closed = False
+    def on_close(event):
+        global closed
+        closed = True
+    fig.canvas.mpl_connect('close_event', on_close)
+
+    print("\nReading values in loop. CTRL+C or Close window to stop.\n")
 
     try:
         while True:
+            if closed:
+                break
+
             pts_available = 0
             # Check available data
             read_status_response = nidmm_client.ReadStatus(nidmm_types.ReadStatusRequest(
