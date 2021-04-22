@@ -23,6 +23,12 @@ namespace nidcpower_grpc {
   {
   }
 
+  void NiDCPowerService::Copy(const std::vector<ViBoolean>& input, google::protobuf::RepeatedField<bool>* output) 
+  {
+    for (auto item : input) {
+      output->Add(item != 0);
+    }
+  }
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
   ::grpc::Status NiDCPowerService::AbortWithChannels(::grpc::ServerContext* context, const AbortWithChannelsRequest* request, AbortWithChannelsResponse* response)
@@ -2178,17 +2184,11 @@ namespace nidcpower_grpc {
       response->mutable_current_measurements()->Resize(count, 0);
       ViReal64* current_measurements = response->mutable_current_measurements()->mutable_data();
       std::vector<ViBoolean> in_compliance(count, ViBoolean());
-      response->mutable_in_compliance()->Resize(count, 0);
-      auto in_compliance_mutable_data = response->mutable_in_compliance()->mutable_data();
       ViInt32 actual_count {};
       auto status = library_->FetchMultiple(vi, channel_name, timeout, count, voltage_measurements, current_measurements, in_compliance.data(), &actual_count);
       response->set_status(status);
       if (status == 0) {
-        int i = 0;
-        for (auto item : in_compliance) {
-          in_compliance_mutable_data[i] = item;
-          i++;
-        }
+        Copy(in_compliance, response->mutable_in_compliance());
         response->set_actual_count(actual_count);
       }
       return ::grpc::Status::OK;

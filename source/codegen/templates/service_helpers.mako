@@ -167,12 +167,9 @@ ${initialize_standard_input_param(function_name, parameter)}\
 % elif c_type == 'ViInt8[]' or c_type == 'ViChar[]':
       ${c_type_pointer} ${parameter_name} = (${c_type[:-2]}*)${request_snippet}.c_str();\
 % elif c_type == 'ViBoolean[]':
-      auto ${parameter_name}_data = ${request_snippet}.data();
-      int ${parameter_name}_size = request->${field_name}_size();
+      auto ${parameter_name}_request = ${request_snippet};
       std::vector<${c_type_underlying_type}> ${parameter_name};
-      for (int i=0; i< ${parameter_name}_size; i++) {
-          ${parameter_name}.push_back(${c_type_underlying_type}(${parameter_name}_data[i]));
-      }
+      std::transform(${parameter_name}_request.begin(), ${parameter_name}_request.end(), std::back_inserter(${parameter_name}), [](auto x) { return (${c_type_underlying_type})x; });
 % elif 'enum' in parameter:
 <%
 PascalFieldName = common_helpers.snake_to_pascal(field_name)
@@ -219,12 +216,8 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
   else:
     size = common_helpers.camel_to_snake(parameter['size']['value'])
 %>\
-%     if common_helpers.is_struct(parameter):
+%     if common_helpers.is_struct(parameter) or underlying_param_type == 'ViBoolean':
       std::vector<${underlying_param_type}> ${parameter_name}(${size}, ${underlying_param_type}());
-%     elif underlying_param_type == 'ViBoolean':
-      std::vector<${underlying_param_type}> ${parameter_name}(${size}, ${underlying_param_type}());
-      response->mutable_${parameter_name}()->Resize(${size}, 0);
-      auto ${parameter_name}_mutable_data = response->mutable_${parameter_name}()->mutable_data();
 %     elif service_helpers.is_string_arg(parameter):
       std::string ${parameter_name}(${size}, '\0');
 %     elif underlying_param_type == 'ViAddr':
@@ -268,14 +261,8 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
 %   elif common_helpers.is_array(parameter['type']):
 %     if service_helpers.is_string_arg(parameter):
         response->set_${parameter_name}(${parameter_name});
-%     elif common_helpers.is_struct(parameter):
+%     elif common_helpers.is_struct(parameter) or parameter['type'] == 'ViBoolean[]':
         Copy(${parameter_name}, response->mutable_${parameter_name}());
-%     elif parameter['type'] == 'ViBoolean[]':
-        int i = 0;
-        for (auto item : ${parameter_name}) {
-          ${parameter_name}_mutable_data[i] = item;
-          i++;
-        }
 %     endif
 %   elif parameter['type'] == 'ViSession':
         response->mutable_${parameter_name}()->set_id(${parameter_name});

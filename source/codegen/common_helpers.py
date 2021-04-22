@@ -89,6 +89,14 @@ def get_used_enums(functions, attributes):
       used_enums.add(attributes[attribute]["enum"])
   return used_enums
 
+def has_viboolean_array_param(functions):
+  '''Returns True if atleast one function has parameter of type ViBoolean[]'''
+  for function in functions:
+    for parameter in functions[function]["parameters"]:
+      if parameter['type'] == 'ViBoolean[]':
+        return True
+  return False
+
 def get_size_mechanism(parameter):
   size = parameter.get('size', {})
   return size.get('mechanism', None)

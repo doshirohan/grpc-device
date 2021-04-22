@@ -23,6 +23,12 @@ namespace nifake_grpc {
   {
   }
 
+  void NiFakeService::Copy(const std::vector<ViBoolean>& input, google::protobuf::RepeatedField<bool>* output) 
+  {
+    for (auto item : input) {
+      output->Add(item != 0);
+    }
+  }
   void NiFakeService::Copy(const CustomStruct& input, nifake_grpc::FakeCustomStruct* output) 
   {
     output->set_struct_int(input.structInt);
@@ -90,16 +96,10 @@ namespace nifake_grpc {
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 number_of_elements = request->number_of_elements();
       std::vector<ViBoolean> an_array(number_of_elements, ViBoolean());
-      response->mutable_an_array()->Resize(number_of_elements, 0);
-      auto an_array_mutable_data = response->mutable_an_array()->mutable_data();
       auto status = library_->BoolArrayOutputFunction(vi, number_of_elements, an_array.data());
       response->set_status(status);
       if (status == 0) {
-        int i = 0;
-        for (auto item : an_array) {
-          an_array_mutable_data[i] = item;
-          i++;
-        }
+        Copy(an_array, response->mutable_an_array());
       }
       return ::grpc::Status::OK;
     }
