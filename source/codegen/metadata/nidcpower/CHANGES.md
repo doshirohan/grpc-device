@@ -16,3 +16,11 @@ The following attributes were added :
 - NIDCPOWER_ATTRIBUTE_DIGITAL_EDGE_MEASURE_TRIGGER_EDGE
 - NIDCPOWER_ATTRIBUTE_DIGITAL_EDGE_PULSE_TRIGGER_EDGE
 - NIDCPOWER_ATTRIBUTE_DIGITAL_EDGE_SHUTDOWN_TRIGGER_EDGE
+
+## functions.py
+
+The following function, not originally in the base metadata was newly added :
+- `ParseChannelCount`
+
+The following function was tagged with `'internal_method': True,`, because this API is not exposed in `nidcpower.h`.
+- `ParseChannelCount`
