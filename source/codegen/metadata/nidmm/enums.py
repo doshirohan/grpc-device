@@ -48,7 +48,7 @@ enums = {
                 'value': 0
             },
             {
-               'name': 'NIDMM_VAL_POWER_LINE_CYCLES',
+                'name': 'NIDMM_VAL_POWER_LINE_CYCLES',
                 'value': 1
             }
         ]
@@ -64,7 +64,7 @@ enums = {
                 'value': 0
             },
             {
-               'name': 'NIDMM_VAL_AUTO_ZERO_ON',
+                'name': 'NIDMM_VAL_AUTO_ZERO_ON',
                 'value': 1
             },
             {
@@ -88,7 +88,7 @@ enums = {
                 'value': 2
             },
             {
-               'name': 'NIDMM_VAL_CABLE_COMP_OPEN_AND_SHORT',
+                'name': 'NIDMM_VAL_CABLE_COMP_OPEN_AND_SHORT',
                 'value': 3
             }
         ]
@@ -176,11 +176,11 @@ enums = {
                 'value': 3
             },
             {
-               'name': 'NIDMM_VAL_AC_CURRENT',
+                'name': 'NIDMM_VAL_AC_CURRENT',
                 'value': 4
             },
             {
-               'name': 'NIDMM_VAL_2_WIRE_RES',
+                'name': 'NIDMM_VAL_2_WIRE_RES',
                 'value': 5
             },
             {
@@ -188,7 +188,7 @@ enums = {
                 'value': 101
             },
             {
-               'name': 'NIDMM_VAL_FREQ',
+                'name': 'NIDMM_VAL_FREQ',
                 'value': 104
             },
             {
@@ -280,7 +280,7 @@ enums = {
                 'value': -1
             },
             {
-               'name': 'NIDMM_VAL_EXTERNAL',
+                'name': 'NIDMM_VAL_EXTERNAL',
                 'value': 2
             },
             {
@@ -304,7 +304,7 @@ enums = {
                 'value': 115
             },
             {
-               'name': 'NIDMM_VAL_PXI_TRIG5',
+                'name': 'NIDMM_VAL_PXI_TRIG5',
                 'value': 116
             },
             {
@@ -324,7 +324,7 @@ enums = {
     'MeasurementDestinationSlope': {
         'values': [
             {
-               'name': 'NIDMM_VAL_POSITIVE',
+                'name': 'NIDMM_VAL_POSITIVE',
                 'value': 0
             },
             {
@@ -388,11 +388,11 @@ enums = {
     'OperationMode': {
         'values': [
             {
-               'name': 'NIDMM_VAL_IVIDMM_MODE',
+                'name': 'NIDMM_VAL_IVIDMM_MODE',
                 'value': 0
             },
             {
-               'name': 'NIDMM_VAL_WAVEFORM_MODE',
+                'name': 'NIDMM_VAL_WAVEFORM_MODE',
                 'value': 1
             }
         ]

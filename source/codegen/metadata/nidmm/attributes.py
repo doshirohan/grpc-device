@@ -771,7 +771,6 @@ attributes = {
         },
         'enum': 'AutoZero',
         'lv_property': 'Configuration:Measurement Options:Auto Zero',
-        'enum': 'AutoZero',
         'name': 'AUTO_ZERO',
         'resettable': False,
         'type': 'ViInt32'
