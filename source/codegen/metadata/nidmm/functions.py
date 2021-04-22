@@ -81,7 +81,7 @@ functions = {
         {
             "name": "type",
             "direction": "in",
-            "enum": "LCCalibration",
+            "enum": "LcCalibration",
             "type": "ViInt32"
         }
         ],
@@ -633,7 +633,7 @@ functions = {
             },
             {
                 'direction': 'in',
-                'enum': 'RTDType',
+                'enum': 'RtdType',
                 'name': 'rtdType',
                 'type': 'ViInt32'
             },

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # This file is generated from NI-DMM API metadata version 19.6.0d7
 enums = {
-    'ADCCalibration': {
+    'AdcCalibration': {
         'values': [
             {
                 'name': 'NIDMM_VAL_ADC_CALIBRATION_AUTO',
@@ -129,7 +129,7 @@ enums = {
             }
         ]
     },
-    'DCBias': {
+    'DcBias': {
         'values': [
             {
                 'name': 'NIDMM_VAL_DC_BIAS_OFF',
@@ -141,7 +141,7 @@ enums = {
             }
         ]
     },
-    'DCNoiseRejection': {
+    'DcNoiseRejection': {
         'values': [
             {
                 'name': 'NIDMM_VAL_DCNR_AUTO',
@@ -225,7 +225,7 @@ enums = {
             }
         ]
     },
-    'LCCalculationModel': {
+    'LcCalculationModel': {
         'values': [
             {
                 'name': 'NIDMM_VAL_CALC_MODEL_AUTO',
@@ -241,7 +241,7 @@ enums = {
             }
         ]
     },
-    'LCCalibration': {
+    'LcCalibration': {
         'values': [
             {
                 'name': 'NIDMM_EXTCAL_LC_OPEN',
@@ -413,7 +413,7 @@ enums = {
             }
         ]
     },
-    'RTDType': {
+    'RtdType': {
         'values': [
             {
                 'name': 'NIDMM_VAL_TEMP_RTD_CUSTOM',
