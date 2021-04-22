@@ -211,6 +211,21 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   }
 
+  void configure_current_level(const char* channel_name, ViReal64 level)
+  {
+    ::grpc::ClientContext context;
+    dcpower::ConfigureCurrentLevelRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_channel_name(channel_name);
+    request.set_level(level);
+    dcpower::ConfigureCurrentLevelResponse response;
+    
+    ::grpc::Status status = GetStub()->ConfigureCurrentLevel(&context, request, &response);
+    
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
+  }
+
   dcpower::ExportAttributeConfigurationBufferResponse export_attribute_configuration_buffer()
   {
     ::grpc::ClientContext context;
