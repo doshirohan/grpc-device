@@ -2623,7 +2623,7 @@ functions = {
     'returns': 'ViStatus'
   },
   'ParseChannelCount': {
-    'internal_method': True,
+    'codegen_method': 'private',
     'parameters': [
       {
         'direction': 'in',

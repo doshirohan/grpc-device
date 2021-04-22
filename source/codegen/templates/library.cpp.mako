@@ -1,5 +1,4 @@
 <%
-import common_helpers
 import service_helpers
 
 config = data['config']
@@ -67,8 +66,8 @@ ${return_type} ${service_class_prefix}Library::${method_name}(${parameter_list})
   if (!function_pointers_.${method_name}) {
     throw nidevice_grpc::LibraryLoadException("Could not find ${c_name}.");
   }
-% if common_helpers.is_internal_method(f):
- return function_pointers_.${method_name}(${argument_list});
+% if service_helpers.is_private_method(f):
+  return function_pointers_.${method_name}(${argument_list});
 % else:
 #if defined(_MSC_VER)
   return ${c_name}(${argument_list});

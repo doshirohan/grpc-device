@@ -151,7 +151,6 @@ public:
   ::grpc::Status LockSession(::grpc::ServerContext* context, const LockSessionRequest* request, LockSessionResponse* response) override;
   ::grpc::Status Measure(::grpc::ServerContext* context, const MeasureRequest* request, MeasureResponse* response) override;
   ::grpc::Status MeasureMultiple(::grpc::ServerContext* context, const MeasureMultipleRequest* request, MeasureMultipleResponse* response) override;
-  ::grpc::Status ParseChannelCount(::grpc::ServerContext* context, const ParseChannelCountRequest* request, ParseChannelCountResponse* response) override;
   ::grpc::Status QueryInCompliance(::grpc::ServerContext* context, const QueryInComplianceRequest* request, QueryInComplianceResponse* response) override;
   ::grpc::Status QueryMaxCurrentLimit(::grpc::ServerContext* context, const QueryMaxCurrentLimitRequest* request, QueryMaxCurrentLimitResponse* response) override;
   ::grpc::Status QueryMaxVoltageLevel(::grpc::ServerContext* context, const QueryMaxVoltageLevelRequest* request, QueryMaxVoltageLevelResponse* response) override;

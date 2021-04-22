@@ -203,7 +203,7 @@ namespace nifake_grpc {
       auto vi_grpc_session = request->vi();
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 number_of_samples = request->number_of_samples();
-      response->mutable_waveform_data()->Resize(number_of_samples, 0);
+      response->mutable_waveform_data()->Resize(number_of_samples, 0); 
       ViReal64* waveform_data = response->mutable_waveform_data()->mutable_data();
       ViInt32 actual_number_of_samples {};
       auto status = library_->FetchWaveform(vi, number_of_samples, waveform_data, &actual_number_of_samples);
@@ -374,7 +374,7 @@ namespace nifake_grpc {
       }
       ViInt32 array_size = status;
 
-      response->mutable_array_out()->Resize(array_size, 0);
+      response->mutable_array_out()->Resize(array_size, 0); 
       ViReal64* array_out = response->mutable_array_out()->mutable_data();
       status = library_->GetArrayUsingIviDance(vi, array_size, array_out);
       response->set_status(status);
@@ -923,7 +923,7 @@ namespace nifake_grpc {
       auto vi_grpc_session = request->vi();
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 number_of_elements = request->number_of_elements();
-      response->mutable_timedeltas()->Resize(number_of_elements, 0);
+      response->mutable_timedeltas()->Resize(number_of_elements, 0); 
       ViReal64* timedeltas = response->mutable_timedeltas()->mutable_data();
       auto status = library_->ReturnListOfDurationsInSeconds(vi, number_of_elements, timedeltas);
       response->set_status(status);
@@ -961,7 +961,7 @@ namespace nifake_grpc {
       ViInt16 an_int_enum {};
       ViReal64 a_float {};
       ViReal64 a_float_enum {};
-      response->mutable_an_array()->Resize(array_size, 0);
+      response->mutable_an_array()->Resize(array_size, 0); 
       ViReal64* an_array = response->mutable_an_array()->mutable_data();
       std::string a_string(string_size, '\0');
       status = library_->ReturnMultipleTypes(vi, &a_boolean, &an_int32, &an_int64, &an_int_enum, &a_float, &a_float_enum, array_size, an_array, string_size, (ViChar*)a_string.data());

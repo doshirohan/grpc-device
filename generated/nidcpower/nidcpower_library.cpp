@@ -1714,7 +1714,7 @@ ViStatus NiDCPowerLibrary::ParseChannelCount(ViSession vi, ViConstString channel
   if (!function_pointers_.ParseChannelCount) {
     throw nidevice_grpc::LibraryLoadException("Could not find niDCPower_ParseChannelCount.");
   }
- return function_pointers_.ParseChannelCount(vi, channelsString, numberOfChannels);
+  return function_pointers_.ParseChannelCount(vi, channelsString, numberOfChannels);
 }
 
 ViStatus NiDCPowerLibrary::QueryInCompliance(ViSession vi, ViConstString channelName, ViBoolean* inCompliance)
