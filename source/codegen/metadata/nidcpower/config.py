@@ -22,7 +22,6 @@ config = {
         'SelfTestError'
     ],
     'init_function': 'InitializeWithChannels',
-    'parse_channel_count_function': 'ParseChannelCount',
     'library_info': {
         'Linux': {
             '64bit': {
