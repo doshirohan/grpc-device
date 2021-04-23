@@ -267,6 +267,20 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   }
 
+  void fetch_multiple(const char* channel_name, const int expected_count, nidcpower_grpc::FetchMultipleResponse* response)
+  {
+      ::grpc::ClientContext context;
+      dcpower::FetchMultipleRequest request;
+      request.mutable_vi()->set_id(GetSessionId());
+      request.set_channel_name(channel_name);
+      request.set_timeout(5);
+      request.set_count(expected_count);
+
+      ::grpc::Status status = GetStub()->FetchMultiple(&context, request, response);
+
+      EXPECT_TRUE(status.ok());
+  }
+
   void import_attribute_configuration_buffer(dcpower::ExportAttributeConfigurationBufferResponse export_buffer_response)
   {
     ::grpc::ClientContext context;
@@ -460,31 +474,21 @@ TEST_F(NiDCPowerDriverApiTest, ConfigureOutputFunctionAndCurrentLevel_Configures
   EXPECT_EQ(expected_output_function_value, actual_output_function_value);
 }
 
-TEST_F(NiDCPowerDriverApiTest, FetchMultiple_ReturnsResultOfExpectedSize)
+TEST_F(NiDCPowerDriverApiTest, SetMeasureWhenAndInitiate_FetchMultiple_ReturnsResultOfExpectedSize)
 {
   const char* channel_name = "0";
-  const int timeout = 5;
   const int expected_count = 20;
-  ::grpc::ClientContext context;
-  dcpower::FetchMultipleRequest request;
-  request.mutable_vi()->set_id(GetSessionId());
-  request.set_channel_name(channel_name);
-  request.set_timeout(timeout);
-  request.set_count(expected_count);
-  dcpower::FetchMultipleResponse response;
-
   // Attribute 'NIDCPOWER_ATTRIBUTE_MEASURE_WHEN' must be set before calling FetchMultiple
   set_int32_attribute(
     channel_name, 
     dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_MEASURE_WHEN, 
     dcpower::MeasureWhen::MEASURE_WHEN_NIDCPOWER_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE
     );
-
   initiate();
 
-  ::grpc::Status status = GetStub()->FetchMultiple(&context, request, &response);
-  
-  EXPECT_TRUE(status.ok());
+  dcpower::FetchMultipleResponse response;
+  fetch_multiple(channel_name, expected_count, &response);
+
   EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   EXPECT_EQ(expected_count, response.actual_count());
   EXPECT_EQ(expected_count, response.voltage_measurements_size());
