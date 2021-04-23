@@ -70,6 +70,19 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ASSERT_EQ(kdcpowerDriverApiSuccess, response.status());
   }
 
+  void initiate()
+  {
+      dcpower::InitiateRequest request;
+      dcpower::InitiateResponse response;
+      ::grpc::ClientContext context;
+      request.mutable_vi()->set_id(GetSessionId());
+
+      ::grpc::Status status = GetStub()->Initiate(&context, request, &response);
+
+      EXPECT_TRUE(status.ok());
+      EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
+  }
+
   void close_driver_session()
   {
     ::grpc::ClientContext context;
@@ -445,6 +458,38 @@ TEST_F(NiDCPowerDriverApiTest, ConfigureOutputFunctionAndCurrentLevel_Configures
   ViInt32 actual_output_function_value = get_int32_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_OUTPUT_FUNCTION);
   EXPECT_EQ(expected_current_level, actual_current_level);
   EXPECT_EQ(expected_output_function_value, actual_output_function_value);
+}
+
+TEST_F(NiDCPowerDriverApiTest, FetchMultiple_ReturnsResultOfExpectedSize)
+{
+  const char* channel_name = "0";
+  const int timeout = 5;
+  const int expected_count = 20;
+  ::grpc::ClientContext context;
+  dcpower::FetchMultipleRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  request.set_channel_name(channel_name);
+  request.set_timeout(timeout);
+  request.set_count(expected_count);
+  dcpower::FetchMultipleResponse response;
+
+  // Attribute 'NIDCPOWER_ATTRIBUTE_MEASURE_WHEN' must be set before calling FetchMultiple
+  set_int32_attribute(
+    channel_name, 
+    dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_MEASURE_WHEN, 
+    dcpower::MeasureWhen::MEASURE_WHEN_NIDCPOWER_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE
+    );
+
+  initiate();
+
+  ::grpc::Status status = GetStub()->FetchMultiple(&context, request, &response);
+  
+  EXPECT_TRUE(status.ok());
+  EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
+  EXPECT_EQ(expected_count, response.actual_count());
+  EXPECT_EQ(expected_count, response.voltage_measurements_size());
+  EXPECT_EQ(expected_count, response.current_measurements_size());
+  EXPECT_EQ(expected_count, response.in_compliance_size());
 }
 
 TEST_F(NiDCPowerDriverApiTest, VoltageLevelConfiguredAndExportedToBuffer_ResetAndImportConfigurationFromBuffer_ConfigurationIsImportedSuccessfully)
