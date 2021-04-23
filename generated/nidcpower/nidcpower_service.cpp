@@ -26,7 +26,7 @@ namespace nidcpower_grpc {
   void NiDCPowerService::Copy(const std::vector<ViBoolean>& input, google::protobuf::RepeatedField<bool>* output) 
   {
     for (auto item : input) {
-      output->Add(item != 0);
+      output->Add(item != VI_FALSE);
     }
   }
   //---------------------------------------------------------------------
