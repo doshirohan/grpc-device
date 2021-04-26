@@ -145,6 +145,73 @@ class NiDmmDriverApiTest : public ::testing::Test {
             return response.attribute_value();
         }
 
+        void ConfigureCurrentSource(double value)
+        {
+            ::grpc::ClientContext context;
+            dmm::ConfigureCurrentSourceRequest request;
+            request.mutable_vi()->set_id(GetSessionId());
+            request.set_current_source(value);
+            dmm::ConfigureCurrentSourceResponse response;
+            ::grpc::Status status = GetStub()->ConfigureCurrentSource(&context, request, &response);
+
+            EXPECT_TRUE(status.ok());
+            expect_api_success(response.status());
+        }
+
+        dmm::ExportAttributeConfigurationBufferResponse ExportConfiguration()
+        {
+          ::grpc::ClientContext context;
+          dmm::ExportAttributeConfigurationBufferRequest request;
+          request.mutable_vi()->set_id(GetSessionId());
+          dmm::ExportAttributeConfigurationBufferResponse response;
+
+          ::grpc::Status status = GetStub()->ExportAttributeConfigurationBuffer(&context, request, &response);
+
+          EXPECT_TRUE(status.ok());
+          expect_api_success(response.status());
+          return response;
+        }
+
+        void Reset()
+        {
+          ::grpc::ClientContext context;
+          dmm::ResetRequest request;
+          request.mutable_vi()->set_id(GetSessionId());
+          dmm::ResetResponse response;
+
+          ::grpc::Status status = GetStub()->Reset(&context, request, &response);
+          EXPECT_TRUE(status.ok());
+          expect_api_success(response.status());
+        }
+
+        void ImportCoinfiguration(dmm::ExportAttributeConfigurationBufferResponse exportedConfigurationResponse)
+        {
+          ::grpc::ClientContext context;
+          dmm::ImportAttributeConfigurationBufferRequest import_request;
+          import_request.mutable_vi()->set_id(GetSessionId());
+          auto exported_configuration = exportedConfigurationResponse.configuration();
+          import_request.mutable_configuration()->append(exported_configuration.begin(), exported_configuration.end());
+          dmm::ImportAttributeConfigurationBufferResponse import_response;
+
+          ::grpc::Status status = GetStub()->ImportAttributeConfigurationBuffer(&context, import_request, &import_response);
+
+          EXPECT_TRUE(status.ok());
+          expect_api_success(import_response.status());
+        }
+
+        void ValidateCurrentSource(double value)
+        {
+          ::grpc::ClientContext context;
+          dmm::GetAttributeViReal64Request request;
+          request.mutable_vi()->set_id(GetSessionId());
+          request.set_attribute_id(dmm::NiDmmAttributes::NIDMM_ATTRIBUTE_CURRENT_SOURCE);
+          dmm::GetAttributeViReal64Response response;
+
+          ::grpc::Status status = GetStub()->GetAttributeViReal64(&context, request, &response);
+
+          EXPECT_TRUE(status.ok());
+          EXPECT_EQ(value, response.attribute_value());
+        }
     private:
         std::shared_ptr<::grpc::Channel> channel_;
         std::unique_ptr<::nidevice_grpc::Session> driver_session_;
@@ -267,6 +334,67 @@ TEST_F(NiDmmDriverApiTest, ConfigureCurrentSourse_CompletesSuccessfully)
 
     EXPECT_TRUE(status.ok());
     expect_api_success(response.status());
+}
+
+TEST_F(NiDmmDriverApiTest, ConfiguredCurrentSource_ExportAndReset_ImportsSuccessfully)
+{
+    ConfigureCurrentSource(0.0001);
+    
+    auto exportedConfigurationResponse = ExportConfiguration();
+    Reset();
+
+    ImportCoinfiguration(exportedConfigurationResponse);
+    ValidateCurrentSource(0.0001);
+}
+
+TEST_F(NiDmmDriverApiTest, ConfiguredTrigger_ConfiguresSuccessfully)
+{
+    ::grpc::ClientContext configureTriggerContext;
+    dmm::ConfigureTriggerRequest configureTriggerRequest;
+    configureTriggerRequest.mutable_vi()->set_id(GetSessionId());
+    configureTriggerRequest.set_trigger_source(dmm::TriggerSource::TRIGGER_SOURCE_NIDMM_VAL_SOFTWARE_TRIG);
+    configureTriggerRequest.set_trigger_delay(-1);
+    dmm::ConfigureTriggerResponse configureTriggerResponse;
+    
+    ::grpc::Status configureTriggerStatus = GetStub()->ConfigureTrigger(&configureTriggerContext, configureTriggerRequest, &configureTriggerResponse);
+
+    EXPECT_TRUE(configureTriggerStatus.ok());
+    expect_api_success(configureTriggerResponse.status());
+}
+
+TEST_F(NiDmmDriverApiTest, AcquireMeasurement_CompletesSuccesfully)
+{
+    ::grpc::ClientContext context;
+    dmm::ReadRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_maximum_time(1000);
+    dmm::ReadResponse response;
+    ::grpc::Status status = GetStub()->Read(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    expect_api_success(response.status());
+    EXPECT_NE(0, response.reading());
+}
+
+TEST_F(NiDmmDriverApiTest, SelfCalibrate_CompletesSuccessfully)
+{
+  ::grpc::ClientContext selfCalSupportedContext;
+  dmm::GetSelfCalSupportedRequest selfCalSupportedRequest;
+  selfCalSupportedRequest.mutable_vi()->set_id(GetSessionId());
+  dmm::GetSelfCalSupportedResponse selfCalSupportedResponse;
+  auto selfCalSupportedStatus = GetStub()->GetSelfCalSupported(&selfCalSupportedContext, selfCalSupportedRequest, &selfCalSupportedResponse);
+
+  bool supported = selfCalSupportedResponse.self_cal_supported();
+  if (supported) {
+    ::grpc::ClientContext context;
+    dmm::SelfCalRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    dmm::SelfCalResponse response;
+    ::grpc::Status status = GetStub()->SelfCal(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    expect_api_success(response.status());
+  }
 }
 
 } // namespace system
