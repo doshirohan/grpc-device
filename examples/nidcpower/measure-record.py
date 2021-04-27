@@ -17,7 +17,7 @@
 # Running from command line:
 #
 # Server machine's IP address, port number, and resource name can be passed as separate command line arguments.
-#   > python MeasureRecord.py <server_address> <port_number> <resource_name>
+#   > python measure-record.py <server_address> <port_number> <resource_name>
 # If they are not passed in as command line arguments, then by default the server address will be "localhost:31763", with "SimulatedDCPower" as the resource name
 
 import grpc
@@ -72,7 +72,7 @@ channel = grpc.insecure_channel(f"{server_address}:{server_port}")
 client = grpc_nidcpower.NiDCPowerStub(channel)
 
 try :
-    # Initialise with channels API
+    # Initialise the session
     initialize_with_independent_channels_response = client.InitializeWithIndependentChannels(nidcpower_types.InitializeWithIndependentChannelsRequest(
         session_name = session_name,
         resource_name = resource,
@@ -82,7 +82,7 @@ try :
     vi = initialize_with_independent_channels_response.vi
     CheckForError(vi, initialize_with_independent_channels_response.status)
 
-    # configure measure_when
+    # configure measure_when attribute
     configure_measure_when = client.SetAttributeViInt32(nidcpower_types.SetAttributeViInt32Request(
         vi = vi,
         channel_name = channels,
@@ -91,7 +91,7 @@ try :
     ))
     CheckForError(vi, configure_measure_when.status)
 
-    # configure measure_record_length
+    # configure measure_record_length attribute
     configure_measure_record_length = client.SetAttributeViInt32(nidcpower_types.SetAttributeViInt32Request(
         vi = vi,
         channel_name = channels,
@@ -100,7 +100,7 @@ try :
     ))
     CheckForError(vi, configure_measure_record_length.status)
 
-    # configure measure_record_length_is_finite
+    # configure measure_record_length_is_finite attribute
     configure_measure_record_length_is_finite = client.SetAttributeViBoolean(nidcpower_types.SetAttributeViBooleanRequest(
         vi = vi,
         channel_name = channels,
@@ -183,7 +183,7 @@ try :
 
     print(f"Effective measurement rate : {get_measure_record_delta_time.attribute_value}")
 
-    # close API
+    # close the session
     CheckForError(vi, (client.Close(nidcpower_types.CloseRequest(
         vi = vi
         ))).status)
