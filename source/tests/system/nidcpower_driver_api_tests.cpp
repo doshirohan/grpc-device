@@ -486,7 +486,7 @@ TEST_F(NiDCPowerDriverApiTest, ConfigureOutputFunctionAndCurrentLevel_Configures
   EXPECT_EQ(expected_output_function_value, actual_output_function_value);
 }
 
-TEST_F(NiDCPowerDriverApiTest, SetMeasureWhenAndInitiate_MeasureMultiple_ReturnsResultOfExpectedSize)
+TEST_F(NiDCPowerDriverApiTest, SetMeasureWhenAndInitiate_MeasureMultiple_ReturnsSuccess)
 {
   const char* channel_name = ""; // all channels in session
   // Attribute 'NIDCPOWER_ATTRIBUTE_MEASURE_WHEN' must be set to On Demand before calling MeasureMultiple
@@ -500,10 +500,7 @@ TEST_F(NiDCPowerDriverApiTest, SetMeasureWhenAndInitiate_MeasureMultiple_Returns
   dcpower::MeasureMultipleResponse response;
   measure_multiple(channel_name, &response);
 
-  ViInt32 channel_count = get_int32_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_CHANNEL_COUNT);
   EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
-  EXPECT_EQ(channel_count, response.current_measurements_size());
-  EXPECT_EQ(channel_count, response.voltage_measurements_size());
 }
 
 TEST_F(NiDCPowerDriverApiTest, SetMeasureWhenAndInitiate_FetchMultiple_FetchesSuccessfully)
