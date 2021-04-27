@@ -16,7 +16,8 @@ The following function name was capitalised:
 The following functions were tagged with 'init_method': True, to ensure their generated service handler registers the new session with the session_repository:
 - InitializeWithIndependentChannels
 - InitializeWithChannels
-- InitExtCal : Added a 'custom_close' tag to this function, since this API has a corresponding close function called 'CloseExtCal'
+- InitExtCal : 
+    - Also added a 'custom_close' tag to this function, since this API has a corresponding close function called 'CloseExtCal'
 
 The following functions were tagged with their corresponding c_names:
 - reset
