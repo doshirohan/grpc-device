@@ -16,6 +16,14 @@ void CheckStatus(int status)
   }
 }
 
+class DriverErrorException : public std::runtime_error{
+  private:
+    int status_ = 0;
+
+  public:
+    DriverErrorException(int status) : std::runtime_error(""), status_(status) { }
+};
+
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 ::grpc::Status NiDCPowerService::MeasureMultiple(::grpc::ServerContext* context, const MeasureMultipleRequest* request, MeasureMultipleResponse* response)
