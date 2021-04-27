@@ -160,7 +160,7 @@ try :
             # Clear the plot and setup the axis
             plt.clf()
             plt.axis()
-            plt.xlabel("Time")
+            plt.xlabel("Samples")
             plt.ylabel("Amplitude")
 
             fetch_multiple_response = client.FetchMultiple(nidcpower_types.FetchMultipleRequest(
