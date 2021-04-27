@@ -36,8 +36,7 @@ void CheckStatus(int status)
       ViConstString channel_name = request->channel_name().c_str();
 
       ViUInt32 number_of_channels;
-      DriverErrorException ex(library_->ParseChannelCount(vi, channel_name, &number_of_channels));
-      CheckStatus(ex.status());
+      CheckStatus(library_->ParseChannelCount(vi, channel_name, &number_of_channels));
       response->mutable_voltage_measurements()->Resize(number_of_channels, 0.0);
       ViReal64* voltage_measurements = response->mutable_voltage_measurements()->mutable_data();
       response->mutable_current_measurements()->Resize(number_of_channels, 0.0);
