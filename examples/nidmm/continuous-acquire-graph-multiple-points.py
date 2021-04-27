@@ -157,8 +157,7 @@ try:
                 plt.clf()
                 plt.axis()
                 plt.xlabel('Samples')
-                plt.ylabel('Amplitudes')
-                plt.title('Measurements')
+                plt.ylabel('Amplitude')
 
                 # Fetch data
                 fetch_multipoints_response = nidmm_client.FetchMultiPoint(nidmm_types.FetchMultiPointRequest(
