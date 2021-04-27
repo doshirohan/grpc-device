@@ -63,7 +63,7 @@ class NiDmmDriverApiTest : public ::testing::Test {
             ::grpc::ClientContext context;
             dmm::InitWithOptionsRequest request;
             request.set_resource_name("SimulatedDMM");
-            request.set_option_string("Simulate=1, DriverSetup=Model:4065; BoardType:PCI");
+            request.set_option_string("Simulate=1, DriverSetup=Model:4071; BoardType:PXI");
             request.set_session_name("");
             request.set_reset_device(false);
             request.set_id_query(false);
@@ -323,7 +323,7 @@ TEST_F(NiDmmDriverApiTest, ConfigureCurrentSourse_CompletesSuccessfully)
 
 TEST_F(NiDmmDriverApiTest, ExportConfiguredCurrentSource_ResetAndImportConfiguration_CurrentSourceConfigurationIsImported)
 {
-    float expected_value = 0.0001;
+    double expected_value = 0.0001;
     configure_current_source(expected_value);
     
     auto exported_configuration_response = export_attribute_configuration_buffer();
@@ -332,7 +332,7 @@ TEST_F(NiDmmDriverApiTest, ExportConfiguredCurrentSource_ResetAndImportConfigura
 
     import_attribute_configuration_buffer(exported_configuration_response);
 
-    float set_value = get_real64_attribute("", dmm::NiDmmAttributes::NIDMM_ATTRIBUTE_CURRENT_SOURCE);
+    double set_value = get_real64_attribute("", dmm::NiDmmAttributes::NIDMM_ATTRIBUTE_CURRENT_SOURCE);
 
     EXPECT_EQ(expected_value, set_value);
 }
@@ -375,16 +375,14 @@ TEST_F(NiDmmDriverApiTest, SelfCalibrate_CompletesSuccessfully)
   auto selfCalSupportedStatus = GetStub()->GetSelfCalSupported(&selfCalSupportedContext, selfCalSupportedRequest, &selfCalSupportedResponse);
 
   bool supported = selfCalSupportedResponse.self_cal_supported();
-  if (supported) {
-    ::grpc::ClientContext context;
-    dmm::SelfCalRequest request;
-    request.mutable_vi()->set_id(GetSessionId());
-    dmm::SelfCalResponse response;
-    ::grpc::Status status = GetStub()->SelfCal(&context, request, &response);
-
-    EXPECT_TRUE(status.ok());
-    expect_api_success(response.status());
-  }
+  ::grpc::ClientContext context;
+  dmm::SelfCalRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  dmm::SelfCalResponse response;
+  ::grpc::Status status = GetStub()->SelfCal(&context, request, &response);  
+  EXPECT_TRUE(status.ok());
+  expect_api_success(response.status());
+    
 }
 
 } // namespace system
