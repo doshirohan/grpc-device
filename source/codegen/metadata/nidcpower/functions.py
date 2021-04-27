@@ -1352,6 +1352,7 @@ functions = {
       {
         'name': 'powerlineFrequency',
         'direction': 'in',
+        'enum': 'PowerLineFrequences',
         'type': 'ViReal64'
       }
     ],

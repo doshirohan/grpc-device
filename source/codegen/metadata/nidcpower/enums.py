@@ -144,6 +144,18 @@ enums = {
             }
         ]
     },
+    'PowerLineFrequences': {
+        'values': [
+            {
+                'name': 'NIDCPOWER_VAL_50_HERTZ',
+                'value': 50
+            },
+            {
+                'name': 'NIDCPOWER_VAL_60_HERTZ',
+                'value': 60
+            }
+        ]
+    },
     'CurrentLimitBehavior': {
         'values': [
             {

@@ -293,6 +293,7 @@ attributes = {
         'access': 'read-write',
         'channel_based': True,
         'name': 'POWER_LINE_FREQUENCY',
+        'enum': 'PowerLineFrequences',
         'resettable': False,
         'type': 'ViReal64'
     },
