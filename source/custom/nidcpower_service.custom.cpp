@@ -12,11 +12,16 @@ class DriverErrorException : public std::runtime_error{
     DriverErrorException(int status) : std::runtime_error(""), status_(status) { }
     int status()
     {
-      if(status_ != 0){
-        throw DriverErrorException(status_);
-      }
+      return status_;
     }
 };
+
+void CheckStatus(int status)
+{
+  if (status != 0) {
+    throw DriverErrorException(status);
+  }
+}
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
@@ -31,7 +36,8 @@ class DriverErrorException : public std::runtime_error{
       ViConstString channel_name = request->channel_name().c_str();
 
       ViUInt32 number_of_channels;
-      CheckStatus(library_->ParseChannelCount(vi, channel_name, &number_of_channels));
+      DriverErrorException ex(library_->ParseChannelCount(vi, channel_name, &number_of_channels));
+      CheckStatus(ex.status());
       response->mutable_voltage_measurements()->Resize(number_of_channels, 0.0);
       ViReal64* voltage_measurements = response->mutable_voltage_measurements()->mutable_data();
       response->mutable_current_measurements()->Resize(number_of_channels, 0.0);
@@ -45,7 +51,7 @@ class DriverErrorException : public std::runtime_error{
       return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
     }
     catch (DriverErrorException& ex) {
-      response->set_status(ex.status_);
+      response->set_status(ex.status());
       return ::grpc::Status::OK;
     }
   }
