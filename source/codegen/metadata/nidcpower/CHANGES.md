@@ -16,7 +16,7 @@ The following function name was capitalised:
 The following functions were tagged with 'init_method': True, to ensure their generated service handler registers the new session with the session_repository:
 - InitializeWithIndependentChannels
 - InitializeWithChannels
-- InitExtCal
+- InitExtCal : Added a 'custom_close' tag to this function, since this API has a corresponding close function called 'CloseExtCal'
 
 The following functions were tagged with their corresponding c_names:
 - reset
@@ -50,3 +50,9 @@ The following attributes were added :
 - NIDCPOWER_ATTRIBUTE_DIGITAL_EDGE_MEASURE_TRIGGER_EDGE
 - NIDCPOWER_ATTRIBUTE_DIGITAL_EDGE_PULSE_TRIGGER_EDGE
 - NIDCPOWER_ATTRIBUTE_DIGITAL_EDGE_SHUTDOWN_TRIGGER_EDGE
+
+## enums.py
+
+The following enums were added :
+- NIDCPOWER_VAL_CANCEL
+- NIDCPOWER_VAL_COMMIT
