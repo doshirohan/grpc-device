@@ -175,7 +175,7 @@ class NiDmmDriverApiTest : public ::testing::Test {
 
           EXPECT_TRUE(status.ok());
           expect_api_success(response.status());
-          
+
           return response;
         }
 
@@ -334,6 +334,7 @@ TEST_F(NiDmmDriverApiTest, ExportConfiguredCurrentSource_ResetAndImportConfigura
   double expected_value = 0.0001;
   configure_current_source(expected_value);
   auto exported_configuration_response = export_attribute_configuration_buffer();  
+
   reset();  
   import_attribute_configuration_buffer(exported_configuration_response);  
 
@@ -349,9 +350,9 @@ TEST_F(NiDmmDriverApiTest, ConfiguredTrigger_ConfiguresSuccessfully)
   request.set_trigger_source(dmm::TriggerSource::TRIGGER_SOURCE_NIDMM_VAL_SOFTWARE_TRIG);
   request.set_trigger_delay(-1);
   dmm::ConfigureTriggerResponse response;
-  ::grpc::Status configureTriggerStatus = GetStub()->ConfigureTrigger(&context, request, &response); 
+  ::grpc::Status status = GetStub()->ConfigureTrigger(&context, request, &response); 
 
-  EXPECT_TRUE(configureTriggerStatus.ok());
+  EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
 }
 
@@ -362,7 +363,8 @@ TEST_F(NiDmmDriverApiTest, AcquireMeasurement_CompletesSuccesfully)
   request.mutable_vi()->set_id(GetSessionId());
   request.set_maximum_time(1000);
   dmm::ReadResponse response;
-  ::grpc::Status status = GetStub()->Read(&context, request, &response);  
+  ::grpc::Status status = GetStub()->Read(&context, request, &response); 
+
   EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
   EXPECT_NE(0, response.reading());
