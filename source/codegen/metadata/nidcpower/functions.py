@@ -1035,6 +1035,7 @@ functions = {
       {
         'name': 'action',
         'direction': 'in',
+        'enum': 'CalibrationCloseAction',
         'type': 'ViInt32'
       }
     ],
@@ -2488,6 +2489,7 @@ functions = {
   },
   'InitExtCal': {
     'init_method' : True,
+    'custom_close': 'CloseExtCal(id, NIDCPOWER_VAL_CANCEL'),
     'parameters': [
       {
         'name': 'resourceName',
