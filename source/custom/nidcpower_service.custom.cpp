@@ -4,24 +4,18 @@
 
 namespace nidcpower_grpc {
 
-struct DriverErrorException : std::runtime_error {
-  DriverErrorException(int status) : std::runtime_error("") { status_ = status; }
-  int status_ = 0;
-};
-
-void CheckStatus(int status)
-{
-  if (status != 0) {
-    throw DriverErrorException(status);
-  }
-}
-
 class DriverErrorException : public std::runtime_error{
   private:
     int status_ = 0;
 
   public:
     DriverErrorException(int status) : std::runtime_error(""), status_(status) { }
+    int status()
+    {
+      if(status_ != 0){
+        throw DriverErrorException(status_);
+      }
+    }
 };
 
 //---------------------------------------------------------------------
