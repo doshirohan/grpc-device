@@ -72,15 +72,15 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
 
   void initiate()
   {
-      dcpower::InitiateRequest request;
-      dcpower::InitiateResponse response;
-      ::grpc::ClientContext context;
-      request.mutable_vi()->set_id(GetSessionId());
+    dcpower::InitiateRequest request;
+    dcpower::InitiateResponse response;
+    ::grpc::ClientContext context;
+    request.mutable_vi()->set_id(GetSessionId());
 
-      ::grpc::Status status = GetStub()->Initiate(&context, request, &response);
+    ::grpc::Status status = GetStub()->Initiate(&context, request, &response);
 
-      EXPECT_TRUE(status.ok());
-      EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   }
 
   void close_driver_session()
@@ -267,18 +267,18 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   }
 
-  void fetch_multiple(const char* channel_name, const int expected_count, nidcpower_grpc::FetchMultipleResponse* response)
+  void fetch_multiple(const char* channel_name, nidcpower_grpc::FetchMultipleResponse* response)
   {
-      ::grpc::ClientContext context;
-      dcpower::FetchMultipleRequest request;
-      request.mutable_vi()->set_id(GetSessionId());
-      request.set_channel_name(channel_name);
-      request.set_timeout(5);
-      request.set_count(expected_count);
+    ::grpc::ClientContext context;
+    dcpower::FetchMultipleRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_channel_name(channel_name);
+    request.set_timeout(5);
+    request.set_count(20);
 
-      ::grpc::Status status = GetStub()->FetchMultiple(&context, request, response);
+    ::grpc::Status status = GetStub()->FetchMultiple(&context, request, response);
 
-      EXPECT_TRUE(status.ok());
+    EXPECT_TRUE(status.ok());
   }
 
   void import_attribute_configuration_buffer(dcpower::ExportAttributeConfigurationBufferResponse export_buffer_response)
@@ -474,10 +474,9 @@ TEST_F(NiDCPowerDriverApiTest, ConfigureOutputFunctionAndCurrentLevel_Configures
   EXPECT_EQ(expected_output_function_value, actual_output_function_value);
 }
 
-TEST_F(NiDCPowerDriverApiTest, SetMeasureWhenAndInitiate_FetchMultiple_ReturnsResultOfExpectedSize)
+TEST_F(NiDCPowerDriverApiTest, SetMeasureWhenAndInitiate_FetchMultiple_FetchesSuccessfully)
 {
   const char* channel_name = "0";
-  const int expected_count = 20;
   // Attribute 'NIDCPOWER_ATTRIBUTE_MEASURE_WHEN' must be set before calling FetchMultiple
   set_int32_attribute(
     channel_name, 
@@ -487,13 +486,9 @@ TEST_F(NiDCPowerDriverApiTest, SetMeasureWhenAndInitiate_FetchMultiple_ReturnsRe
   initiate();
 
   dcpower::FetchMultipleResponse response;
-  fetch_multiple(channel_name, expected_count, &response);
+  fetch_multiple(channel_name, &response);
 
   EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
-  EXPECT_EQ(expected_count, response.actual_count());
-  EXPECT_EQ(expected_count, response.voltage_measurements_size());
-  EXPECT_EQ(expected_count, response.current_measurements_size());
-  EXPECT_EQ(expected_count, response.in_compliance_size());
 }
 
 TEST_F(NiDCPowerDriverApiTest, VoltageLevelConfiguredAndExportedToBuffer_ResetAndImportConfigurationFromBuffer_ConfigurationIsImportedSuccessfully)
