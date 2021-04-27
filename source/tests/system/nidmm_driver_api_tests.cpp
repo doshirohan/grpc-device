@@ -368,21 +368,14 @@ TEST_F(NiDmmDriverApiTest, AcquireMeasurement_CompletesSuccesfully)
 
 TEST_F(NiDmmDriverApiTest, SelfCalibrate_CompletesSuccessfully)
 {
-  ::grpc::ClientContext selfCalSupportedContext;
-  dmm::GetSelfCalSupportedRequest selfCalSupportedRequest;
-  selfCalSupportedRequest.mutable_vi()->set_id(GetSessionId());
-  dmm::GetSelfCalSupportedResponse selfCalSupportedResponse;
-  auto selfCalSupportedStatus = GetStub()->GetSelfCalSupported(&selfCalSupportedContext, selfCalSupportedRequest, &selfCalSupportedResponse);
-
-  bool supported = selfCalSupportedResponse.self_cal_supported();
   ::grpc::ClientContext context;
   dmm::SelfCalRequest request;
   request.mutable_vi()->set_id(GetSessionId());
   dmm::SelfCalResponse response;
   ::grpc::Status status = GetStub()->SelfCal(&context, request, &response);  
+  
   EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
-    
 }
 
 } // namespace system
