@@ -153,7 +153,7 @@ try :
 
     x_axis = np.arange(start=1, stop=record_length+1, step=1)
 
-    print("\nReading values in loop. Close window to stop.\n")
+    print("\nReading values in loop. CTRL+C or Close window to stop.\n")
 
     try:
         while not closed:
@@ -166,7 +166,7 @@ try :
             fetch_multiple_response = client.FetchMultiple(nidcpower_types.FetchMultipleRequest(
                 vi = vi,
                 channel_name = channels,
-                timeout = 0.001,
+                timeout = get_measure_record_delta_time.attribute_value,
                 count = record_length
             ))
             CheckForError(vi, fetch_multiple_response.status)
@@ -175,13 +175,14 @@ try :
             plt.plot(x_axis, y_axis)
             plt.pause(1)
 
-            record_length += 100
+            record_length += 50
             x_axis = np.arange(start=1, stop=record_length+1, step=1)
-
+            time.sleep(0.1)
+            
     except KeyboardInterrupt:
         pass
 
-    print(f"Effective measurement rate : {get_measure_record_delta_time.attribute_value}")
+    print(f"Effective measurement rate : {1/get_measure_record_delta_time.attribute_value}")
 
     # close the session
     CheckForError(vi, (client.Close(nidcpower_types.CloseRequest(
