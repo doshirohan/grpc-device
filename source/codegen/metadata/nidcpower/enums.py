@@ -144,7 +144,7 @@ enums = {
             }
         ]
     },
-    'PowerLineFrequences': {
+    'PowerLineFrequencies': {
         'values': [
             {
                 'name': 'NIDCPOWER_VAL_50_HERTZ',

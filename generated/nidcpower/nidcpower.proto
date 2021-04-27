@@ -374,10 +374,10 @@ enum ComplianceLimitSymmetry {
   COMPLIANCE_LIMIT_SYMMETRY_NIDCPOWER_VAL_ASYMMETRIC = 1;
 }
 
-enum PowerLineFrequences {
-  POWER_LINE_FREQUENCES_UNSPECIFIED = 0;
-  POWER_LINE_FREQUENCES_NIDCPOWER_VAL_50_HERTZ = 50;
-  POWER_LINE_FREQUENCES_NIDCPOWER_VAL_60_HERTZ = 60;
+enum PowerLineFrequencies {
+  POWER_LINE_FREQUENCIES_UNSPECIFIED = 0;
+  POWER_LINE_FREQUENCIES_NIDCPOWER_VAL_50_HERTZ = 50;
+  POWER_LINE_FREQUENCIES_NIDCPOWER_VAL_60_HERTZ = 60;
 }
 
 enum DCNoiseRejection {
@@ -1146,7 +1146,7 @@ message ConfigureOutputResistanceResponse {
 message ConfigurePowerLineFrequencyRequest {
   nidevice_grpc.Session vi = 1;
   oneof powerline_frequency_enum {
-    PowerLineFrequences powerline_frequency = 2;
+    PowerLineFrequencies powerline_frequency = 2;
     double powerline_frequency_raw = 3;
   }
 }
