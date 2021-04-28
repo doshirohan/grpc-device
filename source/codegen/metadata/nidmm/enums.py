@@ -73,6 +73,14 @@ enums = {
             }
         ]
     },
+    'BufferSize': {
+        'values': [
+            {
+                'name': 'NIDMM_VAL_BUFFER_SIZE_AUTO',
+                'value': -1
+            }
+        ]
+    },
     'CableCompensationType': {
         'values': [
             {
@@ -126,6 +134,14 @@ enums = {
             {
                 'name': 'NIDMM_VAL_OFFSET_COMP_OHMS_ON',
                 'value': 1
+            }
+        ]
+    },
+    'ControlCommit': {
+        'values': [
+            {
+                'name': 'NIDMM_VAL_CONTROL_COMMIT',
+                'value': 0
             }
         ]
     },
@@ -222,6 +238,14 @@ enums = {
             {
                 'name': 'NIDMM_VAL_INDUCTANCE',
                 'value': 1006
+            }
+        ]
+    },
+    'Latency': {
+        'values': [
+            {
+                'name': 'NIDMM_VAL_LATENCY_AUTO',
+                'value': -1
             }
         ]
     },
@@ -518,6 +542,14 @@ enums = {
             {
                 'name': 'NIDMM_VAL_LBR_TRIG1',
                 'value': 1004
+            }
+        ]
+    },
+    'SettleTime': {
+        'values': [
+            {
+                'name': 'NIDMM_VAL_SETTLE_TIME_AUTO',
+                'value': -1
             }
         ]
     },

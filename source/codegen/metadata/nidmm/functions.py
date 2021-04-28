@@ -871,7 +871,8 @@ functions = {
         {
             "name": "controlAction",
             "direction": "in",
-            "type": "ViInt32"
+            "type": "ViInt32",
+            "enum": "ControlCommit"
         }
         ],
         "returns": "ViStatus"

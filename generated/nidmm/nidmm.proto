@@ -246,6 +246,11 @@ enum AutoZero {
   AUTO_ZERO_NIDMM_VAL_AUTO_ZERO_ONCE = 2;
 }
 
+enum BufferSize {
+  BUFFER_SIZE_UNSPECIFIED = 0;
+  BUFFER_SIZE_NIDMM_VAL_BUFFER_SIZE_AUTO = -1;
+}
+
 enum CableCompensationType {
   option allow_alias = true;
   CABLE_COMPENSATION_TYPE_UNSPECIFIED = 0;
@@ -274,6 +279,12 @@ enum CompensatedOhms {
   COMPENSATED_OHMS_UNSPECIFIED = 0;
   COMPENSATED_OHMS_NIDMM_VAL_OFFSET_COMP_OHMS_OFF = 0;
   COMPENSATED_OHMS_NIDMM_VAL_OFFSET_COMP_OHMS_ON = 1;
+}
+
+enum ControlCommit {
+  option allow_alias = true;
+  CONTROL_COMMIT_UNSPECIFIED = 0;
+  CONTROL_COMMIT_NIDMM_VAL_CONTROL_COMMIT = 0;
 }
 
 enum DcBias {
@@ -309,6 +320,11 @@ enum Function {
   FUNCTION_NIDMM_VAL_WAVEFORM_CURRENT = 1004;
   FUNCTION_NIDMM_VAL_CAPACITANCE = 1005;
   FUNCTION_NIDMM_VAL_INDUCTANCE = 1006;
+}
+
+enum Latency {
+  LATENCY_UNSPECIFIED = 0;
+  LATENCY_NIDMM_VAL_LATENCY_AUTO = -1;
 }
 
 enum LcCalculationModel {
@@ -406,6 +422,11 @@ enum SampleTrigger {
   SAMPLE_TRIGGER_NIDMM_VAL_PXI_STAR = 131;
   SAMPLE_TRIGGER_NIDMM_VAL_AUX_TRIG1 = 1001;
   SAMPLE_TRIGGER_NIDMM_VAL_LBR_TRIG1 = 1004;
+}
+
+enum SettleTime {
+  SETTLE_TIME_UNSPECIFIED = 0;
+  SETTLE_TIME_NIDMM_VAL_SETTLE_TIME_AUTO = -1;
 }
 
 enum ThermistorType {
@@ -935,7 +956,10 @@ message ConfigureWaveformCouplingResponse {
 
 message ControlRequest {
   nidevice_grpc.Session vi = 1;
-  sint32 control_action = 2;
+  oneof control_action_enum {
+    ControlCommit control_action = 2;
+    sint32 control_action_raw = 3;
+  }
 }
 
 message ControlResponse {
