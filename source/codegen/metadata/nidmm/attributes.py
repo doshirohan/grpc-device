@@ -379,7 +379,7 @@ attributes = {
     1150061: {
         'access': 'read only',
         'channel_based': False,
-        'name': 'INSTRUMENT_PRODUCT_ID',
+        'name': 'CONFIG_PRODUCT_NUMBER',
         'resettable': False,
         'type': 'ViInt32'
     },
