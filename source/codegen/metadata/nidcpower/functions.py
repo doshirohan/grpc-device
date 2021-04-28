@@ -49,7 +49,8 @@ functions = {
       {
         'name': 'edge',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'DigitalEdge'
       }
     ],
     'returns': 'ViStatus'
@@ -74,7 +75,8 @@ functions = {
       {
         'name': 'edge',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'DigitalEdge'
       }
     ],
     'returns': 'ViStatus'
@@ -99,7 +101,8 @@ functions = {
       {
         'name': 'edge',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'DigitalEdge'
       }
     ],
     'returns': 'ViStatus'
@@ -124,7 +127,8 @@ functions = {
       {
         'name': 'edge',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'DigitalEdge'
       }
     ],
     'returns': 'ViStatus'
@@ -149,7 +153,8 @@ functions = {
       {
         'name': 'edge',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'DigitalEdge'
       }
     ],
     'returns': 'ViStatus'
@@ -174,7 +179,8 @@ functions = {
       {
         'name': 'edge',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'DigitalEdge'
       }
     ],
     'returns': 'ViStatus'
@@ -310,7 +316,8 @@ functions = {
       {
         'name': 'sourceMode',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'SourceMode'
       }
     ],
     'returns': 'ViStatus'
@@ -563,7 +570,8 @@ functions = {
       {
         'name': 'signal',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'ExportSignal'
       },
       {
         'name': 'signalIdentifier',
@@ -659,7 +667,8 @@ functions = {
       {
         'name': 'trigger',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'ExportSignal'
       }
     ],
     'returns': 'ViStatus'
@@ -679,7 +688,8 @@ functions = {
       {
         'name': 'eventId',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'ExportSignal'
       },
       {
         'name': 'timeout',
@@ -795,7 +805,8 @@ functions = {
       {
         'name': 'internalReference',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'InternalReference'
       },
       {
         'name': 'adjustedInternalReference',
@@ -1035,6 +1046,7 @@ functions = {
       {
         'name': 'action',
         'direction': 'in',
+        'enum': 'CalibrationCloseAction',
         'type': 'ViInt32'
       }
     ],
@@ -1152,7 +1164,8 @@ functions = {
       {
         'name': 'behavior',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'CurrentLimitBehavior'
       },
       {
         'name': 'limit',
@@ -1197,7 +1210,8 @@ functions = {
       {
         'name': 'edge',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'DigitalEdge'
       }
     ],
     'returns': 'ViStatus'
@@ -1217,7 +1231,8 @@ functions = {
       {
         'name': 'edge',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'DigitalEdge'
       }
     ],
     'returns': 'ViStatus'
@@ -1237,7 +1252,8 @@ functions = {
       {
         'name': 'edge',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'DigitalEdge'
       }
     ],
     'returns': 'ViStatus'
@@ -1257,7 +1273,8 @@ functions = {
       {
         'name': 'edge',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'DigitalEdge'
       }
     ],
     'returns': 'ViStatus'
@@ -1277,7 +1294,8 @@ functions = {
       {
         'name': 'edge',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'DigitalEdge'
       }
     ],
     'returns': 'ViStatus'
@@ -1317,7 +1335,8 @@ functions = {
       {
         'name': 'function',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'OutputFunction'
       }
     ],
     'returns': 'ViStatus'
@@ -1612,7 +1631,8 @@ functions = {
       {
         'name': 'sense',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'Sense'
       }
     ],
     'returns': 'ViStatus'
@@ -1677,7 +1697,8 @@ functions = {
       {
         'name': 'sourceMode',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'SourceMode'
       }
     ],
     'returns': 'ViStatus'
@@ -1772,7 +1793,8 @@ functions = {
       {
         'name': 'internalReference',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'InternalReference'
       }
     ],
     'returns': 'ViStatus'
@@ -2488,6 +2510,7 @@ functions = {
   },
   'InitExtCal': {
     'init_method' : True,
+    'custom_close': 'CloseExtCal(id, NIDCPOWER_VAL_CANCEL)',
     'parameters': [
       {
         'name': 'resourceName',
@@ -2590,6 +2613,7 @@ functions = {
     'returns': 'ViStatus'
   },
   'MeasureMultiple': {
+    'codegen_method': 'CustomCode',
     'parameters': [
       {
         'name': 'vi',
@@ -2606,7 +2630,7 @@ functions = {
         'direction': 'out',
         'type': 'ViReal64[]',
         'size': {
-          'mechanism': 'source-code',
+          'mechanism': 'custom-code',
           'size': 'number_of_channels'
         }
       },
@@ -2615,7 +2639,7 @@ functions = {
         'direction': 'out',
         'type': 'ViReal64[]',
         'size': {
-          'mechanism': 'source-code',
+          'mechanism': 'custom-code',
           'size': 'number_of_channels'
         }
       }
@@ -2884,7 +2908,8 @@ functions = {
       {
         'name': 'trigger',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'ExportSignal'
       }
     ],
     'returns': 'ViStatus'
@@ -3117,7 +3142,8 @@ functions = {
       {
         'name': 'eventId',
         'direction': 'in',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'ExportSignal'
       },
       {
         'name': 'timeout',
