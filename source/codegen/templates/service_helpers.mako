@@ -6,7 +6,7 @@
 ## Generate the core method body for an Init method. This should be what gets included within the try block in the service method.
 <%def name="define_init_method_body(function_name, function_data, parameters)">\
 <%
-  config = data['config'] 
+  config = data['config']
   output_parameters = [p for p in parameters if common_helpers.is_output_parameter(p)]
   session_output_param = next((parameter for parameter in output_parameters if parameter['type'] == 'ViSession'), None)
   session_output_var_name = session_output_param['cppName']
