@@ -10,7 +10,8 @@ functions = {
             {
                 "name":"configuration",
                 "direction":"in",
-                "type":"ViInt32"
+                "type":"ViInt32",
+                "enum": "Configuration4022"
             }
         ],
         "returns":"ViStatus"
