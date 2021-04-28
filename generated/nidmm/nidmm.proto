@@ -470,6 +470,12 @@ enum TransducerType {
   TRANSDUCER_TYPE_NIDMM_VAL_4_WIRE_RTD = 4;
 }
 
+enum TriggerDelays {
+  TRIGGER_DELAYS_UNSPECIFIED = 0;
+  TRIGGER_DELAYS_NIDMM_VAL_AUTO_DELAY_ON = -1;
+  TRIGGER_DELAYS_NIDMM_VAL_AUTO_DELAY_OFF = -2;
+}
+
 enum TriggerSource {
   TRIGGER_SOURCE_UNSPECIFIED = 0;
   TRIGGER_SOURCE_NIDMM_VAL_IMMEDIATE = 1;
@@ -930,7 +936,10 @@ message ConfigureTriggerRequest {
     TriggerSource trigger_source = 2;
     sint32 trigger_source_raw = 3;
   }
-  double trigger_delay = 4;
+  oneof trigger_delay_enum {
+    TriggerDelays trigger_delay = 4;
+    double trigger_delay_raw = 5;
+  }
 }
 
 message ConfigureTriggerResponse {

@@ -798,6 +798,7 @@ functions = {
             {
                 'direction': 'in',
                 'name': 'triggerDelay',
+                'enum': 'TriggerDelays',
                 'type': 'ViReal64',
             }
         ],

@@ -1022,7 +1022,19 @@ namespace nidmm_grpc {
           break;
       }
 
-      ViReal64 trigger_delay = request->trigger_delay();
+      ViReal64 trigger_delay;
+      switch (request->trigger_delay_enum_case()) {
+        case nidmm_grpc::ConfigureTriggerRequest::TriggerDelayEnumCase::kTriggerDelay:
+          trigger_delay = (ViReal64)request->trigger_delay();
+          break;
+        case nidmm_grpc::ConfigureTriggerRequest::TriggerDelayEnumCase::kTriggerDelayRaw:
+          trigger_delay = (ViReal64)request->trigger_delay_raw();
+          break;
+        case nidmm_grpc::ConfigureTriggerRequest::TriggerDelayEnumCase::TRIGGER_DELAY_ENUM_NOT_SET:
+          return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for trigger_delay was not specified or out of range");
+          break;
+      }
+
       auto status = library_->ConfigureTrigger(vi, trigger_source, trigger_delay);
       response->set_status(status);
       return ::grpc::Status::OK;

@@ -677,6 +677,18 @@ enums = {
             }
         ]
     },
+    'TriggerDelays': {
+        'values': [
+            {
+                'name': 'NIDMM_VAL_AUTO_DELAY_ON',
+                'value': -1
+            },
+            {
+                'name': 'NIDMM_VAL_AUTO_DELAY_OFF',
+                'value': -2
+            }
+        ]
+    },
     'TriggerSlope': {
         'values': [
             {
