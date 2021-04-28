@@ -72,7 +72,7 @@ channel = grpc.insecure_channel(f"{server_address}:{server_port}")
 client = grpc_nidcpower.NiDCPowerStub(channel)
 
 try :
-    # Initialise the session
+    # Initialize the session.
     initialize_with_independent_channels_response = client.InitializeWithIndependentChannels(nidcpower_types.InitializeWithIndependentChannelsRequest(
         session_name = session_name,
         resource_name = resource,
@@ -82,7 +82,7 @@ try :
     vi = initialize_with_independent_channels_response.vi
     CheckForError(vi, initialize_with_independent_channels_response.status)
 
-    # configure measure_when attribute
+    # Specify when the measure unit should acquire measurements.
     configure_measure_when = client.SetAttributeViInt32(nidcpower_types.SetAttributeViInt32Request(
         vi = vi,
         channel_name = channels,
@@ -91,7 +91,7 @@ try :
     ))
     CheckForError(vi, configure_measure_when.status)
 
-    # configure measure_record_length attribute
+    # Sspecify how many measurements compose a measure record.
     configure_measure_record_length = client.SetAttributeViInt32(nidcpower_types.SetAttributeViInt32Request(
         vi = vi,
         channel_name = channels,
@@ -100,7 +100,7 @@ try :
     ))
     CheckForError(vi, configure_measure_record_length.status)
 
-    # configure measure_record_length_is_finite attribute
+    # Specify whether to take continuous measurements. Set it to False for continuous measurement.
     configure_measure_record_length_is_finite = client.SetAttributeViBoolean(nidcpower_types.SetAttributeViBooleanRequest(
         vi = vi,
         channel_name = channels,
@@ -109,7 +109,7 @@ try :
     ))
     CheckForError(vi, configure_measure_record_length_is_finite.status)
 
-    # configure voltage level
+    # set the voltage level.
     configure_voltage_level = client.ConfigureVoltageLevel(nidcpower_types.ConfigureVoltageLevelRequest(
         vi = vi,
         channel_name = channels,
@@ -117,14 +117,14 @@ try :
     ))
     CheckForError(vi, configure_voltage_level.status)
 
-    # commit the session
+    # commit the session.
     commit_with_channels = client.CommitWithChannels(nidcpower_types.CommitWithChannelsRequest(
         vi = vi,
         channel_name = channels
     ))
     CheckForError(vi, commit_with_channels.status)
 
-    # get measure_record_delta_time
+    # get measure_record_delta_time.
     get_measure_record_delta_time = client.GetAttributeViReal64(nidcpower_types.GetAttributeViReal64Request(
        vi = vi,
        channel_name = channels,
@@ -132,19 +132,19 @@ try :
     ))
     CheckForError(vi, get_measure_record_delta_time.status)
 
-    # initiate the session
+    # initiate the session.
     initiate_with_channels = client.InitiateWithChannels(nidcpower_types.InitiateWithChannelsRequest(
         vi = vi,
         channel_name = channels
     ))
     CheckForError(vi, initiate_with_channels.status)
 
-    # Setup a plot to draw the captured waveform
+    # Setup a plot to draw the captured waveform.
     fig = plt.figure("Waveform Graph")
     fig.show()
     fig.canvas.draw()
 
-    # Handle closing of plot window
+    # Handle closing of plot window.
     closed = False
     def on_close(event):
         global closed
@@ -157,7 +157,7 @@ try :
 
     try:
         while not closed:
-            # Clear the plot and setup the axis
+            # Clear the plot and setup the axis.
             plt.clf()
             plt.axis()
             plt.xlabel("Samples")
@@ -184,7 +184,7 @@ try :
 
     print(f"Effective measurement rate : {1/get_measure_record_delta_time.attribute_value}")
 
-    # close the session
+    # close the session.
     CheckForError(vi, (client.Close(nidcpower_types.CloseRequest(
         vi = vi
         ))).status)
