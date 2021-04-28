@@ -185,6 +185,7 @@ attributes = {
         'access': 'read-write',
         'channel_based': False,
         'name': 'MEAS_DEST_SLOPE',
+        "enum": "MeasurementDestinationSlope",
         'resettable': False,
         'type': 'ViInt32'
     },
@@ -199,6 +200,7 @@ attributes = {
         'access': 'read-write',
         'channel_based': False,
         'name': 'SAMPLE_TRIGGER_SLOPE',
+        'enum': 'SampleTrigSlope',
         'resettable': False,
         'type': 'ViInt32'
     },
@@ -627,6 +629,7 @@ attributes = {
         'access': 'read-write',
         'channel_based': False,
         'name': 'TRIGGER_SLOPE',
+        'enum': 'TriggerSlope',
         'resettable': False,
         'type': 'ViInt32'
     }
