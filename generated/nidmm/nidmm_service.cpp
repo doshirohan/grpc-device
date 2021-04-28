@@ -709,7 +709,19 @@ namespace nidmm_grpc {
     try {
       auto vi_grpc_session = request->vi();
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
-      ViInt32 offset_comp_ohms = request->offset_comp_ohms();
+      ViInt32 offset_comp_ohms;
+      switch (request->offset_comp_ohms_enum_case()) {
+        case nidmm_grpc::ConfigureOffsetCompOhmsRequest::OffsetCompOhmsEnumCase::kOffsetCompOhms:
+          offset_comp_ohms = (ViInt32)request->offset_comp_ohms();
+          break;
+        case nidmm_grpc::ConfigureOffsetCompOhmsRequest::OffsetCompOhmsEnumCase::kOffsetCompOhmsRaw:
+          offset_comp_ohms = (ViInt32)request->offset_comp_ohms_raw();
+          break;
+        case nidmm_grpc::ConfigureOffsetCompOhmsRequest::OffsetCompOhmsEnumCase::OFFSET_COMP_OHMS_ENUM_NOT_SET:
+          return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for offset_comp_ohms was not specified or out of range");
+          break;
+      }
+
       auto status = library_->ConfigureOffsetCompOhms(vi, offset_comp_ohms);
       response->set_status(status);
       return ::grpc::Status::OK;
@@ -750,7 +762,19 @@ namespace nidmm_grpc {
     try {
       auto vi_grpc_session = request->vi();
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
-      ViReal64 power_line_frequency_hz = request->power_line_frequency_hz();
+      ViReal64 power_line_frequency_hz;
+      switch (request->power_line_frequency_hz_enum_case()) {
+        case nidmm_grpc::ConfigurePowerLineFrequencyRequest::PowerLineFrequencyHzEnumCase::kPowerLineFrequencyHz:
+          power_line_frequency_hz = (ViReal64)request->power_line_frequency_hz();
+          break;
+        case nidmm_grpc::ConfigurePowerLineFrequencyRequest::PowerLineFrequencyHzEnumCase::kPowerLineFrequencyHzRaw:
+          power_line_frequency_hz = (ViReal64)request->power_line_frequency_hz_raw();
+          break;
+        case nidmm_grpc::ConfigurePowerLineFrequencyRequest::PowerLineFrequencyHzEnumCase::POWER_LINE_FREQUENCY_HZ_ENUM_NOT_SET:
+          return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for power_line_frequency_hz was not specified or out of range");
+          break;
+      }
+
       auto status = library_->ConfigurePowerLineFrequency(vi, power_line_frequency_hz);
       response->set_status(status);
       return ::grpc::Status::OK;
@@ -1254,7 +1278,8 @@ namespace nidmm_grpc {
       auto status = library_->GetApertureTimeInfo(vi, &aperture_time, &aperture_time_units);
       response->set_status(status);
       if (status == 0) {
-        response->set_aperture_time(aperture_time);
+        response->set_aperture_time(static_cast<nidmm_grpc::ApertureTime>(aperture_time));
+        response->set_aperture_time_raw(aperture_time);
         response->set_aperture_time_units(static_cast<nidmm_grpc::ApertureTimeUnits>(aperture_time_units));
         response->set_aperture_time_units_raw(aperture_time_units);
       }

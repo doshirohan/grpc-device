@@ -587,6 +587,7 @@ attributes = {
         'access': 'read-write',
         'channel_based': False,
         'name': 'APERTURE_TIME',
+        'enum': 'ApertureTime',
         'resettable': False,
         'type': 'ViReal64'
     },
@@ -617,6 +618,7 @@ attributes = {
         'access': 'read-write',
         'channel_based': False,
         'name': 'POWERLINE_FREQ',
+        'enum': 'PowerLineFrequencies',
         'resettable': False,
         'type': 'ViReal64'
     },

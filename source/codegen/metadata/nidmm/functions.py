@@ -580,7 +580,8 @@ functions = {
         {
             "name": "offsetCompOhms",
             "direction": "in",
-            "type": "ViInt32"
+            "type": "ViInt32",
+            "enum": "CompensatedOhms"
         }
         ],
         "returns": "ViStatus"
@@ -615,7 +616,8 @@ functions = {
         {
             "name": "powerLineFrequencyHz",
             "direction": "in",
-            "type": "ViReal64"
+            "type": "ViReal64",
+            "enum": "PowerLineFrequencies"
         }
         ],
         "returns": "ViStatus"
@@ -1026,7 +1028,8 @@ functions = {
         {
             "name": "apertureTime",
             "direction": "out",
-            "type": "ViReal64"
+            "type": "ViReal64",
+            "enum": "ApertureTime"
         },
         {
             "name": "apertureTimeUnits",

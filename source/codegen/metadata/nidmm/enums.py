@@ -41,6 +41,42 @@ enums = {
             }
         ]
     },
+    'ApertureTime': {
+        'values': [
+            {
+                'name': 'NIDMM_VAL_APERTURE_TIME_AUTO',
+                'value': -1
+            },
+            {
+                'name': 'NIDMM_VAL_1_PLC',
+                'value': 1
+            },
+            {
+                'name': 'NIDMM_VAL_5_PLC',
+                'value': 5
+            },
+            {
+                'name': 'NIDMM_VAL_6_PLC',
+                'value': 6
+            },
+            {
+                'name': 'NIDMM_VAL_10_PLC',
+                'value': 10
+            },
+            {
+                'name': 'NIDMM_VAL_12_PLC',
+                'value': 12
+            },
+            {
+                'name': 'NIDMM_VAL_100_PLC',
+                'value': 100
+            },
+            {
+                'name': 'NIDMM_VAL_120_PLC',
+                'value': 120
+            }
+        ]
+    },
     'ApertureTimeUnits': {
         'values': [
             {
@@ -394,6 +430,18 @@ enums = {
             {
                 'name': 'NIDMM_VAL_WAVEFORM_MODE',
                 'value': 1
+            }
+        ]
+    },
+    'PowerLineFrequencies': {
+        'values': [
+            {
+                'name': 'NIDMM_VAL_50_HERTZ',
+                'value': 50
+            },
+            {
+                'name': 'NIDMM_VAL_60_HERTZ',
+                'value': 60
             }
         ]
     },
