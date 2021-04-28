@@ -173,7 +173,7 @@ try :
             y_axis = fetch_multiple_response.voltage_measurements
 
             plt.plot(x_axis, y_axis)
-            plt.pause(1)
+            plt.pause(0.001)
 
             record_length += 50
             x_axis = np.arange(start=1, stop=record_length+1, step=1)
