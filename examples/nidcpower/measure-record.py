@@ -184,11 +184,6 @@ try :
 
     print(f"Effective measurement rate : {1/get_measure_record_delta_time.attribute_value}")
 
-    # close the session.
-    CheckForError(vi, (client.Close(nidcpower_types.CloseRequest(
-        vi = vi
-        ))).status)
-
 except grpc.RpcError as rpc_error:
     error_message = rpc_error.details()
     if rpc_error.code() == grpc.StatusCode.UNAVAILABLE :
@@ -196,3 +191,10 @@ except grpc.RpcError as rpc_error:
     elif rpc_error.code() == grpc.StatusCode.UNIMPLEMENTED:
         error_message = f"Function not implemented"
     print(f"{error_message}") 
+
+finally:
+    if('vi' in vars() and vi.id != 0):
+        # close the session.
+        CheckForError(vi, (client.Close(nidcpower_types.CloseRequest(
+            vi = vi
+        ))).status)
