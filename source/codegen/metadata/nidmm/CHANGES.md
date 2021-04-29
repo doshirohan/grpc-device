@@ -31,6 +31,7 @@ Metadata for following attributes added:
 - `'MEAS_DEST_SLOPE'`
 - `'LATENCY'`
 - `'SHUNT_VALUE'`
+- `'CONFIG_PRODUCT_NUMBER'`
 
 `'enum'` key added to attributes that make use enums but had their enums missing, after adding those respective enums to `enums.py`.
 
@@ -42,12 +43,17 @@ All occurrences of the following keys were removed along with their values:
 Enums with more than 2 consecutive uppercase letters in their name (as abbreviations) have been changed to the letters other than first letter in the abbreviation to lowercase. eg. DCBias to DcBias, ADCCalibration to AdcCalibration, etc. 
 
 Metadata for following enums added:
+- `'BufferSize'`
 - `'CalibrationCloseAction'`
 - `'CalibrationType'`
 - `'CompensatedOhms'`
+- `'ControlCommit'`
 - `'DcBias'`
+- `'Latency'`
 - `'MiscCalibration'`
 - `'Range'`
+- `'SettleTime'`
+- `'Slopes'`
 
 ## functions.py
 
