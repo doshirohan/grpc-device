@@ -174,9 +174,6 @@ try :
 
             plt.plot(x_axis, y_axis)
             plt.pause(0.001)
-
-            record_length += 50
-            x_axis = np.arange(start=1, stop=record_length+1, step=1)
             time.sleep(0.1)
             
     except KeyboardInterrupt:
