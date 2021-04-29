@@ -65,7 +65,7 @@ def ThrowOnError (vi, error_code):
         error_code = error_code
         )
     error_message_response = client.ErrorMessage(error_message_request)
-    raise Exception (error_message_response)
+    raise Exception (error_message_response.error_message)
 
 # Create the communication channel for the remote host and create connections to the NI-DCPower and session services.
 channel = grpc.insecure_channel(f"{server_address}:{server_port}")
@@ -193,4 +193,6 @@ except grpc.RpcError as rpc_error:
     error_message = rpc_error.details()
     if rpc_error.code() == grpc.StatusCode.UNAVAILABLE :
         error_message = f"Failed to connect to server on {server_address}"
+    elif rpc_error.code() == grpc.StatusCode.UNIMPLEMENTED:
+        error_message = f"Function not implemented"
     print(f"{error_message}") 
