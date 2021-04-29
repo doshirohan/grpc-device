@@ -42,12 +42,16 @@ All occurrences of the following keys were removed along with their values:
 Enums with more than 2 consecutive uppercase letters in their name (as abbreviations) have been changed to the letters other than first letter in the abbreviation to lowercase. eg. DCBias to DcBias, ADCCalibration to AdcCalibration, etc. 
 
 Metadata for following enums added:
+- `'ApertureTime'`
 - `'CalibrationCloseAction'`
 - `'CalibrationType'`
 - `'CompensatedOhms'`
+- `'Configuration4022'`
 - `'DcBias'`
 - `'MiscCalibration'`
+- `'PowerLineFrequencies'`
 - `'Range'`
+- `'TriggerDelays'`
 
 ## functions.py
 
