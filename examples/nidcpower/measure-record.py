@@ -33,7 +33,7 @@ server_address = "localhost"
 server_port = "31763"
 session_name = "NI-DCPower-Session"
 
-# Resource name, channel name and options for a simulated 4147 client. Change them according to NI-DCpower model.
+# Resource name, channel name and options for a simulated 4147 client. Change them according to NI-DCPower model.
 resource = "SimulatedDCPower"
 options = "Simulate=1,DriverSetup=Model:4147;BoardType:PXIe"
 channels = "0"
