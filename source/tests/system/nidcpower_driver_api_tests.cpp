@@ -70,6 +70,19 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ASSERT_EQ(kdcpowerDriverApiSuccess, response.status());
   }
 
+  void initiate()
+  {
+    dcpower::InitiateRequest request;
+    dcpower::InitiateResponse response;
+    ::grpc::ClientContext context;
+    request.mutable_vi()->set_id(GetSessionId());
+
+    ::grpc::Status status = GetStub()->Initiate(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
+  }
+
   void close_driver_session()
   {
     ::grpc::ClientContext context;
@@ -81,6 +94,18 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
 
     EXPECT_TRUE(status.ok());
     EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
+  }
+
+  void measure_multiple(const char* channel_name, nidcpower_grpc::MeasureMultipleResponse* response)
+  {
+    ::grpc::ClientContext context;
+    dcpower::MeasureMultipleRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_channel_name(channel_name);
+
+    ::grpc::Status status = GetStub()->MeasureMultiple(&context, request, response);
+
+    EXPECT_TRUE(status.ok());
   }
 
   ViBoolean get_bool_attribute(const char* channel_list, dcpower::NiDCPowerAttributes attribute_id)
@@ -181,7 +206,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
   }
 
-  void configure_output_function(const char* channel_name, ViInt32 function)
+  void configure_output_function(const char* channel_name, dcpower::OutputFunction function)
   {
     ::grpc::ClientContext context;
     dcpower::ConfigureOutputFunctionRequest request;
@@ -252,6 +277,20 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
 
     EXPECT_TRUE(status.ok());
     EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
+  }
+
+  void fetch_multiple(const char* channel_name, nidcpower_grpc::FetchMultipleResponse* response)
+  {
+    ::grpc::ClientContext context;
+    dcpower::FetchMultipleRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_channel_name(channel_name);
+    request.set_timeout(5);
+    request.set_count(20);
+
+    ::grpc::Status status = GetStub()->FetchMultiple(&context, request, response);
+
+    EXPECT_TRUE(status.ok());
   }
 
   void import_attribute_configuration_buffer(dcpower::ExportAttributeConfigurationBufferResponse export_buffer_response)
@@ -423,7 +462,7 @@ TEST_F(NiDCPowerDriverApiTest, ConfigureOutputFunctionAndVoltageLevel_Configures
 {
   const char* channel_name = "0";
   ViReal64 expected_voltage_level = 3.0;
-  ViInt32 expected_output_function_value = dcpower::OutputFunction::OUTPUT_FUNCTION_NIDCPOWER_VAL_DC_VOLTAGE;
+  auto expected_output_function_value = dcpower::OutputFunction::OUTPUT_FUNCTION_NIDCPOWER_VAL_DC_VOLTAGE;
   configure_output_function(channel_name, expected_output_function_value);
   configure_voltage_level(channel_name, expected_voltage_level);
 
@@ -437,7 +476,7 @@ TEST_F(NiDCPowerDriverApiTest, ConfigureOutputFunctionAndCurrentLevel_Configures
 {
   const char* channel_name = "0";
   ViReal64 expected_current_level = 3.0;
-  ViInt32 expected_output_function_value = dcpower::OutputFunction::OUTPUT_FUNCTION_NIDCPOWER_VAL_DC_CURRENT;
+  auto expected_output_function_value = dcpower::OutputFunction::OUTPUT_FUNCTION_NIDCPOWER_VAL_DC_CURRENT;
   configure_output_function(channel_name, expected_output_function_value);
   configure_current_level(channel_name, expected_current_level);
 
@@ -445,6 +484,40 @@ TEST_F(NiDCPowerDriverApiTest, ConfigureOutputFunctionAndCurrentLevel_Configures
   ViInt32 actual_output_function_value = get_int32_attribute(channel_name, dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_OUTPUT_FUNCTION);
   EXPECT_EQ(expected_current_level, actual_current_level);
   EXPECT_EQ(expected_output_function_value, actual_output_function_value);
+}
+
+TEST_F(NiDCPowerDriverApiTest, SetMeasureWhenAndInitiate_MeasureMultiple_ReturnsSuccess)
+{
+  const char* channel_name = ""; // all channels in session
+  // Attribute 'NIDCPOWER_ATTRIBUTE_MEASURE_WHEN' must be set to On Demand before calling MeasureMultiple
+  set_int32_attribute(
+    channel_name,
+    dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_MEASURE_WHEN,
+    dcpower::MeasureWhen::MEASURE_WHEN_NIDCPOWER_VAL_ON_DEMAND
+  );
+  initiate();
+
+  dcpower::MeasureMultipleResponse response;
+  measure_multiple(channel_name, &response);
+
+  EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
+}
+
+TEST_F(NiDCPowerDriverApiTest, SetMeasureWhenAndInitiate_FetchMultiple_FetchesSuccessfully)
+{
+  const char* channel_name = "0";
+  // Attribute 'NIDCPOWER_ATTRIBUTE_MEASURE_WHEN' must be set before calling FetchMultiple
+  set_int32_attribute(
+    channel_name, 
+    dcpower::NiDCPowerAttributes::NIDCPOWER_ATTRIBUTE_MEASURE_WHEN, 
+    dcpower::MeasureWhen::MEASURE_WHEN_NIDCPOWER_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE
+    );
+  initiate();
+
+  dcpower::FetchMultipleResponse response;
+  fetch_multiple(channel_name, &response);
+
+  EXPECT_EQ(kdcpowerDriverApiSuccess, response.status());
 }
 
 TEST_F(NiDCPowerDriverApiTest, VoltageLevelConfiguredAndExportedToBuffer_ResetAndImportConfigurationFromBuffer_ConfigurationIsImportedSuccessfully)
