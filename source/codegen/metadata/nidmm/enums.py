@@ -345,18 +345,6 @@ enums = {
             }
         ]
     },
-    'MeasurementDestinationSlope': {
-        'values': [
-            {
-                'name': 'NIDMM_VAL_POSITIVE',
-                'value': 0
-            },
-            {
-                'name': 'NIDMM_VAL_NEGATIVE',
-                'value': 1
-            }
-        ]
-    },
     'MiscCalibration': {
         'values': [
             {
@@ -469,18 +457,6 @@ enums = {
             }
         ]
     },
-    'SampleTrigSlope': {
-        'values': [
-            {
-                'name': 'NIDMM_VAL_POSITIVE',
-                'value': 0
-            },
-            {
-                'name': 'NIDMM_VAL_NEGATIVE',
-                'value': 1
-            }
-        ]
-    },
     'SampleTrigger': {
         'values': [
             {
@@ -550,6 +526,18 @@ enums = {
             {
                 'name': 'NIDMM_VAL_SETTLE_TIME_AUTO',
                 'value': -1
+            }
+        ]
+    },
+    'Slopes': {
+        'values': [
+            {
+                'name': 'NIDMM_VAL_POSITIVE',
+                'value': 0
+            },
+            {
+                'name': 'NIDMM_VAL_NEGATIVE',
+                'value': 1
             }
         ]
     },
@@ -634,18 +622,6 @@ enums = {
             {
                 'name': 'NIDMM_VAL_4_WIRE_RTD',
                 'value': 4
-            }
-        ]
-    },
-    'TriggerSlope': {
-        'values': [
-            {
-                'name': 'NIDMM_VAL_POSITIVE',
-                'value': 0
-            },
-            {
-                'name': 'NIDMM_VAL_NEGATIVE',
-                'value': 1
             }
         ]
     },

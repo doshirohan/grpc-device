@@ -697,7 +697,7 @@ functions = {
             "name": "sampleTriggerSlope",
             "direction": "in",
             "type": "ViInt32",
-            "enum": "SampleTrigSlope"
+            "enum": "Slopes"
         }
         ],
         "returns": "ViStatus"
@@ -812,7 +812,7 @@ functions = {
             "name": "triggerSlope",
             "direction": "in",
             "type": "ViInt32",
-            "enum": "TriggerSlope"
+            "enum": "Slopes"
         }
         ],
         "returns": "ViStatus"
