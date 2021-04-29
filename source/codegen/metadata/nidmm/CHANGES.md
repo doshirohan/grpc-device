@@ -1,4 +1,4 @@
-# Changes in metadata from the nimi-python metadata
+# Changes in metadata from the base metadata
 
 ## config.py
 
