@@ -204,4 +204,6 @@ except grpc.RpcError as rpc_error:
     error_message = rpc_error.details()
     if rpc_error.code() == grpc.StatusCode.UNAVAILABLE :
         error_message = f"Failed to connect to server on {server_address}"
+    elif rpc_error.code() == grpc.StatusCode.UNIMPLEMENTED:
+        error_message = f"Function not implemented"
     print(f"{error_message}") 
