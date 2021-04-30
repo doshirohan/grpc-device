@@ -3,11 +3,11 @@
 ## functions.py
 
 The following APIs were newly added :
-- `BoolArrayInputFunction`
+- BoolArrayInputFunction
 	- This function allows testing of ViBoolean[] input parameter
-- `InitExtCal`
-- `CloseExtCal`
-    - This function allows testing of custom close functions.
+- InitExtCal
+- CloseExtCal
+    - This function allows testing of custom close functions
 
 The following functions were tagged with `'init_method': True,` to ensure their generated service handlers register the new session
 with the session_repository.
