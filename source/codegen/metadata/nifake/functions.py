@@ -2406,23 +2406,6 @@ functions = {
         'returns': 'ViStatus',
         'use_session_lock': False
     },
-    'CloseExtCal': {
-        'codegen_method': 'public',
-        'custom_close_method': True,
-        'parameters': [
-           {
-                'name': 'vi',
-                'direction': 'in',
-                'type': 'ViSession'
-           },
-           {
-                'name': 'action',
-                'direction': 'in',
-                'type': 'ViInt32'
-           }
-        ],
-        'returns': 'ViStatus'
-    },
     'error_message': {
         'codegen_method': 'private',
         'documentation': {

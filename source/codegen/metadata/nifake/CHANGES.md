@@ -5,4 +5,3 @@
 The following APIs were newly added :
 - BoolArrayInputFunction
 	- This function allows testing of ViBoolean[] input parameter
-

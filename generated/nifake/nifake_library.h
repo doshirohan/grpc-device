@@ -68,7 +68,6 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   ViStatus Use64BitNumber(ViSession vi, ViInt64 input, ViInt64* output);
   ViStatus WriteWaveform(ViSession vi, ViInt32 numberOfSamples, ViReal64 waveform[]);
   ViStatus close(ViSession vi);
-  ViStatus CloseExtCal(ViSession vi, ViInt32 action);
   ViStatus error_message(ViSession vi, ViStatus errorCode, ViChar errorMessage[256]);
   ViStatus self_test(ViSession vi, ViInt16* selfTestResult, ViChar selfTestMessage[256]);
 
@@ -123,7 +122,6 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   using Use64BitNumberPtr = ViStatus (*)(ViSession vi, ViInt64 input, ViInt64* output);
   using WriteWaveformPtr = ViStatus (*)(ViSession vi, ViInt32 numberOfSamples, ViReal64 waveform[]);
   using closePtr = ViStatus (*)(ViSession vi);
-  using CloseExtCalPtr = ViStatus (*)(ViSession vi, ViInt32 action);
   using error_messagePtr = ViStatus (*)(ViSession vi, ViStatus errorCode, ViChar errorMessage[256]);
   using self_testPtr = ViStatus (*)(ViSession vi, ViInt16* selfTestResult, ViChar selfTestMessage[256]);
 
@@ -178,7 +176,6 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
     Use64BitNumberPtr Use64BitNumber;
     WriteWaveformPtr WriteWaveform;
     closePtr close;
-    CloseExtCalPtr CloseExtCal;
     error_messagePtr error_message;
     self_testPtr self_test;
   } FunctionLoadStatus;
