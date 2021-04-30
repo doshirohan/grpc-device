@@ -1,4 +1,4 @@
-# Changes in metadata from nimi-python metadata
+# Changes in metadata from the nimi-python metadata
 
 ## config.py
 
@@ -42,7 +42,7 @@ Following enums were defined :
 - NIDCPOWER_VAL_COMMIT
 - PowerLineFrequencies
 
-# changes in metadata from from the base metadata
+# Changes in metadata from from the base metadata
 
 ## functions.py
 
