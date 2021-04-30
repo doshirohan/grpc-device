@@ -1,4 +1,4 @@
-# Changes in metadata from the base metadata
+# Changes in metadata from the nimi-python metadata
 
 ## config.py
 
@@ -58,6 +58,9 @@ Metadata for following enums added:
 - `'PowerLineFrequencies'`
 - `'Range'`
 - `'TriggerDelays'`
+
+
+# Changes in metadata from the base metadata
 
 ## functions.py
 
