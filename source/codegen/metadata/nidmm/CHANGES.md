@@ -32,7 +32,13 @@ Metadata for following attributes added:
 - `'LATENCY'`
 - `'SHUNT_VALUE'`
 
-`'enum'` key added to attributes that make use enums but had their enums missing, after adding those respective enums to `enums.py`.
+`'enum'` tag adding to the following attributes:
+- `'APERTURE_TIME'`
+- `'OFFSET_COMP_OHMS'`
+- `'DC_BIAS'`
+- `'POWERLINE_FREQ'`
+- `'RANGE'`
+- `'TRIGGER_DELAY'`
 
 ## enums.py
 
@@ -77,4 +83,13 @@ with the session_repository.
 - `InitWithOptions`
 - `InitExtCal` : Added a 'custom_close' tag to this function, since this API has a corresponding close function called 'CloseExtCal'
 
-`'enum'` key added to function parameters that make use enums but had their enums missing, after adding those respective enums to `enums.py`.
+`'enum'` tag added to the following functions:
+- `'apertureTime`' parameter of function `'GetApertureTimeInfo'`
+- `'action`' parameter of function `'CloseExtCal'`
+- `'calType`' parameter of function `'CalibrationType'`
+- `'offsetCompOhms`' parameter of function `'ConfigureOffsetCompOhms'`
+- `'configuration`' parameter of function `'Control4022'`
+- `'type`' parameter of function `'CalAdjustMisc'`
+- `'powerLineFrequencyHz`' parameter of function `'ConfigurePowerLineFrequency'`
+- `'triggerDelay`' parameter of function `'ConfigureTrigger'`
+
