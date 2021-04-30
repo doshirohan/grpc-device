@@ -46,6 +46,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   ViStatus GetError(ViSession vi, ViStatus* errorCode, ViInt32 bufferSize, ViChar description[]);
   ViStatus ImportAttributeConfigurationBuffer(ViSession vi, ViInt32 sizeInBytes, ViInt8 configuration[]);
   ViStatus InitWithOptions(ViString resourceName, ViBoolean idQuery, ViBoolean resetDevice, ViConstString optionString, ViSession* vi);
+  ViStatus InitExtCal(ViRsrc resourceName, ViString calibrationPassword, ViSession* vi);
   ViStatus Initiate(ViSession vi);
   ViStatus MultipleArrayTypes(ViSession vi, ViInt32 outputArraySize, ViReal64 outputArray[], ViReal64 outputArrayOfFixedLength[3], ViInt32 inputArraySizes, ViReal64 inputArrayOfFloats[], ViInt16 inputArrayOfIntegers[]);
   ViStatus MultipleArraysSameSize(ViSession vi, ViReal64 values1[], ViReal64 values2[], ViReal64 values3[], ViReal64 values4[], ViInt32 size);
@@ -68,6 +69,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   ViStatus Use64BitNumber(ViSession vi, ViInt64 input, ViInt64* output);
   ViStatus WriteWaveform(ViSession vi, ViInt32 numberOfSamples, ViReal64 waveform[]);
   ViStatus close(ViSession vi);
+  ViStatus CloseExtCal(ViSession vi, ViInt32 action);
   ViStatus error_message(ViSession vi, ViStatus errorCode, ViChar errorMessage[256]);
   ViStatus self_test(ViSession vi, ViInt16* selfTestResult, ViChar selfTestMessage[256]);
 
@@ -100,6 +102,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   using GetErrorPtr = ViStatus (*)(ViSession vi, ViStatus* errorCode, ViInt32 bufferSize, ViChar description[]);
   using ImportAttributeConfigurationBufferPtr = ViStatus (*)(ViSession vi, ViInt32 sizeInBytes, ViInt8 configuration[]);
   using InitWithOptionsPtr = ViStatus (*)(ViString resourceName, ViBoolean idQuery, ViBoolean resetDevice, ViConstString optionString, ViSession* vi);
+  using InitExtCalPtr = ViStatus (*)(ViRsrc resourceName, ViString calibrationPassword, ViSession* vi);
   using InitiatePtr = ViStatus (*)(ViSession vi);
   using MultipleArrayTypesPtr = ViStatus (*)(ViSession vi, ViInt32 outputArraySize, ViReal64 outputArray[], ViReal64 outputArrayOfFixedLength[3], ViInt32 inputArraySizes, ViReal64 inputArrayOfFloats[], ViInt16 inputArrayOfIntegers[]);
   using MultipleArraysSameSizePtr = ViStatus (*)(ViSession vi, ViReal64 values1[], ViReal64 values2[], ViReal64 values3[], ViReal64 values4[], ViInt32 size);
@@ -122,6 +125,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   using Use64BitNumberPtr = ViStatus (*)(ViSession vi, ViInt64 input, ViInt64* output);
   using WriteWaveformPtr = ViStatus (*)(ViSession vi, ViInt32 numberOfSamples, ViReal64 waveform[]);
   using closePtr = ViStatus (*)(ViSession vi);
+  using CloseExtCalPtr = ViStatus (*)(ViSession vi, ViInt32 action);
   using error_messagePtr = ViStatus (*)(ViSession vi, ViStatus errorCode, ViChar errorMessage[256]);
   using self_testPtr = ViStatus (*)(ViSession vi, ViInt16* selfTestResult, ViChar selfTestMessage[256]);
 
@@ -154,6 +158,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
     GetErrorPtr GetError;
     ImportAttributeConfigurationBufferPtr ImportAttributeConfigurationBuffer;
     InitWithOptionsPtr InitWithOptions;
+    InitExtCalPtr InitExtCal;
     InitiatePtr Initiate;
     MultipleArrayTypesPtr MultipleArrayTypes;
     MultipleArraysSameSizePtr MultipleArraysSameSize;
@@ -176,6 +181,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
     Use64BitNumberPtr Use64BitNumber;
     WriteWaveformPtr WriteWaveform;
     closePtr close;
+    CloseExtCalPtr CloseExtCal;
     error_messagePtr error_message;
     self_testPtr self_test;
   } FunctionLoadStatus;
