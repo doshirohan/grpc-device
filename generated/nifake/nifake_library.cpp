@@ -49,7 +49,6 @@ NiFakeLibrary::NiFakeLibrary() : shared_library_(kLibraryName)
   function_pointers_.GetError = reinterpret_cast<GetErrorPtr>(shared_library_.get_function_pointer("niFake_GetError"));
   function_pointers_.ImportAttributeConfigurationBuffer = reinterpret_cast<ImportAttributeConfigurationBufferPtr>(shared_library_.get_function_pointer("niFake_ImportAttributeConfigurationBuffer"));
   function_pointers_.InitWithOptions = reinterpret_cast<InitWithOptionsPtr>(shared_library_.get_function_pointer("niFake_InitWithOptions"));
-  function_pointers_.InitExtCal = reinterpret_cast<InitExtCalPtr>(shared_library_.get_function_pointer("niFake_InitExtCal"));
   function_pointers_.Initiate = reinterpret_cast<InitiatePtr>(shared_library_.get_function_pointer("niFake_Initiate"));
   function_pointers_.MultipleArrayTypes = reinterpret_cast<MultipleArrayTypesPtr>(shared_library_.get_function_pointer("niFake_MultipleArrayTypes"));
   function_pointers_.MultipleArraysSameSize = reinterpret_cast<MultipleArraysSameSizePtr>(shared_library_.get_function_pointer("niFake_MultipleArraysSameSize"));
@@ -417,18 +416,6 @@ ViStatus NiFakeLibrary::InitWithOptions(ViString resourceName, ViBoolean idQuery
   return niFake_InitWithOptions(resourceName, idQuery, resetDevice, optionString, vi);
 #else
   return function_pointers_.InitWithOptions(resourceName, idQuery, resetDevice, optionString, vi);
-#endif
-}
-
-ViStatus NiFakeLibrary::InitExtCal(ViRsrc resourceName, ViString calibrationPassword, ViSession* vi)
-{
-  if (!function_pointers_.InitExtCal) {
-    throw nidevice_grpc::LibraryLoadException("Could not find niFake_InitExtCal.");
-  }
-#if defined(_MSC_VER)
-  return niFake_InitExtCal(resourceName, calibrationPassword, vi);
-#else
-  return function_pointers_.InitExtCal(resourceName, calibrationPassword, vi);
 #endif
 }
 
