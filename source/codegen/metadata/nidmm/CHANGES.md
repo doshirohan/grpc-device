@@ -57,6 +57,8 @@ Metadata for following enums added:
 - `'Range'`
 - `'SettleTime'`
 
+`'NIDMM_VAL_FIXED'` (from nimi-python) changed to `'NIDMM_VAL_TEMP_REF_JUNC_FIXED'` in the `'ThermocoupleReferenceJunctionType'` to match the documentation and the header file
+
 ## functions.py
 
 All occurrences of the following keys were removed along with their values:
