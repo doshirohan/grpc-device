@@ -33,7 +33,10 @@ Metadata for following attributes added:
 - `'SHUNT_VALUE'`
 - `'CONFIG_PRODUCT_NUMBER'`
 
-`'enum'` key added to attributes that make use enums but had their enums missing, after adding those respective enums to `enums.py`.
+`'enum'` tags added to following attributes:
+- `'BUFFER_SIZE'`
+- `'LATENCY'`
+- `'SETTLE_TIME'`
 
 ## enums.py
 
@@ -53,7 +56,6 @@ Metadata for following enums added:
 - `'MiscCalibration'`
 - `'Range'`
 - `'SettleTime'`
-- `'Slopes'`
 
 ## functions.py
 
@@ -79,4 +81,5 @@ with the session_repository.
 - `InitWithOptions`
 - `InitExtCal` : Added a 'custom_close' tag to this function, since this API has a corresponding close function called 'CloseExtCal'
 
-`'enum'` key added to function parameters that make use enums but had their enums missing, after adding those respective enums to `enums.py`.
+`'enum'` added to following functions:
+- `controlAction` parameter of function `'Control'`
