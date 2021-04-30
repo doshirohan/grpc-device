@@ -29,6 +29,7 @@ import nidmm_pb2_grpc as grpc_nidmm
 import session_pb2 as session_types
 import session_pb2_grpc as grpc_session
 import matplotlib.pyplot as plt
+import numpy as np
 import keyword
 
 server_address = "localhost"
@@ -170,7 +171,10 @@ try:
                 ))
                 CheckForError(vi, fetch_multipoints_response.status)
                 num_pts_read = fetch_multipoints_response.actual_number_of_points
-                measurements = fetch_multipoints_response.reading_array
+                measurements = np.array(fetch_multipoints_response.reading_array)
+                
+                # retain data to 2 decimals
+                measurements = np.floor(measurements * 100) / 100.0
 
                 # Update the plot with the new measurements
                 plt.plot(measurements)
