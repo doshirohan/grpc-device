@@ -193,12 +193,6 @@ try:
     average = sum_measurements/num_measurements
     print(f'Average = {average}')
 
-    # Close NI-DMM session
-    close_session_response = nidmm_client.Close(nidmm_types.CloseRequest(
-        vi = vi
-    ))
-    CheckForError(vi, close_session_response.status)
-
 # If NI-DMM API throws an exception, print the error message  
 except grpc.RpcError as rpc_error:
     error_message = rpc_error.details()
@@ -207,3 +201,10 @@ except grpc.RpcError as rpc_error:
     elif rpc_error.code() == grpc.StatusCode.UNIMPLEMENTED:
         error_message = f"Function not implemented"
     print(f"{error_message}") 
+finally:
+    if('vi' in vars() and vi.id != 0):
+        # Close NI-DMM session
+        close_session_response = nidmm_client.Close(nidmm_types.CloseRequest(
+            vi = vi
+        ))
+        CheckForError(vi, close_session_response.status)
