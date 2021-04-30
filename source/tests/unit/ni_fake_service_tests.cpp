@@ -117,6 +117,30 @@ TEST(NiFakeServiceTests, NiFakeService_InitWithOptionsAndResetServer_SessionIsCl
   EXPECT_EQ(0, session_repository.access_session(session.id(), ""));
 }
 
+TEST(NiFakeServiceTests, NiFakeService_InitExtCalAndResetServer_SessionIsClosed)
+{
+  nidevice_grpc::SessionRepository session_repository;
+  NiFakeMockLibrary library;
+  nifake_grpc::NiFakeService service(&library, &session_repository);
+  const char* session_name = "sessionName";
+  EXPECT_CALL(library, InitExtCal)
+      .WillOnce(DoAll(SetArgPointee<2>(kTestViSession), Return(kDriverSuccess)));
+  EXPECT_CALL(library, CloseExtCal(kTestViSession, 0))
+      .WillOnce(Return(kDriverSuccess));
+   ::grpc::ServerContext context;
+  nifake_grpc::InitExtCalRequest request;
+  request.set_session_name(session_name);
+  nifake_grpc::InitExtCalResponse response;
+  ::grpc::Status init_status = service.InitExtCal(&context, &request, &response);
+  EXPECT_TRUE(init_status.ok());
+  nidevice_grpc::Session session = response.vi();
+  EXPECT_EQ(kTestViSession, session_repository.access_session(session.id(), ""));
+  EXPECT_EQ(kTestViSession, session_repository.access_session(0, session_name));
+  bool reset_status = session_repository.reset_server();
+  EXPECT_TRUE(reset_status);
+  EXPECT_EQ(0, session_repository.access_session(session.id(), ""));
+  EXPECT_EQ(0, session_repository.access_session(0, session_name));
+}
 TEST(NiFakeServiceTests, NiFakeService_InitWithOptionsThenClose_SessionIsClosed)
 {
   nidevice_grpc::SessionRepository session_repository;
