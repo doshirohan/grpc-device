@@ -37,6 +37,12 @@ Metadata for following attributes added:
 - `'BUFFER_SIZE'`
 - `'LATENCY'`
 - `'SETTLE_TIME'`
+- `'APERTURE_TIME'`
+- `'OFFSET_COMP_OHMS'`
+- `'DC_BIAS'`
+- `'POWERLINE_FREQ'`
+- `'RANGE'`
+- `'TRIGGER_DELAY'`
 
 ## enums.py
 
@@ -51,13 +57,20 @@ Metadata for following enums added:
 - `'CalibrationType'`
 - `'CompensatedOhms'`
 - `'ControlCommit'`
+- `'ApertureTime'`
+- `'Configuration4022'`
 - `'DcBias'`
 - `'Latency'`
 - `'MiscCalibration'`
+- `'PowerLineFrequencies'`
 - `'Range'`
 - `'SettleTime'`
+- `'TriggerDelays'`
 
 `'NIDMM_VAL_FIXED'` (from nimi-python) changed to `'NIDMM_VAL_TEMP_REF_JUNC_FIXED'` in the `'ThermocoupleReferenceJunctionType'` to match the documentation and the header file
+
+
+# Changes in metadata from the base metadata
 
 ## functions.py
 
@@ -83,5 +96,13 @@ with the session_repository.
 - `InitWithOptions`
 - `InitExtCal` : Added a 'custom_close' tag to this function, since this API has a corresponding close function called 'CloseExtCal'
 
-`'enum'` added to following functions:
+`'enum'` tag added to the following functions:
+- `'apertureTime`' parameter of function `'GetApertureTimeInfo'`
+- `'action`' parameter of function `'CloseExtCal'`
+- `'calType`' parameter of function `'CalibrationType'`
+- `'offsetCompOhms`' parameter of function `'ConfigureOffsetCompOhms'`
+- `'configuration`' parameter of function `'Control4022'`
+- `'type`' parameter of function `'CalAdjustMisc'`
+- `'powerLineFrequencyHz`' parameter of function `'ConfigurePowerLineFrequency'`
+- `'triggerDelay`' parameter of function `'ConfigureTrigger'`
 - `controlAction` parameter of function `'Control'`

@@ -479,6 +479,7 @@ attributes = {
         'attribute_class': 'AttributeViReal64TimeDeltaSeconds',
         'channel_based': False,
         'name': 'TRIGGER_DELAY',
+        'enum': 'TriggerDelays',
         'resettable': False,
         'type': 'ViReal64',
         'type_in_documentation': 'hightime.timedelta, datetime.timedelta, or float in seconds'
@@ -592,6 +593,7 @@ attributes = {
         'access': 'read-write',
         'channel_based': False,
         'name': 'APERTURE_TIME',
+        'enum': 'ApertureTime',
         'resettable': False,
         'type': 'ViReal64'
     },
@@ -622,6 +624,7 @@ attributes = {
         'access': 'read-write',
         'channel_based': False,
         'name': 'POWERLINE_FREQ',
+        'enum': 'PowerLineFrequencies',
         'resettable': False,
         'type': 'ViReal64'
     },
