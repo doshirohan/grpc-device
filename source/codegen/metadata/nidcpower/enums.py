@@ -141,17 +141,11 @@ enums = {
     'ComplianceLimitSymmetry': {
         'values': [
             {
-                'documentation': {
-                    'description': 'Compliance limits are specified symmetrically about 0.'
-                },
-                'name': 'NIDCPOWER_VAL_SYMMETRIC',
+                'name': 'NIDCPOWER_VAL_COMPLIANCE_LIMIT_SYMMETRY_SYMMETRIC',
                 'value': 0
             },
             {
-                'documentation': {
-                    'description': 'Compliance limits can be specified asymmetrically with respect to 0.'
-                },
-                'name': 'NIDCPOWER_VAL_ASYMMETRIC',
+                'name': 'NIDCPOWER_VAL_COMPLIANCE_LIMIT_SYMMETRY_ASYMMETRIC',
                 'value': 1
             }
         ]
@@ -466,6 +460,18 @@ enums = {
                 },
                 'name': 'NIDCPOWER_VAL_OUTPUT_CONSTANT_CURRENT',
                 'value': 1
+            },
+            {
+                'name': 'NIDCPOWER_VAL_OUTPUT_OVER_VOLTAGE',
+                'value': 2
+            },
+            {
+                'name': 'NIDCPOWER_VAL_OUTPUT_OVER_CURRENT',
+                'value': 3
+            },
+            {
+                'name': 'NIDCPOWER_VAL_OUTPUT_UNREGULATED',
+                'value': 4
             }
         ]
     },
