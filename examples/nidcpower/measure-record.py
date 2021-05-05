@@ -207,8 +207,10 @@ except grpc.RpcError as rpc_error:
     if rpc_error.code() == grpc.StatusCode.UNAVAILABLE :
         error_message = f"Failed to connect to server on {server_address}"
     elif rpc_error.code() == grpc.StatusCode.UNIMPLEMENTED:
-        error_message = f"Function not implemented"
-    print(f"{error_message}") 
+        error_message = "The operation is not implemented or is not supported/enabled in this service"
+    elif rpc_error.code() == grpc.StatusCode.NOT_FOUND:
+        error_message = "The requested function/entity was not found"
+    print(f"{error_message}")
 
 finally:
     if('vi' in vars() and vi.id != 0):
