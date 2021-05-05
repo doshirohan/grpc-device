@@ -38,8 +38,7 @@ The following attributes were added :
 
 Following enums were defined :
 - InternalReference
-- NIDCPOWER_VAL_CANCEL
-- NIDCPOWER_VAL_COMMIT
+- CalibrationCloseAction
 - PowerLineFrequencies
 - In 'OutputStates' : Following were added
     - NIDCPOWER_VAL_OUTPUT_OVER_VOLTAGE
