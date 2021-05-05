@@ -41,11 +41,11 @@ Following enums were defined :
 - NIDCPOWER_VAL_CANCEL
 - NIDCPOWER_VAL_COMMIT
 - PowerLineFrequencies
-- 'OutputStates' : Following were added
+- In 'OutputStates' : Following were added
     - NIDCPOWER_VAL_OUTPUT_OVER_VOLTAGE
     - NIDCPOWER_VAL_OUTPUT_OVER_CURRENT
     - NIDCPOWER_VAL_OUTPUT_UNREGULATED
-- 'ComplianceLimitSymmetry' : Following were renamed
+- In 'ComplianceLimitSymmetry' : Following were renamed
     - NIDCPOWER_VAL_SYMMETRIC to NIDCPOWER_VAL_COMPLIANCE_LIMIT_SYMMETRY_SYMMETRIC
     - NIDCPOWER_VAL_ASYMMETRIC to NIDCPOWER_VAL_COMPLIANCE_LIMIT_SYMMETRY_ASYMMETRIC
 
