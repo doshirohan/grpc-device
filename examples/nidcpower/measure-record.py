@@ -158,7 +158,7 @@ try :
     print("\nReading values in loop. CTRL+C or Close window to stop.\n")
 
     # Create a buffer for fetching the values.
-    y_axis = [0]*(record_length*buffer_multiplier)
+    y_axis = [0] * (record_length * buffer_multiplier)
     x_start = 0
 
     try:
@@ -185,13 +185,13 @@ try :
             y_axis_new = []
             for value in y_axis:
                 if (value < voltage_level):
-                    y_axis_new.append(math.floor(value*100)/100)
+                    y_axis_new.append(math.floor(value * 100) / 100)
                 else:
-                    y_axis_new.append(math.ceil(value*100)/100)
+                    y_axis_new.append(math.ceil(value * 100) / 100)
 
             # Plotting
             y_axis = y_axis_new
-            x_axis = np.arange(start=x_start, stop=x_start + record_length * buffer_multiplier, step=1)
+            x_axis = np.arange(start = x_start, stop = x_start + record_length * buffer_multiplier, step = 1)
             x_start = x_start + record_length
             plt.plot(x_axis, y_axis)
             plt.pause(0.001)
@@ -200,7 +200,7 @@ try :
     except KeyboardInterrupt:
         pass
 
-    print(f"Effective measurement rate : {1/get_measure_record_delta_time.attribute_value}")
+    print(f"Effective measurement rate : {1 / get_measure_record_delta_time.attribute_value}")
 
 except grpc.RpcError as rpc_error:
     error_message = rpc_error.details()
