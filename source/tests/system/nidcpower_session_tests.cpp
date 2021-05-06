@@ -10,7 +10,9 @@ namespace system {
 namespace dcpower = nidcpower_grpc;
 
 const int kTestViErrorRsrcNotFound = -1074134944;
+const int kInvalidDCPowerSession = -1074130544;
 const char* kTestViErrorRsrcNotFoundMessage = "IVI: (Hex 0xBFFA0060) Insufficient location information or resource not present in the system.";
+const char* kInvalidDCPowerSessionMessage = "IVI: (Hex 0xBFFA1190) The session handle is not valid.";
 const char* kTestRsrc = "FakeDevice";
 const char* kOptionsString = "Simulate=1, DriverSetup=Model:4147; BoardType:PXIe";
 const char* kTestSession = "SessionName";
@@ -54,6 +56,23 @@ class NiDCPowerSessionTest : public ::testing::Test {
 
     ::grpc::Status status = GetStub()->InitializeWithIndependentChannels(&context, request, response);
     return status;
+  }
+
+  std::string get_error_message(int error_status)
+  {
+    dcpower::InitializeWithIndependentChannelsResponse init_response;
+    call_initialize_with_independent_channels(kTestRsrc, kOptionsString, kTestSession, &init_response);
+    nidevice_grpc::Session session = init_response.vi();
+
+    ::grpc::ClientContext context;
+    dcpower::ErrorMessageRequest request;
+    request.mutable_vi()->set_id(session.id());
+    request.set_error_code(error_status);
+    dcpower::ErrorMessageResponse error_response;
+
+    ::grpc::Status status = GetStub()->ErrorMessage(&context, request, &error_response);
+    EXPECT_TRUE(status.ok());
+    return error_response.error_message();
   }
 
  private:
@@ -111,7 +130,7 @@ TEST_F(NiDCPowerSessionTest, InitializedSession_CloseSession_ClosesDriverSession
   EXPECT_EQ(0, close_response.status());
 }
 
-TEST_F(NiDCPowerSessionTest, InvalidSession_CloseSession_NoErrorReported)
+TEST_F(NiDCPowerSessionTest, InvalidSession_CloseSession_ReturnsInvalidSessionError)
 {
   nidevice_grpc::Session session;
   session.set_id(NULL);
@@ -123,7 +142,9 @@ TEST_F(NiDCPowerSessionTest, InvalidSession_CloseSession_NoErrorReported)
   ::grpc::Status status = GetStub()->Close(&context, request, &response);
 
   EXPECT_TRUE(status.ok());
-  EXPECT_EQ(0, response.status());
+  EXPECT_EQ(kInvalidDCPowerSession, response.status());
+  std::string error_message = get_error_message(response.status());
+  EXPECT_STREQ(kInvalidDCPowerSessionMessage, error_message.c_str());
 }
 
 TEST_F(NiDCPowerSessionTest, ErrorFromDriver_ErrorMessage_ReturnsUserErrorMessage)
