@@ -147,8 +147,6 @@ try :
         closed = True
     fig.canvas.mpl_connect('close_event', on_close)
 
-    x_axis = np.arange(start = 1, stop = record_length + 1, step = 1)
-
     print("\nReading values in loop. CTRL+C or Close window to stop.\n")
 
     # Create a buffer for fetching the values.
@@ -165,7 +163,6 @@ try :
 
             fetch_multiple_response = client.FetchMultiple(nidcpower_types.FetchMultipleRequest(
                 vi = vi,
-                channel_name = channels,
                 timeout = 10,
                 count = record_length
             ))
