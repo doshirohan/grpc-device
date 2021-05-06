@@ -36,7 +36,7 @@ server_address = "localhost"
 server_port = "31763"
 session_name = "NI-DMM-Session"
 
-# Resource name and options for a simulated 4065 client. Change them according to the NI-DMM model.
+# Resource name and options for a simulated 4080 client. Change them according to the NI-DMM model.
 resource = "SimulatedDMM"
 options = "Simulate=1, DriverSetup=Model:4080; BoardType:PXIe"
 
