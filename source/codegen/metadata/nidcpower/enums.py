@@ -141,11 +141,11 @@ enums = {
     'ComplianceLimitSymmetry': {
         'values': [
             {
-                'name': 'NIDCPOWER_VAL_COMPLIANCE_LIMIT_SYMMETRY_SYMMETRIC',
+                'name': 'NIDCPOWER_VAL_SYMMETRIC',
                 'value': 0
             },
             {
-                'name': 'NIDCPOWER_VAL_COMPLIANCE_LIMIT_SYMMETRY_ASYMMETRIC',
+                'name': 'NIDCPOWER_VAL_ASYMMETRIC',
                 'value': 1
             }
         ]
@@ -499,21 +499,21 @@ enums = {
                 'documentation': {
                     'description': 'The device attempts to source, on each active channel, the power that the present source configuration requires; NI-DCPower does not perform a sourcing power check. If the required power is greater than the maximum sourcing power, the device attempts to source the required amount and may shut down to prevent damage.'
                 },
-                'name': 'NIDCPOWER_VAL_POWER_ALLOCATION_MODE_DISABLED',
+                'name': 'NIDCPOWER_VAL_DISABLED',
                 'value': 1058
             },
             {
                 'documentation': {
                     'description': 'The device attempts to source, on each active channel, the power that the present source configuration requires; NI-DCPower performs a sourcing power check. If the required power is greater than the maximum sourcing power, the device does not exceed the maximum power, and NI-DCPower returns an error.'
                 },
-                'name': 'NIDCPOWER_VAL_POWER_ALLOCATION_MODE_AUTOMATIC',
+                'name': 'NIDCPOWER_VAL_AUTOMATIC',
                 'value': 1059
             },
             {
                 'documentation': {
                     'description': 'The device attempts to source, on each active channel, the power you request with the NIDCPOWER_ATTR_REQUESTED_POWER_ALLOCATION attribute; NI-DCPower performs a sourcing power check. If the requested power is either less than the required power for the present source configuration or greater than the maximum sourcing power, the device does not exceed the requested or allowed power, respectively, and NI-DCPower returns an error.'
                 },
-                'name': 'NIDCPOWER_VAL_POWER_ALLOCATION_MODE_MANUAL',
+                'name': 'NIDCPOWER_VAL_MANUAL',
                 'value': 1060
             }
         ]
