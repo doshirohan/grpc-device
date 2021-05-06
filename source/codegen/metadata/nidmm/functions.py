@@ -452,7 +452,8 @@ functions = {
         {
             "name": "voltageRange",
             "direction": "in",
-            "type": "ViReal64"
+            "type": "ViReal64",
+            "enum": "FrequencyVoltageRange"
         }
         ],
         "returns": "ViStatus"
@@ -549,12 +550,14 @@ functions = {
             {
                 'direction': 'in',
                 'name': 'triggerCount',
-                'type': 'ViInt32'
+                'type': 'ViInt32',
+                'enum': 'TriggerCount'
             },
             {
                 'direction': 'in',
                 'name': 'sampleCount',
-                'type': 'ViInt32'
+                'type': 'ViInt32',
+                'enum': 'SampleCount'
             },
             {
                 'default_value': 'SampleTrigger.IMMEDIATE',
@@ -567,6 +570,7 @@ functions = {
                 'direction': 'in',
                 'name': 'sampleInterval',
                 'type': 'ViReal64',
+                'enum': 'SampleInterval'
             }
         ],
         'returns': 'ViStatus'
@@ -943,6 +947,7 @@ functions = {
                 'direction': 'in',
                 'name': 'maximumTime',
                 'type': 'ViInt32',
+                'enum': 'TimeLimit'
             },
             {
                 'direction': 'out',
@@ -963,6 +968,7 @@ functions = {
                 'direction': 'in',
                 'name': 'maximumTime',
                 'type': 'ViInt32',
+                'enum': 'TimeLimit'
             },
             {
                 'direction': 'in',
@@ -998,6 +1004,7 @@ functions = {
                 'direction': 'in',
                 'name': 'maximumTime',
                 'type': 'ViInt32',
+                'enum': 'TimeLimit'
             },
             {
                 'direction': 'in',
@@ -1769,6 +1776,7 @@ functions = {
                 'direction': 'in',
                 'name': 'maximumTime',
                 'type': 'ViInt32',
+                'enum': 'TimeLimit'
             },
             {
                 'direction': 'out',
@@ -1789,6 +1797,7 @@ functions = {
                 'direction': 'in',
                 'name': 'maximumTime',
                 'type': 'ViInt32',
+                'enum': 'TimeLimit'
             },
             {
                 'direction': 'in',
@@ -1845,6 +1854,7 @@ functions = {
                 'direction': 'in',
                 'name': 'maximumTime',
                 'type': 'ViInt32',
+                'enum': 'TimeLimit'
             },
             {
                 'direction': 'in',
