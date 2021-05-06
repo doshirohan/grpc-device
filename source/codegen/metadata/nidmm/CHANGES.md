@@ -32,6 +32,7 @@ Metadata for following attributes added:
 - `'LATENCY'`
 - `'SHUNT_VALUE'`
 - `'CONFIG_PRODUCT_NUMBER'`
+- `'RECORD_COERCIONS'`
 
 `'enum'` tags added to following attributes:
 - `'BUFFER_SIZE'`
@@ -49,6 +50,7 @@ Metadata for following attributes added:
 - `'SAMPLE_COUNT'`
 
 `'FREQ_VOLTAGE_AUTO_RANGE'` (from nimi-python) changed to `'FREQ_VOLTAGE_AUTO_RANGE_VALUE'` to match the nidmm.h
+
 
 ## enums.py
 
