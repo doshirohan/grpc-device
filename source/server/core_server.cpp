@@ -1,9 +1,12 @@
+
 #include <niscope/niscope_library.h>
 #include <niscope/niscope_service.h>
 #include <niswitch/niswitch_library.h>
 #include <niswitch/niswitch_service.h>
 #include <nisync/nisync_library.h>
 #include <nisync/nisync_service.h>
+#include <nidigital/nidigital_library.h>
+#include <nidigital/nidigital_service.h>
 
 #include "server_configuration_parser.h"
 #include "server_security_configuration.h"
@@ -42,6 +45,10 @@ static void RunServer(const std::string& config_file_path)
   nidevice_grpc::DeviceEnumerator device_enumerator(&syscfg_library);
   nidevice_grpc::SessionUtilitiesService core_service(&session_repository, &device_enumerator);
   builder.RegisterService(&core_service);
+
+  nidigital_grpc::NiDigitalLibrary nidigital_library;
+  nidigital_grpc::NiDigitalService nidigital_service(&nidigital_library, &session_repository);
+  builder.RegisterService(&nidigital_service);
 
   niscope_grpc::NiScopeLibrary niscope_library;
   niscope_grpc::NiScopeService niscope_service(&niscope_library, &session_repository);
