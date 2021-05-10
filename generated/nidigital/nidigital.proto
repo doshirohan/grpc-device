@@ -23,9 +23,21 @@ service NiDigital {
   rpc BurstPattern(BurstPatternRequest) returns (BurstPatternResponse);
   rpc ClockGeneratorAbort(ClockGeneratorAbortRequest) returns (ClockGeneratorAbortResponse);
   rpc ClockGeneratorGenerateClock(ClockGeneratorGenerateClockRequest) returns (ClockGeneratorGenerateClockResponse);
+  rpc ClockGeneratorInitiate(ClockGeneratorInitiateRequest) returns (ClockGeneratorInitiateResponse);
+  rpc Close(CloseRequest) returns (CloseResponse);
   rpc Commit(CommitRequest) returns (CommitResponse);
   rpc ConfigureActiveLoadLevels(ConfigureActiveLoadLevelsRequest) returns (ConfigureActiveLoadLevelsResponse);
+  rpc ConfigureCycleNumberHistoryRAMTrigger(ConfigureCycleNumberHistoryRAMTriggerRequest) returns (ConfigureCycleNumberHistoryRAMTriggerResponse);
+  rpc ConfigureDigitalEdgeConditionalJumpTrigger(ConfigureDigitalEdgeConditionalJumpTriggerRequest) returns (ConfigureDigitalEdgeConditionalJumpTriggerResponse);
+  rpc ConfigureDigitalEdgeStartTrigger(ConfigureDigitalEdgeStartTriggerRequest) returns (ConfigureDigitalEdgeStartTriggerResponse);
+  rpc ConfigureFirstFailureHistoryRAMTrigger(ConfigureFirstFailureHistoryRAMTriggerRequest) returns (ConfigureFirstFailureHistoryRAMTriggerResponse);
+  rpc ConfigureHistoryRAMCyclesToAcquire(ConfigureHistoryRAMCyclesToAcquireRequest) returns (ConfigureHistoryRAMCyclesToAcquireResponse);
   rpc ConfigurePatternBurstSites(ConfigurePatternBurstSitesRequest) returns (ConfigurePatternBurstSitesResponse);
+  rpc ConfigurePatternLabelHistoryRAMTrigger(ConfigurePatternLabelHistoryRAMTriggerRequest) returns (ConfigurePatternLabelHistoryRAMTriggerResponse);
+  rpc ConfigureStartLabel(ConfigureStartLabelRequest) returns (ConfigureStartLabelResponse);
+  rpc ConfigureSoftwareEdgeConditionalJumpTrigger(ConfigureSoftwareEdgeConditionalJumpTriggerRequest) returns (ConfigureSoftwareEdgeConditionalJumpTriggerResponse);
+  rpc ConfigureSoftwareEdgeStartTrigger(ConfigureSoftwareEdgeStartTriggerRequest) returns (ConfigureSoftwareEdgeStartTriggerResponse);
+  rpc ConfigureTerminationMode(ConfigureTerminationModeRequest) returns (ConfigureTerminationModeResponse);
   rpc ConfigureTimeSetCompareEdgesStrobe(ConfigureTimeSetCompareEdgesStrobeRequest) returns (ConfigureTimeSetCompareEdgesStrobeResponse);
   rpc ConfigureTimeSetCompareEdgesStrobe2x(ConfigureTimeSetCompareEdgesStrobe2xRequest) returns (ConfigureTimeSetCompareEdgesStrobe2xResponse);
   rpc ConfigureTimeSetDriveEdges(ConfigureTimeSetDriveEdgesRequest) returns (ConfigureTimeSetDriveEdgesResponse);
@@ -38,26 +50,38 @@ service NiDigital {
   rpc CreateCaptureWaveformFromFileDigicapture(CreateCaptureWaveformFromFileDigicaptureRequest) returns (CreateCaptureWaveformFromFileDigicaptureResponse);
   rpc CreateCaptureWaveformParallel(CreateCaptureWaveformParallelRequest) returns (CreateCaptureWaveformParallelResponse);
   rpc CreateCaptureWaveformSerial(CreateCaptureWaveformSerialRequest) returns (CreateCaptureWaveformSerialResponse);
+  rpc CreateChannelMap(CreateChannelMapRequest) returns (CreateChannelMapResponse);
   rpc CreateSourceWaveformFromFileTDMS(CreateSourceWaveformFromFileTDMSRequest) returns (CreateSourceWaveformFromFileTDMSResponse);
+  rpc CreatePinMap(CreatePinMapRequest) returns (CreatePinMapResponse);
+  rpc CreatePinGroup(CreatePinGroupRequest) returns (CreatePinGroupResponse);
   rpc CreateSourceWaveformParallel(CreateSourceWaveformParallelRequest) returns (CreateSourceWaveformParallelResponse);
   rpc CreateSourceWaveformSerial(CreateSourceWaveformSerialRequest) returns (CreateSourceWaveformSerialResponse);
   rpc CreateTimeSet(CreateTimeSetRequest) returns (CreateTimeSetResponse);
   rpc DeleteAllTimeSets(DeleteAllTimeSetsRequest) returns (DeleteAllTimeSetsResponse);
+  rpc DisableConditionalJumpTrigger(DisableConditionalJumpTriggerRequest) returns (DisableConditionalJumpTriggerResponse);
   rpc DisableSites(DisableSitesRequest) returns (DisableSitesResponse);
+  rpc DisableStartTrigger(DisableStartTriggerRequest) returns (DisableStartTriggerResponse);
   rpc EnableSites(EnableSitesRequest) returns (EnableSitesResponse);
+  rpc EndChannelMap(EndChannelMapRequest) returns (EndChannelMapResponse);
+  rpc ErrorMessage(ErrorMessageRequest) returns (ErrorMessageResponse);
+  rpc ExportSignal(ExportSignalRequest) returns (ExportSignalResponse);
   rpc FetchHistoryRAMCycleInformation(FetchHistoryRAMCycleInformationRequest) returns (FetchHistoryRAMCycleInformationResponse);
   rpc FetchHistoryRAMScanCycleNumber(FetchHistoryRAMScanCycleNumberRequest) returns (FetchHistoryRAMScanCycleNumberResponse);
+  rpc FrequencyCounterConfigureMeasurementMode(FrequencyCounterConfigureMeasurementModeRequest) returns (FrequencyCounterConfigureMeasurementModeResponse);
+  rpc FrequencyCounterConfigureMeasurementTime(FrequencyCounterConfigureMeasurementTimeRequest) returns (FrequencyCounterConfigureMeasurementTimeResponse);
   rpc FrequencyCounterMeasureFrequency(FrequencyCounterMeasureFrequencyRequest) returns (FrequencyCounterMeasureFrequencyResponse);
   rpc GetAttributeViBoolean(GetAttributeViBooleanRequest) returns (GetAttributeViBooleanResponse);
   rpc GetAttributeViInt32(GetAttributeViInt32Request) returns (GetAttributeViInt32Response);
   rpc GetAttributeViInt64(GetAttributeViInt64Request) returns (GetAttributeViInt64Response);
   rpc GetAttributeViReal64(GetAttributeViReal64Request) returns (GetAttributeViReal64Response);
+  rpc GetAttributeViSession(GetAttributeViSessionRequest) returns (GetAttributeViSessionResponse);
   rpc GetAttributeViString(GetAttributeViStringRequest) returns (GetAttributeViStringResponse);
   rpc GetChannelNameFromString(GetChannelNameFromStringRequest) returns (GetChannelNameFromStringResponse);
   rpc GetError(GetErrorRequest) returns (GetErrorResponse);
   rpc GetFailCount(GetFailCountRequest) returns (GetFailCountResponse);
   rpc GetHistoryRAMSampleCount(GetHistoryRAMSampleCountRequest) returns (GetHistoryRAMSampleCountResponse);
   rpc GetPatternName(GetPatternNameRequest) returns (GetPatternNameResponse);
+  rpc GetPatternPinIndexes(GetPatternPinIndexesRequest) returns (GetPatternPinIndexesResponse);
   rpc GetPatternPinList(GetPatternPinListRequest) returns (GetPatternPinListResponse);
   rpc GetPinName(GetPinNameRequest) returns (GetPinNameResponse);
   rpc GetPinResultsPinInformation(GetPinResultsPinInformationRequest) returns (GetPinResultsPinInformationResponse);
@@ -68,6 +92,7 @@ service NiDigital {
   rpc GetTimeSetEdgeMultiplier(GetTimeSetEdgeMultiplierRequest) returns (GetTimeSetEdgeMultiplierResponse);
   rpc GetTimeSetName(GetTimeSetNameRequest) returns (GetTimeSetNameResponse);
   rpc GetTimeSetPeriod(GetTimeSetPeriodRequest) returns (GetTimeSetPeriodResponse);
+  rpc Init(InitRequest) returns (InitResponse);
   rpc InitWithOptions(InitWithOptionsRequest) returns (InitWithOptionsResponse);
   rpc Initiate(InitiateRequest) returns (InitiateResponse);
   rpc IsDone(IsDoneRequest) returns (IsDoneResponse);
@@ -78,17 +103,29 @@ service NiDigital {
   rpc LoadSpecifications(LoadSpecificationsRequest) returns (LoadSpecificationsResponse);
   rpc LoadTiming(LoadTimingRequest) returns (LoadTimingResponse);
   rpc LockSession(LockSessionRequest) returns (LockSessionResponse);
+  rpc MapPinToChannel(MapPinToChannelRequest) returns (MapPinToChannelResponse);
+  rpc PPMUConfigureApertureTime(PPMUConfigureApertureTimeRequest) returns (PPMUConfigureApertureTimeResponse);
+  rpc PPMUConfigureCurrentLevel(PPMUConfigureCurrentLevelRequest) returns (PPMUConfigureCurrentLevelResponse);
+  rpc PPMUConfigureCurrentLevelRange(PPMUConfigureCurrentLevelRangeRequest) returns (PPMUConfigureCurrentLevelRangeResponse);
+  rpc PPMUConfigureCurrentLimit(PPMUConfigureCurrentLimitRequest) returns (PPMUConfigureCurrentLimitResponse);
+  rpc PPMUConfigureCurrentLimitRange(PPMUConfigureCurrentLimitRangeRequest) returns (PPMUConfigureCurrentLimitRangeResponse);
+  rpc PPMUConfigureOutputFunction(PPMUConfigureOutputFunctionRequest) returns (PPMUConfigureOutputFunctionResponse);
+  rpc PPMUConfigureVoltageLevel(PPMUConfigureVoltageLevelRequest) returns (PPMUConfigureVoltageLevelResponse);
+  rpc PPMUConfigureVoltageLimits(PPMUConfigureVoltageLimitsRequest) returns (PPMUConfigureVoltageLimitsResponse);
   rpc PPMUMeasure(PPMUMeasureRequest) returns (PPMUMeasureResponse);
   rpc PPMUSource(PPMUSourceRequest) returns (PPMUSourceResponse);
   rpc ReadSequencerFlag(ReadSequencerFlagRequest) returns (ReadSequencerFlagResponse);
   rpc ReadSequencerRegister(ReadSequencerRegisterRequest) returns (ReadSequencerRegisterResponse);
+  rpc Reset(ResetRequest) returns (ResetResponse);
   rpc ResetDevice(ResetDeviceRequest) returns (ResetDeviceResponse);
   rpc SelfCalibrate(SelfCalibrateRequest) returns (SelfCalibrateResponse);
+  rpc SelfTest(SelfTestRequest) returns (SelfTestResponse);
   rpc SendSoftwareEdgeTrigger(SendSoftwareEdgeTriggerRequest) returns (SendSoftwareEdgeTriggerResponse);
   rpc SetAttributeViBoolean(SetAttributeViBooleanRequest) returns (SetAttributeViBooleanResponse);
   rpc SetAttributeViInt32(SetAttributeViInt32Request) returns (SetAttributeViInt32Response);
   rpc SetAttributeViInt64(SetAttributeViInt64Request) returns (SetAttributeViInt64Response);
   rpc SetAttributeViReal64(SetAttributeViReal64Request) returns (SetAttributeViReal64Response);
+  rpc SetAttributeViSession(SetAttributeViSessionRequest) returns (SetAttributeViSessionResponse);
   rpc SetAttributeViString(SetAttributeViStringRequest) returns (SetAttributeViStringResponse);
   rpc TDR(TDRRequest) returns (TDRResponse);
   rpc UnloadAllPatterns(UnloadAllPatternsRequest) returns (UnloadAllPatternsResponse);
@@ -100,10 +137,6 @@ service NiDigital {
   rpc WriteSourceWaveformBroadcastU32(WriteSourceWaveformBroadcastU32Request) returns (WriteSourceWaveformBroadcastU32Response);
   rpc WriteSourceWaveformDataFromFileTDMS(WriteSourceWaveformDataFromFileTDMSRequest) returns (WriteSourceWaveformDataFromFileTDMSResponse);
   rpc WriteSourceWaveformSiteUniqueU32(WriteSourceWaveformSiteUniqueU32Request) returns (WriteSourceWaveformSiteUniqueU32Response);
-  rpc Close(CloseRequest) returns (CloseResponse);
-  rpc ErrorMessage(ErrorMessageRequest) returns (ErrorMessageResponse);
-  rpc Reset(ResetRequest) returns (ResetResponse);
-  rpc SelfTest(SelfTestRequest) returns (SelfTestResponse);
 }
 
 enum NiDigitalAttributes {
@@ -209,6 +242,14 @@ enum DriveFormat {
   DRIVE_FORMAT_NIDIGITAL_VAL_RL = 1501;
   DRIVE_FORMAT_NIDIGITAL_VAL_RH = 1502;
   DRIVE_FORMAT_NIDIGITAL_VAL_SBC = 1503;
+}
+
+enum ExportSignal {
+  EXPORT_SIGNAL_UNSPECIFIED = 0;
+  EXPORT_SIGNAL_NIDIGITAL_VAL_START_TRIGGER = 2000;
+  EXPORT_SIGNAL_NIDIGITAL_VAL_CONDITIONAL_JUMP_TRIGGER = 2001;
+  EXPORT_SIGNAL_NIDIGITAL_VAL_PATTERN_OPCODE_EVENT = 2002;
+  EXPORT_SIGNAL_NIDIGITAL_VAL_REF_CLOCK = 2003;
 }
 
 enum HistoryRAMCyclesToAcquire {
@@ -383,6 +424,23 @@ message ClockGeneratorGenerateClockResponse {
   int32 status = 1;
 }
 
+message ClockGeneratorInitiateRequest {
+  nidevice_grpc.Session vi = 1;
+  string channel_list = 2;
+}
+
+message ClockGeneratorInitiateResponse {
+  int32 status = 1;
+}
+
+message CloseRequest {
+  nidevice_grpc.Session vi = 1;
+}
+
+message CloseResponse {
+  int32 status = 1;
+}
+
 message CommitRequest {
   nidevice_grpc.Session vi = 1;
 }
@@ -403,12 +461,121 @@ message ConfigureActiveLoadLevelsResponse {
   int32 status = 1;
 }
 
+message ConfigureCycleNumberHistoryRAMTriggerRequest {
+  nidevice_grpc.Session vi = 1;
+  int64 cycle_number = 2;
+  sint32 pretrigger_samples = 3;
+}
+
+message ConfigureCycleNumberHistoryRAMTriggerResponse {
+  int32 status = 1;
+}
+
+message ConfigureDigitalEdgeConditionalJumpTriggerRequest {
+  nidevice_grpc.Session vi = 1;
+  string trigger_identifier = 2;
+  string source = 3;
+  oneof edge_enum {
+    DigitalEdge edge = 4;
+    sint32 edge_raw = 5;
+  }
+}
+
+message ConfigureDigitalEdgeConditionalJumpTriggerResponse {
+  int32 status = 1;
+}
+
+message ConfigureDigitalEdgeStartTriggerRequest {
+  nidevice_grpc.Session vi = 1;
+  string source = 2;
+  oneof edge_enum {
+    DigitalEdge edge = 3;
+    sint32 edge_raw = 4;
+  }
+}
+
+message ConfigureDigitalEdgeStartTriggerResponse {
+  int32 status = 1;
+}
+
+message ConfigureFirstFailureHistoryRAMTriggerRequest {
+  nidevice_grpc.Session vi = 1;
+  sint32 pretrigger_samples = 2;
+}
+
+message ConfigureFirstFailureHistoryRAMTriggerResponse {
+  int32 status = 1;
+}
+
+message ConfigureHistoryRAMCyclesToAcquireRequest {
+  nidevice_grpc.Session vi = 1;
+  oneof cycles_to_acquire_enum {
+    HistoryRAMCyclesToAcquire cycles_to_acquire = 2;
+    sint32 cycles_to_acquire_raw = 3;
+  }
+}
+
+message ConfigureHistoryRAMCyclesToAcquireResponse {
+  int32 status = 1;
+}
+
 message ConfigurePatternBurstSitesRequest {
   nidevice_grpc.Session vi = 1;
   string site_list = 2;
 }
 
 message ConfigurePatternBurstSitesResponse {
+  int32 status = 1;
+}
+
+message ConfigurePatternLabelHistoryRAMTriggerRequest {
+  nidevice_grpc.Session vi = 1;
+  string label = 2;
+  int64 vector_offset = 3;
+  int64 cycle_offset = 4;
+  sint32 pretrigger_samples = 5;
+}
+
+message ConfigurePatternLabelHistoryRAMTriggerResponse {
+  int32 status = 1;
+}
+
+message ConfigureStartLabelRequest {
+  nidevice_grpc.Session vi = 1;
+  string label = 2;
+}
+
+message ConfigureStartLabelResponse {
+  int32 status = 1;
+}
+
+message ConfigureSoftwareEdgeConditionalJumpTriggerRequest {
+  nidevice_grpc.Session vi = 1;
+  string trigger_identifier = 2;
+}
+
+message ConfigureSoftwareEdgeConditionalJumpTriggerResponse {
+  int32 status = 1;
+}
+
+message ConfigureSoftwareEdgeStartTriggerRequest {
+  nidevice_grpc.Session vi = 1;
+}
+
+message ConfigureSoftwareEdgeStartTriggerResponse {
+  int32 status = 1;
+}
+
+message ConfigureTerminationModeRequest {
+  nidevice_grpc.Session vi = 1;
+  string channel_list = 2;
+  oneof mode_enum {
+    TerminationMode mode = 3;
+    sint32 mode_raw = 4;
+  }
+}
+
+message ConfigureTerminationModeResponse {
   int32 status = 1;
 }
 
@@ -572,6 +739,15 @@ message CreateCaptureWaveformSerialResponse {
   int32 status = 1;
 }
 
+message CreateChannelMapRequest {
+  nidevice_grpc.Session vi = 1;
+  sint32 num_sites = 2;
+}
+
+message CreateChannelMapResponse {
+  int32 status = 1;
+}
+
 message CreateSourceWaveformFromFileTDMSRequest {
   nidevice_grpc.Session vi = 1;
   string waveform_name = 2;
@@ -580,6 +756,26 @@ message CreateSourceWaveformFromFileTDMSRequest {
 }
 
 message CreateSourceWaveformFromFileTDMSResponse {
+  int32 status = 1;
+}
+
+message CreatePinMapRequest {
+  nidevice_grpc.Session vi = 1;
+  string dut_pin_list = 2;
+  string system_pin_list = 3;
+}
+
+message CreatePinMapResponse {
+  int32 status = 1;
+}
+
+message CreatePinGroupRequest {
+  nidevice_grpc.Session vi = 1;
+  string pin_group_name = 2;
+  string pin_list = 3;
+}
+
+message CreatePinGroupResponse {
   int32 status = 1;
 }
 
@@ -633,6 +829,15 @@ message DeleteAllTimeSetsResponse {
   int32 status = 1;
 }
 
+message DisableConditionalJumpTriggerRequest {
+  nidevice_grpc.Session vi = 1;
+  string trigger_identifier = 2;
+}
+
+message DisableConditionalJumpTriggerResponse {
+  int32 status = 1;
+}
+
 message DisableSitesRequest {
   nidevice_grpc.Session vi = 1;
   string site_list = 2;
@@ -642,12 +847,52 @@ message DisableSitesResponse {
   int32 status = 1;
 }
 
+message DisableStartTriggerRequest {
+  nidevice_grpc.Session vi = 1;
+}
+
+message DisableStartTriggerResponse {
+  int32 status = 1;
+}
+
 message EnableSitesRequest {
   nidevice_grpc.Session vi = 1;
   string site_list = 2;
 }
 
 message EnableSitesResponse {
+  int32 status = 1;
+}
+
+message EndChannelMapRequest {
+  nidevice_grpc.Session vi = 1;
+}
+
+message EndChannelMapResponse {
+  int32 status = 1;
+}
+
+message ErrorMessageRequest {
+  nidevice_grpc.Session vi = 1;
+  sint32 error_code = 2;
+}
+
+message ErrorMessageResponse {
+  int32 status = 1;
+  string error_message = 2;
+}
+
+message ExportSignalRequest {
+  nidevice_grpc.Session vi = 1;
+  oneof signal_enum {
+    ExportSignal signal = 2;
+    sint32 signal_raw = 3;
+  }
+  string signal_identifier = 4;
+  string output_terminal = 5;
+}
+
+message ExportSignalResponse {
   int32 status = 1;
 }
 
@@ -675,6 +920,28 @@ message FetchHistoryRAMScanCycleNumberRequest {
 message FetchHistoryRAMScanCycleNumberResponse {
   int32 status = 1;
   int64 scan_cycle_number = 2;
+}
+
+message FrequencyCounterConfigureMeasurementModeRequest {
+  nidevice_grpc.Session vi = 1;
+  oneof measurement_mode_enum {
+    FrequencyMeasurementMode measurement_mode = 2;
+    sint32 measurement_mode_raw = 3;
+  }
+}
+
+message FrequencyCounterConfigureMeasurementModeResponse {
+  int32 status = 1;
+}
+
+message FrequencyCounterConfigureMeasurementTimeRequest {
+  nidevice_grpc.Session vi = 1;
+  string channel_list = 2;
+  double measurement_time = 3;
+}
+
+message FrequencyCounterConfigureMeasurementTimeResponse {
+  int32 status = 1;
 }
 
 message FrequencyCounterMeasureFrequencyRequest {
@@ -731,6 +998,17 @@ message GetAttributeViReal64Request {
 message GetAttributeViReal64Response {
   int32 status = 1;
   double value = 2;
+}
+
+message GetAttributeViSessionRequest {
+  nidevice_grpc.Session vi = 1;
+  string channel_list = 2;
+  NiDigitalAttributes attribute = 3;
+}
+
+message GetAttributeViSessionResponse {
+  int32 status = 1;
+  nidevice_grpc.Session value = 2;
 }
 
 message GetAttributeViStringRequest {
@@ -794,6 +1072,18 @@ message GetPatternNameRequest {
 message GetPatternNameResponse {
   int32 status = 1;
   string name = 2;
+}
+
+message GetPatternPinIndexesRequest {
+  nidevice_grpc.Session vi = 1;
+  string start_label = 2;
+  sint32 pin_indexes_buffer_size = 3;
+}
+
+message GetPatternPinIndexesResponse {
+  int32 status = 1;
+  repeated sint32 pin_indexes = 2;
+  sint32 actual_num_pins = 3;
 }
 
 message GetPatternPinListRequest {
@@ -916,16 +1206,29 @@ message GetTimeSetPeriodResponse {
   double period = 2;
 }
 
+message InitRequest {
+  string session_name = 1;
+  string resource_name = 2;
+  bool id_query = 3;
+  bool reset_device = 4;
+}
+
+message InitResponse {
+  int32 status = 1;
+  nidevice_grpc.Session vi = 2;
+}
+
 message InitWithOptionsRequest {
-  string resource_name = 1;
-  bool id_query = 2;
-  bool reset_device = 3;
-  string option_string = 4;
+  string session_name = 1;
+  string resource_name = 2;
+  bool id_query = 3;
+  bool reset_device = 4;
+  string option_string = 5;
 }
 
 message InitWithOptionsResponse {
   int32 status = 1;
-  nidevice_grpc.Session new_vi = 2;
+  nidevice_grpc.Session vi = 2;
 }
 
 message InitiateRequest {
@@ -1009,6 +1312,109 @@ message LockSessionResponse {
   bool caller_has_lock = 2;
 }
 
+message MapPinToChannelRequest {
+  nidevice_grpc.Session vi = 1;
+  string pin = 2;
+  sint32 site = 3;
+  string channel = 4;
+}
+
+message MapPinToChannelResponse {
+  int32 status = 1;
+}
+
+message PPMUConfigureApertureTimeRequest {
+  nidevice_grpc.Session vi = 1;
+  string channel_list = 2;
+  double aperture_time = 3;
+  oneof units_enum {
+    PPMUApertureTimeUnits units = 4;
+    sint32 units_raw = 5;
+  }
+}
+
+message PPMUConfigureApertureTimeResponse {
+  int32 status = 1;
+}
+
+message PPMUConfigureCurrentLevelRequest {
+  nidevice_grpc.Session vi = 1;
+  string channel_list = 2;
+  double current_level = 3;
+}
+
+message PPMUConfigureCurrentLevelResponse {
+  int32 status = 1;
+}
+
+message PPMUConfigureCurrentLevelRangeRequest {
+  nidevice_grpc.Session vi = 1;
+  string channel_list = 2;
+  double range = 3;
+}
+
+message PPMUConfigureCurrentLevelRangeResponse {
+  int32 status = 1;
+}
+
+message PPMUConfigureCurrentLimitRequest {
+  nidevice_grpc.Session vi = 1;
+  string channel_list = 2;
+  oneof behavior_enum {
+    PPMUCurrentLimitBehavior behavior = 3;
+    sint32 behavior_raw = 4;
+  }
+  double limit = 5;
+}
+
+message PPMUConfigureCurrentLimitResponse {
+  int32 status = 1;
+}
+
+message PPMUConfigureCurrentLimitRangeRequest {
+  nidevice_grpc.Session vi = 1;
+  string channel_list = 2;
+  double range = 3;
+}
+
+message PPMUConfigureCurrentLimitRangeResponse {
+  int32 status = 1;
+}
+
+message PPMUConfigureOutputFunctionRequest {
+  nidevice_grpc.Session vi = 1;
+  string channel_list = 2;
+  oneof output_function_enum {
+    PPMUOutputFunction output_function = 3;
+    sint32 output_function_raw = 4;
+  }
+}
+
+message PPMUConfigureOutputFunctionResponse {
+  int32 status = 1;
+}
+
+message PPMUConfigureVoltageLevelRequest {
+  nidevice_grpc.Session vi = 1;
+  string channel_list = 2;
+  double voltage_level = 3;
+}
+
+message PPMUConfigureVoltageLevelResponse {
+  int32 status = 1;
+}
+
+message PPMUConfigureVoltageLimitsRequest {
+  nidevice_grpc.Session vi = 1;
+  string channel_list = 2;
+  double lower_voltage_limit = 3;
+  double upper_voltage_limit = 4;
+}
+
+message PPMUConfigureVoltageLimitsResponse {
+  int32 status = 1;
+}
+
 message PPMUMeasureRequest {
   nidevice_grpc.Session vi = 1;
   string channel_list = 2;
@@ -1054,6 +1460,14 @@ message ReadSequencerRegisterResponse {
   sint32 value = 2;
 }
 
+message ResetRequest {
+  nidevice_grpc.Session vi = 1;
+}
+
+message ResetResponse {
+  int32 status = 1;
+}
+
 message ResetDeviceRequest {
   nidevice_grpc.Session vi = 1;
 }
@@ -1068,6 +1482,16 @@ message SelfCalibrateRequest {
 
 message SelfCalibrateResponse {
   int32 status = 1;
+}
+
+message SelfTestRequest {
+  nidevice_grpc.Session vi = 1;
+}
+
+message SelfTestResponse {
+  int32 status = 1;
+  sint32 test_result = 2;
+  string test_message = 3;
 }
 
 message SendSoftwareEdgeTriggerRequest {
@@ -1124,6 +1548,17 @@ message SetAttributeViReal64Request {
 }
 
 message SetAttributeViReal64Response {
+  int32 status = 1;
+}
+
+message SetAttributeViSessionRequest {
+  nidevice_grpc.Session vi = 1;
+  string channel_list = 2;
+  NiDigitalAttributes attribute = 3;
+  nidevice_grpc.Session value = 4;
+}
+
+message SetAttributeViSessionResponse {
   int32 status = 1;
 }
 
@@ -1238,41 +1673,5 @@ message WriteSourceWaveformSiteUniqueU32Request {
 
 message WriteSourceWaveformSiteUniqueU32Response {
   int32 status = 1;
-}
-
-message CloseRequest {
-  nidevice_grpc.Session vi = 1;
-}
-
-message CloseResponse {
-  int32 status = 1;
-}
-
-message ErrorMessageRequest {
-  nidevice_grpc.Session vi = 1;
-  sint32 error_code = 2;
-}
-
-message ErrorMessageResponse {
-  int32 status = 1;
-  string error_message = 2;
-}
-
-message ResetRequest {
-  nidevice_grpc.Session vi = 1;
-}
-
-message ResetResponse {
-  int32 status = 1;
-}
-
-message SelfTestRequest {
-  nidevice_grpc.Session vi = 1;
-}
-
-message SelfTestResponse {
-  int32 status = 1;
-  sint32 test_result = 2;
-  string test_message = 3;
 }
 

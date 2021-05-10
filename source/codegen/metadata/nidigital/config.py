@@ -8,7 +8,7 @@ config = {
     'java_package': 'com.ni.grpc.nidigital',
     'csharp_namespace': 'NationalInstruments.Grpc.Digital',
     'namespace_component': 'nidigital',
-    'close_function': 'close',
+    'close_function': 'Close',
     'context_manager_name': {
         'abort_function': 'Abort',
         'initiate_function': 'Initiate',

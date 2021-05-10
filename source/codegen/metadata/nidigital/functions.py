@@ -1,16 +1,8 @@
-# -*- coding: utf-8 -*-
-# This file is generated from NI-Digital Pattern Driver API metadata version 19.5.0d7
 functions = {
     'Abort': {
-        'documentation': {
-            'description': 'Stops bursting the pattern.\n'
-        },
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
                 'name': 'vi',
                 'type': 'ViSession'
             }
@@ -18,15 +10,9 @@ functions = {
         'returns': 'ViStatus'
     },
     'AbortKeepAlive': {
-        'documentation': {
-            'description': 'Stops the keep alive pattern if it is currently running. If a pattern burst is in progress, the function aborts the pattern burst. If you start a new pattern burst while a keep alive pattern is running, the keep alive pattern runs to the last keep alive vector, and the new pattern burst starts on the next cycle.\n'
-        },
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
                 'name': 'vi',
                 'type': 'ViSession'
             }
@@ -34,15 +20,9 @@ functions = {
         'returns': 'ViStatus'
     },
     'ApplyLevelsAndTiming': {
-        'documentation': {
-            'description': 'Applies digital levels and timing values defined in previously loaded levels and timing sheets. When applying a levels sheet, only the levels specified in the sheet are affected. Any levels not specified in the sheet remain unchanged. When applying a timing sheet, all existing time sets are deleted before the new time sets are loaded.\n'
-        },
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
                 'name': 'vi',
                 'type': 'ViSession'
             },
@@ -50,34 +30,22 @@ functions = {
                 'direction': 'in',
                 'is_repeated_capability': True,
                 'repeated_capability_type': 'sites',
-                'documentation': {
-                    'description': 'Comma-delimited list of strings in the form of ``siteN`` , where ``N`` is the site number. If you enter an empty string, this function applies the levels and initial states to all sites.\n'
-                },
                 'name': 'siteList',
                 'type': 'ViConstString'
             },
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'Name of the levels sheet to apply. Use the name of the sheet or pass the absolute file path you use in the niDigital_FancyLoadSpecificationsLevelsAndTiming function. The name of the levels sheet is the file name without the directory and file extension.\n'
-                },
                 'name': 'levelsSheet',
                 'type': 'ViConstString'
             },
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'Name of the timing sheet to apply. Use the name of the sheet or pass the absolute file path that you use in the niDigital_FancyLoadSpecificationsLevelsAndTiming function. The name of the timing sheet is the file name without the directory and file extension.\n'
-                },
                 'name': 'timingSheet',
                 'type': 'ViConstString'
             },
             {
                 'default_value': 'None',
                 'direction': 'in',
-                'documentation': {
-                    'description': 'Comma-delimited list of pins, pin groups, or channels to initialize to a high state.\n'
-                },
                 'name': 'initialStateHighPins',
                 'python_api_converter_name': 'convert_repeated_capabilities_without_prefix',
                 'type': 'ViConstString',
@@ -86,9 +54,6 @@ functions = {
             {
                 'default_value': 'None',
                 'direction': 'in',
-                'documentation': {
-                    'description': 'Comma-delimited list of pins, pin groups, or channels to initialize to a low state.\n'
-                },
                 'name': 'initialStateLowPins',
                 'python_api_converter_name': 'convert_repeated_capabilities_without_prefix',
                 'type': 'ViConstString',
@@ -97,9 +62,6 @@ functions = {
             {
                 'default_value': 'None',
                 'direction': 'in',
-                'documentation': {
-                    'description': 'Comma-delimited list of pins, pin groups, or channels to initialize to a non-drive state (X)\n'
-                },
                 'name': 'initialStateTristatePins',
                 'python_api_converter_name': 'convert_repeated_capabilities_without_prefix',
                 'type': 'ViConstString',
@@ -109,39 +71,24 @@ functions = {
         'returns': 'ViStatus'
     },
     'ApplyTDROffsets': {
-        'documentation': {
-            'description': 'Applies the correction for propagation delay offsets to a digital pattern instrument. Use this function to apply TDR offsets that are stored from a past measurement or are measured by means other than the niDigital_TDR function. Also use this function to apply correction for offsets if the **applyOffsets** input of the niDigital_TDR function was set to False at the time of measurement.\n'
-        },
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
                 'name': 'vi',
                 'type': 'ViSession'
             },
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'List of channel names or list of pins. Do not pass a mix of channel names and pin names. An empty string denotes all digital pattern instrument channels.\n\nPin names and pin groups apply to all enabled sites, unless the pin name explicitly specifies the site. You can specify a pin in a specific site using the form site\\ ``N``/pinName\\ ````, where ``N`` is the site number. This function ignores pins that are not mapped to the digital pattern instrument.\n\nSpecify channel names using the form ``PXI1Slot3``/``0``,\\ ``2-3`` or ``PXI1Slot3``/``0``,\\ ``PXI1Slot3``/``2-3``, where ``PXI1Slot3`` is the instrument resource name and ``0``, ``2``, ``3`` are channel names. To specify channels from multiple instruments, use the form ``PXI1Slot3``/``0``,\\ ``PXI1Slot3``/``2-3``,\\ ``PXI1Slot4``/``2-3``. The instruments must be in the same chassis.\n'
-                },
                 'name': 'channelList',
                 'type': 'ViConstString'
             },
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'Number of offsets.\n'
-                },
                 'name': 'numOffsets',
                 'type': 'ViInt32'
             },
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'TDR offsets to apply, in seconds. Specify an offset for each pin or channel in the repeated capabilities. If the repeated capabilities contain pin names, you must specify offsets for each site in the channel map per pin.\n'
-                },
                 'name': 'offsets',
                 'python_api_converter_name': 'convert_timedeltas_to_seconds_real64',
                 'size': {
@@ -156,15 +103,9 @@ functions = {
     },
     'BurstPattern': {
         'codegen_method': 'public',
-        'documentation': {
-            'description': 'Uses the **startLabel** you specify to burst the pattern on the sites you specify and provides the option to wait for the burst to complete. Digital pins retain their state at the end of a pattern burst until the first vector of a subsequent pattern burst, a call to niDigital_WriteStatic, or a call to niDigital_ApplyLevelsAndTiming.\n'
-        },
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
                 'name': 'vi',
                 'type': 'ViSession'
             },
@@ -172,44 +113,29 @@ functions = {
                 'direction': 'in',
                 'is_repeated_capability': True,
                 'repeated_capability_type': 'sites',
-                'documentation': {
-                    'description': 'The sites on which to burst the pattern as a comma-delimited list of strings in the form site\\ ``N``, where ``N`` is the site number. If you specify an empty string, the pattern is burst on all sites.\n'
-                },
                 'name': 'siteList',
                 'type': 'ViConstString'
             },
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'Pattern name or exported pattern label from which to start bursting the pattern.\n'
-                },
                 'name': 'startLabel',
                 'type': 'ViConstString'
             },
             {
                 'default_value': True,
                 'direction': 'in',
-                'documentation': {
-                    'description': 'A Boolean that specifies whether to select the digital function for the pins in the pattern prior to bursting.\n'
-                },
                 'name': 'selectDigitalFunction',
                 'type': 'ViBoolean'
             },
             {
                 'default_value': True,
                 'direction': 'in',
-                'documentation': {
-                    'description': 'A Boolean that indicates whether to wait until the bursting is complete.\n'
-                },
                 'name': 'waitUntilDone',
                 'type': 'ViBoolean'
             },
             {
                 'default_value': 'hightime.timedelta(seconds=10.0)',
                 'direction': 'in',
-                'documentation': {
-                    'description': 'Maximum time (in seconds) allowed for this function to complete. If this function does not complete within this time interval, this function returns an error.\n'
-                },
                 'name': 'timeout',
                 'python_api_converter_name': 'convert_timedelta_to_seconds_real64',
                 'type': 'ViReal64',
@@ -220,39 +146,25 @@ functions = {
     },
     'ClearError': {
         'codegen_method': 'no',
-        'documentation': {
-            'description': 'Clears the error information for the current execution thread and the IVI session you specify. If you pass VI_NULL for the **vi** parameter, this function clears the error information only for the current execution thread.\n'
-        },
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
                 'name': 'vi',
                 'type': 'ViSession'
             }
         ],
         'returns': 'ViStatus'
     },
-    'ClockGenerator_Abort': {
-        'documentation': {
-            'description': 'Stops clock generation on the specified channel(s) or pin(s) and pin group(s).\n'
-        },
+    'ClockGeneratorAbort': {
+        'cname': 'niDigital_ClockGenerator_Abort',
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
                 'name': 'vi',
                 'type': 'ViSession'
             },
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'List of channel names or list of pins. Do not pass a mix of channel names and pin names. An empty string denotes all digital pattern instrument channels.\n\nPin names and pin groups apply to all enabled sites, unless the pin name explicitly specifies the site. You can specify a pin in a specific site using the form site\\ ``N``/pinName\\ ````, where ``N`` is the site number. This function ignores pins that are not mapped to the digital pattern instrument.\n\nSpecify channel names using the form ``PXI1Slot3``/``0``,\\ ``2-3`` or ``PXI1Slot3``/``0``,\\ ``PXI1Slot3``/``2-3``, where ``PXI1Slot3`` is the instrument resource name and ``0``, ``2``, ``3`` are channel names. To specify channels from multiple instruments, use the form ``PXI1Slot3``/``0``,\\ ``PXI1Slot3``/``2-3``,\\ ``PXI1Slot4``/``2-3``. The instruments must be in the same chassis.\n'
-                },
                 'name': 'channelList',
                 'type': 'ViConstString'
             }
@@ -260,41 +172,27 @@ functions = {
         'python_name': 'clock_generator_abort',
         'returns': 'ViStatus'
     },
-    'ClockGenerator_GenerateClock': {
-        'documentation': {
-            'description': 'Configures clock generator frequency and initiates clock generation on the specified channel(s) or pin(s) and pin group(s).\n'
-        },
+    'ClockGeneratorGenerateClock': {
+        'cname': 'niDigital_ClockGenerator_GenerateClock',
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
                 'name': 'vi',
                 'type': 'ViSession'
             },
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'List of channel names or list of pins. Do not pass a mix of channel names and pin names. An empty string denotes all digital pattern instrument channels.\n\nPin names and pin groups apply to all enabled sites, unless the pin name explicitly specifies the site. You can specify a pin in a specific site using the form site\\ ``N``/pinName\\ ````, where ``N`` is the site number. This function ignores pins that are not mapped to the digital pattern instrument.\n\nSpecify channel names using the form ``PXI1Slot3``/``0``,\\ ``2-3`` or ``PXI1Slot3``/``0``,\\ ``PXI1Slot3``/``2-3``, where ``PXI1Slot3`` is the instrument resource name and ``0``, ``2``, ``3`` are channel names. To specify channels from multiple instruments, use the form ``PXI1Slot3``/``0``,\\ ``PXI1Slot3``/``2-3``,\\ ``PXI1Slot4``/``2-3``. The instruments must be in the same chassis.\n'
-                },
                 'name': 'channelList',
                 'type': 'ViConstString'
             },
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'The frequency of the clock generation, in Hz.\n'
-                },
                 'name': 'frequency',
                 'type': 'ViReal64'
             },
             {
                 'default_value': True,
                 'direction': 'in',
-                'documentation': {
-                    'description': 'A Boolean that specifies whether to select the digital function for the pins specified prior to starting clock generation.\n'
-                },
                 'name': 'selectDigitalFunction',
                 'type': 'ViBoolean'
             }
@@ -302,25 +200,17 @@ functions = {
         'python_name': 'clock_generator_generate_clock',
         'returns': 'ViStatus'
     },
-    'ClockGenerator_Initiate': {
-        'codegen_method': 'no',
-        'documentation': {
-            'description': 'Initiates clock generation on the specified channel(s) or pin(s) and pin group(s).\n'
-        },
+    'ClockGeneratorInitiate': {
+        'cname': 'niDigital_ClockGenerator_Initiate',
+        'codegen_method': 'public',
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
                 'name': 'vi',
                 'type': 'ViSession'
             },
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'List of channel names or list of pins. Do not pass a mix of channel names and pin names. An empty string denotes all digital pattern instrument channels.\n\nPin names and pin groups apply to all enabled sites, unless the pin name explicitly specifies the site. You can specify a pin in a specific site using the form site\\ ``N``/pinName\\ ````, where ``N`` is the site number. This function ignores pins that are not mapped to the digital pattern instrument.\n\nSpecify channel names using the form ``PXI1Slot3``/``0``,\\ ``2-3`` or ``PXI1Slot3``/``0``,\\ ``PXI1Slot3``/``2-3``, where ``PXI1Slot3`` is the instrument resource name and ``0``, ``2``, ``3`` are channel names. To specify channels from multiple instruments, use the form ``PXI1Slot3``/``0``,\\ ``PXI1Slot3``/``2-3``,\\ ``PXI1Slot4``/``2-3``. The instruments must be in the same chassis.\n'
-                },
                 'name': 'channelList',
                 'type': 'ViConstString'
             }
@@ -328,16 +218,24 @@ functions = {
         'python_name': 'clock_generator_initiate',
         'returns': 'ViStatus'
     },
-    'Commit': {
-        'documentation': {
-            'description': 'Applies all previously configured pin levels, termination modes, clocks, triggers, and pattern timing to a digital pattern instrument. If you do not call the niDigital_Commit function, then the initiate function or the niDigital_FancyBurstPattern function will implicitly call this function for you. Calling this function moves the session from the Uncommitted state to the Committed state.\n'
-        },
+    'Close': {
+        'cname': 'niDigital_close',
+        'codegen_method': 'public',
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
+                'name': 'vi',
+                'type': 'ViSession'
+            }
+        ],
+        'python_name': '_close',
+        'returns': 'ViStatus',
+        'use_session_lock': False
+    },
+    'Commit': {
+        'parameters': [
+            {
+                'direction': 'in',
                 'name': 'vi',
                 'type': 'ViSession'
             }
@@ -345,63 +243,138 @@ functions = {
         'returns': 'ViStatus'
     },
     'ConfigureActiveLoadLevels': {
-        'documentation': {
-            'description': 'Configures I\\ :sub:`OL`, I\\ :sub:`OH`, and V\\ :sub:`COM` levels for the active load on the pins you specify. The DUT sources or sinks current based on the level values. To enable active load, set the termination mode to NIDIGITAL_VAL_ACTIVE_LOAD. To disable active load, set the termination mode of the instrument to NIDIGITAL_VAL_HIGH_Z or NIDIGITAL_VAL_VTERM.\n'
-        },
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
                 'name': 'vi',
                 'type': 'ViSession'
             },
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'List of channel names or list of pins. Do not pass a mix of channel names and pin names. An empty string denotes all digital pattern instrument channels.\n\nPin names and pin groups apply to all enabled sites, unless the pin name explicitly specifies the site. You can specify a pin in a specific site using the form site\\ ``N``/pinName\\ ````, where ``N`` is the site number. This function ignores pins that are not mapped to the digital pattern instrument.\n\nSpecify channel names using the form ``PXI1Slot3``/``0``,\\ ``2-3`` or ``PXI1Slot3``/``0``,\\ ``PXI1Slot3``/``2-3``, where ``PXI1Slot3`` is the instrument resource name and ``0``, ``2``, ``3`` are channel names. To specify channels from multiple instruments, use the form ``PXI1Slot3``/``0``,\\ ``PXI1Slot3``/``2-3``,\\ ``PXI1Slot4``/``2-3``. The instruments must be in the same chassis.\n'
-                },
                 'name': 'channelList',
                 'type': 'ViConstString'
             },
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'Maximum current that the DUT sinks while outputting a voltage below V\\ :sub:`COM`.\n'
-                },
                 'name': 'iol',
                 'type': 'ViReal64'
             },
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'Maximum current that the DUT sources while outputting a voltage above V\\ :sub:`COM`.\n'
-                },
                 'name': 'ioh',
                 'type': 'ViReal64'
             },
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'Commutating voltage level at which the active load circuit switches between sourcing current and sinking current.\n'
-                },
                 'name': 'vcom',
                 'type': 'ViReal64'
             }
         ],
         'returns': 'ViStatus'
     },
+    "ConfigureCycleNumberHistoryRAMTrigger":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"cycleNumber",
+                "direction":"in",
+                "type":"ViInt64"
+            },
+            {
+                "name":"pretriggerSamples",
+                "direction":"in",
+                "type":"ViInt32"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    "ConfigureDigitalEdgeConditionalJumpTrigger":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"triggerIdentifier",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"source",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"edge",
+                "direction":"in",
+                "type":"ViInt32",
+                "enum":"DigitalEdge"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    "ConfigureDigitalEdgeStartTrigger":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"source",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"edge",
+                "direction":"in",
+                "type":"ViInt32",
+                "enum":"DigitalEdge"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+
+    "ConfigureFirstFailureHistoryRAMTrigger":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"pretriggerSamples",
+                "direction":"in",
+                "type":"ViInt32"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+     "ConfigureHistoryRAMCyclesToAcquire":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"cyclesToAcquire",
+                "direction":"in",
+                "type":"ViInt32",
+                "enum":"HistoryRAMCyclesToAcquire"
+            }
+        ],
+        "returns":"ViStatus"
+    },
     'ConfigurePatternBurstSites': {
-        'documentation': {
-            'description': 'Configures which sites burst the pattern on the next call to the initiate function. The pattern burst sites can also be modified through the repeated capabilities for the niDigital_FancyBurstPattern function. If a site has been disabled through the niDigital_DisableSites function, the site does not burst a pattern even if included in the pattern burst sites.\n'
-        },
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
                 'name': 'vi',
                 'type': 'ViSession'
             },
@@ -409,14 +382,102 @@ functions = {
                 'direction': 'in',
                 'is_repeated_capability': True,
                 'repeated_capability_type': 'sites',
-                'documentation': {
-                    'description': 'A comma-delimited list of strings in the form of site\\ ``N``, where ``N`` is the site number. If you specify an empty string, the function returns pass or fail results for all sites. If the string is empty, all sites are configured for pattern bursting.\n'
-                },
                 'name': 'siteList',
                 'type': 'ViConstString'
             }
         ],
         'returns': 'ViStatus'
+    },
+    "ConfigurePatternLabelHistoryRAMTrigger":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"label",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"vectorOffset",
+                "direction":"in",
+                "type":"ViInt64"
+            },
+            {
+                "name":"cycleOffset",
+                "direction":"in",
+                "type":"ViInt64"
+            },
+            {
+                "name":"pretriggerSamples",
+                "direction":"in",
+                "type":"ViInt32"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    "ConfigureStartLabel":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"label",
+                "direction":"in",
+                "type":"ViConstString"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    "ConfigureSoftwareEdgeConditionalJumpTrigger":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"triggerIdentifier",
+                "direction":"in",
+                "type":"ViConstString"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    "ConfigureSoftwareEdgeStartTrigger":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    "ConfigureTerminationMode":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"channelList",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"mode",
+                "direction":"in",
+                "type":"ViInt32",
+                "enum":"TerminationMode"
+            }
+        ],
+        "returns":"ViStatus"
     },
     'ConfigureTimeSetCompareEdgesStrobe': {
         'documentation': {
@@ -1055,6 +1116,21 @@ functions = {
         ],
         'returns': 'ViStatus'
     },
+    "CreateChannelMap":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"numSites",
+                "direction":"in",
+                "type":"ViInt32"
+            }
+        ],
+        "returns":"ViStatus"
+    },
     'CreateSourceWaveformFromFileTDMS': {
         'documentation': {
             'description': 'Creates a source waveform with configuration information from a TDMS file generated by the Digital Pattern Editor. It also optionally writes waveform data from the file.\n'
@@ -1095,6 +1171,46 @@ functions = {
             }
         ],
         'returns': 'ViStatus'
+    },
+    "CreatePinMap":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"dutPinList",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"systemPinList",
+                "direction":"in",
+                "type":"ViConstString"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    "CreatePinGroup":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"pinGroupName",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"pinList",
+                "direction":"in",
+                "type":"ViConstString"
+            }
+        ],
+        "returns":"ViStatus"
     },
     'CreateSourceWaveformParallel': {
         'documentation': {
@@ -1239,6 +1355,21 @@ functions = {
         ],
         'returns': 'ViStatus'
     },
+    "DisableConditionalJumpTrigger":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"triggerIdentifier",
+                "direction":"in",
+                "type":"ViConstString"
+            }
+        ],
+        "returns":"ViStatus"
+    },
     'DisableSites': {
         'documentation': {
             'description': 'Disables specified sites. Disabled sites are not included in pattern bursts initiated by the initiate function or the niDigital_FancyBurstPattern function, even if the site is specified in the list of pattern burst sites in niDigital_ConfigurePatternBurstSites function or in the repeated capabilities for the niDigital_FancyBurstPattern function. Additionally, if you specify a list of pin or pin group names in repeated capabilities in any NI-Digital function, digital pattern instrument channels mapped to disabled sites are not affected by the function. The functions that return per-pin data, such as the niDigital_PPMU_Measure function, do not return data for channels mapped to disabled sites. The digital pattern instrument channels mapped to the sites specified are left in their current state. NI TestStand Semiconductor Module requires all sites to always be enabled, and manages the set of active sites without disabling the sites in the digital instrument session. Do not use this function with the Semiconductor Module.\n'
@@ -1265,6 +1396,16 @@ functions = {
         ],
         'returns': 'ViStatus'
     },
+    "DisableStartTrigger":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            }
+        ],
+        "returns":"ViStatus"
+    },
     'EnableSites': {
         'documentation': {
             'description': 'Enables the sites you specify. All sites are enabled by default.\n'
@@ -1290,6 +1431,82 @@ functions = {
             }
         ],
         'returns': 'ViStatus'
+    },
+    "EndChannelMap":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    'ErrorMessage': {
+        'cname': 'niDigital_error_message',
+        'codegen_method': 'public',
+        'documentation': {
+            'description': 'Takes the error code returned by the digital pattern instrument driver functions, interprets it, and returns it as a user readable string.\n'
+        },
+        'is_error_handling': True,
+        'parameters': [
+            {
+                'direction': 'in',
+                'documentation': {
+                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns. You may also specify VI_NULL as the instrument session to retrieve the error message even when the niDigital_init function or the niDigital_InitWithOptions function fails.\n'
+                },
+                'name': 'vi',
+                'type': 'ViSession'
+            },
+            {
+                'direction': 'in',
+                'documentation': {
+                    'description': 'The specified error code.\n'
+                },
+                'name': 'errorCode',
+                'type': 'ViStatus'
+            },
+            {
+                'direction': 'out',
+                'documentation': {
+                    'description': 'The error information formatted as a string. The array must contain at least 256 characters.\n'
+                },
+                'name': 'errorMessage',
+                'size': {
+                    'mechanism': 'fixed',
+                    'value': 256
+                },
+                'type': 'ViChar[]'
+            }
+        ],
+        'returns': 'ViStatus',
+        'use_session_lock': False
+    },
+    "ExportSignal":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"signal",
+                "direction":"in",
+                "type":"ViInt32",
+                "enum":"ExportSignal"
+            },
+            {
+                "name":"signalIdentifier",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"outputTerminal",
+                "direction":"in",
+                "type":"ViConstString"
+            }
+        ],
+        "returns":"ViStatus"
     },
     'FetchCaptureWaveformU32': {
         'codegen_method': 'library-only',
@@ -1454,125 +1671,11 @@ functions = {
         ],
         'returns': 'ViStatus'
     },
-    # 'FetchHistoryRAMCyclePinData': {
-    #     'codegen_method': 'public',
-    #     'documentation': {
-    #         'description': 'Gets the per-pin pattern data acquired for the specified cycle.\n'
-    #     },
-    #     'parameters': [
-    #         {
-    #             'direction': 'in',
-    #             'documentation': {
-    #                 'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-    #             },
-    #             'name': 'vi',
-    #             'type': 'ViSession'
-    #         },
-    #         {
-    #             'direction': 'in',
-    #             'is_repeated_capability': True,
-    #             'repeated_capability_type': 'sites',
-    #             'documentation': {
-    #                 'description': 'Site specified as a string in the form of ``siteN``, where ``N`` is the site number. The function returns an error if more than one site is specified.\n'
-    #             },
-    #             'name': 'site',
-    #             'type': 'ViConstString'
-    #         },
-    #         {
-    #             'direction': 'in',
-    #             'documentation': {
-    #                 'description': 'The specified pins for which to retrieve History RAM data. If empty, the pin list from the pattern containing the start label is used. Call niDigital_GetPatternPinList or niDigital_GetPatternPinIndexeswith the start label to retrieve the pins associated with the pattern burst.\n'
-    #             },
-    #             'name': 'pinList',
-    #             'type': 'ViConstString'
-    #         },
-    #         {
-    #             'direction': 'in',
-    #             'documentation': {
-    #                 'description': 'The index of the History RAM sample to fetch. Each History RAM sample contains information about a single cycle in the pattern burst.\n'
-    #             },
-    #             'name': 'sampleIndex',
-    #             'type': 'ViInt64'
-    #         },
-    #         {
-    #             'direction': 'in',
-    #             'documentation': {
-    #                 'description': 'The specified index of the DUT cycle. If the pattern does not use the edge multiplier feature, pass 0 for this parameter. For History RAM samples that contain multiple DUT cycles, indicated by the **numDutCycles** value returned by niDigital_FetchHistoryRAMCycleInformation, call this function multiple times to retrieve pin states for each DUT cycle. The DUT cycle index should start at 0.\n'
-    #             },
-    #             'name': 'dutCycleIndex',
-    #             'type': 'ViInt32'
-    #         },
-    #         {
-    #             'direction': 'in',
-    #             'documentation': {
-    #                 'description': 'The specified number of elements in the **expectedPinStates**, **actualPinStates**, and **perPinPassFail** arrays. All three array parameters must be of the same size if they are not set to VI_NULL.\n\nTo determine the size of the buffer to allocate for the arrays, pass a value of 0 to the **pinDataBufferSize** parameter and a value of VI_NULL to the array parameters. In this case, the value returned by the **actualNumPinData** parameter is the size of the arrays necessary to hold the data.\n'
-    #             },
-    #             'name': 'pinDataBufferSize',
-    #             'type': 'ViInt32'
-    #         },
-    #         {
-    #             'direction': 'out',
-    #             'documentation': {
-    #                 'description': 'The returned pin state as expected by the loaded pattern in the order specified in **pinList**. Pins without defined edges in the specified DUT cycle will return NIDIGITAL_VAL_NOT_A_PIN_STATE\n'
-    #             },
-    #             'enum': 'PinState',
-    #             'name': 'expectedPinStates',
-    #             'size': {
-    #                 'mechanism': 'ivi-dance-with-a-twist',
-    #                 'value': 'pinDataBufferSize',
-    #                 'value_twist': 'actualNumPinData'
-    #             },
-    #             'type': 'ViUInt8[]'
-    #         },
-    #         {
-    #             'direction': 'out',
-    #             'documentation': {
-    #                 'description': 'The returned pin state acquired by History RAM in the order specified in **pinList**. Pins without defined edges in the specified DUT cycle will return NIDIGITAL_VAL_NOT_A_PIN_STATE\n'
-    #             },
-    #             'enum': 'PinState',
-    #             'name': 'actualPinStates',
-    #             'size': {
-    #                 'mechanism': 'ivi-dance-with-a-twist',
-    #                 'value': 'pinDataBufferSize',
-    #                 'value_twist': 'actualNumPinData'
-    #             },
-    #             'type': 'ViUInt8[]'
-    #         },
-    #         {
-    #             'direction': 'out',
-    #             'documentation': {
-    #                 'description': 'The returned pass fail information for pins in the order specified in **pinList**. Pins without defined edges in the specified DUT cycle will return pass (VI_TRUE).\n'
-    #             },
-    #             'name': 'perPinPassFail',
-    #             'size': {
-    #                 'mechanism': 'ivi-dance-with-a-twist',
-    #                 'value': 'pinDataBufferSize',
-    #                 'value_twist': 'actualNumPinData'
-    #             },
-    #             'type': 'ViBoolean[]'
-    #         },
-    #         {
-    #             'direction': 'out',
-    #             'documentation': {
-    #                 'description': 'Number of values written to the array parameters.\n'
-    #             },
-    #             'name': 'actualNumPinData',
-    #             'type': 'ViInt32'
-    #         }
-    #     ],
-    #     'returns': 'ViStatus'
-    # },
     'FetchHistoryRAMScanCycleNumber': {
         'codegen_method': 'public',
-        'documentation': {
-            'description': 'Fetches the History RAM Scan Cycle Number for the sample index. If the sample is not from a scan vector, the scan cycle number will be returned as -1.\n'
-        },
         'parameters': [
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
                 'name': 'vi',
                 'type': 'ViSession'
             },
@@ -1580,35 +1683,62 @@ functions = {
                 'direction': 'in',
                 'is_repeated_capability': True,
                 'repeated_capability_type': 'sites',
-                'documentation': {
-                    'description': 'Site specified as a string in the form of ``siteN``, where ``N`` is the site number. The function returns an error if more than one site is specified.\n'
-                },
                 'name': 'site',
                 'type': 'ViConstString'
             },
             {
                 'direction': 'in',
-                'documentation': {
-                    'description': 'The index of the History RAM sample to fetch. Each History RAM sample contains information about a single cycle in the pattern burst.\n'
-                },
                 'name': 'sampleIndex',
                 'type': 'ViInt64'
             },
             {
                 'direction': 'out',
-                'documentation': {
-                    'description': 'Returns the scan cycle number acquired by this History RAM sample. Scan cycle numbers start at 0 from the first cycle of the scan vector. Scan cycle numbers are -1 for cycles that do not have a scan opcode.\n'
-                },
                 'name': 'scanCycleNumber',
                 'type': 'ViInt64'
             }
         ],
         'returns': 'ViStatus'
     },
-    'FrequencyCounter_MeasureFrequency': {
-        'documentation': {
-            'description': 'Measures the frequency on the specified channel(s) over the specified measurement time. All channels in the repeated capabilities should have the same measurement time.\n'
-        },
+    "FrequencyCounterConfigureMeasurementMode":{
+        'cname': 'niDigital_FrequencyCounter_ConfigureMeasurementMode',
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"measurementMode",
+                "direction":"in",
+                "type":"ViInt32",
+                "enum":"FrequencyMeasurementMode"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    "FrequencyCounterConfigureMeasurementTime":{
+        'cname': 'niDigital_FrequencyCounter_ConfigureMeasurementTime',
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"channelList",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"measurementTime",
+                "direction":"in",
+                "type":"ViReal64"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    'FrequencyCounterMeasureFrequency': {
+        'cname': 'niDigital_FrequencyCounter_MeasureFrequency',
         'parameters': [
             {
                 'direction': 'in',
@@ -1823,6 +1953,31 @@ functions = {
         ],
         'returns': 'ViStatus'
     },
+    "GetAttributeViSession":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"channelList",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"attribute",
+                "direction":"in",
+                "type":"ViAttr"
+            },
+            {
+                "name":"value",
+                "direction":"out",
+                "type":"ViSession"
+            }
+        ],
+        "returns":"ViStatus"
+    },
     'GetAttributeViString': {
         'codegen_method': 'public',
         'documentation': {
@@ -1968,7 +2123,7 @@ functions = {
             }
         ],
         'python_name': 'get_channel_names',
-        'render_in_session_base': True,  # Used in FancyGetPinResultsPinInformation()
+        'render_in_session_base': True, 
         'returns': 'ViStatus'
     },
     'GetError': {
@@ -2160,8 +2315,42 @@ the trigger conditions are met.
                 'type': 'ViChar[]'
             }
         ],
-        'render_in_session_base': True,  # Called from FancyFetchHistoryRAMCycleInformation() which uses rep cap
+        'render_in_session_base': True, 
         'returns': 'ViStatus'
+    },
+    "GetPatternPinIndexes":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"startLabel",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"pinIndexesBufferSize",
+                "direction":"in",
+                "type":"ViInt32"
+            },
+            {
+                "name":"pinIndexes",
+                "direction":"out",
+                "type":"ViInt32[]",
+                "size":{
+                    "mechanism":"ivi-dance-with-a-twist",
+                    "value":"pinIndexesBufferSize"
+                }
+            },
+            {
+                "name":"actualNumPins",
+                "direction":"out",
+                "type":"ViInt32"
+            }
+        ],
+        "returns":"ViStatus"
     },
     'GetPatternPinList': {
         'documentation': {
@@ -2626,7 +2815,7 @@ the trigger conditions are met.
                 'type': 'ViChar[]'
             }
         ],
-        'render_in_session_base': True,  # Called from FancyFetchHistoryRAMCycleInformation() which uses rep cap
+        'render_in_session_base': True, 
         'returns': 'ViStatus'
     },
     'GetTimeSetPeriod': {
@@ -2663,12 +2852,39 @@ the trigger conditions are met.
         ],
         'returns': 'ViStatus'
     },
+    "Init":{
+        'init_method': True,
+        'cname': 'niDigital_init',
+        "parameters":[
+            {
+                "name":"resourceName",
+                "direction":"in",
+                "type":"ViRsrc"
+            },
+            {
+                "name":"idQuery",
+                "direction":"in",
+                "type":"ViBoolean"
+            },
+            {
+                "name":"resetDevice",
+                "direction":"in",
+                "type":"ViBoolean"
+            },
+            {
+                "name":"vi",
+                "direction":"out",
+                "type":"ViSession"
+            }
+        ],
+        "returns":"ViStatus"
+    },
     'InitWithOptions': {
+        'init_method': True,
         'codegen_method': 'public',
         'documentation': {
             'description': 'Creates and returns a new session to the specified digital pattern instrument to use in all subsequent function calls. To place the instrument in a known startup state when creating a new session, set the reset parameter to VI_TRUE, which is equivalent to calling the niDigital_reset function immediately after initializing the session.\n'
         },
-        'method_name_for_documentation': '__init__',
         'parameters': [
             {
                 'direction': 'in',
@@ -2714,7 +2930,7 @@ the trigger conditions are met.
                 'documentation': {
                     'description': 'The returned instrument session.\n'
                 },
-                'name': 'newVi',
+                'name': 'vi',
                 'type': 'ViSession'
             }
         ],
@@ -2954,7 +3170,219 @@ the trigger conditions are met.
         'returns': 'ViStatus',
         'use_session_lock': False
     },
-    'PPMU_Measure': {
+    "MapPinToChannel":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"pin",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"site",
+                "direction":"in",
+                "type":"ViInt32"
+            },
+            {
+                "name":"channel",
+                "direction":"in",
+                "type":"ViConstString"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    "PPMUConfigureApertureTime":{
+        'cname': 'niDigital_PPMU_ConfigureApertureTime',
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"channelList",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"apertureTime",
+                "direction":"in",
+                "type":"ViReal64"
+            },
+            {
+                "name":"units",
+                "direction":"in",
+                "type":"ViInt32",
+                "enum":"PPMUApertureTimeUnits"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    "PPMUConfigureCurrentLevel":{
+        'cname': 'niDigital_PPMU_ConfigureCurrentLevel',
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"channelList",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"currentLevel",
+                "direction":"in",
+                "type":"ViReal64"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    "PPMUConfigureCurrentLevelRange":{
+        'cname': 'niDigital_PPMU_ConfigureCurrentLevelRange',
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"channelList",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"range",
+                "direction":"in",
+                "type":"ViReal64"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    "PPMUConfigureCurrentLimit":{
+        'cname': 'niDigital_PPMU_ConfigureCurrentLimit',
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"channelList",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"behavior",
+                "direction":"in",
+                "type":"ViInt32",
+                "enum":"PPMUCurrentLimitBehavior"
+            },
+            {
+                "name":"limit",
+                "direction":"in",
+                "type":"ViReal64"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    "PPMUConfigureCurrentLimitRange":{
+        'cname': 'niDigital_PPMU_ConfigureCurrentLimitRange',
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"channelList",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"range",
+                "direction":"in",
+                "type":"ViReal64"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    "PPMUConfigureOutputFunction":{
+        'cname': 'niDigital_PPMU_ConfigureOutputFunction',
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"channelList",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"outputFunction",
+                "direction":"in",
+                "type":"ViInt32",
+                "enum":"PPMUOutputFunction"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    "PPMUConfigureVoltageLevel":{
+        'cname': 'niDigital_PPMU_ConfigureVoltageLevel',
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"channelList",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"voltageLevel",
+                "direction":"in",
+                "type":"ViReal64"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    "PPMUConfigureVoltageLimits":{
+        'cname': 'niDigital_PPMU_ConfigureVoltageLimits',
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"channelList",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"lowerVoltageLimit",
+                "direction":"in",
+                "type":"ViReal64"
+            },
+            {
+                "name":"upperVoltageLimit",
+                "direction":"in",
+                "type":"ViReal64"
+            }
+        ],
+        "returns":"ViStatus"
+    },
+    'PPMUMeasure': {
+        'cname': 'niDigital_PPMU_Measure',
         'documentation': {
             'description': 'Instructs the PPMU to measure voltage or current. This function can be called to take a voltage measurement even if the pin function is not set to PPMU.\n'
         },
@@ -3017,7 +3445,8 @@ the trigger conditions are met.
         'python_name': 'ppmu_measure',
         'returns': 'ViStatus'
     },
-    'PPMU_Source': {
+    'PPMUSource': {
+        'cname': 'niDigital_PPMU_Source',
         'documentation': {
             'description': 'Starts sourcing voltage or current from the PPMU. This function automatically selects the PPMU function. Changes to PPMU source settings do not take effect until you call this function. If you modify source settings after you call this function, you must call this function again for changes in the configuration to take effect.\n'
         },
@@ -3106,60 +3535,23 @@ the trigger conditions are met.
         ],
         'returns': 'ViStatus'
     },
-    # 'ReadStatic': {
-    #     'documentation': {
-    #         'description': 'Reads the current state of comparators for pins you specify in the repeated capabilities. If there are uncommitted changes to levels or the termination mode, this function commits the changes to the pins.\n'
-    #     },
-    #     'parameters': [
-    #         {
-    #             'direction': 'in',
-    #             'documentation': {
-    #                 'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-    #             },
-    #             'name': 'vi',
-    #             'type': 'ViSession'
-    #         },
-    #         {
-    #             'direction': 'in',
-    #             'documentation': {
-    #                 'description': 'List of channel names or list of pins. Do not pass a mix of channel names and pin names. An empty string denotes all digital pattern instrument channels.\n\nPin names and pin groups apply to all enabled sites, unless the pin name explicitly specifies the site. You can specify a pin in a specific site using the form site\\ ``N``/pinName\\ ````, where ``N`` is the site number. This function ignores pins that are not mapped to the digital pattern instrument.\n\nSpecify channel names using the form ``PXI1Slot3``/``0``,\\ ``2-3`` or ``PXI1Slot3``/``0``,\\ ``PXI1Slot3``/``2-3``, where ``PXI1Slot3`` is the instrument resource name and ``0``, ``2``, ``3`` are channel names. To specify channels from multiple instruments, use the form ``PXI1Slot3``/``0``,\\ ``PXI1Slot3``/``2-3``,\\ ``PXI1Slot4``/``2-3``. The instruments must be in the same chassis.\n'
-    #             },
-    #             'name': 'channelList',
-    #             'type': 'ViConstString'
-    #         },
-    #         {
-    #             'direction': 'in',
-    #             'documentation': {
-    #                 'description': 'The number of elements in the ViUInt8 array you specify for data. To determine the size of the buffer to allocate for the data array, pass a value of 0 to the **bufferSize** parameter and a value of VI_NULL to the **data** parameter. In this case, the value returned by the **actualNumRead** parameter is the size of the array necessary to hold the data.\n'
-    #             },
-    #             'name': 'bufferSize',
-    #             'type': 'ViInt32'
-    #         },
-    #         {
-    #             'direction': 'out',
-    #             'documentation': {
-    #                 'description': 'The returned array of pin states read from the channels in the repeated capabilities. Data is returned in the order you specify in the repeated capabilities. If a site is disabled, the function does not return data for that site. You can also use the niDigital_FancyGetPinResultsPinInformation function to obtain a sorted list of returned sites and channels.\n\n-   NIDIGITAL_VAL_L: The comparators read a logic low pin state.\n-   NIDIGITAL_VAL_H: The comparators read a logic high pin state.\n-   NIDIGITAL_VAL_M: The comparators read a midband pin state.\n-   NIDIGITAL_VAL_V: The comparators read a value that is above VOH and below VOL, which can occur when you set VOL higher than VOH.\n'
-    #             },
-    #             'enum': 'PinState',
-    #             'name': 'data',
-    #             'size': {
-    #                 'mechanism': 'ivi-dance-with-a-twist',
-    #                 'value': 'bufferSize',
-    #                 'value_twist': 'actualNumRead'
-    #             },
-    #             'type': 'ViUInt8[]'
-    #         },
-    #         {
-    #             'direction': 'out',
-    #             'documentation': {
-    #                 'description': 'The number of values written to the data array.\n'
-    #             },
-    #             'name': 'actualNumRead',
-    #             'type': 'ViInt32'
-    #         }
-    #     ],
-    #     'returns': 'ViStatus'
-    # },
+    'Reset': {
+        'cname': 'niDigital_reset',
+        'documentation': {
+            'description': 'Returns a digital pattern instrument to a known state. This function performs the following actions:\n\n- Aborts pattern execution.\n- Clears pin maps, time sets, source and capture waveforms, and patterns.\n- Resets all properties to default values, including the NIDIGITAL_ATTR_SELECTED_FUNCTION property that is set to NIDIGITAL_VAL_DISCONNECT, causing the I/O switches to open.\n- Stops exporting all external signals and events.\n'
+        },
+        'parameters': [
+            {
+                'direction': 'in',
+                'documentation': {
+                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
+                },
+                'name': 'vi',
+                'type': 'ViSession'
+            }
+        ],
+        'returns': 'ViStatus'
+    },
     'ResetAttribute': {
         'codegen_method': 'no',
         'documentation': {
@@ -3221,6 +3613,45 @@ the trigger conditions are met.
                 },
                 'name': 'vi',
                 'type': 'ViSession'
+            }
+        ],
+        'returns': 'ViStatus'
+    },
+    'SelfTest': {
+        'cname': 'niDigital_self_test',
+        'codegen_method': 'public',
+        'documentation': {
+            'description': 'Returns self test results from a digital pattern instrument. This test requires several minutes to execute.\n'
+        },
+        'method_name_for_documentation': 'self_test',
+        'parameters': [
+            {
+                'direction': 'in',
+                'documentation': {
+                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
+                },
+                'name': 'vi',
+                'type': 'ViSession'
+            },
+            {
+                'direction': 'out',
+                'documentation': {
+                    'description': 'A parameter that indicates if the self test passed (0) or failed (!=0).\n'
+                },
+                'name': 'testResult',
+                'type': 'ViInt16'
+            },
+            {
+                'direction': 'out',
+                'documentation': {
+                    'description': 'The returned self test status message. The array must contain at least 256 characters.\n'
+                },
+                'name': 'testMessage',
+                'size': {
+                    'mechanism': 'fixed',
+                    'value': 2048
+                },
+                'type': 'ViChar[]'
             }
         ],
         'returns': 'ViStatus'
@@ -3438,6 +3869,31 @@ conditionalJumpTrigger1, conditionalJumpTrigger2, and conditionalJumpTrigger3.
             }
         ],
         'returns': 'ViStatus'
+    },
+    "SetAttributeViSession":{
+        "parameters":[
+            {
+                "name":"vi",
+                "direction":"in",
+                "type":"ViSession"
+            },
+            {
+                "name":"channelList",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"attribute",
+                "direction":"in",
+                "type":"ViAttr"
+            },
+            {
+                "name":"value",
+                "direction":"in",
+                "type":"ViSession"
+            }
+        ],
+        "returns":"ViStatus"
     },
     'SetAttributeViString': {
         'codegen_method': 'public',
@@ -3856,151 +4312,6 @@ conditionalJumpTrigger1, conditionalJumpTrigger2, and conditionalJumpTrigger3.
                 },
                 'type': 'ViUInt32[]',
                 'use_array': True
-            }
-        ],
-        'returns': 'ViStatus'
-    },
-    # 'WriteStatic': {
-    #     'documentation': {
-    #         'description': 'Writes a static state to the specified pins. The selected pins remain in the specified state until the next pattern burst or call to this function. If there are uncommitted changes to levels or the termination mode, this function commits the changes to the pins. This function does not change the selected pin function. If you write a static state to a pin that does not have the Digital function selected, the new static state is stored by the instrument, and affects the state of the pin the next time you change the selected function to Digital.\n'
-    #     },
-    #     'parameters': [
-    #         {
-    #             'direction': 'in',
-    #             'documentation': {
-    #                 'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-    #             },
-    #             'name': 'vi',
-    #             'type': 'ViSession'
-    #         },
-    #         {
-    #             'direction': 'in',
-    #             'documentation': {
-    #                 'description': 'List of channel names or list of pins. Do not pass a mix of channel names and pin names. An empty string denotes all digital pattern instrument channels.\n\nPin names and pin groups apply to all enabled sites, unless the pin name explicitly specifies the site. You can specify a pin in a specific site using the form site\\ ``N``/pinName\\ ````, where ``N`` is the site number. This function ignores pins that are not mapped to the digital pattern instrument.\n\nSpecify channel names using the form ``PXI1Slot3``/``0``,\\ ``2-3`` or ``PXI1Slot3``/``0``,\\ ``PXI1Slot3``/``2-3``, where ``PXI1Slot3`` is the instrument resource name and ``0``, ``2``, ``3`` are channel names. To specify channels from multiple instruments, use the form ``PXI1Slot3``/``0``,\\ ``PXI1Slot3``/``2-3``,\\ ``PXI1Slot4``/``2-3``. The instruments must be in the same chassis.\n'
-    #             },
-    #             'name': 'channelList',
-    #             'type': 'ViConstString'
-    #         },
-    #         {
-    #             'direction': 'in',
-    #             'documentation': {
-    #                 'description': 'Parameter that specifies one of the following digital states to assign to the pin.\n\n-   NIDIGITAL_VAL_0: Specifies to drive low.\n-   NIDIGITAL_VAL_1: Specifies to drive high.\n-   NIDIGITAL_VAL_X: Specifies to not drive.\n'
-    #             },
-    #             'enum': 'WriteStaticPinState',
-    #             'name': 'state',
-    #             'type': 'ViUInt8'
-    #         }
-    #     ],
-    #     'returns': 'ViStatus'
-    # },
-    'close': {
-        'codegen_method': 'public',
-        'documentation': {
-            'description': 'Closes the specified instrument session to a digital pattern instrument, aborts pattern execution, and unloads pattern memory. The channels on a digital pattern instrument remain in their current state.\n'
-        },
-        'parameters': [
-            {
-                'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
-                'name': 'vi',
-                'type': 'ViSession'
-            }
-        ],
-        'python_name': '_close',
-        'returns': 'ViStatus',
-        'use_session_lock': False
-    },
-    'error_message': {
-        'codegen_method': 'public',
-        'documentation': {
-            'description': 'Takes the error code returned by the digital pattern instrument driver functions, interprets it, and returns it as a user readable string.\n'
-        },
-        'is_error_handling': True,
-        'parameters': [
-            {
-                'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns. You may also specify VI_NULL as the instrument session to retrieve the error message even when the niDigital_init function or the niDigital_InitWithOptions function fails.\n'
-                },
-                'name': 'vi',
-                'type': 'ViSession'
-            },
-            {
-                'direction': 'in',
-                'documentation': {
-                    'description': 'The specified error code.\n'
-                },
-                'name': 'errorCode',
-                'type': 'ViStatus'
-            },
-            {
-                'direction': 'out',
-                'documentation': {
-                    'description': 'The error information formatted as a string. The array must contain at least 256 characters.\n'
-                },
-                'name': 'errorMessage',
-                'size': {
-                    'mechanism': 'fixed',
-                    'value': 256
-                },
-                'type': 'ViChar[]'
-            }
-        ],
-        'returns': 'ViStatus',
-        'use_session_lock': False
-    },
-    'reset': {
-        'documentation': {
-            'description': 'Returns a digital pattern instrument to a known state. This function performs the following actions:\n\n- Aborts pattern execution.\n- Clears pin maps, time sets, source and capture waveforms, and patterns.\n- Resets all properties to default values, including the NIDIGITAL_ATTR_SELECTED_FUNCTION property that is set to NIDIGITAL_VAL_DISCONNECT, causing the I/O switches to open.\n- Stops exporting all external signals and events.\n'
-        },
-        'parameters': [
-            {
-                'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
-                'name': 'vi',
-                'type': 'ViSession'
-            }
-        ],
-        'returns': 'ViStatus'
-    },
-    'self_test': {
-        'codegen_method': 'public',
-        'documentation': {
-            'description': 'Returns self test results from a digital pattern instrument. This test requires several minutes to execute.\n'
-        },
-        'method_name_for_documentation': 'self_test',
-        'parameters': [
-            {
-                'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
-                'name': 'vi',
-                'type': 'ViSession'
-            },
-            {
-                'direction': 'out',
-                'documentation': {
-                    'description': 'A parameter that indicates if the self test passed (0) or failed (!=0).\n'
-                },
-                'name': 'testResult',
-                'type': 'ViInt16'
-            },
-            {
-                'direction': 'out',
-                'documentation': {
-                    'description': 'The returned self test status message. The array must contain at least 256 characters.\n'
-                },
-                'name': 'testMessage',
-                'size': {
-                    'mechanism': 'fixed',
-                    'value': 2048
-                },
-                'type': 'ViChar[]'
             }
         ],
         'returns': 'ViStatus'
