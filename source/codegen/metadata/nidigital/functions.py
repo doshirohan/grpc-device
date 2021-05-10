@@ -366,7 +366,7 @@ functions = {
                 "name":"cyclesToAcquire",
                 "direction":"in",
                 "type":"ViInt32",
-                "enum":"HistoryRAMCyclesToAcquire"
+                "enum":"HistoryRamCyclesToAcquire"
             }
         ],
         "returns":"ViStatus"
@@ -3217,7 +3217,7 @@ the trigger conditions are met.
                 "name":"units",
                 "direction":"in",
                 "type":"ViInt32",
-                "enum":"PPMUApertureTimeUnits"
+                "enum":"PpmuApertureTimeUnits"
             }
         ],
         "returns":"ViStatus"
@@ -3281,7 +3281,7 @@ the trigger conditions are met.
                 "name":"behavior",
                 "direction":"in",
                 "type":"ViInt32",
-                "enum":"PPMUCurrentLimitBehavior"
+                "enum":"PpmuCurrentLimitBehavior"
             },
             {
                 "name":"limit",
@@ -3329,7 +3329,7 @@ the trigger conditions are met.
                 "name":"outputFunction",
                 "direction":"in",
                 "type":"ViInt32",
-                "enum":"PPMUOutputFunction"
+                "enum":"PpmuOutputFunction"
             }
         ],
         "returns":"ViStatus"
@@ -3408,7 +3408,7 @@ the trigger conditions are met.
                 'documentation': {
                     'description': 'Parameter that specifies whether the PPMU measures voltage or current from the DUT.\n\n-   NIDIGITAL_VAL_MEASURE_CURRENT: The PPMU measures current from the DUT.\n-   NIDIGITAL_VAL_MEASURE_VOLTAGE: The PPMU measures voltage from the DUT.\n'
                 },
-                'enum': 'PPMUMeasurementType',
+                'enum': 'PpmuMeasurementType',
                 'name': 'measurementType',
                 'type': 'ViInt32'
             },

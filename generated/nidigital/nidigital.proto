@@ -252,17 +252,17 @@ enum ExportSignal {
   EXPORT_SIGNAL_NIDIGITAL_VAL_REF_CLOCK = 2003;
 }
 
-enum HistoryRAMCyclesToAcquire {
-  HISTORY_R_A_M_CYCLES_TO_ACQUIRE_UNSPECIFIED = 0;
-  HISTORY_R_A_M_CYCLES_TO_ACQUIRE_NIDIGITAL_VAL_FAILED_CYCLES = 2303;
-  HISTORY_R_A_M_CYCLES_TO_ACQUIRE_NIDIGITAL_VAL_ALL_CYCLES = 2304;
+enum HistoryRamCyclesToAcquire {
+  HISTORY_RAM_CYCLES_TO_ACQUIRE_UNSPECIFIED = 0;
+  HISTORY_RAM_CYCLES_TO_ACQUIRE_NIDIGITAL_VAL_FAILED_CYCLES = 2303;
+  HISTORY_RAM_CYCLES_TO_ACQUIRE_NIDIGITAL_VAL_ALL_CYCLES = 2304;
 }
 
-enum HistoryRAMTriggerType {
-  HISTORY_R_A_M_TRIGGER_TYPE_UNSPECIFIED = 0;
-  HISTORY_R_A_M_TRIGGER_TYPE_NIDIGITAL_VAL_FIRST_FAILURE = 2200;
-  HISTORY_R_A_M_TRIGGER_TYPE_NIDIGITAL_VAL_CYCLE_NUMBER = 2201;
-  HISTORY_R_A_M_TRIGGER_TYPE_NIDIGITAL_VAL_PATTERN_LABEL = 2202;
+enum HistoryRamTriggerType {
+  HISTORY_RAM_TRIGGER_TYPE_UNSPECIFIED = 0;
+  HISTORY_RAM_TRIGGER_TYPE_NIDIGITAL_VAL_FIRST_FAILURE = 2200;
+  HISTORY_RAM_TRIGGER_TYPE_NIDIGITAL_VAL_CYCLE_NUMBER = 2201;
+  HISTORY_RAM_TRIGGER_TYPE_NIDIGITAL_VAL_PATTERN_LABEL = 2202;
 }
 
 enum FrequencyMeasurementMode {
@@ -271,26 +271,26 @@ enum FrequencyMeasurementMode {
   FREQUENCY_MEASUREMENT_MODE_NIDIGITAL_VAL_PARALLEL = 3701;
 }
 
-enum PPMUApertureTimeUnits {
-  P_P_M_U_APERTURE_TIME_UNITS_UNSPECIFIED = 0;
-  P_P_M_U_APERTURE_TIME_UNITS_NIDIGITAL_VAL_SECONDS = 2100;
+enum PpmuApertureTimeUnits {
+  PPMU_APERTURE_TIME_UNITS_UNSPECIFIED = 0;
+  PPMU_APERTURE_TIME_UNITS_NIDIGITAL_VAL_SECONDS = 2100;
 }
 
-enum PPMUCurrentLimitBehavior {
-  P_P_M_U_CURRENT_LIMIT_BEHAVIOR_UNSPECIFIED = 0;
-  P_P_M_U_CURRENT_LIMIT_BEHAVIOR_NIDIGITAL_VAL_CURRENT_REGULATE = 3100;
+enum PpmuCurrentLimitBehavior {
+  PPMU_CURRENT_LIMIT_BEHAVIOR_UNSPECIFIED = 0;
+  PPMU_CURRENT_LIMIT_BEHAVIOR_NIDIGITAL_VAL_CURRENT_REGULATE = 3100;
 }
 
-enum PPMUMeasurementType {
-  P_P_M_U_MEASUREMENT_TYPE_UNSPECIFIED = 0;
-  P_P_M_U_MEASUREMENT_TYPE_NIDIGITAL_VAL_MEASURE_CURRENT = 2400;
-  P_P_M_U_MEASUREMENT_TYPE_NIDIGITAL_VAL_MEASURE_VOLTAGE = 2401;
+enum PpmuMeasurementType {
+  PPMU_MEASUREMENT_TYPE_UNSPECIFIED = 0;
+  PPMU_MEASUREMENT_TYPE_NIDIGITAL_VAL_MEASURE_CURRENT = 2400;
+  PPMU_MEASUREMENT_TYPE_NIDIGITAL_VAL_MEASURE_VOLTAGE = 2401;
 }
 
-enum PPMUOutputFunction {
-  P_P_M_U_OUTPUT_FUNCTION_UNSPECIFIED = 0;
-  P_P_M_U_OUTPUT_FUNCTION_NIDIGITAL_VAL_DC_VOLTAGE = 1300;
-  P_P_M_U_OUTPUT_FUNCTION_NIDIGITAL_VAL_DC_CURRENT = 1301;
+enum PpmuOutputFunction {
+  PPMU_OUTPUT_FUNCTION_UNSPECIFIED = 0;
+  PPMU_OUTPUT_FUNCTION_NIDIGITAL_VAL_DC_VOLTAGE = 1300;
+  PPMU_OUTPUT_FUNCTION_NIDIGITAL_VAL_DC_CURRENT = 1301;
 }
 
 enum SelectedFunction {
@@ -319,10 +319,10 @@ enum SourceDataMapping {
   SOURCE_DATA_MAPPING_NIDIGITAL_VAL_SITE_UNIQUE = 2601;
 }
 
-enum TDREndpointTermination {
-  T_D_R_ENDPOINT_TERMINATION_UNSPECIFIED = 0;
-  T_D_R_ENDPOINT_TERMINATION_NIDIGITAL_VAL_TDR_TO_OPEN = 3600;
-  T_D_R_ENDPOINT_TERMINATION_NIDIGITAL_VAL_TDR_TO_SHORT_TO_GROUND = 3601;
+enum TdrEndpointTermination {
+  TDR_ENDPOINT_TERMINATION_UNSPECIFIED = 0;
+  TDR_ENDPOINT_TERMINATION_NIDIGITAL_VAL_TDR_TO_OPEN = 3600;
+  TDR_ENDPOINT_TERMINATION_NIDIGITAL_VAL_TDR_TO_SHORT_TO_GROUND = 3601;
 }
 
 enum TerminationMode {
@@ -510,7 +510,7 @@ message ConfigureFirstFailureHistoryRAMTriggerResponse {
 message ConfigureHistoryRAMCyclesToAcquireRequest {
   nidevice_grpc.Session vi = 1;
   oneof cycles_to_acquire_enum {
-    HistoryRAMCyclesToAcquire cycles_to_acquire = 2;
+    HistoryRamCyclesToAcquire cycles_to_acquire = 2;
     sint32 cycles_to_acquire_raw = 3;
   }
 }
@@ -1328,7 +1328,7 @@ message PPMUConfigureApertureTimeRequest {
   string channel_list = 2;
   double aperture_time = 3;
   oneof units_enum {
-    PPMUApertureTimeUnits units = 4;
+    PpmuApertureTimeUnits units = 4;
     sint32 units_raw = 5;
   }
 }
@@ -1361,7 +1361,7 @@ message PPMUConfigureCurrentLimitRequest {
   nidevice_grpc.Session vi = 1;
   string channel_list = 2;
   oneof behavior_enum {
-    PPMUCurrentLimitBehavior behavior = 3;
+    PpmuCurrentLimitBehavior behavior = 3;
     sint32 behavior_raw = 4;
   }
   double limit = 5;
@@ -1385,7 +1385,7 @@ message PPMUConfigureOutputFunctionRequest {
   nidevice_grpc.Session vi = 1;
   string channel_list = 2;
   oneof output_function_enum {
-    PPMUOutputFunction output_function = 3;
+    PpmuOutputFunction output_function = 3;
     sint32 output_function_raw = 4;
   }
 }
@@ -1419,7 +1419,7 @@ message PPMUMeasureRequest {
   nidevice_grpc.Session vi = 1;
   string channel_list = 2;
   oneof measurement_type_enum {
-    PPMUMeasurementType measurement_type = 3;
+    PpmuMeasurementType measurement_type = 3;
     sint32 measurement_type_raw = 4;
   }
   sint32 buffer_size = 5;

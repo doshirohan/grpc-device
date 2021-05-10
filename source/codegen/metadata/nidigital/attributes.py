@@ -384,7 +384,7 @@ attributes = {
                 'Defined Values:'
             ]
         },
-        'enum': 'PPMUOutputFunction',
+        'enum': 'PpmuOutputFunction',
         'name': 'PPMU_OUTPUT_FUNCTION',
         'resettable': True,
         'type': 'ViInt32'
@@ -755,7 +755,7 @@ attributes = {
                 'Defined Values:'
             ]
         },
-        'enum': 'PPMUApertureTimeUnits',
+        'enum': 'PpmuApertureTimeUnits',
         'name': 'PPMU_APERTURE_TIME_UNITS',
         'resettable': True,
         'type': 'ViInt32'
@@ -840,7 +840,7 @@ attributes = {
     1150043: {
         'access': 'read-write',
         'channel_based': False,
-        'enum': 'HistoryRAMTriggerType',
+        'enum': 'HistoryRamTriggerType',
         'documentation': {
             'description': 'Specifies the type of trigger condition on which History RAM starts acquiring pattern information.\n',
             'table_body': [
@@ -898,7 +898,7 @@ attributes = {
     1150047: {
         'access': 'read-write',
         'channel_based': False,
-        'enum': 'HistoryRAMCyclesToAcquire',
+        'enum': 'HistoryRamCyclesToAcquire',
         'documentation': {
             'description': 'Configures which cycles History RAM acquires after the trigger conditions are met. If you configure History RAM to only acquire failed cycles, you must set the pretrigger samples for History RAM to 0.\n',
             'table_body': [
@@ -1026,7 +1026,7 @@ attributes = {
                 'Defined Values:'
             ]
         },
-        'enum': 'PPMUCurrentLimitBehavior',
+        'enum': 'PpmuCurrentLimitBehavior',
         'name': 'PPMU_CURRENT_LIMIT_BEHAVIOR',
         'resettable': True,
         'type': 'ViInt32'
@@ -1153,7 +1153,7 @@ attributes = {
         'documentation': {
             'description': 'Specifies whether TDR Channels are connected to an open circuit or a short to ground.\n'
         },
-        'enum': 'TDREndpointTermination',
+        'enum': 'TdrEndpointTermination',
         'name': 'TDR_ENDPOINT_TERMINATION',
         'resettable': True,
         'type': 'ViInt32'

@@ -98,7 +98,7 @@ enums = {
             }
         ]
     },
-    'HistoryRAMCyclesToAcquire': {
+    'HistoryRamCyclesToAcquire': {
         'values': [
             {
                 'documentation': {
@@ -116,7 +116,7 @@ enums = {
             }
         ]
     },
-    'HistoryRAMTriggerType': {
+    'HistoryRamTriggerType': {
         'values': [
             {
                 'documentation': {
@@ -159,7 +159,7 @@ enums = {
             }
         ]
     },
-    'PPMUApertureTimeUnits': {
+    'PpmuApertureTimeUnits': {
         'values': [
             {
                 'documentation': {
@@ -170,7 +170,7 @@ enums = {
             }
         ]
     },
-    'PPMUCurrentLimitBehavior': {
+    'PpmuCurrentLimitBehavior': {
         'values': [
             {
                 'documentation': {
@@ -181,7 +181,7 @@ enums = {
             }
         ]
     },
-    'PPMUMeasurementType': {
+    'PpmuMeasurementType': {
         'values': [
             {
                 'documentation': {
@@ -199,7 +199,7 @@ enums = {
             }
         ]
     },
-    'PPMUOutputFunction': {
+    'PpmuOutputFunction': {
         'values': [
             {
                 'documentation': {
@@ -390,7 +390,7 @@ enums = {
             }
         ]
     },
-    'TDREndpointTermination': {
+    'TdrEndpointTermination': {
         'values': [
             {
                 'documentation': {
