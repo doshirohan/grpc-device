@@ -16,6 +16,8 @@ def create_args(parameters):
       if common_helpers.is_output_parameter(parameter) and is_string_arg(parameter):
         type_without_brackets = common_helpers.get_underlying_type_name(parameter['type'])
         result = f'{result}({type_without_brackets}*){parameter_name}.data(), '
+      elif parameter['type'] == 'ViSession[]':
+        result = f'{result}{parameter_name}.data(), '
       else:
         if is_array and common_helpers.is_struct(parameter):
           parameter_name = parameter_name + ".data()"
