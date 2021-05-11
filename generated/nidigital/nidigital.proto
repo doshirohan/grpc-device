@@ -65,6 +65,7 @@ service NiDigital {
   rpc EndChannelMap(EndChannelMapRequest) returns (EndChannelMapResponse);
   rpc ErrorMessage(ErrorMessageRequest) returns (ErrorMessageResponse);
   rpc ExportSignal(ExportSignalRequest) returns (ExportSignalResponse);
+  rpc FetchCaptureWaveformU32(FetchCaptureWaveformU32Request) returns (FetchCaptureWaveformU32Response);
   rpc FetchHistoryRAMCycleInformation(FetchHistoryRAMCycleInformationRequest) returns (FetchHistoryRAMCycleInformationResponse);
   rpc FetchHistoryRAMScanCycleNumber(FetchHistoryRAMScanCycleNumberRequest) returns (FetchHistoryRAMScanCycleNumberResponse);
   rpc FrequencyCounterConfigureMeasurementMode(FrequencyCounterConfigureMeasurementModeRequest) returns (FrequencyCounterConfigureMeasurementModeResponse);
@@ -920,6 +921,22 @@ message ExportSignalRequest {
 
 message ExportSignalResponse {
   int32 status = 1;
+}
+
+message FetchCaptureWaveformU32Request {
+  nidevice_grpc.Session vi = 1;
+  string site_list = 2;
+  string waveform_name = 3;
+  sint32 samples_to_read = 4;
+  double timeout = 5;
+  sint32 data_buffer_size = 6;
+}
+
+message FetchCaptureWaveformU32Response {
+  int32 status = 1;
+  repeated uint32 data = 2;
+  sint32 actual_num_waveforms = 3;
+  sint32 actual_samples_per_waveform = 4;
 }
 
 message FetchHistoryRAMCycleInformationRequest {
