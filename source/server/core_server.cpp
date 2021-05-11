@@ -1,12 +1,11 @@
-
+#include <nidigital/nidigital_library.h>
+#include <nidigital/nidigital_service.h>
 #include <niscope/niscope_library.h>
 #include <niscope/niscope_service.h>
 #include <niswitch/niswitch_library.h>
 #include <niswitch/niswitch_service.h>
 #include <nisync/nisync_library.h>
 #include <nisync/nisync_service.h>
-#include <nidigital/nidigital_library.h>
-#include <nidigital/nidigital_service.h>
 
 #include "server_configuration_parser.h"
 #include "server_security_configuration.h"
