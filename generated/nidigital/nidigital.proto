@@ -138,7 +138,6 @@ service NiDigital {
   rpc WriteSourceWaveformBroadcastU32(WriteSourceWaveformBroadcastU32Request) returns (WriteSourceWaveformBroadcastU32Response);
   rpc WriteSourceWaveformDataFromFileTDMS(WriteSourceWaveformDataFromFileTDMSRequest) returns (WriteSourceWaveformDataFromFileTDMSResponse);
   rpc WriteSourceWaveformSiteUniqueU32(WriteSourceWaveformSiteUniqueU32Request) returns (WriteSourceWaveformSiteUniqueU32Response);
-  rpc ReadStatic(ReadStaticRequest) returns (ReadStaticResponse);
   rpc WriteStatic(WriteStaticRequest) returns (WriteStaticResponse);
 }
 
@@ -294,22 +293,6 @@ enum PpmuOutputFunction {
   PPMU_OUTPUT_FUNCTION_UNSPECIFIED = 0;
   PPMU_OUTPUT_FUNCTION_NIDIGITAL_VAL_DC_VOLTAGE = 1300;
   PPMU_OUTPUT_FUNCTION_NIDIGITAL_VAL_DC_CURRENT = 1301;
-}
-
-enum PinState {
-  option allow_alias = true;
-  PIN_STATE_UNSPECIFIED = 0;
-  PIN_STATE_NIDIGITAL_VAL_0 = 0;
-  PIN_STATE_NIDIGITAL_VAL_1 = 1;
-  PIN_STATE_NIDIGITAL_VAL_L = 3;
-  PIN_STATE_NIDIGITAL_VAL_H = 4;
-  PIN_STATE_NIDIGITAL_VAL_X = 5;
-  PIN_STATE_NIDIGITAL_VAL_M = 6;
-  PIN_STATE_NIDIGITAL_VAL_V = 7;
-  PIN_STATE_NIDIGITAL_VAL_D = 8;
-  PIN_STATE_NIDIGITAL_VAL_E = 9;
-  PIN_STATE_NIDIGITAL_VAL_NOT_A_PIN_STATE = 254;
-  PIN_STATE_NIDIGITAL_VAL_PIN_STATE_NOT_ACQUIRED = 255;
 }
 
 enum SelectedFunction {
@@ -1716,19 +1699,6 @@ message WriteSourceWaveformSiteUniqueU32Request {
 
 message WriteSourceWaveformSiteUniqueU32Response {
   int32 status = 1;
-}
-
-message ReadStaticRequest {
-  nidevice_grpc.Session vi = 1;
-  string channel_list = 2;
-  sint32 buffer_size = 3;
-}
-
-message ReadStaticResponse {
-  int32 status = 1;
-  repeated PinState data = 2;
-  repeated uint32 data_raw = 3;
-  sint32 actual_num_read = 4;
 }
 
 message WriteStaticRequest {

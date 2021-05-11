@@ -2954,21 +2954,6 @@ namespace nidigital_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
-  ::grpc::Status NiDigitalService::ReadStatic(::grpc::ServerContext* context, const ReadStaticRequest* request, ReadStaticResponse* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      return ::grpc::Status(::grpc::UNIMPLEMENTED, "TODO: This server handler has not been implemented.");
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
   ::grpc::Status NiDigitalService::WriteStatic(::grpc::ServerContext* context, const WriteStaticRequest* request, WriteStaticResponse* response)
   {
     if (context->IsCancelled()) {

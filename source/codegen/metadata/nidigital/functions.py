@@ -3079,60 +3079,6 @@ functions = {
         ],
         'returns': 'ViStatus'
     },
-    'ReadStatic': {
-        'documentation': {
-            'description': 'Reads the current state of comparators for pins you specify in the repeated capabilities. If there are uncommitted changes to levels or the termination mode, this function commits the changes to the pins.\n'
-        },
-        'parameters': [
-            {
-                'direction': 'in',
-                'documentation': {
-                    'description': 'The specified instrument session the niDigital_init or niDigital_InitWithOptions function returns.\n'
-                },
-                'name': 'vi',
-                'type': 'ViSession'
-            },
-            {
-                'direction': 'in',
-                'documentation': {
-                    'description': 'List of channel names or list of pins. Do not pass a mix of channel names and pin names. An empty string denotes all digital pattern instrument channels.\n\nPin names and pin groups apply to all enabled sites, unless the pin name explicitly specifies the site. You can specify a pin in a specific site using the form site\\ ``N``/pinName\\ ````, where ``N`` is the site number. This function ignores pins that are not mapped to the digital pattern instrument.\n\nSpecify channel names using the form ``PXI1Slot3``/``0``,\\ ``2-3`` or ``PXI1Slot3``/``0``,\\ ``PXI1Slot3``/``2-3``, where ``PXI1Slot3`` is the instrument resource name and ``0``, ``2``, ``3`` are channel names. To specify channels from multiple instruments, use the form ``PXI1Slot3``/``0``,\\ ``PXI1Slot3``/``2-3``,\\ ``PXI1Slot4``/``2-3``. The instruments must be in the same chassis.\n'
-                },
-                'name': 'channelList',
-                'type': 'ViConstString'
-            },
-            {
-                'direction': 'in',
-                'documentation': {
-                    'description': 'The number of elements in the ViUInt8 array you specify for data. To determine the size of the buffer to allocate for the data array, pass a value of 0 to the **bufferSize** parameter and a value of VI_NULL to the **data** parameter. In this case, the value returned by the **actualNumRead** parameter is the size of the array necessary to hold the data.\n'
-                },
-                'name': 'bufferSize',
-                'type': 'ViInt32'
-            },
-            {
-                'direction': 'out',
-                'documentation': {
-                    'description': 'The returned array of pin states read from the channels in the repeated capabilities. Data is returned in the order you specify in the repeated capabilities. If a site is disabled, the function does not return data for that site. You can also use the niDigital_FancyGetPinResultsPinInformation function to obtain a sorted list of returned sites and channels.\n\n-   NIDIGITAL_VAL_L: The comparators read a logic low pin state.\n-   NIDIGITAL_VAL_H: The comparators read a logic high pin state.\n-   NIDIGITAL_VAL_M: The comparators read a midband pin state.\n-   NIDIGITAL_VAL_V: The comparators read a value that is above VOH and below VOL, which can occur when you set VOL higher than VOH.\n'
-                },
-                'enum': 'PinState',
-                'name': 'data',
-                'size': {
-                    'mechanism': 'ivi-dance-with-a-twist',
-                    'value': 'bufferSize',
-                    'value_twist': 'actualNumRead'
-                },
-                'type': 'ViUInt8[]'
-            },
-            {
-                'direction': 'out',
-                'documentation': {
-                    'description': 'The number of values written to the data array.\n'
-                },
-                'name': 'actualNumRead',
-                'type': 'ViInt32'
-            }
-        ],
-        'returns': 'ViStatus'
-    },
     'WriteStatic': {
         'documentation': {
             'description': 'Writes a static state to the specified pins. The selected pins remain in the specified state until the next pattern burst or call to this function. If there are uncommitted changes to levels or the termination mode, this function commits the changes to the pins. This function does not change the selected pin function. If you write a static state to a pin that does not have the Digital function selected, the new static state is stored by the instrument, and affects the state of the pin the next time you change the selected function to Digital.\n'
