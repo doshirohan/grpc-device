@@ -30,7 +30,7 @@
  *----------------- Instrument Driver Revision Information -----------------*
  ****************************************************************************/
 #define NIDIGITAL_MAJOR_VERSION             20    /* Instrument driver major version   */
-#define NIDIGITAL_MINOR_VERSION             7    /* Instrument driver minor version   */
+#define NIDIGITAL_MINOR_VERSION             6    /* Instrument driver minor version   */
 
 /****************************************************************************
  *---------------------------- Attribute Defines ---------------------------*

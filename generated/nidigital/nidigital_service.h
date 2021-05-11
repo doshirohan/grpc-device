@@ -73,6 +73,7 @@ public:
   ::grpc::Status EndChannelMap(::grpc::ServerContext* context, const EndChannelMapRequest* request, EndChannelMapResponse* response) override;
   ::grpc::Status ErrorMessage(::grpc::ServerContext* context, const ErrorMessageRequest* request, ErrorMessageResponse* response) override;
   ::grpc::Status ExportSignal(::grpc::ServerContext* context, const ExportSignalRequest* request, ExportSignalResponse* response) override;
+  ::grpc::Status FetchCaptureWaveformU32(::grpc::ServerContext* context, const FetchCaptureWaveformU32Request* request, FetchCaptureWaveformU32Response* response) override;
   ::grpc::Status FetchHistoryRAMCycleInformation(::grpc::ServerContext* context, const FetchHistoryRAMCycleInformationRequest* request, FetchHistoryRAMCycleInformationResponse* response) override;
   ::grpc::Status FetchHistoryRAMScanCycleNumber(::grpc::ServerContext* context, const FetchHistoryRAMScanCycleNumberRequest* request, FetchHistoryRAMScanCycleNumberResponse* response) override;
   ::grpc::Status FrequencyCounterConfigureMeasurementMode(::grpc::ServerContext* context, const FrequencyCounterConfigureMeasurementModeRequest* request, FrequencyCounterConfigureMeasurementModeResponse* response) override;
