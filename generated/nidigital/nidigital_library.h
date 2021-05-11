@@ -140,6 +140,8 @@ class NiDigitalLibrary : public nidigital_grpc::NiDigitalLibraryInterface {
   ViStatus WriteSourceWaveformBroadcastU32(ViSession vi, ViConstString waveformName, ViInt32 waveformSize, ViUInt32 waveformData[]);
   ViStatus WriteSourceWaveformDataFromFileTDMS(ViSession vi, ViConstString waveformName, ViConstString waveformFilePath);
   ViStatus WriteSourceWaveformSiteUniqueU32(ViSession vi, ViConstString siteList, ViConstString waveformName, ViInt32 numWaveforms, ViInt32 samplesPerWaveform, ViUInt32 waveformData[1]);
+  ViStatus ReadStatic(ViSession vi, ViConstString channelList, ViInt32 bufferSize, ViUInt8 data[], ViInt32* actualNumRead);
+  ViStatus WriteStatic(ViSession vi, ViConstString channelList, ViUInt8 state);
 
  private:
   using AbortPtr = ViStatus (*)(ViSession vi);
@@ -264,6 +266,8 @@ class NiDigitalLibrary : public nidigital_grpc::NiDigitalLibraryInterface {
   using WriteSourceWaveformBroadcastU32Ptr = ViStatus (*)(ViSession vi, ViConstString waveformName, ViInt32 waveformSize, ViUInt32 waveformData[]);
   using WriteSourceWaveformDataFromFileTDMSPtr = ViStatus (*)(ViSession vi, ViConstString waveformName, ViConstString waveformFilePath);
   using WriteSourceWaveformSiteUniqueU32Ptr = ViStatus (*)(ViSession vi, ViConstString siteList, ViConstString waveformName, ViInt32 numWaveforms, ViInt32 samplesPerWaveform, ViUInt32 waveformData[1]);
+  using ReadStaticPtr = ViStatus (*)(ViSession vi, ViConstString channelList, ViInt32 bufferSize, ViUInt8 data[], ViInt32* actualNumRead);
+  using WriteStaticPtr = ViStatus (*)(ViSession vi, ViConstString channelList, ViUInt8 state);
 
   typedef struct FunctionPointers {
     AbortPtr Abort;
@@ -388,6 +392,8 @@ class NiDigitalLibrary : public nidigital_grpc::NiDigitalLibraryInterface {
     WriteSourceWaveformBroadcastU32Ptr WriteSourceWaveformBroadcastU32;
     WriteSourceWaveformDataFromFileTDMSPtr WriteSourceWaveformDataFromFileTDMS;
     WriteSourceWaveformSiteUniqueU32Ptr WriteSourceWaveformSiteUniqueU32;
+    ReadStaticPtr ReadStatic;
+    WriteStaticPtr WriteStatic;
   } FunctionLoadStatus;
 
   nidevice_grpc::SharedLibrary shared_library_;
