@@ -1103,6 +1103,7 @@ attributes = {
             'description': 'Specifies the maximum number of History RAM samples to acquire per site. If the property is set to -1, it will acquire until the History RAM buffer is full.\n'
         },
         'name': 'HISTORY_RAM_MAX_SAMPLES_TO_ACQUIRE_PER_SITE',
+        'enum': 'HistoryRamMaxCyclesToAcquirePerSite',
         'resettable': True,
         'type': 'ViInt32'
     },
