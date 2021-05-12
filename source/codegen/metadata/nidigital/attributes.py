@@ -542,7 +542,7 @@ attributes = {
         'access': 'read-write',
         'channel_based': False,
         'name': 'HISTORY_RAM_MAX_SAMPLES_TO_ACQUIRE_PER_SITE',
-        'enum': 'HistoryRamMaxCyclesToAcquirePerSite',
+        'enum': 'HistoryRamMaxSamplesToAcquirePerSite',
         'resettable': True,
         'type': 'ViInt32'
     },

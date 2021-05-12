@@ -77,7 +77,7 @@ enums = {
             }
         ]
     },
-    'HistoryRamMaxCyclesToAcquirePerSite': {
+    'HistoryRamMaxSamplesToAcquirePerSite': {
         'values': [
             {
                 'name': 'NIDIGITAL_VAL_ACQUIRE_ALL_SAMPLES',
