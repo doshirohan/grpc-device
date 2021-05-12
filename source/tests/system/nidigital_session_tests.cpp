@@ -89,7 +89,6 @@ TEST_F(NiDigitalSessionTest, InitializeSessionWithDeviceAndNoSessionName_Creates
 TEST_F(NiDigitalSessionTest, InitializeSessionWithoutDevice_ReturnsDriverError)
 {
   digital::InitWithOptionsResponse response;
-
   ::grpc::Status status = call_init_with_options(kDigitalInvalidResourceName, "", "", &response);
 
   EXPECT_TRUE(status.ok());

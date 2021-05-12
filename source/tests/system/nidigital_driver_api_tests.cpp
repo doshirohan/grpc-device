@@ -247,7 +247,6 @@ TEST_F(NiDigitalDriverApiTest, SelfTest_SelfTestCompletesSuccessfully)
   digital::SelfTestRequest request;
   request.mutable_vi()->set_id(GetSessionId());
   digital::SelfTestResponse response;
-
   ::grpc::Status status = GetStub()->SelfTest(&context, request, &response);
 
   EXPECT_TRUE(status.ok());
@@ -262,7 +261,6 @@ TEST_F(NiDigitalDriverApiTest, Reset_ResetCompletesSuccessfully)
   digital::ResetRequest request;
   request.mutable_vi()->set_id(GetSessionId());
   digital::ResetResponse response;
-
   ::grpc::Status status = GetStub()->Reset(&context, request, &response);
 
   EXPECT_TRUE(status.ok());
@@ -274,8 +272,8 @@ TEST_F(NiDigitalDriverApiTest, SetViInt32Attribute_GetViInt32Attribute_ValueMatc
   const char* channel_name = "";
   const digital::NiDigitalAttributes attribute_to_set = digital::NiDigitalAttributes::NIDIGITAL_ATTRIBUTE_SELECTED_FUNCTION;
   const ViInt32 expected_value = digital::SelectedFunction::SELECTED_FUNCTION_NIDIGITAL_VAL_PPMU;
-
   set_int32_attribute(channel_name, attribute_to_set, expected_value);
+
   ViInt32 get_attribute_value = get_int32_attribute(channel_name, attribute_to_set);
 
   EXPECT_EQ(expected_value, get_attribute_value);
@@ -286,8 +284,8 @@ TEST_F(NiDigitalDriverApiTest, SetViInt64Attribute_GetViInt64Attribute_ValueMatc
   const char* channel_name = "";
   const digital::NiDigitalAttributes attribute_to_set = digital::NiDigitalAttributes::NIDIGITAL_ATTRIBUTE_CYCLE_NUMBER_HISTORY_RAM_TRIGGER_CYCLE_NUMBER;
   const ViInt64 expected_value = 4;
-
   set_int64_attribute(channel_name, attribute_to_set, expected_value);
+
   ViInt64 get_attribute_value = get_int64_attribute(channel_name, attribute_to_set);
 
   EXPECT_EQ(expected_value, get_attribute_value);
@@ -298,8 +296,8 @@ TEST_F(NiDigitalDriverApiTest, SetViStringAttribute_GetViStringAttribute_ValueMa
   const char* channel_name = "";
   const digital::NiDigitalAttributes attribute_to_set = digital::NiDigitalAttributes::NIDIGITAL_ATTRIBUTE_DIGITAL_EDGE_START_TRIGGER_SOURCE;
   const ViString expected_value = "Hello world!";
-
   set_string_attribute(channel_name, attribute_to_set, expected_value);
+
   std::string get_attribute_value = get_string_attribute(channel_name, attribute_to_set);
 
   EXPECT_STREQ(expected_value, get_attribute_value.c_str());
@@ -310,8 +308,8 @@ TEST_F(NiDigitalDriverApiTest, SetBoolAttribute_GetBoolAttribute_ValueMatchesSet
   const char* channel_name = "";
   const digital::NiDigitalAttributes attribute_to_set = digital::NiDigitalAttributes::NIDIGITAL_ATTRIBUTE_CACHE;
   const ViBoolean expected_value = true;
-  
   set_bool_attribute(channel_name, attribute_to_set, expected_value);
+
   ViBoolean get_attribute_value = get_bool_attribute(channel_name, attribute_to_set);
 
   EXPECT_EQ(expected_value, get_attribute_value);
@@ -323,7 +321,6 @@ TEST_F(NiDigitalDriverApiTest, SelfCalibrate_CompletesSuccessfully)
   digital::SelfCalibrateRequest request;
   request.mutable_vi()->set_id(GetSessionId());
   digital::SelfCalibrateResponse response;
-
   ::grpc::Status status = GetStub()->SelfCalibrate(&context, request, &response);
 
   EXPECT_TRUE(status.ok());
