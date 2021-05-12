@@ -1085,6 +1085,27 @@ TEST(NiFakeServiceTests, NiFakeService_GetAttributeViString_CallsGetAttributeViS
   EXPECT_THAT(response.attribute_value(), ElementsAreArray(attribute_char_array, expected_size));
 }
 
+TEST(NiFakeServiceTests, NiFakeService_GetViUInt8_CallsGetViUInt8)
+{
+  nidevice_grpc::SessionRepository session_repository;
+  std::uint32_t session_id = create_session(session_repository, kTestViSession);
+  NiFakeMockLibrary library;
+  nifake_grpc::NiFakeService service(&library, &session_repository);
+  ViUInt8 a_ViUInt8_number = 255;
+  EXPECT_CALL(library, GetViUInt8(kTestViSession, _))
+      .WillOnce(DoAll(SetArgPointee<1>(a_ViUInt8_number), Return(kDriverSuccess)));
+
+  ::grpc::ServerContext context;
+  nifake_grpc::GetViUInt8Request request;
+  request.mutable_vi()->set_id(session_id);
+  nifake_grpc::GetViUInt8Response response;
+  ::grpc::Status status = service.GetViUInt8(&context, &request, &response);
+
+  EXPECT_TRUE(status.ok());
+  EXPECT_EQ(kDriverSuccess, response.status());
+  EXPECT_EQ(a_ViUInt8_number, response.a_uint8_number());
+}
+
 }  // namespace unit
 }  // namespace tests
 }  // namespace ni

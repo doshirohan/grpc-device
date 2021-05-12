@@ -69,6 +69,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   ViStatus close(ViSession vi);
   ViStatus error_message(ViSession vi, ViStatus errorCode, ViChar errorMessage[256]);
   ViStatus self_test(ViSession vi, ViInt16* selfTestResult, ViChar selfTestMessage[256]);
+  ViStatus GetViUInt8(ViSession vi, ViUInt8* aUint8Number);
 
  private:
   using AbortPtr = ViStatus (*)(ViSession vi);
@@ -122,6 +123,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   using closePtr = ViStatus (*)(ViSession vi);
   using error_messagePtr = ViStatus (*)(ViSession vi, ViStatus errorCode, ViChar errorMessage[256]);
   using self_testPtr = ViStatus (*)(ViSession vi, ViInt16* selfTestResult, ViChar selfTestMessage[256]);
+  using GetViUInt8Ptr = ViStatus (*)(ViSession vi, ViUInt8* aUint8Number);
 
   typedef struct FunctionPointers {
     AbortPtr Abort;
@@ -175,6 +177,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
     closePtr close;
     error_messagePtr error_message;
     self_testPtr self_test;
+    GetViUInt8Ptr GetViUInt8;
   } FunctionLoadStatus;
 
   nidevice_grpc::SharedLibrary shared_library_;

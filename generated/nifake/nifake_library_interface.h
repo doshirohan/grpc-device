@@ -66,6 +66,7 @@ class NiFakeLibraryInterface {
   virtual ViStatus close(ViSession vi) = 0;
   virtual ViStatus error_message(ViSession vi, ViStatus errorCode, ViChar errorMessage[256]) = 0;
   virtual ViStatus self_test(ViSession vi, ViInt16* selfTestResult, ViChar selfTestMessage[256]) = 0;
+  virtual ViStatus GetViUInt8(ViSession vi, ViUInt8* aUint8Number) = 0;
 };
 
 }  // namespace nifake_grpc

@@ -2444,5 +2444,21 @@ functions = {
             }
         ],
         'returns': 'ViStatus'
+    },
+    'GetViUInt8': {
+        'codegen_method': 'public',
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'vi',
+                'type': 'ViSession'
+            },
+            {
+                'direction': 'out',
+                'name': 'aUint8Number',
+                'type': 'ViUInt8'
+            }
+        ],
+        'returns': 'ViStatus'
     }
 }

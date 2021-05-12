@@ -58,6 +58,7 @@ service NiFake {
   rpc Use64BitNumber(Use64BitNumberRequest) returns (Use64BitNumberResponse);
   rpc WriteWaveform(WriteWaveformRequest) returns (WriteWaveformResponse);
   rpc Close(CloseRequest) returns (CloseResponse);
+  rpc GetViUInt8(GetViUInt8Request) returns (GetViUInt8Response);
 }
 
 enum NiFakeAttributes {
@@ -557,5 +558,14 @@ message CloseRequest {
 
 message CloseResponse {
   int32 status = 1;
+}
+
+message GetViUInt8Request {
+  nidevice_grpc.Session vi = 1;
+}
+
+message GetViUInt8Response {
+  int32 status = 1;
+  uint32 a_uint8_number = 2;
 }
 

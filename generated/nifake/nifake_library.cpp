@@ -72,6 +72,7 @@ NiFakeLibrary::NiFakeLibrary() : shared_library_(kLibraryName)
   function_pointers_.close = reinterpret_cast<closePtr>(shared_library_.get_function_pointer("niFake_close"));
   function_pointers_.error_message = reinterpret_cast<error_messagePtr>(shared_library_.get_function_pointer("niFake_error_message"));
   function_pointers_.self_test = reinterpret_cast<self_testPtr>(shared_library_.get_function_pointer("niFake_self_test"));
+  function_pointers_.GetViUInt8 = reinterpret_cast<GetViUInt8Ptr>(shared_library_.get_function_pointer("niFake_GetViUInt8"));
 }
 
 NiFakeLibrary::~NiFakeLibrary()
@@ -694,6 +695,18 @@ ViStatus NiFakeLibrary::self_test(ViSession vi, ViInt16* selfTestResult, ViChar 
   return niFake_self_test(vi, selfTestResult, selfTestMessage);
 #else
   return function_pointers_.self_test(vi, selfTestResult, selfTestMessage);
+#endif
+}
+
+ViStatus NiFakeLibrary::GetViUInt8(ViSession vi, ViUInt8* aUint8Number)
+{
+  if (!function_pointers_.GetViUInt8) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niFake_GetViUInt8.");
+  }
+#if defined(_MSC_VER)
+  return niFake_GetViUInt8(vi, aUint8Number);
+#else
+  return function_pointers_.GetViUInt8(vi, aUint8Number);
 #endif
 }
 
