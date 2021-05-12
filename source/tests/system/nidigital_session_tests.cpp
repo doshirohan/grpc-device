@@ -89,6 +89,7 @@ TEST_F(NiDigitalSessionTest, InitializeSessionWithDeviceAndNoSessionName_Creates
 TEST_F(NiDigitalSessionTest, InitializeSessionWithoutDevice_ReturnsDriverError)
 {
   digital::InitWithOptionsResponse response;
+
   ::grpc::Status status = call_init_with_options(kDigitalInvalidResourceName, "", "", &response);
 
   EXPECT_TRUE(status.ok());
@@ -100,12 +101,13 @@ TEST_F(NiDigitalSessionTest, InitializedSession_CloseSession_ClosesDriverSession
 {
   digital::InitWithOptionsResponse init_response;
   call_init_with_options(kDigitalResourceName, kDigitalOptionsString, kDigitalSessionName, &init_response);
+  
   nidevice_grpc::Session session = init_response.vi();
-
   ::grpc::ClientContext context;
   digital::CloseRequest close_request;
   close_request.mutable_vi()->set_id(session.id());
   digital::CloseResponse close_response;
+
   ::grpc::Status status = GetStub()->Close(&context, close_request, &close_response);
 
   EXPECT_TRUE(status.ok());
@@ -124,6 +126,7 @@ TEST_F(NiDigitalSessionTest, ErrorFromDriver_GetErrorMessage_ReturnsUserErrorMes
   error_request.mutable_vi()->set_id(session.id());
   error_request.set_error_code(kDigitalRsrcNotFound);
   digital::ErrorMessageResponse error_response;
+
   ::grpc::Status status = GetStub()->ErrorMessage(&context, error_request, &error_response);
 
   EXPECT_TRUE(status.ok());
