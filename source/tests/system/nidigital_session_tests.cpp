@@ -106,7 +106,6 @@ TEST_F(NiDigitalSessionTest, InitializedSession_CloseSession_ClosesDriverSession
   digital::CloseRequest close_request;
   close_request.mutable_vi()->set_id(session.id());
   digital::CloseResponse close_response;
-
   ::grpc::Status status = GetStub()->Close(&context, close_request, &close_response);
 
   EXPECT_TRUE(status.ok());
