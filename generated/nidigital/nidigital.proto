@@ -65,12 +65,10 @@ service NiDigital {
   rpc EndChannelMap(EndChannelMapRequest) returns (EndChannelMapResponse);
   rpc ErrorMessage(ErrorMessageRequest) returns (ErrorMessageResponse);
   rpc ExportSignal(ExportSignalRequest) returns (ExportSignalResponse);
-  rpc FetchCaptureWaveformU32(FetchCaptureWaveformU32Request) returns (FetchCaptureWaveformU32Response);
   rpc FetchHistoryRAMCycleInformation(FetchHistoryRAMCycleInformationRequest) returns (FetchHistoryRAMCycleInformationResponse);
   rpc FetchHistoryRAMScanCycleNumber(FetchHistoryRAMScanCycleNumberRequest) returns (FetchHistoryRAMScanCycleNumberResponse);
   rpc FrequencyCounterConfigureMeasurementMode(FrequencyCounterConfigureMeasurementModeRequest) returns (FrequencyCounterConfigureMeasurementModeResponse);
   rpc FrequencyCounterConfigureMeasurementTime(FrequencyCounterConfigureMeasurementTimeRequest) returns (FrequencyCounterConfigureMeasurementTimeResponse);
-  rpc FrequencyCounterMeasureFrequency(FrequencyCounterMeasureFrequencyRequest) returns (FrequencyCounterMeasureFrequencyResponse);
   rpc GetAttributeViBoolean(GetAttributeViBooleanRequest) returns (GetAttributeViBooleanResponse);
   rpc GetAttributeViInt32(GetAttributeViInt32Request) returns (GetAttributeViInt32Response);
   rpc GetAttributeViInt64(GetAttributeViInt64Request) returns (GetAttributeViInt64Response);
@@ -79,15 +77,10 @@ service NiDigital {
   rpc GetAttributeViString(GetAttributeViStringRequest) returns (GetAttributeViStringResponse);
   rpc GetChannelNameFromString(GetChannelNameFromStringRequest) returns (GetChannelNameFromStringResponse);
   rpc GetError(GetErrorRequest) returns (GetErrorResponse);
-  rpc GetFailCount(GetFailCountRequest) returns (GetFailCountResponse);
   rpc GetHistoryRAMSampleCount(GetHistoryRAMSampleCountRequest) returns (GetHistoryRAMSampleCountResponse);
   rpc GetPatternName(GetPatternNameRequest) returns (GetPatternNameResponse);
-  rpc GetPatternPinIndexes(GetPatternPinIndexesRequest) returns (GetPatternPinIndexesResponse);
   rpc GetPatternPinList(GetPatternPinListRequest) returns (GetPatternPinListResponse);
   rpc GetPinName(GetPinNameRequest) returns (GetPinNameResponse);
-  rpc GetPinResultsPinInformation(GetPinResultsPinInformationRequest) returns (GetPinResultsPinInformationResponse);
-  rpc GetSitePassFail(GetSitePassFailRequest) returns (GetSitePassFailResponse);
-  rpc GetSiteResultsSiteNumbers(GetSiteResultsSiteNumbersRequest) returns (GetSiteResultsSiteNumbersResponse);
   rpc GetTimeSetDriveFormat(GetTimeSetDriveFormatRequest) returns (GetTimeSetDriveFormatResponse);
   rpc GetTimeSetEdge(GetTimeSetEdgeRequest) returns (GetTimeSetEdgeResponse);
   rpc GetTimeSetEdgeMultiplier(GetTimeSetEdgeMultiplierRequest) returns (GetTimeSetEdgeMultiplierResponse);
@@ -113,7 +106,6 @@ service NiDigital {
   rpc PPMUConfigureOutputFunction(PPMUConfigureOutputFunctionRequest) returns (PPMUConfigureOutputFunctionResponse);
   rpc PPMUConfigureVoltageLevel(PPMUConfigureVoltageLevelRequest) returns (PPMUConfigureVoltageLevelResponse);
   rpc PPMUConfigureVoltageLimits(PPMUConfigureVoltageLimitsRequest) returns (PPMUConfigureVoltageLimitsResponse);
-  rpc PPMUMeasure(PPMUMeasureRequest) returns (PPMUMeasureResponse);
   rpc PPMUSource(PPMUSourceRequest) returns (PPMUSourceResponse);
   rpc ReadSequencerFlag(ReadSequencerFlagRequest) returns (ReadSequencerFlagResponse);
   rpc ReadSequencerRegister(ReadSequencerRegisterRequest) returns (ReadSequencerRegisterResponse);
@@ -128,16 +120,13 @@ service NiDigital {
   rpc SetAttributeViReal64(SetAttributeViReal64Request) returns (SetAttributeViReal64Response);
   rpc SetAttributeViSession(SetAttributeViSessionRequest) returns (SetAttributeViSessionResponse);
   rpc SetAttributeViString(SetAttributeViStringRequest) returns (SetAttributeViStringResponse);
-  rpc TDR(TDRRequest) returns (TDRResponse);
   rpc UnloadAllPatterns(UnloadAllPatternsRequest) returns (UnloadAllPatternsResponse);
   rpc UnloadSpecifications(UnloadSpecificationsRequest) returns (UnloadSpecificationsResponse);
   rpc UnlockSession(UnlockSessionRequest) returns (UnlockSessionResponse);
   rpc WaitUntilDone(WaitUntilDoneRequest) returns (WaitUntilDoneResponse);
   rpc WriteSequencerFlag(WriteSequencerFlagRequest) returns (WriteSequencerFlagResponse);
   rpc WriteSequencerRegister(WriteSequencerRegisterRequest) returns (WriteSequencerRegisterResponse);
-  rpc WriteSourceWaveformBroadcastU32(WriteSourceWaveformBroadcastU32Request) returns (WriteSourceWaveformBroadcastU32Response);
   rpc WriteSourceWaveformDataFromFileTDMS(WriteSourceWaveformDataFromFileTDMSRequest) returns (WriteSourceWaveformDataFromFileTDMSResponse);
-  rpc WriteSourceWaveformSiteUniqueU32(WriteSourceWaveformSiteUniqueU32Request) returns (WriteSourceWaveformSiteUniqueU32Response);
 }
 
 enum NiDigitalAttributes {
@@ -282,12 +271,6 @@ enum PpmuCurrentLimitBehavior {
   PPMU_CURRENT_LIMIT_BEHAVIOR_NIDIGITAL_VAL_CURRENT_REGULATE = 3100;
 }
 
-enum PpmuMeasurementType {
-  PPMU_MEASUREMENT_TYPE_UNSPECIFIED = 0;
-  PPMU_MEASUREMENT_TYPE_NIDIGITAL_VAL_MEASURE_CURRENT = 2400;
-  PPMU_MEASUREMENT_TYPE_NIDIGITAL_VAL_MEASURE_VOLTAGE = 2401;
-}
-
 enum PpmuOutputFunction {
   PPMU_OUTPUT_FUNCTION_UNSPECIFIED = 0;
   PPMU_OUTPUT_FUNCTION_NIDIGITAL_VAL_DC_VOLTAGE = 1300;
@@ -300,12 +283,6 @@ enum SelectedFunction {
   SELECTED_FUNCTION_NIDIGITAL_VAL_PPMU = 1101;
   SELECTED_FUNCTION_NIDIGITAL_VAL_OFF = 1102;
   SELECTED_FUNCTION_NIDIGITAL_VAL_DISCONNECT = 1103;
-}
-
-enum SiteResultType {
-  SITE_RESULT_TYPE_UNSPECIFIED = 0;
-  SITE_RESULT_TYPE_NIDIGITAL_VAL_PASS_FAIL = 3300;
-  SITE_RESULT_TYPE_NIDIGITAL_VAL_CAPTURE_WAVEFORM = 3301;
 }
 
 enum SoftwareTrigger {
@@ -897,22 +874,6 @@ message ExportSignalResponse {
   int32 status = 1;
 }
 
-message FetchCaptureWaveformU32Request {
-  nidevice_grpc.Session vi = 1;
-  string site_list = 2;
-  string waveform_name = 3;
-  sint32 samples_to_read = 4;
-  double timeout = 5;
-  sint32 data_buffer_size = 6;
-}
-
-message FetchCaptureWaveformU32Response {
-  int32 status = 1;
-  repeated uint32 data = 2;
-  sint32 actual_num_waveforms = 3;
-  sint32 actual_samples_per_waveform = 4;
-}
-
 message FetchHistoryRAMCycleInformationRequest {
   nidevice_grpc.Session vi = 1;
   string site = 2;
@@ -959,18 +920,6 @@ message FrequencyCounterConfigureMeasurementTimeRequest {
 
 message FrequencyCounterConfigureMeasurementTimeResponse {
   int32 status = 1;
-}
-
-message FrequencyCounterMeasureFrequencyRequest {
-  nidevice_grpc.Session vi = 1;
-  string channel_list = 2;
-  sint32 frequencies_buffer_size = 3;
-}
-
-message FrequencyCounterMeasureFrequencyResponse {
-  int32 status = 1;
-  repeated double frequencies = 2;
-  sint32 actual_num_frequencies = 3;
 }
 
 message GetAttributeViBooleanRequest {
@@ -1059,18 +1008,6 @@ message GetErrorResponse {
   string error_description = 3;
 }
 
-message GetFailCountRequest {
-  nidevice_grpc.Session vi = 1;
-  string channel_list = 2;
-  sint32 buffer_size = 3;
-}
-
-message GetFailCountResponse {
-  int32 status = 1;
-  repeated int64 failure_count = 2;
-  sint32 actual_num_read = 3;
-}
-
 message GetHistoryRAMSampleCountRequest {
   nidevice_grpc.Session vi = 1;
   string site = 2;
@@ -1091,18 +1028,6 @@ message GetPatternNameResponse {
   string name = 2;
 }
 
-message GetPatternPinIndexesRequest {
-  nidevice_grpc.Session vi = 1;
-  string start_label = 2;
-  sint32 pin_indexes_buffer_size = 3;
-}
-
-message GetPatternPinIndexesResponse {
-  int32 status = 1;
-  repeated sint32 pin_indexes = 2;
-  sint32 actual_num_pins = 3;
-}
-
 message GetPatternPinListRequest {
   nidevice_grpc.Session vi = 1;
   string start_label = 2;
@@ -1121,48 +1046,6 @@ message GetPinNameRequest {
 message GetPinNameResponse {
   int32 status = 1;
   string name = 2;
-}
-
-message GetPinResultsPinInformationRequest {
-  nidevice_grpc.Session vi = 1;
-  string channel_list = 2;
-  sint32 buffer_size = 3;
-}
-
-message GetPinResultsPinInformationResponse {
-  int32 status = 1;
-  repeated sint32 pin_indexes = 2;
-  repeated sint32 site_numbers = 3;
-  repeated sint32 channel_indexes = 4;
-  sint32 actual_num_values = 5;
-}
-
-message GetSitePassFailRequest {
-  nidevice_grpc.Session vi = 1;
-  string site_list = 2;
-  sint32 pass_fail_buffer_size = 3;
-}
-
-message GetSitePassFailResponse {
-  int32 status = 1;
-  repeated bool pass_fail = 2;
-  sint32 actual_num_sites = 3;
-}
-
-message GetSiteResultsSiteNumbersRequest {
-  nidevice_grpc.Session vi = 1;
-  string site_list = 2;
-  oneof site_result_type_enum {
-    SiteResultType site_result_type = 3;
-    sint32 site_result_type_raw = 4;
-  }
-  sint32 site_numbers_buffer_size = 5;
-}
-
-message GetSiteResultsSiteNumbersResponse {
-  int32 status = 1;
-  repeated sint32 site_numbers = 2;
-  sint32 actual_num_site_numbers = 3;
 }
 
 message GetTimeSetDriveFormatRequest {
@@ -1432,22 +1315,6 @@ message PPMUConfigureVoltageLimitsResponse {
   int32 status = 1;
 }
 
-message PPMUMeasureRequest {
-  nidevice_grpc.Session vi = 1;
-  string channel_list = 2;
-  oneof measurement_type_enum {
-    PpmuMeasurementType measurement_type = 3;
-    sint32 measurement_type_raw = 4;
-  }
-  sint32 buffer_size = 5;
-}
-
-message PPMUMeasureResponse {
-  int32 status = 1;
-  repeated double measurements = 2;
-  sint32 actual_num_read = 3;
-}
-
 message PPMUSourceRequest {
   nidevice_grpc.Session vi = 1;
   string channel_list = 2;
@@ -1590,19 +1457,6 @@ message SetAttributeViStringResponse {
   int32 status = 1;
 }
 
-message TDRRequest {
-  nidevice_grpc.Session vi = 1;
-  string channel_list = 2;
-  bool apply_offsets = 3;
-  sint32 offsets_buffer_size = 4;
-}
-
-message TDRResponse {
-  int32 status = 1;
-  repeated double offsets = 2;
-  sint32 actual_num_offsets = 3;
-}
-
 message UnloadAllPatternsRequest {
   nidevice_grpc.Session vi = 1;
   bool unload_keep_alive_pattern = 2;
@@ -1659,16 +1513,6 @@ message WriteSequencerRegisterResponse {
   int32 status = 1;
 }
 
-message WriteSourceWaveformBroadcastU32Request {
-  nidevice_grpc.Session vi = 1;
-  string waveform_name = 2;
-  repeated uint32 waveform_data = 3;
-}
-
-message WriteSourceWaveformBroadcastU32Response {
-  int32 status = 1;
-}
-
 message WriteSourceWaveformDataFromFileTDMSRequest {
   nidevice_grpc.Session vi = 1;
   string waveform_name = 2;
@@ -1676,19 +1520,6 @@ message WriteSourceWaveformDataFromFileTDMSRequest {
 }
 
 message WriteSourceWaveformDataFromFileTDMSResponse {
-  int32 status = 1;
-}
-
-message WriteSourceWaveformSiteUniqueU32Request {
-  nidevice_grpc.Session vi = 1;
-  string site_list = 2;
-  string waveform_name = 3;
-  sint32 num_waveforms = 4;
-  sint32 samples_per_waveform = 5;
-  repeated uint32 waveform_data = 6;
-}
-
-message WriteSourceWaveformSiteUniqueU32Response {
   int32 status = 1;
 }
 
