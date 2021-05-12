@@ -125,7 +125,6 @@ TEST_F(NiDigitalSessionTest, ErrorFromDriver_GetErrorMessage_ReturnsUserErrorMes
   error_request.mutable_vi()->set_id(session.id());
   error_request.set_error_code(kDigitalRsrcNotFound);
   digital::ErrorMessageResponse error_response;
-
   ::grpc::Status status = GetStub()->ErrorMessage(&context, error_request, &error_response);
 
   EXPECT_TRUE(status.ok());
