@@ -1148,64 +1148,6 @@ functions = {
         ],
         "returns": "ViStatus"
     },
-    "FetchCaptureWaveformU32": {
-        "codegen_method": "public",
-        "parameters": [
-            {
-                "direction": "in",
-                "name": "vi",
-                "type": "ViSession"
-            },
-            {
-                "direction": "in",
-                "is_repeated_capability": True,
-                "repeated_capability_type": "sites",
-                "name": "siteList",
-                "type": "ViConstString"
-            },
-            {
-                "direction": "in",
-                "name": "waveformName",
-                "type": "ViConstString"
-            },
-            {
-                "direction": "in",
-                "name": "samplesToRead",
-                "type": "ViInt32"
-            },
-            {
-                "direction": "in",
-                "name": "timeout",
-                "type": "ViReal64"
-            },
-            {
-                "direction": "in",
-                "name": "dataBufferSize",
-                "type": "ViInt32"
-            },
-            {
-                "direction": "out",
-                "name": "data",
-                "size": {
-                    "mechanism": "ivi-dance-with-a-twist",
-                    "value": "dataBufferSize",
-                    "value_twist": "actualNumWaveforms"
-                },
-                "type": "ViUInt32[]"
-            },
-            {
-                "direction": "out",
-                "name": "actualNumWaveforms",
-                "type": "ViInt32"
-            },
-            {
-                "direction": "out",
-                "name": "actualSamplesPerWaveform",
-                "type": "ViInt32"
-            }
-        ],
-        "returns": "ViStatus"
-    },
     "FetchHistoryRAMCycleInformation": {
         "codegen_method": "public",
         "parameters": [
@@ -1316,42 +1258,6 @@ functions = {
                 "name": "measurementTime",
                 "direction": "in",
                 "type": "ViReal64"
-            }
-        ],
-        "returns": "ViStatus"
-    },
-    "FrequencyCounterMeasureFrequency": {
-        "cname": "niDigital_FrequencyCounter_MeasureFrequency",
-        "parameters": [
-            {
-                "direction": "in",
-                "name": "vi",
-                "type": "ViSession"
-            },
-            {
-                "direction": "in",
-                "name": "channelList",
-                "type": "ViConstString"
-            },
-            {
-                "direction": "in",
-                "name": "frequenciesBufferSize",
-                "type": "ViInt32"
-            },
-            {
-                "direction": "out",
-                "name": "frequencies",
-                "size": {
-                    "mechanism": "ivi-dance-with-a-twist",
-                    "value": "frequenciesBufferSize",
-                    "value_twist": "actualNumFrequencies"
-                },
-                "type": "ViReal64[]"
-            },
-            {
-                "direction": "out",
-                "name": "actualNumFrequencies",
-                "type": "ViInt32"
             }
         ],
         "returns": "ViStatus"
@@ -1612,41 +1518,6 @@ functions = {
         "returns": "ViStatus",
         "use_session_lock": False
     },
-    "GetFailCount": {
-        "parameters": [
-            {
-                "direction": "in",
-                "name": "vi",
-                "type": "ViSession"
-            },
-            {
-                "direction": "in",
-                "name": "channelList",
-                "type": "ViConstString"
-            },
-            {
-                "direction": "in",
-                "name": "bufferSize",
-                "type": "ViInt32"
-            },
-            {
-                "direction": "out",
-                "name": "failureCount",
-                "size": {
-                    "mechanism": "ivi-dance-with-a-twist",
-                    "value": "bufferSize",
-                    "value_twist": "actualNumRead"
-                },
-                "type": "ViInt64[]"
-            },
-            {
-                "direction": "out",
-                "name": "actualNumRead",
-                "type": "ViInt32"
-            }
-        ],
-        "returns": "ViStatus"
-    },
     "GetHistoryRAMSampleCount": {
         "parameters": [
             {
@@ -1698,40 +1569,6 @@ functions = {
             }
         ],
         "render_in_session_base": True,
-        "returns": "ViStatus"
-    },
-    "GetPatternPinIndexes": {
-        "parameters": [
-            {
-                "name": "vi",
-                "direction": "in",
-                "type": "ViSession"
-            },
-            {
-                "name": "startLabel",
-                "direction": "in",
-                "type": "ViConstString"
-            },
-            {
-                "name": "pinIndexesBufferSize",
-                "direction": "in",
-                "type": "ViInt32"
-            },
-            {
-                "name": "pinIndexes",
-                "direction": "out",
-                "type": "ViInt32[]",
-                "size": {
-                    "mechanism": "ivi-dance-with-a-twist",
-                    "value": "pinIndexesBufferSize"
-                }
-            },
-            {
-                "name": "actualNumPins",
-                "direction": "out",
-                "type": "ViInt32"
-            }
-        ],
         "returns": "ViStatus"
     },
     "GetPatternPinList": {
@@ -1792,144 +1629,6 @@ functions = {
             }
         ],
         "render_in_session_base": True,
-        "returns": "ViStatus"
-    },
-    "GetPinResultsPinInformation": {
-        "codegen_method": "public",
-        "parameters": [
-            {
-                "direction": "in",
-                "name": "vi",
-                "type": "ViSession"
-            },
-            {
-                "direction": "in",
-                "name": "channelList",
-                "type": "ViConstString"
-            },
-            {
-                "direction": "in",
-                "name": "bufferSize",
-                "type": "ViInt32"
-            },
-            {
-                "direction": "out",
-                "name": "pinIndexes",
-                "size": {
-                    "mechanism": "ivi-dance-with-a-twist",
-                    "value": "bufferSize",
-                    "value_twist": "actualNumValues"
-                },
-                "type": "ViInt32[]"
-            },
-            {
-                "direction": "out",
-                "name": "siteNumbers",
-                "size": {
-                    "mechanism": "ivi-dance-with-a-twist",
-                    "value": "bufferSize",
-                    "value_twist": "actualNumValues"
-                },
-                "type": "ViInt32[]"
-            },
-            {
-                "direction": "out",
-                "name": "channelIndexes",
-                "size": {
-                    "mechanism": "ivi-dance-with-a-twist",
-                    "value": "bufferSize",
-                    "value_twist": "actualNumValues"
-                },
-                "type": "ViInt32[]"
-            },
-            {
-                "direction": "out",
-                "name": "actualNumValues",
-                "type": "ViInt32"
-            }
-        ],
-        "returns": "ViStatus"
-    },
-    "GetSitePassFail": {
-        "codegen_method": "public",
-        "parameters": [
-            {
-                "direction": "in",
-                "name": "vi",
-                "type": "ViSession"
-            },
-            {
-                "direction": "in",
-                "is_repeated_capability": True,
-                "repeated_capability_type": "sites",
-                "name": "siteList",
-                "type": "ViConstString"
-            },
-            {
-                "direction": "in",
-                "name": "passFailBufferSize",
-                "type": "ViInt32"
-            },
-            {
-                "direction": "out",
-                "name": "passFail",
-                "size": {
-                    "mechanism": "ivi-dance-with-a-twist",
-                    "value": "passFailBufferSize",
-                    "value_twist": "actualNumSites"
-                },
-                "type": "ViBoolean[]"
-            },
-            {
-                "direction": "out",
-                "name": "actualNumSites",
-                "type": "ViInt32"
-            }
-        ],
-        "returns": "ViStatus"
-    },
-    "GetSiteResultsSiteNumbers": {
-        "codegen_method": "public",
-        "parameters": [
-            {
-                "direction": "in",
-                "name": "vi",
-                "type": "ViSession"
-            },
-            {
-                "direction": "in",
-                "is_repeated_capability": True,
-                "repeated_capability_type": "sites",
-                "name": "siteList",
-                "type": "ViConstString"
-            },
-            {
-                "direction": "in",
-                "enum": "SiteResultType",
-                "name": "siteResultType",
-                "type": "ViInt32"
-            },
-            {
-                "direction": "in",
-                "name": "siteNumbersBufferSize",
-                "type": "ViInt32"
-            },
-            {
-                "direction": "out",
-                "name": "siteNumbers",
-                "size": {
-                    "mechanism": "ivi-dance-with-a-twist",
-                    "value": "siteNumbersBufferSize",
-                    "value_twist": "actualNumSiteNumbers"
-                },
-                "type": "ViInt32[]"
-            },
-            {
-                "direction": "out",
-                "name": "actualNumSiteNumbers",
-                "type": "ViInt32"
-            }
-        ],
         "returns": "ViStatus"
     },
     "GetTimeSetDriveFormat": {
@@ -2488,48 +2187,6 @@ functions = {
         ],
         "returns": "ViStatus"
     },
-    "PPMUMeasure": {
-        "cname": "niDigital_PPMU_Measure",
-        "parameters": [
-            {
-                "direction": "in",
-                "name": "vi",
-                "type": "ViSession"
-            },
-            {
-                "direction": "in",
-                "name": "channelList",
-                "type": "ViConstString"
-            },
-            {
-                "direction": "in",
-                "enum": "PpmuMeasurementType",
-                "name": "measurementType",
-                "type": "ViInt32"
-            },
-            {
-                "direction": "in",
-                "name": "bufferSize",
-                "type": "ViInt32"
-            },
-            {
-                "direction": "out",
-                "name": "measurements",
-                "size": {
-                    "mechanism": "ivi-dance-with-a-twist",
-                    "value": "bufferSize",
-                    "value_twist": "actualNumRead"
-                },
-                "type": "ViReal64[]"
-            },
-            {
-                "direction": "out",
-                "name": "actualNumRead",
-                "type": "ViInt32"
-            }
-        ],
-        "returns": "ViStatus"
-    },
     "PPMUSource": {
         "cname": "niDigital_PPMU_Source",
         "parameters": [
@@ -2841,47 +2498,6 @@ functions = {
         ],
         "returns": "ViStatus"
     },
-    "TDR": {
-        "parameters": [
-            {
-                "direction": "in",
-                "name": "vi",
-                "type": "ViSession"
-            },
-            {
-                "direction": "in",
-                "name": "channelList",
-                "type": "ViConstString"
-            },
-            {
-                "default_value": True,
-                "direction": "in",
-                "name": "applyOffsets",
-                "type": "ViBoolean"
-            },
-            {
-                "direction": "in",
-                "name": "offsetsBufferSize",
-                "type": "ViInt32"
-            },
-            {
-                "direction": "out",
-                "name": "offsets",
-                "size": {
-                    "mechanism": "ivi-dance-with-a-twist",
-                    "value": "offsetsBufferSize",
-                    "value_twist": "actualNumOffsets"
-                },
-                "type": "ViReal64[]",
-            },
-            {
-                "direction": "out",
-                "name": "actualNumOffsets",
-                "type": "ViInt32"
-            }
-        ],
-        "returns": "ViStatus"
-    },
     "UnloadAllPatterns": {
         "parameters": [
             {
@@ -2987,35 +2603,6 @@ functions = {
         ],
         "returns": "ViStatus"
     },
-    "WriteSourceWaveformBroadcastU32": {
-        "parameters": [
-            {
-                "direction": "in",
-                "name": "vi",
-                "type": "ViSession"
-            },
-            {
-                "direction": "in",
-                "name": "waveformName",
-                "type": "ViConstString"
-            },
-            {
-                "direction": "in",
-                "name": "waveformSize",
-                "type": "ViInt32"
-            },
-            {
-                "direction": "in",
-                "name": "waveformData",
-                "size": {
-                    "mechanism": "len",
-                    "value": "waveformSize"
-                },
-                "type": "ViUInt32[]"
-            }
-        ],
-        "returns": "ViStatus"
-    },
     "WriteSourceWaveformDataFromFileTDMS": {
         "parameters": [
             {
@@ -3035,50 +2622,7 @@ functions = {
             }
         ],
         "returns": "ViStatus"
-    },
-    "WriteSourceWaveformSiteUniqueU32": {
-        "codegen_method": "public",
-        "parameters": [
-            {
-                "direction": "in",
-                "name": "vi",
-                "type": "ViSession"
-            },
-            {
-                "direction": "in",
-                "is_repeated_capability": True,
-                "repeated_capability_type": "sites",
-                "name": "siteList",
-                "type": "ViConstString"
-            },
-            {
-                "direction": "in",
-                "name": "waveformName",
-                "type": "ViConstString"
-            },
-            {
-                "direction": "in",
-                "name": "numWaveforms",
-                "type": "ViInt32"
-            },
-            {
-                "direction": "in",
-                "name": "samplesPerWaveform",
-                "type": "ViInt32"
-            },
-            {
-                "direction": "in",
-                "name": "waveformData",
-                "size": {
-                    "mechanism": "fixed",
-                    "value": 1
-                },
-                "type": "ViUInt32[]",
-                "use_array": True
-            }
-        ],
-        'returns': 'ViStatus'
-    },
+    }, 
     'WriteStatic': {
         'documentation': {
             'description': 'Writes a static state to the specified pins. The selected pins remain in the specified state until the next pattern burst or call to this function. If there are uncommitted changes to levels or the termination mode, this function commits the changes to the pins. This function does not change the selected pin function. If you write a static state to a pin that does not have the Digital function selected, the new static state is stored by the instrument, and affects the state of the pin the next time you change the selected function to Digital.\n'

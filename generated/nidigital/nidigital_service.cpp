@@ -1229,21 +1229,6 @@ namespace nidigital_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
-  ::grpc::Status NiDigitalService::FetchCaptureWaveformU32(::grpc::ServerContext* context, const FetchCaptureWaveformU32Request* request, FetchCaptureWaveformU32Response* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      return ::grpc::Status(::grpc::UNIMPLEMENTED, "TODO: This server handler has not been implemented.");
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
   ::grpc::Status NiDigitalService::FetchHistoryRAMCycleInformation(::grpc::ServerContext* context, const FetchHistoryRAMCycleInformationRequest* request, FetchHistoryRAMCycleInformationResponse* response)
   {
     if (context->IsCancelled()) {
@@ -1347,21 +1332,6 @@ namespace nidigital_grpc {
       auto status = library_->FrequencyCounterConfigureMeasurementTime(vi, channel_list, measurement_time);
       response->set_status(status);
       return ::grpc::Status::OK;
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
-  ::grpc::Status NiDigitalService::FrequencyCounterMeasureFrequency(::grpc::ServerContext* context, const FrequencyCounterMeasureFrequencyRequest* request, FrequencyCounterMeasureFrequencyResponse* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      return ::grpc::Status(::grpc::UNIMPLEMENTED, "TODO: This server handler has not been implemented.");
     }
     catch (nidevice_grpc::LibraryLoadException& ex) {
       return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
@@ -1593,21 +1563,6 @@ namespace nidigital_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
-  ::grpc::Status NiDigitalService::GetFailCount(::grpc::ServerContext* context, const GetFailCountRequest* request, GetFailCountResponse* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      return ::grpc::Status(::grpc::UNIMPLEMENTED, "TODO: This server handler has not been implemented.");
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
   ::grpc::Status NiDigitalService::GetHistoryRAMSampleCount(::grpc::ServerContext* context, const GetHistoryRAMSampleCountRequest* request, GetHistoryRAMSampleCountResponse* response)
   {
     if (context->IsCancelled()) {
@@ -1656,21 +1611,6 @@ namespace nidigital_grpc {
         response->set_name(name);
       }
       return ::grpc::Status::OK;
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
-  ::grpc::Status NiDigitalService::GetPatternPinIndexes(::grpc::ServerContext* context, const GetPatternPinIndexesRequest* request, GetPatternPinIndexesResponse* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      return ::grpc::Status(::grpc::UNIMPLEMENTED, "TODO: This server handler has not been implemented.");
     }
     catch (nidevice_grpc::LibraryLoadException& ex) {
       return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
@@ -1735,51 +1675,6 @@ namespace nidigital_grpc {
         response->set_name(name);
       }
       return ::grpc::Status::OK;
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
-  ::grpc::Status NiDigitalService::GetPinResultsPinInformation(::grpc::ServerContext* context, const GetPinResultsPinInformationRequest* request, GetPinResultsPinInformationResponse* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      return ::grpc::Status(::grpc::UNIMPLEMENTED, "TODO: This server handler has not been implemented.");
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
-  ::grpc::Status NiDigitalService::GetSitePassFail(::grpc::ServerContext* context, const GetSitePassFailRequest* request, GetSitePassFailResponse* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      return ::grpc::Status(::grpc::UNIMPLEMENTED, "TODO: This server handler has not been implemented.");
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
-  ::grpc::Status NiDigitalService::GetSiteResultsSiteNumbers(::grpc::ServerContext* context, const GetSiteResultsSiteNumbersRequest* request, GetSiteResultsSiteNumbersResponse* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      return ::grpc::Status(::grpc::UNIMPLEMENTED, "TODO: This server handler has not been implemented.");
     }
     catch (nidevice_grpc::LibraryLoadException& ex) {
       return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
@@ -2416,21 +2311,6 @@ namespace nidigital_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
-  ::grpc::Status NiDigitalService::PPMUMeasure(::grpc::ServerContext* context, const PPMUMeasureRequest* request, PPMUMeasureResponse* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      return ::grpc::Status(::grpc::UNIMPLEMENTED, "TODO: This server handler has not been implemented.");
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
   ::grpc::Status NiDigitalService::PPMUSource(::grpc::ServerContext* context, const PPMUSourceRequest* request, PPMUSourceResponse* response)
   {
     if (context->IsCancelled()) {
@@ -2747,21 +2627,6 @@ namespace nidigital_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
-  ::grpc::Status NiDigitalService::TDR(::grpc::ServerContext* context, const TDRRequest* request, TDRResponse* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      return ::grpc::Status(::grpc::UNIMPLEMENTED, "TODO: This server handler has not been implemented.");
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
   ::grpc::Status NiDigitalService::UnloadAllPatterns(::grpc::ServerContext* context, const UnloadAllPatternsRequest* request, UnloadAllPatternsResponse* response)
   {
     if (context->IsCancelled()) {
@@ -2887,28 +2752,6 @@ namespace nidigital_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
-  ::grpc::Status NiDigitalService::WriteSourceWaveformBroadcastU32(::grpc::ServerContext* context, const WriteSourceWaveformBroadcastU32Request* request, WriteSourceWaveformBroadcastU32Response* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      auto vi_grpc_session = request->vi();
-      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
-      ViConstString waveform_name = request->waveform_name().c_str();
-      ViInt32 waveform_size = request->waveform_data().size();
-      auto waveform_data = const_cast<ViUInt32*>(reinterpret_cast<const ViUInt32*>(request->waveform_data().data()));
-      auto status = library_->WriteSourceWaveformBroadcastU32(vi, waveform_name, waveform_size, waveform_data);
-      response->set_status(status);
-      return ::grpc::Status::OK;
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
   ::grpc::Status NiDigitalService::WriteSourceWaveformDataFromFileTDMS(::grpc::ServerContext* context, const WriteSourceWaveformDataFromFileTDMSRequest* request, WriteSourceWaveformDataFromFileTDMSResponse* response)
   {
     if (context->IsCancelled()) {
@@ -2927,31 +2770,6 @@ namespace nidigital_grpc {
       return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
     }
   }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
-  ::grpc::Status NiDigitalService::WriteSourceWaveformSiteUniqueU32(::grpc::ServerContext* context, const WriteSourceWaveformSiteUniqueU32Request* request, WriteSourceWaveformSiteUniqueU32Response* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      auto vi_grpc_session = request->vi();
-      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
-      ViConstString site_list = request->site_list().c_str();
-      ViConstString waveform_name = request->waveform_name().c_str();
-      ViInt32 num_waveforms = request->num_waveforms();
-      ViInt32 samples_per_waveform = request->samples_per_waveform();
-      auto waveform_data = const_cast<ViUInt32*>(reinterpret_cast<const ViUInt32*>(request->waveform_data().data()));
-      auto status = library_->WriteSourceWaveformSiteUniqueU32(vi, site_list, waveform_name, num_waveforms, samples_per_waveform, waveform_data);
-      response->set_status(status);
-      return ::grpc::Status::OK;
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
   ::grpc::Status NiDigitalService::WriteStatic(::grpc::ServerContext* context, const WriteStaticRequest* request, WriteStaticResponse* response)
