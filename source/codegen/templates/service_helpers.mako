@@ -216,8 +216,10 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
   else:
     size = common_helpers.camel_to_snake(parameter['size']['value'])
 %>\
-%     if common_helpers.is_struct(parameter) or underlying_param_type == 'ViBoolean' or underlying_param_type == 'ViUInt8':
+%     if common_helpers.is_struct(parameter) or underlying_param_type == 'ViBoolean':
       std::vector<${underlying_param_type}> ${parameter_name}(${size}, ${underlying_param_type}());
+%     elif underlying_param_type == 'ViUInt8':
+      std::vector<${underlying_param_type}> ${parameter_name}(${size}, 0);
 %     elif service_helpers.is_string_arg(parameter):
       std::string ${parameter_name}(${size}, '\0');
 %     elif underlying_param_type == 'ViAddr':

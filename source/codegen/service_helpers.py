@@ -18,6 +18,8 @@ def create_args(parameters):
         result = f'{result}({type_without_brackets}*){parameter_name}.data(), '
       elif parameter['type'] == 'ViBoolean[]':
         result = f'{result}{parameter_name}.data(), '
+      elif is_output and is_array and common_helpers.is_lt_32bit(parameter):
+        result = f'{result}{parameter_name}.data(), '
       else:
         if is_array and common_helpers.is_struct(parameter):
           parameter_name = parameter_name + ".data()"
