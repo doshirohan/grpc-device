@@ -117,6 +117,33 @@ TEST(NiFakeServiceTests, NiFakeService_InitWithOptionsAndResetServer_SessionIsCl
   EXPECT_EQ(0, session_repository.access_session(session.id(), ""));
 }
 
+TEST(NiFakeServiceTests, NiFakeService_InitExtCalAndResetServer_SessionIsClosed)
+{
+  nidevice_grpc::SessionRepository session_repository;
+  NiFakeMockLibrary library;
+  nifake_grpc::NiFakeService service(&library, &session_repository);
+  const char* session_name = "sessionName";
+  EXPECT_CALL(library, InitExtCal)
+      .WillOnce(DoAll(SetArgPointee<2>(kTestViSession), Return(kDriverSuccess)));
+  EXPECT_CALL(library, CloseExtCal(kTestViSession, 0))
+      .WillOnce(Return(kDriverSuccess));
+
+  ::grpc::ServerContext context;
+  nifake_grpc::InitExtCalRequest request;
+  request.set_session_name(session_name);
+  nifake_grpc::InitExtCalResponse response;
+  ::grpc::Status init_status = service.InitExtCal(&context, &request, &response);
+  EXPECT_TRUE(init_status.ok());
+  nidevice_grpc::Session session = response.vi();
+  EXPECT_EQ(kTestViSession, session_repository.access_session(session.id(), ""));
+  EXPECT_EQ(kTestViSession, session_repository.access_session(0, session_name));
+  bool reset_status = session_repository.reset_server();
+
+  EXPECT_TRUE(reset_status);
+  EXPECT_EQ(0, session_repository.access_session(session.id(), ""));
+  EXPECT_EQ(0, session_repository.access_session(0, session_name));
+}
+
 TEST(NiFakeServiceTests, NiFakeService_InitWithOptionsThenClose_SessionIsClosed)
 {
   nidevice_grpc::SessionRepository session_repository;
@@ -146,6 +173,39 @@ TEST(NiFakeServiceTests, NiFakeService_InitWithOptionsThenClose_SessionIsClosed)
   EXPECT_EQ(kDriverSuccess, close_response.status());
   EXPECT_NE(kTestViSession, session_repository.access_session(session.id(), ""));
   EXPECT_EQ(0, session_repository.access_session(session.id(), ""));
+}
+
+TEST(NiFakeServiceTests, NiFakeService_InitExtCalThenCloseExtCal_SessionIsClosed)
+{
+  nidevice_grpc::SessionRepository session_repository;
+  NiFakeMockLibrary library;
+  nifake_grpc::NiFakeService service(&library, &session_repository);
+  std::string session_name = "sessionName";
+  ViInt32 action = 1;
+  EXPECT_CALL(library, InitExtCal)
+      .WillOnce(DoAll(SetArgPointee<2>(kTestViSession), Return(kDriverSuccess)));
+  EXPECT_CALL(library, CloseExtCal(kTestViSession, action))
+      .WillOnce(Return(kDriverSuccess));
+
+  ::grpc::ServerContext context;
+  nifake_grpc::InitExtCalRequest init_request;
+  init_request.set_session_name(session_name);
+  nifake_grpc::InitExtCalResponse init_response;
+  ::grpc::Status init_status = service.InitExtCal(&context, &init_request, &init_response);
+  EXPECT_TRUE(init_status.ok());
+  nidevice_grpc::Session session = init_response.vi();
+  EXPECT_EQ(kTestViSession, session_repository.access_session(session.id(), ""));
+  EXPECT_EQ(kTestViSession, session_repository.access_session(0, session_name));
+  nifake_grpc::CloseExtCalRequest close_request;
+  close_request.mutable_vi()->set_id(session.id());
+  close_request.set_action(action);
+  nifake_grpc::CloseExtCalResponse close_response;
+  ::grpc::Status close_status = service.CloseExtCal(&context, &close_request, &close_response);
+
+  EXPECT_TRUE(close_status.ok());
+  EXPECT_EQ(kDriverSuccess, close_response.status());
+  EXPECT_EQ(0, session_repository.access_session(session.id(), ""));
+  EXPECT_EQ(0, session_repository.access_session(0, session_name));
 }
 
 // Error logic tests using GetABoolean
@@ -493,6 +553,59 @@ TEST(NiFakeServiceTests, NiFakeService_AcceptListOfDurationsInSeconds_CallsAccep
   }
   nifake_grpc::AcceptListOfDurationsInSecondsResponse response;
   ::grpc::Status status = service.AcceptListOfDurationsInSeconds(&context, &request, &response);
+
+  EXPECT_TRUE(status.ok());
+  EXPECT_EQ(kDriverSuccess, response.status());
+}
+
+TEST(NiFakeServiceTests, NiFakeService_BoolArrayOutputFunction_CallsBoolArrayOutputFunction)
+{
+  nidevice_grpc::SessionRepository session_repository;
+  std::uint32_t session_id = create_session(session_repository, kTestViSession);
+  NiFakeMockLibrary library;
+  nifake_grpc::NiFakeService service(&library, &session_repository);
+  ViInt32 number_of_elements = 3;
+  ViBoolean an_array[] = {VI_FALSE, VI_TRUE, VI_TRUE};
+  EXPECT_CALL(library, BoolArrayOutputFunction(kTestViSession, number_of_elements, _))
+      .WillOnce(DoAll(
+          SetArrayArgument<2>(an_array, an_array + number_of_elements),
+          Return(kDriverSuccess)));
+
+  ::grpc::ServerContext context;
+  nifake_grpc::BoolArrayOutputFunctionRequest request;
+  request.mutable_vi()->set_id(session_id);
+  request.set_number_of_elements(number_of_elements);
+  nifake_grpc::BoolArrayOutputFunctionResponse response;
+  ::grpc::Status status = service.BoolArrayOutputFunction(&context, &request, &response);
+
+  EXPECT_TRUE(status.ok());
+  bool expected_response_booleans[] = {false, true, true};
+  EXPECT_EQ(kDriverSuccess, response.status());
+  EXPECT_EQ(response.an_array_size(), number_of_elements);
+  EXPECT_THAT(response.an_array(), ElementsAreArray(expected_response_booleans, number_of_elements));
+}
+
+TEST(NiFakeServiceTests, NiFakeService_BoolArrayInputFunction_CallsBoolArrayInputFunction)
+{
+  nidevice_grpc::SessionRepository session_repository;
+  std::uint32_t session_id = create_session(session_repository, kTestViSession);
+  NiFakeMockLibrary library;
+  nifake_grpc::NiFakeService service(&library, &session_repository);
+  ViInt32 number_of_elements = 3;
+  ViBoolean expected_array[] = { VI_FALSE, VI_TRUE, VI_TRUE };
+  EXPECT_CALL(library, BoolArrayInputFunction(kTestViSession, number_of_elements, _))
+    .With(Args<2, 1>(ElementsAreArray(expected_array)))
+    .WillOnce(Return(kDriverSuccess));
+
+  ::grpc::ServerContext context;
+  nifake_grpc::BoolArrayInputFunctionRequest request;
+  request.mutable_vi()->set_id(session_id);
+  request.set_number_of_elements(number_of_elements);
+  request.add_an_array(false);
+  request.add_an_array(true);
+  request.add_an_array(true);
+  nifake_grpc::BoolArrayInputFunctionResponse response;
+  ::grpc::Status status = service.BoolArrayInputFunction(&context, &request, &response);
 
   EXPECT_TRUE(status.ok());
   EXPECT_EQ(kDriverSuccess, response.status());
