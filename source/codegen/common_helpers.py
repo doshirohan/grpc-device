@@ -13,6 +13,9 @@ def is_enum(parameter):
 def is_struct(parameter):
   return parameter["type"].startswith("struct")
 
+def is_lt_32bit(parameter):
+  return get_underlying_type_name(parameter['type']) == 'ViUInt8'
+
 def get_underlying_type_name(parameter_type):
   '''Strip away information from type name like brackets for arrays, leading "struct ", etc. leaving just the underlying type name.'''
   return parameter_type.replace("struct ","").replace('[]', '')
@@ -94,6 +97,14 @@ def has_viboolean_array_param(functions):
   for function in functions:
     for parameter in functions[function]["parameters"]:
       if parameter['type'] == 'ViBoolean[]':
+        return True
+  return False
+
+def has_lt_32bit_array_param(functions):
+  '''Returns True if atleast one function has parameter which requires less than 32 bits'''
+  for function in functions:
+    for parameter in functions[function]["parameters"]:
+      if is_lt_32bit(parameter) and is_array(parameter['type']):
         return True
   return False
 
