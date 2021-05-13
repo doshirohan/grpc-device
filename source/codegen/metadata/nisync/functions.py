@@ -16,6 +16,35 @@ functions = {
         ],
         "returns": "ViStatus",
     },
+    'RevisionQuery':{
+        'cname' : 'niSync_revision_query',
+        'parameters':[
+            {
+                'name':'vi',
+                'direction':'in',
+                'type':'ViSession'
+            },
+            {
+                'name':'driverRevision',
+                'direction':'out',
+                'type':'ViChar[]',
+                'size':{
+                    'mechanism':'fixed',
+                    'value':256
+                }
+            },
+            {
+                'name':'firmwareRevision',
+                'direction':'out',
+                'type':'ViChar[]',
+                'size':{
+                    'mechanism':'fixed',
+                    'value':256
+                }
+            }
+        ],
+        'returns':'ViStatus'
+    },
     "SendSoftwareTrigger": {
         "parameters": [
             {
@@ -182,6 +211,255 @@ functions = {
                 "direction": "in",
                 "name": "destTerminal",
                 "type": "ViConstString"
+            }
+        ],
+        "returns": "ViStatus"
+    },
+    "MeasureFrequencyEx": {
+        "parameters": [
+            {
+                "direction": "in",
+                "name": "vi",
+                "type": "ViSession"
+            },
+            {
+                "direction": "in",
+                "name": "srcTerminal",
+                "type": "ViConstString"
+            },
+            {
+                "direction": "in",
+                "name": "duration",
+                "type": "ViReal64"
+            },
+            {
+                "direction": "in",
+                "name": "decimationCount",
+                "type": "ViUInt32"
+            },
+            {
+                "direction": "out",
+                "name": "actualDuration",
+                "type": "ViReal64"
+            },
+            {
+                "direction": "out",
+                "name": "frequency",
+                "type": "ViReal64"
+            },
+            {
+                "direction": "out",
+                "name": "frequencyError",
+                "type": "ViReal64"
+            }
+        ],
+        "returns": "ViStatus"
+    },    
+    "GetAttributeViInt32": {
+        "parameters": [
+            {
+                "direction": "in",
+                "name": "vi",
+                "type": "ViSession"
+            },
+            {
+                "direction": "in",
+                "name": "activeItem",
+                "type": "ViConstString"
+            },
+            {
+                "direction": "in",
+                "name": "attribute",
+                "type": "ViAttr"
+            },
+            {
+                "direction": "out",
+                "name": "value",
+                "type": "ViInt32"
+            }
+        ],
+        "returns": "ViStatus"
+    },
+    "SetAttributeViInt32": {
+        "parameters": [
+            {
+                "direction": "in",
+                "name": "vi",
+                "type": "ViSession"
+            },
+            {
+                "direction": "in",
+                "name": "activeItem",
+                "type": "ViConstString"
+            },
+            {
+                "direction": "in",
+                "name": "attribute",
+                "type": "ViAttr"
+            },
+            {
+                "direction": "in",
+                "name": "value",
+                "type": "ViInt32"
+            }
+        ],
+        "returns": "ViStatus"
+    },
+    "GetAttributeViString": {
+        "parameters": [
+            {
+                "direction": "in",
+                "name": "vi",
+                "type": "ViSession"
+            },
+            {
+                "direction": "in",
+                "name": "activeItem",
+                "type": "ViConstString"
+            },
+            {
+                "direction": "in",
+                "name": "attribute",
+                "type": "ViAttr"
+            },
+            {
+                "direction": "in",
+                "name": "bufferSize",
+                "type": "ViInt32"
+            },
+            {
+                "direction": "out",
+                "name": "value",
+                'size': {
+                    'mechanism': 'ivi-dance',
+                    'value': 'bufferSize'
+                },
+                'type': 'ViChar[]'
+            }
+        ],
+        "returns": "ViStatus"
+    },
+    "SetAttributeViString": {
+        "parameters": [
+            {
+                "direction": "in",
+                "name": "vi",
+                "type": "ViSession"
+            },
+            {
+                "direction": "in",
+                "name": "activeItem",
+                "type": "ViConstString"
+            },
+            {
+                "direction": "in",
+                "name": "attribute",
+                "type": "ViAttr"
+            },
+            {
+                "direction": "in",
+                "name": "value",
+                "type": "ViConstString"
+            }
+        ],
+        "returns": "ViStatus"
+    },
+    "GetAttributeViBoolean": {
+        "parameters": [
+            {
+                "direction": "in",
+                "name": "vi",
+                "type": "ViSession"
+            },
+            {
+                "direction": "in",
+                "name": "activeItem",
+                "type": "ViConstString"
+            },
+            {
+                "direction": "in",
+                "name": "attribute",
+                "type": "ViAttr"
+            },
+            {
+                "direction": "out",
+                "name": "value",
+                "type": "ViBoolean"
+            }
+        ],
+        "returns": "ViStatus"
+    },
+    "SetAttributeViBoolean": {
+        "parameters": [
+            {
+                "direction": "in",
+                "name": "vi",
+                "type": "ViSession"
+            },
+            {
+                "direction": "in",
+                "name": "activeItem",
+                "type": "ViConstString"
+            },
+            {
+                "direction": "in",
+                "name": "attribute",
+                "type": "ViAttr"
+            },
+            {
+                "direction": "in",
+                "name": "value",
+                "type": "ViBoolean"
+            }
+        ],
+        "returns": "ViStatus"
+    },
+    "GetAttributeViReal64": {
+        "parameters": [
+            {
+                "direction": "in",
+                "name": "vi",
+                "type": "ViSession"
+            },
+            {
+                "direction": "in",
+                "name": "activeItem",
+                "type": "ViConstString"
+            },
+            {
+                "direction": "in",
+                "name": "attribute",
+                "type": "ViAttr"
+            },
+            {
+                "direction": "out",
+                "name": "value",
+                "type": "ViReal64"
+            }
+        ],
+        "returns": "ViStatus"
+    },
+    "SetAttributeViReal64": {
+        "parameters": [
+            {
+                "direction": "in",
+                "name": "vi",
+                "type": "ViSession"
+            },
+            {
+                "direction": "in",
+                "name": "activeItem",
+                "type": "ViConstString"
+            },
+            {
+                "direction": "in",
+                "name": "attribute",
+                "type": "ViAttr"
+            },
+            {
+                "direction": "in",
+                "name": "value",
+                "type": "ViReal64"
             }
         ],
         "returns": "ViStatus"

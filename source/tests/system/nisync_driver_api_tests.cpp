@@ -83,6 +83,20 @@ class NiSyncDriverApiTest : public ::testing::Test {
     EXPECT_EQ(VI_SUCCESS, response.status());
   }
 
+  ::grpc::Status call_RevisionQuery(std::string* driverRevision, std::string* firmwareRevision, ViStatus* viStatusOut)
+  {
+    ::grpc::ClientContext clientContext;
+    nisync::RevisionQueryRequest request;
+    nisync::RevisionQueryResponse response;
+    request.mutable_vi()->set_id(driver_session_->id());
+    auto grpcStatus = GetStub()->RevisionQuery(&clientContext, request, &response);
+    *driverRevision = response.driver_revision();
+    *firmwareRevision = response.firmware_revision();
+    *viStatusOut = response.status();
+    return grpcStatus;
+  }
+
+
   ::grpc::Status call_SendSoftwareTrigger(ViConstString srcTerminal, ViStatus* viStatusOut)
   {
     ::grpc::ClientContext clientContext;
@@ -193,6 +207,142 @@ class NiSyncDriverApiTest : public ::testing::Test {
     return grpcStatus;
   }
 
+  ::grpc::Status call_SetAttributeViInt32(ViConstString activeItem, ViAttr attribute, ViInt32 value, ViStatus* viStatusOut)
+  {
+    ::grpc::ClientContext clientContext;
+    nisync::SetAttributeViInt32Request request;
+    nisync::SetAttributeViInt32Response response;
+    request.set_active_item(activeItem);
+    request.set_attribute(static_cast<nisync::NiSyncAttributes>(attribute));
+    request.set_value(value);
+    request.mutable_vi()->set_id(driver_session_->id());
+    auto grpcStatus = GetStub()->SetAttributeViInt32(&clientContext, request, &response);
+    *viStatusOut = response.status();
+    return grpcStatus;
+  }
+
+  ::grpc::Status call_GetAttributeViInt32(ViConstString activeItem, ViAttr attribute, ViInt32* valueOut, ViStatus* viStatusOut)
+  {
+    ::grpc::ClientContext clientContext;
+    nisync::GetAttributeViInt32Request request;
+    nisync::GetAttributeViInt32Response response;
+    request.set_active_item(activeItem);
+    request.set_attribute(static_cast<nisync::NiSyncAttributes>(attribute));
+    request.mutable_vi()->set_id(driver_session_->id());
+    auto grpcStatus = GetStub()->GetAttributeViInt32(&clientContext, request, &response);
+    *valueOut = response.value();
+    *viStatusOut = response.status();
+    return grpcStatus;
+  }
+
+  ::grpc::Status call_SetAttributeViString(ViConstString activeItem, ViAttr attribute, ViConstString value, ViStatus* viStatusOut)
+  {
+    ::grpc::ClientContext clientContext;
+    nisync::SetAttributeViStringRequest request;
+    nisync::SetAttributeViStringResponse response;
+    request.set_active_item(activeItem);
+    request.set_attribute(static_cast<nisync::NiSyncAttributes>(attribute));
+    request.set_value(value);
+    request.mutable_vi()->set_id(driver_session_->id());
+    auto grpcStatus = GetStub()->SetAttributeViString(&clientContext, request, &response);
+    *viStatusOut = response.status();
+    return grpcStatus;
+  }
+
+  ::grpc::Status call_GetAttributeViString(ViConstString activeItem, ViAttr attribute, std::string* valueOut, ViStatus* viStatusOut)
+  {
+    ::grpc::ClientContext clientContext;
+    nisync::GetAttributeViStringRequest request;
+    nisync::GetAttributeViStringResponse response;
+    request.set_active_item(activeItem);
+    request.set_attribute(static_cast<nisync::NiSyncAttributes>(attribute));
+    request.mutable_vi()->set_id(driver_session_->id());
+    auto grpcStatus = GetStub()->GetAttributeViString(&clientContext, request, &response);
+    *valueOut = response.value();
+    *viStatusOut = response.status();
+    return grpcStatus;
+  }
+ 
+  ::grpc::Status call_SetAttributeViBoolean(ViConstString activeItem, ViAttr attribute, ViBoolean value, ViStatus* viStatusOut)
+  {
+    ::grpc::ClientContext clientContext;
+    nisync::SetAttributeViBooleanRequest request;
+    nisync::SetAttributeViBooleanResponse response;
+    request.set_active_item(activeItem);
+    request.set_attribute(static_cast<nisync::NiSyncAttributes>(attribute));
+    request.set_value(value);
+    request.mutable_vi()->set_id(driver_session_->id());
+    auto grpcStatus = GetStub()->SetAttributeViBoolean(&clientContext, request, &response);
+    *viStatusOut = response.status();
+    return grpcStatus;
+  }
+
+  ::grpc::Status call_GetAttributeViBoolean(ViConstString activeItem, ViAttr attribute, ViBoolean* valueOut, ViStatus* viStatusOut)
+  {
+    ::grpc::ClientContext clientContext;
+    nisync::GetAttributeViBooleanRequest request;
+    nisync::GetAttributeViBooleanResponse response;
+    request.set_active_item(activeItem);
+    request.set_attribute(static_cast<nisync::NiSyncAttributes>(attribute));
+    request.mutable_vi()->set_id(driver_session_->id());
+    auto grpcStatus = GetStub()->GetAttributeViBoolean(&clientContext, request, &response);
+    *valueOut = response.value();
+    *viStatusOut = response.status();
+    return grpcStatus;
+  }
+
+  ::grpc::Status call_SetAttributeViReal64(ViConstString activeItem, ViAttr attribute, ViReal64 value, ViStatus* viStatusOut)
+  {
+    ::grpc::ClientContext clientContext;
+    nisync::SetAttributeViReal64Request request;
+    nisync::SetAttributeViReal64Response response;
+    request.set_active_item(activeItem);
+    request.set_attribute(static_cast<nisync::NiSyncAttributes>(attribute));
+    request.set_value(value);
+    request.mutable_vi()->set_id(driver_session_->id());
+    auto grpcStatus = GetStub()->SetAttributeViReal64(&clientContext, request, &response);
+    *viStatusOut = response.status();
+    return grpcStatus;
+  }
+
+  ::grpc::Status call_GetAttributeViReal64(ViConstString activeItem, ViAttr attribute, ViReal64* valueOut, ViStatus* viStatusOut)
+  {
+    ::grpc::ClientContext clientContext;
+    nisync::GetAttributeViReal64Request request;
+    nisync::GetAttributeViReal64Response response;
+    request.set_active_item(activeItem);
+    request.set_attribute(static_cast<nisync::NiSyncAttributes>(attribute));
+    request.mutable_vi()->set_id(driver_session_->id());
+    auto grpcStatus = GetStub()->GetAttributeViReal64(&clientContext, request, &response);
+    *valueOut = response.value();
+    *viStatusOut = response.status();
+    return grpcStatus;
+  }
+
+  ::grpc::Status call_MeasureFrequencyEx(
+     ViConstString srcTerminal,
+     ViReal64 duration,
+     ViUInt32 decimationCount,
+     ViReal64* actualDurationOut,
+     ViReal64* frequencyOut,
+     ViReal64* frequencyErrorOut,
+     ViStatus* viStatusOut)
+  {
+    ::grpc::ClientContext clientContext;
+    nisync::MeasureFrequencyExRequest request;
+    nisync::MeasureFrequencyExResponse response;
+    request.set_src_terminal(srcTerminal);
+    request.set_duration(duration);
+    request.set_decimation_count(decimationCount);
+    request.mutable_vi()->set_id(driver_session_->id());
+    auto grpcStatus = GetStub()->MeasureFrequencyEx(&clientContext, request, &response);
+    *actualDurationOut = response.actual_duration();
+    *frequencyOut = response.frequency();
+    *frequencyErrorOut = response.frequency_error();
+    *viStatusOut = response.status();
+    return grpcStatus;
+  }
+
 private:
   std::shared_ptr<::grpc::Channel> channel_;
   std::unique_ptr<::nidevice_grpc::Session> driver_session_;
@@ -202,6 +352,17 @@ private:
   std::unique_ptr<nisync::NiSyncService> nisync_service_;
   std::unique_ptr<::grpc::Server> server_;
 };
+
+TEST_F(NiSyncDriverApiTest, RevisionQuery_ReturnsNonEmptyRevisions)
+{
+  ViStatus viStatus;
+  std::string driverRevision, firmwareRevision;
+  auto grpcStatus = call_RevisionQuery(&driverRevision, &firmwareRevision, &viStatus);
+
+  EXPECT_TRUE(grpcStatus.ok());
+  EXPECT_FALSE(driverRevision.empty());
+  EXPECT_FALSE(firmwareRevision.empty());
+}
 
 TEST_F(NiSyncDriverApiTest, ConnectClkTerminals_ReturnsSuccess)
 {
@@ -446,6 +607,122 @@ TEST_F(NiSyncDriverApiTest, NotConnectedTrigTerminals_DisconnectSWTrigFromTermin
   EXPECT_TRUE(grpcStatus.ok());
   EXPECT_EQ(VI_SUCCESS, viStatus);
   call_DisconnectTrigTerminals(srcTerminal, destTerminal, &viStatus);
+}
+
+TEST_F(NiSyncDriverApiTest, AttributeSet_GetAttributeViInt32_ReturnsValue)
+{
+  ViStatus viStatus;
+  auto activeItem = "";
+  ViAttr attribute = NISYNC_ATTR_SYNC_CLK_DIV1;
+  ViInt32 expectedValue = NISYNC_VAL_1588_CLK_ACCURACY_WITHIN_1_USEC;
+  auto grpcStatus = call_SetAttributeViInt32(activeItem, attribute, expectedValue, &viStatus);
+  EXPECT_TRUE(grpcStatus.ok());
+  EXPECT_EQ(VI_SUCCESS, viStatus);
+
+  ViInt32 value;
+  grpcStatus = call_GetAttributeViInt32(activeItem, attribute, &value, &viStatus);
+
+  EXPECT_TRUE(grpcStatus.ok());
+  EXPECT_EQ(VI_SUCCESS, viStatus);
+  EXPECT_EQ(expectedValue, value);
+}
+
+TEST_F(NiSyncDriverApiTest, AttributeSet_GetAttributeViString_ReturnsValue)
+{
+  ViStatus viStatus;
+  auto activeItem = "";
+  ViAttr attribute = NISYNC_ATTR_FRONT_SYNC_CLK_SRC;
+  ViConstString expectedValue = NISYNC_VAL_CLK10;
+  auto grpcStatus = call_SetAttributeViString(activeItem, attribute, expectedValue, &viStatus);
+  EXPECT_TRUE(grpcStatus.ok());
+  EXPECT_EQ(VI_SUCCESS, viStatus);
+
+  std::string value;
+  grpcStatus = call_GetAttributeViString(activeItem, attribute, &value, &viStatus);
+
+  EXPECT_TRUE(grpcStatus.ok());
+  EXPECT_EQ(VI_SUCCESS, viStatus);
+  EXPECT_STREQ(expectedValue, value.c_str());
+}
+
+TEST_F(NiSyncDriverApiTest, AttributeSet_GetAttributeViBoolean_ReturnsValue)
+{
+  ViStatus viStatus;
+  auto activeItem = "";
+  ViAttr attribute = NISYNC_ATTR_CLKIN_ATTENUATION_DISABLE;
+  ViBoolean expectedValue = VI_TRUE;
+  auto grpcStatus = call_SetAttributeViBoolean(activeItem, attribute, expectedValue, &viStatus);
+  EXPECT_TRUE(grpcStatus.ok());
+  EXPECT_EQ(VI_SUCCESS, viStatus);
+
+  ViBoolean value;
+  grpcStatus = call_GetAttributeViBoolean(activeItem, attribute, &value, &viStatus);
+
+  EXPECT_TRUE(grpcStatus.ok());
+  EXPECT_EQ(VI_SUCCESS, viStatus);
+  EXPECT_EQ(expectedValue, value);
+}
+
+TEST_F(NiSyncDriverApiTest, AttributeSet_GetAttributeViReal64_ReturnsValue)
+{
+  ViStatus viStatus;
+  auto activeItem = "";
+  ViAttr attribute = NISYNC_ATTR_PFI0_THRESHOLD;
+  ViReal64 expectedValue = 2.3;
+  auto grpcStatus = call_SetAttributeViReal64(activeItem, attribute, expectedValue, &viStatus);
+  EXPECT_TRUE(grpcStatus.ok());
+  EXPECT_EQ(VI_SUCCESS, viStatus);
+
+  ViReal64 value;
+  grpcStatus = call_GetAttributeViReal64(activeItem, attribute, &value, &viStatus);
+
+  EXPECT_TRUE(grpcStatus.ok());
+  EXPECT_EQ(VI_SUCCESS, viStatus);
+  EXPECT_DOUBLE_EQ(expectedValue, value);
+}
+
+TEST_F(NiSyncDriverApiTest, MeasureFrequencyExOnTerminalWithNoFrequency_ReturnsNoFrequency)
+{
+  ViStatus viStatus;
+  ViConstString srcTerminal = NISYNC_VAL_PFI0;
+  ViReal64 duration = 0.1; // duration is in seconds
+  ViUInt32 decimationCount = 0; // ignored for 6674
+  ViReal64 actualDuration, frequency, frequencyError;
+  auto grpcStatus = call_MeasureFrequencyEx(
+     srcTerminal, 
+     duration, 
+     decimationCount, 
+     &actualDuration, 
+     &frequency, 
+     &frequencyError, 
+     &viStatus);
+
+  EXPECT_TRUE(grpcStatus.ok());
+  EXPECT_EQ(VI_SUCCESS, viStatus);
+  EXPECT_EQ(0, actualDuration);
+  EXPECT_EQ(0, frequency);
+}
+
+TEST_F(NiSyncDriverApiTest, MeasureFrequencyExOnOscillatorWithFrequency_ReturnsFrequency)
+{
+  ViStatus viStatus;
+  ViConstString srcTerminal = NISYNC_VAL_OSCILLATOR;
+  ViReal64 duration = 0.1; // duration is in seconds
+  ViUInt32 decimationCount = 0; // ignored for 6674
+  ViReal64 actualDuration, frequency, frequencyError;
+  auto grpcStatus = call_MeasureFrequencyEx(
+     srcTerminal, 
+     duration, 
+     decimationCount, 
+     &actualDuration, 
+     &frequency, 
+     &frequencyError, 
+     &viStatus);
+
+  EXPECT_TRUE(grpcStatus.ok());
+  EXPECT_EQ(VI_SUCCESS, viStatus);
+  EXPECT_GT(actualDuration, 0);  
+  EXPECT_GT(frequency, 0);
 }
 
 }  // namespace system
