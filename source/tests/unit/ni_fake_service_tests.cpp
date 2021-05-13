@@ -1255,7 +1255,7 @@ TEST(NiFakeServiceTests, NiFakeService_ViUInt8ArrayOutputFunction_CallsViUInt8Ar
   NiFakeMockLibrary library;
   nifake_grpc::NiFakeService service(&library, &session_repository);
   ViInt32 number_of_elements = 3;
-  ViUInt8 an_array[] = {1, 2, 3};
+  ViUInt8 an_array[] = {0, 255, -1};
   EXPECT_CALL(library, ViUInt8ArrayOutputFunction(kTestViSession, number_of_elements, _))
       .WillOnce(DoAll(
           SetArrayArgument<2>(an_array, an_array + number_of_elements),
