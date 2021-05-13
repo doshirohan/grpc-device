@@ -72,6 +72,9 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   ViStatus CloseExtCal(ViSession vi, ViInt32 action);
   ViStatus error_message(ViSession vi, ViStatus errorCode, ViChar errorMessage[256]);
   ViStatus self_test(ViSession vi, ViInt16* selfTestResult, ViChar selfTestMessage[256]);
+  ViStatus GetViUInt8(ViSession vi, ViUInt8* aUint8Number);
+  ViStatus ViUInt8ArrayInputFunction(ViSession vi, ViInt32 numberOfElements, ViUInt8 anArray[]);
+  ViStatus ViUInt8ArrayOutputFunction(ViSession vi, ViInt32 numberOfElements, ViUInt8 anArray[]);
 
  private:
   using AbortPtr = ViStatus (*)(ViSession vi);
@@ -128,6 +131,9 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   using CloseExtCalPtr = ViStatus (*)(ViSession vi, ViInt32 action);
   using error_messagePtr = ViStatus (*)(ViSession vi, ViStatus errorCode, ViChar errorMessage[256]);
   using self_testPtr = ViStatus (*)(ViSession vi, ViInt16* selfTestResult, ViChar selfTestMessage[256]);
+  using GetViUInt8Ptr = ViStatus (*)(ViSession vi, ViUInt8* aUint8Number);
+  using ViUInt8ArrayInputFunctionPtr = ViStatus (*)(ViSession vi, ViInt32 numberOfElements, ViUInt8 anArray[]);
+  using ViUInt8ArrayOutputFunctionPtr = ViStatus (*)(ViSession vi, ViInt32 numberOfElements, ViUInt8 anArray[]);
 
   typedef struct FunctionPointers {
     AbortPtr Abort;
@@ -184,6 +190,9 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
     CloseExtCalPtr CloseExtCal;
     error_messagePtr error_message;
     self_testPtr self_test;
+    GetViUInt8Ptr GetViUInt8;
+    ViUInt8ArrayInputFunctionPtr ViUInt8ArrayInputFunction;
+    ViUInt8ArrayOutputFunctionPtr ViUInt8ArrayOutputFunction;
   } FunctionLoadStatus;
 
   nidevice_grpc::SharedLibrary shared_library_;

@@ -69,6 +69,9 @@ class NiFakeLibraryInterface {
   virtual ViStatus CloseExtCal(ViSession vi, ViInt32 action) = 0;
   virtual ViStatus error_message(ViSession vi, ViStatus errorCode, ViChar errorMessage[256]) = 0;
   virtual ViStatus self_test(ViSession vi, ViInt16* selfTestResult, ViChar selfTestMessage[256]) = 0;
+  virtual ViStatus GetViUInt8(ViSession vi, ViUInt8* aUint8Number) = 0;
+  virtual ViStatus ViUInt8ArrayInputFunction(ViSession vi, ViInt32 numberOfElements, ViUInt8 anArray[]) = 0;
+  virtual ViStatus ViUInt8ArrayOutputFunction(ViSession vi, ViInt32 numberOfElements, ViUInt8 anArray[]) = 0;
 };
 
 }  // namespace nifake_grpc

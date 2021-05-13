@@ -61,6 +61,9 @@ service NiFake {
   rpc WriteWaveform(WriteWaveformRequest) returns (WriteWaveformResponse);
   rpc Close(CloseRequest) returns (CloseResponse);
   rpc CloseExtCal(CloseExtCalRequest) returns (CloseExtCalResponse);
+  rpc GetViUInt8(GetViUInt8Request) returns (GetViUInt8Response);
+  rpc ViUInt8ArrayInputFunction(ViUInt8ArrayInputFunctionRequest) returns (ViUInt8ArrayInputFunctionResponse);
+  rpc ViUInt8ArrayOutputFunction(ViUInt8ArrayOutputFunctionRequest) returns (ViUInt8ArrayOutputFunctionResponse);
 }
 
 enum NiFakeAttributes {
@@ -590,5 +593,34 @@ message CloseExtCalRequest {
 
 message CloseExtCalResponse {
   int32 status = 1;
+}
+
+message GetViUInt8Request {
+  nidevice_grpc.Session vi = 1;
+}
+
+message GetViUInt8Response {
+  int32 status = 1;
+  uint32 a_uint8_number = 2;
+}
+
+message ViUInt8ArrayInputFunctionRequest {
+  nidevice_grpc.Session vi = 1;
+  sint32 number_of_elements = 2;
+  bytes an_array = 3;
+}
+
+message ViUInt8ArrayInputFunctionResponse {
+  int32 status = 1;
+}
+
+message ViUInt8ArrayOutputFunctionRequest {
+  nidevice_grpc.Session vi = 1;
+  sint32 number_of_elements = 2;
+}
+
+message ViUInt8ArrayOutputFunctionResponse {
+  int32 status = 1;
+  bytes an_array = 2;
 }
 
