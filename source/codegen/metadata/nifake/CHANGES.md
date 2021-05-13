@@ -7,6 +7,14 @@ The following functions, not originally in nimi-python metadata, were newly adde
 - `'CloseExtCal'`
 - `'BoolArrayInputFunction'`
 	- This function allows testing of ViBoolean[] input parameter
+- `'BoolArrayInputFunction'`
+	- This function allows testing of ViBoolean[] output parameter
+- `'GetViUInt8'`
+	- This function allows testing of ViUInt8 parameter
+- `'ViUInt8ArrayInputFunction'`
+	- This function allows testing of ViUInt8[] input parameter
+- `'ViUInt8ArrayOutputFunction'`
+	- This function allows testing of ViUInt8[] output parameter
  
 The following functions were tagged with `'init_method': True,` to ensure their generated service handlers register the new session
 with the session_repository.
