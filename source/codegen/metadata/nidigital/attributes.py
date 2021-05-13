@@ -392,6 +392,7 @@ attributes = {
     1150043: {
         'access': 'read-write',
         'channel_based': False,
+        'enum': 'HistoryRamTriggerType',
         'name': 'HISTORY_RAM_TRIGGER_TYPE',
         'resettable': True,
         'type': 'ViInt32'
