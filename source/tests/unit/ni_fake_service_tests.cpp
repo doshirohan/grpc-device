@@ -1227,7 +1227,7 @@ TEST(NiFakeServiceTests, NiFakeService_ViUInt8ArrayInputFunction_CallsViUInt8Arr
   NiFakeMockLibrary library;
   nifake_grpc::NiFakeService service(&library, &session_repository);
   ViInt32 number_of_elements = 3;
-  ViUInt8 expected_array[] = {0, 255, -1};
+  ViUInt8 expected_array[] = {0, 127, 255};
   EXPECT_CALL(library, ViUInt8ArrayInputFunction(kTestViSession, number_of_elements, _))
     .With(Args<2, 1>(ElementsAreArray(expected_array)))
     .WillOnce(Return(kDriverSuccess));
@@ -1238,8 +1238,8 @@ TEST(NiFakeServiceTests, NiFakeService_ViUInt8ArrayInputFunction_CallsViUInt8Arr
   request.set_number_of_elements(number_of_elements);
   std::string input_array;
   input_array.push_back(0);
+  input_array.push_back(127);
   input_array.push_back(255);
-  input_array.push_back(-1);
   request.set_an_array(input_array);
   nifake_grpc::ViUInt8ArrayInputFunctionResponse response;
   ::grpc::Status status = service.ViUInt8ArrayInputFunction(&context, &request, &response);
@@ -1255,7 +1255,7 @@ TEST(NiFakeServiceTests, NiFakeService_ViUInt8ArrayOutputFunction_CallsViUInt8Ar
   NiFakeMockLibrary library;
   nifake_grpc::NiFakeService service(&library, &session_repository);
   ViInt32 number_of_elements = 3;
-  ViUInt8 an_array[] = {0, 255, -1};
+  ViUInt8 an_array[] = {0, 127, 255};
   EXPECT_CALL(library, ViUInt8ArrayOutputFunction(kTestViSession, number_of_elements, _))
       .WillOnce(DoAll(
           SetArrayArgument<2>(an_array, an_array + number_of_elements),
