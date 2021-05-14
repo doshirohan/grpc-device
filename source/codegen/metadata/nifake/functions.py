@@ -1152,6 +1152,30 @@ functions = {
         'returns': 'ViStatus',
         'use_session_lock': False
     },
+    'GetViInt32Array': {
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'vi',
+                'type': 'ViSession'
+            },
+            {
+                'direction': 'in',
+                'name': 'arrayLen',
+                'type': 'ViInt32'
+            },
+            {
+                'direction': 'out',
+                'name': 'int32Arrat',
+                'type': 'ViInt32[]',
+                'size': {
+                    'mechanism': 'passed-in',
+                    'value': 'arrayLen'
+                }
+            }
+        ],
+        'returns': 'ViStatus'
+    },
     'ImportAttributeConfigurationBuffer': {
         'documentation': {
             'description': 'Import configuration buffer.'
