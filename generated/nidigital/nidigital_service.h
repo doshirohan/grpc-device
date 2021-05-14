@@ -135,6 +135,7 @@ public:
   ::grpc::Status WriteSequencerFlag(::grpc::ServerContext* context, const WriteSequencerFlagRequest* request, WriteSequencerFlagResponse* response) override;
   ::grpc::Status WriteSequencerRegister(::grpc::ServerContext* context, const WriteSequencerRegisterRequest* request, WriteSequencerRegisterResponse* response) override;
   ::grpc::Status WriteSourceWaveformDataFromFileTDMS(::grpc::ServerContext* context, const WriteSourceWaveformDataFromFileTDMSRequest* request, WriteSourceWaveformDataFromFileTDMSResponse* response) override;
+  ::grpc::Status WriteStatic(::grpc::ServerContext* context, const WriteStaticRequest* request, WriteStaticResponse* response) override;
 private:
   NiDigitalLibraryInterface* library_;
   nidevice_grpc::SessionRepository* session_repository_;

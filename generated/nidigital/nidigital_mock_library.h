@@ -128,6 +128,7 @@ class NiDigitalMockLibrary : public nidigital_grpc::NiDigitalLibraryInterface {
   MOCK_METHOD(ViStatus, WriteSequencerFlag, (ViSession vi, ViConstString flag, ViBoolean value), (override));
   MOCK_METHOD(ViStatus, WriteSequencerRegister, (ViSession vi, ViConstString reg, ViInt32 value), (override));
   MOCK_METHOD(ViStatus, WriteSourceWaveformDataFromFileTDMS, (ViSession vi, ViConstString waveformName, ViConstString waveformFilePath), (override));
+  MOCK_METHOD(ViStatus, WriteStatic, (ViSession vi, ViConstString channelList, ViUInt8 state), (override));
 };
 
 }  // namespace unit

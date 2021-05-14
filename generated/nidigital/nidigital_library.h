@@ -129,6 +129,7 @@ class NiDigitalLibrary : public nidigital_grpc::NiDigitalLibraryInterface {
   ViStatus WriteSequencerFlag(ViSession vi, ViConstString flag, ViBoolean value);
   ViStatus WriteSequencerRegister(ViSession vi, ViConstString reg, ViInt32 value);
   ViStatus WriteSourceWaveformDataFromFileTDMS(ViSession vi, ViConstString waveformName, ViConstString waveformFilePath);
+  ViStatus WriteStatic(ViSession vi, ViConstString channelList, ViUInt8 state);
 
  private:
   using AbortPtr = ViStatus (*)(ViSession vi);
@@ -242,6 +243,7 @@ class NiDigitalLibrary : public nidigital_grpc::NiDigitalLibraryInterface {
   using WriteSequencerFlagPtr = ViStatus (*)(ViSession vi, ViConstString flag, ViBoolean value);
   using WriteSequencerRegisterPtr = ViStatus (*)(ViSession vi, ViConstString reg, ViInt32 value);
   using WriteSourceWaveformDataFromFileTDMSPtr = ViStatus (*)(ViSession vi, ViConstString waveformName, ViConstString waveformFilePath);
+  using WriteStaticPtr = ViStatus (*)(ViSession vi, ViConstString channelList, ViUInt8 state);
 
   typedef struct FunctionPointers {
     AbortPtr Abort;
@@ -355,6 +357,7 @@ class NiDigitalLibrary : public nidigital_grpc::NiDigitalLibraryInterface {
     WriteSequencerFlagPtr WriteSequencerFlag;
     WriteSequencerRegisterPtr WriteSequencerRegister;
     WriteSourceWaveformDataFromFileTDMSPtr WriteSourceWaveformDataFromFileTDMS;
+    WriteStaticPtr WriteStatic;
   } FunctionLoadStatus;
 
   nidevice_grpc::SharedLibrary shared_library_;

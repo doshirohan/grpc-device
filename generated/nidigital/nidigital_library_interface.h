@@ -126,6 +126,7 @@ class NiDigitalLibraryInterface {
   virtual ViStatus WriteSequencerFlag(ViSession vi, ViConstString flag, ViBoolean value) = 0;
   virtual ViStatus WriteSequencerRegister(ViSession vi, ViConstString reg, ViInt32 value) = 0;
   virtual ViStatus WriteSourceWaveformDataFromFileTDMS(ViSession vi, ViConstString waveformName, ViConstString waveformFilePath) = 0;
+  virtual ViStatus WriteStatic(ViSession vi, ViConstString channelList, ViUInt8 state) = 0;
 };
 
 }  // namespace nidigital_grpc

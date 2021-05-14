@@ -132,6 +132,7 @@ NiDigitalLibrary::NiDigitalLibrary() : shared_library_(kLibraryName)
   function_pointers_.WriteSequencerFlag = reinterpret_cast<WriteSequencerFlagPtr>(shared_library_.get_function_pointer("niDigital_WriteSequencerFlag"));
   function_pointers_.WriteSequencerRegister = reinterpret_cast<WriteSequencerRegisterPtr>(shared_library_.get_function_pointer("niDigital_WriteSequencerRegister"));
   function_pointers_.WriteSourceWaveformDataFromFileTDMS = reinterpret_cast<WriteSourceWaveformDataFromFileTDMSPtr>(shared_library_.get_function_pointer("niDigital_WriteSourceWaveformDataFromFileTDMS"));
+  function_pointers_.WriteStatic = reinterpret_cast<WriteStaticPtr>(shared_library_.get_function_pointer("niDigital_WriteStatic"));
 }
 
 NiDigitalLibrary::~NiDigitalLibrary()
@@ -1474,6 +1475,18 @@ ViStatus NiDigitalLibrary::WriteSourceWaveformDataFromFileTDMS(ViSession vi, ViC
   return niDigital_WriteSourceWaveformDataFromFileTDMS(vi, waveformName, waveformFilePath);
 #else
   return function_pointers_.WriteSourceWaveformDataFromFileTDMS(vi, waveformName, waveformFilePath);
+#endif
+}
+
+ViStatus NiDigitalLibrary::WriteStatic(ViSession vi, ViConstString channelList, ViUInt8 state)
+{
+  if (!function_pointers_.WriteStatic) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niDigital_WriteStatic.");
+  }
+#if defined(_MSC_VER)
+  return niDigital_WriteStatic(vi, channelList, state);
+#else
+  return function_pointers_.WriteStatic(vi, channelList, state);
 #endif
 }
 
