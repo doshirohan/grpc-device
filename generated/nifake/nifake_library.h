@@ -44,6 +44,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   ViStatus GetCustomTypeArray(ViSession vi, ViInt32 numberOfElements, CustomStruct cs[]);
   ViStatus GetEnumValue(ViSession vi, ViInt32* aQuantity, ViInt16* aTurtle);
   ViStatus GetError(ViSession vi, ViStatus* errorCode, ViInt32 bufferSize, ViChar description[]);
+  ViStatus AcceptViUInt32Array(ViSession vi, ViInt32 arrayLen, ViUInt32 uInt32Array[]);
   ViStatus ImportAttributeConfigurationBuffer(ViSession vi, ViInt32 sizeInBytes, ViInt8 configuration[]);
   ViStatus InitWithOptions(ViString resourceName, ViBoolean idQuery, ViBoolean resetDevice, ViConstString optionString, ViSession* vi);
   ViStatus Initiate(ViSession vi);
@@ -100,6 +101,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   using GetCustomTypeArrayPtr = ViStatus (*)(ViSession vi, ViInt32 numberOfElements, CustomStruct cs[]);
   using GetEnumValuePtr = ViStatus (*)(ViSession vi, ViInt32* aQuantity, ViInt16* aTurtle);
   using GetErrorPtr = ViStatus (*)(ViSession vi, ViStatus* errorCode, ViInt32 bufferSize, ViChar description[]);
+  using AcceptViUInt32ArrayPtr = ViStatus (*)(ViSession vi, ViInt32 arrayLen, ViUInt32 uInt32Array[]);
   using ImportAttributeConfigurationBufferPtr = ViStatus (*)(ViSession vi, ViInt32 sizeInBytes, ViInt8 configuration[]);
   using InitWithOptionsPtr = ViStatus (*)(ViString resourceName, ViBoolean idQuery, ViBoolean resetDevice, ViConstString optionString, ViSession* vi);
   using InitiatePtr = ViStatus (*)(ViSession vi);
@@ -156,6 +158,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
     GetCustomTypeArrayPtr GetCustomTypeArray;
     GetEnumValuePtr GetEnumValue;
     GetErrorPtr GetError;
+    AcceptViUInt32ArrayPtr AcceptViUInt32Array;
     ImportAttributeConfigurationBufferPtr ImportAttributeConfigurationBuffer;
     InitWithOptionsPtr InitWithOptions;
     InitiatePtr Initiate;
