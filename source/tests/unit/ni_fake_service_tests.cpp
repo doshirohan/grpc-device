@@ -1204,16 +1204,16 @@ TEST(NiFakeServiceTests, NiFakeService_AcceptViUInt32Array_CallsAcceptViUInt32Ar
   std::uint32_t session_id = create_session(session_repository, kTestViSession);
   NiFakeMockLibrary library;
   nifake_grpc::NiFakeService service(&library, &session_repository);
-  std::vector<unsigned int> uInt32Array = {1, 2, 3, 4, 5};
-  std::int32_t array_len;
+  const unsigned int uInt32Array[] = {1, 2, 3, 4, 5};
+  std::int32_t array_len = 5;
   EXPECT_CALL(library, AcceptViUInt32Array(kTestViSession, array_len, _))
-      .With(Args<2, 1>(ElementsAreArray(uInt32Array.data())))
+      .With(Args<2, 1>(ElementsAreArray(uInt32Array)))
       .WillOnce(Return(kDriverSuccess));
 
   ::grpc::ServerContext context;
   nifake_grpc::AcceptViUInt32ArrayRequest request;
   request.mutable_vi()->set_id(session_id);
-  for (uint elem : uInt32Array) {
+  for (unsigned int elem : uInt32Array) {
     request.add_u_int32_array(elem);
   }
   nifake_grpc::AcceptViUInt32ArrayResponse response;
@@ -1221,7 +1221,6 @@ TEST(NiFakeServiceTests, NiFakeService_AcceptViUInt32Array_CallsAcceptViUInt32Ar
 
   EXPECT_TRUE(status.ok());
   EXPECT_EQ(kDriverSuccess, response.status());
-  EXPECT_EQ(uInt32Array.size(), array_len)
 }
 
 }  // namespace unit
