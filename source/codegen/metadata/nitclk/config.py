@@ -2,7 +2,7 @@
 # This file is generated from NI-TClk API metadata version 255.0.0d0
 config = {
     'api_version': '255.0.0d0',
-    'c_header': 'nitclk.h',
+    'c_header': 'niTClk.h',
     'c_function_prefix': 'niTClk_',
     'service_class_prefix': 'NiTClk',
     'java_package': 'com.ni.grpc.tclk',

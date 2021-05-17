@@ -169,7 +169,7 @@ ${initialize_standard_input_param(function_name, parameter)}\
 % elif c_type == 'ViSession[]':
       auto ${parameter_name}_request = ${request_snippet};
       std::vector<${c_type_underlying_type}> ${parameter_name};
-      std::transform(${parameter_name}_request.begin(), ${parameter_name}_request.end(), std::back_inserter(${parameter_name}), [&](auto session_) {return session_repository_->access_session(session_.id(), session_.name()); }); \
+      std::transform(${parameter_name}_request.begin(), ${parameter_name}_request.end(), std::back_inserter(${parameter_name}), [&](auto session) { return session_repository_->access_session(session.id(), session.name()); }); \
 % elif 'enum' in parameter:
 <%
 PascalFieldName = common_helpers.snake_to_pascal(field_name)

@@ -2,6 +2,9 @@
 
 ## config.py
 
+The following header file was renamed
+- from "nitclk.h" to "niTClk.h"
+
 The following metadata was added:
 - 'c_function_prefix': 'niTClk_'
 - 'service_class_prefix': 'NiTClk'

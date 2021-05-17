@@ -34,7 +34,7 @@ namespace nitclk_grpc {
       ViUInt32 session_count = request->sessions().size();
       auto sessions_request = request->sessions();
       std::vector<ViSession> sessions;
-      std::transform(sessions_request.begin(), sessions_request.end(), std::back_inserter(sessions), [&](auto session_) {return session_repository_->access_session(session_.id(), session_.name()); }); 
+      std::transform(sessions_request.begin(), sessions_request.end(), std::back_inserter(sessions), [&](auto session) { return session_repository_->access_session(session.id(), session.name()); }); 
       auto status = library_->ConfigureForHomogeneousTriggers(session_count, sessions.data());
       response->set_status(status);
       return ::grpc::Status::OK;
@@ -55,7 +55,7 @@ namespace nitclk_grpc {
       ViUInt32 session_count = request->sessions().size();
       auto sessions_request = request->sessions();
       std::vector<ViSession> sessions;
-      std::transform(sessions_request.begin(), sessions_request.end(), std::back_inserter(sessions), [&](auto session_) {return session_repository_->access_session(session_.id(), session_.name()); }); 
+      std::transform(sessions_request.begin(), sessions_request.end(), std::back_inserter(sessions), [&](auto session) { return session_repository_->access_session(session.id(), session.name()); }); 
       ViReal64 min_time = request->min_time();
       auto status = library_->FinishSyncPulseSenderSynchronize(session_count, sessions.data(), min_time);
       response->set_status(status);
@@ -189,7 +189,7 @@ namespace nitclk_grpc {
       ViUInt32 session_count = request->sessions().size();
       auto sessions_request = request->sessions();
       std::vector<ViSession> sessions;
-      std::transform(sessions_request.begin(), sessions_request.end(), std::back_inserter(sessions), [&](auto session_) {return session_repository_->access_session(session_.id(), session_.name()); }); 
+      std::transform(sessions_request.begin(), sessions_request.end(), std::back_inserter(sessions), [&](auto session) { return session_repository_->access_session(session.id(), session.name()); }); 
       auto status = library_->Initiate(session_count, sessions.data());
       response->set_status(status);
       return ::grpc::Status::OK;
@@ -210,7 +210,7 @@ namespace nitclk_grpc {
       ViUInt32 session_count = request->sessions().size();
       auto sessions_request = request->sessions();
       std::vector<ViSession> sessions;
-      std::transform(sessions_request.begin(), sessions_request.end(), std::back_inserter(sessions), [&](auto session_) {return session_repository_->access_session(session_.id(), session_.name()); }); 
+      std::transform(sessions_request.begin(), sessions_request.end(), std::back_inserter(sessions), [&](auto session) { return session_repository_->access_session(session.id(), session.name()); }); 
       ViBoolean done {};
       auto status = library_->IsDone(session_count, sessions.data(), &done);
       response->set_status(status);
@@ -302,7 +302,7 @@ namespace nitclk_grpc {
       ViUInt32 session_count = request->sessions().size();
       auto sessions_request = request->sessions();
       std::vector<ViSession> sessions;
-      std::transform(sessions_request.begin(), sessions_request.end(), std::back_inserter(sessions), [&](auto session_) {return session_repository_->access_session(session_.id(), session_.name()); }); 
+      std::transform(sessions_request.begin(), sessions_request.end(), std::back_inserter(sessions), [&](auto session) { return session_repository_->access_session(session.id(), session.name()); }); 
       ViReal64 min_time = request->min_time();
       auto status = library_->SetupForSyncPulseSenderSynchronize(session_count, sessions.data(), min_time);
       response->set_status(status);
@@ -324,7 +324,7 @@ namespace nitclk_grpc {
       ViUInt32 session_count = request->sessions().size();
       auto sessions_request = request->sessions();
       std::vector<ViSession> sessions;
-      std::transform(sessions_request.begin(), sessions_request.end(), std::back_inserter(sessions), [&](auto session_) {return session_repository_->access_session(session_.id(), session_.name()); }); 
+      std::transform(sessions_request.begin(), sessions_request.end(), std::back_inserter(sessions), [&](auto session) { return session_repository_->access_session(session.id(), session.name()); }); 
       ViReal64 min_tclk_period = request->min_tclk_period();
       auto status = library_->Synchronize(session_count, sessions.data(), min_tclk_period);
       response->set_status(status);
@@ -346,7 +346,7 @@ namespace nitclk_grpc {
       ViUInt32 session_count = request->sessions().size();
       auto sessions_request = request->sessions();
       std::vector<ViSession> sessions;
-      std::transform(sessions_request.begin(), sessions_request.end(), std::back_inserter(sessions), [&](auto session_) {return session_repository_->access_session(session_.id(), session_.name()); }); 
+      std::transform(sessions_request.begin(), sessions_request.end(), std::back_inserter(sessions), [&](auto session) { return session_repository_->access_session(session.id(), session.name()); }); 
       ViReal64 min_time = request->min_time();
       auto status = library_->SynchronizeToSyncPulseSender(session_count, sessions.data(), min_time);
       response->set_status(status);
@@ -368,7 +368,7 @@ namespace nitclk_grpc {
       ViUInt32 session_count = request->sessions().size();
       auto sessions_request = request->sessions();
       std::vector<ViSession> sessions;
-      std::transform(sessions_request.begin(), sessions_request.end(), std::back_inserter(sessions), [&](auto session_) {return session_repository_->access_session(session_.id(), session_.name()); }); 
+      std::transform(sessions_request.begin(), sessions_request.end(), std::back_inserter(sessions), [&](auto session) { return session_repository_->access_session(session.id(), session.name()); }); 
       ViReal64 timeout = request->timeout();
       auto status = library_->WaitUntilDone(session_count, sessions.data(), timeout);
       response->set_status(status);
