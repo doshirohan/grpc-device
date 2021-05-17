@@ -36,14 +36,12 @@ class NiTClkDriverApiTest : public ::testing::Test {
 
   void SetUp() override
   {
-    initialize_first_scope_session();
-    initialize_second_scope_session();
+    initialize_scope_session();
   }
 
   void TearDown() override
   {
-    close_first_scope_session();
-    close_second_scope_session();
+    close_scope_session();
   }
 
   void ResetStubs()
@@ -63,21 +61,16 @@ class NiTClkDriverApiTest : public ::testing::Test {
       return nitclk_stub_;
   }
 
-  int GetFirstScopeSessionId()
+  int GetScopeSessionId()
   {
-    return scope_session_1_->id();
+    return scope_session_->id();
   }
 
-  int GetSecondScopeSessionId()
-  {
-    return scope_session_2_->id();
-  }
-
-  void initialize_first_scope_session()
+  void initialize_scope_session()
   {
     ::grpc::ClientContext context;
     scope::InitWithOptionsRequest request;
-    request.set_resource_name("FakeDevice_1");
+    request.set_resource_name("FakeDevice");
     request.set_option_string("Simulate=1, DriverSetup=Model:5164; BoardType:PXIe");
     request.set_session_name("");
     request.set_reset_device(false);
@@ -85,48 +78,17 @@ class NiTClkDriverApiTest : public ::testing::Test {
     scope::InitWithOptionsResponse response;
 
     ::grpc::Status status = GetScopeStub()->InitWithOptions(&context, request, &response);
-    scope_session_1_ = std::make_unique<nidevice_grpc::Session>(response.vi());
+    scope_session_ = std::make_unique<nidevice_grpc::Session>(response.vi());
 
     ASSERT_TRUE(status.ok());
     ASSERT_EQ(kScopeDriverApiSuccess, response.status());
   }
 
-  void initialize_second_scope_session()
-  {
-    ::grpc::ClientContext context;
-    scope::InitWithOptionsRequest request;
-    request.set_resource_name("FakeDevice_2");
-    request.set_option_string("Simulate=1, DriverSetup=Model:5164; BoardType:PXIe");
-    request.set_session_name("");
-    request.set_reset_device(false);
-    request.set_id_query(false);
-    scope::InitWithOptionsResponse response;
-
-    ::grpc::Status status = GetScopeStub()->InitWithOptions(&context, request, &response);
-    scope_session_2_ = std::make_unique<nidevice_grpc::Session>(response.vi());
-
-    ASSERT_TRUE(status.ok());
-    ASSERT_EQ(kScopeDriverApiSuccess, response.status());
-  }
-
-  void close_first_scope_session()
+  void close_scope_session()
   {
     ::grpc::ClientContext context;
     scope::CloseRequest request;
-    request.mutable_vi()->set_id(scope_session_1_->id());
-    scope::CloseResponse response;
-
-    ::grpc::Status status = GetScopeStub()->Close(&context, request, &response);
-
-    EXPECT_TRUE(status.ok());
-    EXPECT_EQ(kScopeDriverApiSuccess, response.status());
-  }
-
-  void close_second_scope_session()
-  {
-    ::grpc::ClientContext context;
-    scope::CloseRequest request;
-    request.mutable_vi()->set_id(scope_session_2_->id());
+    request.mutable_vi()->set_id(scope_session_->id());
     scope::CloseResponse response;
 
     ::grpc::Status status = GetScopeStub()->Close(&context, request, &response);
@@ -139,11 +101,13 @@ class NiTClkDriverApiTest : public ::testing::Test {
   {
     ::grpc::ClientContext context;
     tclk::GetAttributeViReal64Request request;
-    request.mutable_session()->set_id(GetFirstScopeSessionId());
+    request.mutable_session()->set_id(GetScopeSessionId());
     request.set_channel_name(channel_name);
     request.set_attribute_id(attribute_id);
     tclk::GetAttributeViReal64Response response;
+
     ::grpc::Status status = GetTClkStub()->GetAttributeViReal64(&context, request, &response);
+
     EXPECT_TRUE(status.ok());
     EXPECT_EQ(kTClkDriverApiSuccess, response.status());
     return response.value();
@@ -153,11 +117,13 @@ class NiTClkDriverApiTest : public ::testing::Test {
   {
     ::grpc::ClientContext context;
     tclk::GetAttributeViSessionRequest request;
-    request.mutable_session()->set_id(GetFirstScopeSessionId());
+    request.mutable_session()->set_id(GetScopeSessionId());
     request.set_channel_name(channel_name);
     request.set_attribute_id(attribute_id);
     tclk::GetAttributeViSessionResponse response;
+
     ::grpc::Status status = GetTClkStub()->GetAttributeViSession(&context, request, &response);
+
     EXPECT_TRUE(status.ok());
     EXPECT_EQ(kTClkDriverApiSuccess, response.status());
     return response.mutable_value()->id();
@@ -167,11 +133,13 @@ class NiTClkDriverApiTest : public ::testing::Test {
   {
     ::grpc::ClientContext context;
     tclk::GetAttributeViStringRequest request;
-    request.mutable_session()->set_id(GetFirstScopeSessionId());
+    request.mutable_session()->set_id(GetScopeSessionId());
     request.set_channel_name(channel_name);
     request.set_attribute_id(attribute_id);
     tclk::GetAttributeViStringResponse response;
+
     ::grpc::Status status = GetTClkStub()->GetAttributeViString(&context, request, &response);
+
     EXPECT_TRUE(status.ok());
     EXPECT_EQ(kTClkDriverApiSuccess, response.status());
     return response.value();
@@ -179,8 +147,7 @@ class NiTClkDriverApiTest : public ::testing::Test {
 
  private:
   std::shared_ptr<::grpc::Channel> channel_;
-  std::unique_ptr<::nidevice_grpc::Session> scope_session_1_;
-  std::unique_ptr<::nidevice_grpc::Session> scope_session_2_;
+  std::unique_ptr<::nidevice_grpc::Session> scope_session_;
   std::unique_ptr<scope::NiScope::Stub> niscope_stub_;
   std::unique_ptr<tclk::NiTClk::Stub> nitclk_stub_;
   std::unique_ptr<nidevice_grpc::SessionRepository> session_repository_;
@@ -191,65 +158,62 @@ class NiTClkDriverApiTest : public ::testing::Test {
   std::unique_ptr<::grpc::Server> server_;
 };
 
-TEST_F(NiTClkDriverApiTest, NiTClkSetViReal64Attribute_SendRequest_GetViReal64AttributeMatches)
+TEST_F(NiTClkDriverApiTest, SetAttributeViReal64_GetAttributeViReal64ReturnsSameValue)
 {
   const char* channel_name = "";
   const tclk::NiTClkAttributes attribute_to_set = tclk::NiTClkAttributes::NITCLK_ATTRIBUTE_SAMPLE_CLOCK_DELAY;
   const ViReal64 expected_value = 4.24;
   ::grpc::ClientContext context;
   tclk::SetAttributeViReal64Request request;
-  request.mutable_session()->set_id(GetFirstScopeSessionId());
+  request.mutable_session()->set_id(GetScopeSessionId());
   request.set_channel_name(channel_name);
   request.set_attribute_id(attribute_to_set);
   request.set_value(expected_value);
   tclk::SetAttributeViReal64Response response;
-
   ::grpc::Status status = GetTClkStub()->SetAttributeViReal64(&context, request, &response);
+
   EXPECT_TRUE(status.ok());
   EXPECT_EQ(kTClkDriverApiSuccess, response.status());
-
   ViReal64 get_attribute_value = get_real64_attribute(channel_name, attribute_to_set);
   EXPECT_EQ(expected_value, get_attribute_value);
 }
 
-TEST_F(NiTClkDriverApiTest, NiTClkSetViSessionAttribute_SendRequest_GetViSessionAttributeMatches)
+TEST_F(NiTClkDriverApiTest, SetAttributeViSession_GetAttributeViSessionReturnsSameSessionId)
 {
   const char* channel_name = "";
   const tclk::NiTClkAttributes attribute_to_set = tclk::NiTClkAttributes::NITCLK_ATTRIBUTE_START_TRIGGER_MASTER_SESSION;
-  int expected_value = GetSecondScopeSessionId();
   ::grpc::ClientContext context;
   tclk::SetAttributeViSessionRequest request;
-  request.mutable_session()->set_id(GetFirstScopeSessionId());
+  int session_id = GetScopeSessionId();
+  request.mutable_session()->set_id(session_id);
   request.set_channel_name(channel_name);
   request.set_attribute_id(attribute_to_set);
-  request.mutable_value()->set_id(expected_value);
+  request.mutable_value()->set_id(session_id);
   tclk::SetAttributeViSessionResponse response;
-
   ::grpc::Status status = GetTClkStub()->SetAttributeViSession(&context, request, &response);
+
   EXPECT_TRUE(status.ok());
   EXPECT_EQ(kTClkDriverApiSuccess, response.status());
-
-  int get_attribute_value = get_session_id_from_attribute(channel_name, attribute_to_set);
-  EXPECT_EQ(expected_value, get_attribute_value);
+  int session_id_from_attribute = get_session_id_from_attribute(channel_name, attribute_to_set);
+  EXPECT_EQ(session_id, session_id_from_attribute);
 }
 
-TEST_F(NiTClkDriverApiTest, NiTClkSetViStringAttribute_SendRequest_GetViStringAttributeMatches)
+TEST_F(NiTClkDriverApiTest, SetAttributeViString_GetAttributeViStringReturnsSameValue)
 {
   const char* channel_name = "";
   const tclk::NiTClkAttributes attribute_to_set = tclk::NiTClkAttributes::NITCLK_ATTRIBUTE_SYNC_PULSE_SOURCE;
   const ViString expected_value = "Hello world!";
   ::grpc::ClientContext context;
   tclk::SetAttributeViStringRequest request;
-  request.mutable_session()->set_id(GetFirstScopeSessionId());
+  request.mutable_session()->set_id(GetScopeSessionId());
   request.set_channel_name(channel_name);
   request.set_attribute_id(attribute_to_set);
   request.set_value(expected_value);
   tclk::SetAttributeViStringResponse response;
-
   ::grpc::Status status = GetTClkStub()->SetAttributeViString(&context, request, &response);
+
   EXPECT_TRUE(status.ok());
   EXPECT_EQ(kTClkDriverApiSuccess, response.status());
-
   std::string get_attribute_value = get_string_attribute(channel_name, attribute_to_set);
   EXPECT_STREQ(expected_value, get_attribute_value.c_str());
 }
