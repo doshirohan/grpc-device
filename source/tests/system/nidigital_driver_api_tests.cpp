@@ -330,7 +330,6 @@ TEST_F(NiDigitalDriverApiTest, SelfCalibrate_CompletesSuccessfully)
 TEST_F(NiDigitalDriverApiTest, ClockGeneratorInitiate_ClockGenerationInitiated)
 {
   std::string channel_list = "0";
-
   ::grpc::ClientContext context;
   digital::ClockGeneratorInitiateRequest request;
   request.mutable_vi()->set_id(GetSessionId());
@@ -354,13 +353,12 @@ TEST_F(NiDigitalDriverApiTest, ConfigureSoftwareEdgeStartTrigger_SoftwareEdgeSta
   EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
   int start_trigger_type = get_int32_attribute("", digital::NIDIGITAL_ATTRIBUTE_START_TRIGGER_TYPE);
-  EXPECT_EQ(start_trigger_type, digital::TriggerType::TRIGGER_TYPE_NIDIGITAL_VAL_SOFTWARE);
+  EXPECT_EQ(digital::TriggerType::TRIGGER_TYPE_NIDIGITAL_VAL_SOFTWARE, start_trigger_type);
 }
 
 TEST_F(NiDigitalDriverApiTest, ConfigureStartLabel_StartLabelConfigured)
 {
   const char* start_label = "abcde";
-
   ::grpc::ClientContext context;
   digital::ConfigureStartLabelRequest request;
   request.mutable_vi()->set_id(GetSessionId());
