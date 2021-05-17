@@ -327,6 +327,39 @@ TEST_F(NiDigitalDriverApiTest, SelfCalibrate_CompletesSuccessfully)
   expect_api_success(response.status());
 }
 
+TEST_F(NiDigitalDriverApiTest, GetPinName_CorrectPinNameReturned)
+{
+  int pin_index = 1;
+  std::string expected_pin_name = "DIO18";
+
+  ::grpc::ClientContext context;
+  digital::GetPinNameRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  request.set_pin_index(pin_index);
+  digital::GetPinNameResponse response;
+  ::grpc::Status status = GetStub()->GetPinName(&context, request, &response);
+
+  EXPECT_TRUE(status.ok());
+  expect_api_success(response.status());
+  EXPECT_EQ(expected_pin_name, response.name());
+}
+
+TEST_F(NiDigitalDriverApiTest, ClockGeneratorGenerateClock_ClockGenerationConfiguredAndInitiated)
+{
+  std::string channel_list = "0";
+
+  ::grpc::ClientContext context;
+  digital::ClockGeneratorGenerateClockRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  request.set_channel_list(channel_list);
+  digital::ClockGeneratorGenerateClockResponse response;
+  ::grpc::Status status = GetStub()->ClockGeneratorGenerateClock(&context, request, &response);
+
+  EXPECT_TRUE(status.ok());
+  expect_api_success(response.status());
+  EXPECT_TRUE(digital::NIDIGITAL_ATTRIBUTE_CLOCK_GENERATOR_IS_RUNNING);
+}
+
 }  // namespace system
 }  // namespace tests
 }  // namespace ni
