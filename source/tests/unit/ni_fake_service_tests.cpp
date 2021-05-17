@@ -1204,7 +1204,7 @@ TEST(NiFakeServiceTests, NiFakeService_AcceptViUInt32Array_CallsAcceptViUInt32Ar
   std::uint32_t session_id = create_session(session_repository, kTestViSession);
   NiFakeMockLibrary library;
   nifake_grpc::NiFakeService service(&library, &session_repository);
-  const unsigned int uInt32Array[] = {1, 2, 3, 4, 5};
+  const unsigned long uInt32Array[] = {4294967291, 4294967292, 4294967293, 4294967294, 4294967295};
   std::int32_t array_len = 5;
   EXPECT_CALL(library, AcceptViUInt32Array(kTestViSession, array_len, _))
       .With(Args<2, 1>(ElementsAreArray(uInt32Array)))

@@ -78,7 +78,6 @@ functions = {
                     'value': 'arrayLen'
                 }
             }
-
         ],
         'returns': 'ViStatus'
     },
