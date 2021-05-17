@@ -23,6 +23,7 @@ NiFakeLibrary::NiFakeLibrary() : shared_library_(kLibraryName)
   }
   function_pointers_.Abort = reinterpret_cast<AbortPtr>(shared_library_.get_function_pointer("niFake_Abort"));
   function_pointers_.AcceptListOfDurationsInSeconds = reinterpret_cast<AcceptListOfDurationsInSecondsPtr>(shared_library_.get_function_pointer("niFake_AcceptListOfDurationsInSeconds"));
+  function_pointers_.AcceptViUInt32Array = reinterpret_cast<AcceptViUInt32ArrayPtr>(shared_library_.get_function_pointer("niFake_AcceptViUInt32Array"));
   function_pointers_.BoolArrayOutputFunction = reinterpret_cast<BoolArrayOutputFunctionPtr>(shared_library_.get_function_pointer("niFake_BoolArrayOutputFunction"));
   function_pointers_.BoolArrayInputFunction = reinterpret_cast<BoolArrayInputFunctionPtr>(shared_library_.get_function_pointer("niFake_BoolArrayInputFunction"));
   function_pointers_.DoubleAllTheNums = reinterpret_cast<DoubleAllTheNumsPtr>(shared_library_.get_function_pointer("niFake_DoubleAllTheNums"));
@@ -47,7 +48,6 @@ NiFakeLibrary::NiFakeLibrary() : shared_library_(kLibraryName)
   function_pointers_.GetCustomTypeArray = reinterpret_cast<GetCustomTypeArrayPtr>(shared_library_.get_function_pointer("niFake_GetCustomTypeArray"));
   function_pointers_.GetEnumValue = reinterpret_cast<GetEnumValuePtr>(shared_library_.get_function_pointer("niFake_GetEnumValue"));
   function_pointers_.GetError = reinterpret_cast<GetErrorPtr>(shared_library_.get_function_pointer("niFake_GetError"));
-  function_pointers_.AcceptViUInt32Array = reinterpret_cast<AcceptViUInt32ArrayPtr>(shared_library_.get_function_pointer("niFake_AcceptViUInt32Array"));
   function_pointers_.ImportAttributeConfigurationBuffer = reinterpret_cast<ImportAttributeConfigurationBufferPtr>(shared_library_.get_function_pointer("niFake_ImportAttributeConfigurationBuffer"));
   function_pointers_.InitWithOptions = reinterpret_cast<InitWithOptionsPtr>(shared_library_.get_function_pointer("niFake_InitWithOptions"));
   function_pointers_.Initiate = reinterpret_cast<InitiatePtr>(shared_library_.get_function_pointer("niFake_Initiate"));
@@ -110,6 +110,18 @@ ViStatus NiFakeLibrary::AcceptListOfDurationsInSeconds(ViSession vi, ViInt32 cou
   return niFake_AcceptListOfDurationsInSeconds(vi, count, delays);
 #else
   return function_pointers_.AcceptListOfDurationsInSeconds(vi, count, delays);
+#endif
+}
+
+ViStatus NiFakeLibrary::AcceptViUInt32Array(ViSession vi, ViInt32 arrayLen, ViUInt32 uInt32Array[])
+{
+  if (!function_pointers_.AcceptViUInt32Array) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niFake_AcceptViUInt32Array.");
+  }
+#if defined(_MSC_VER)
+  return niFake_AcceptViUInt32Array(vi, arrayLen, uInt32Array);
+#else
+  return function_pointers_.AcceptViUInt32Array(vi, arrayLen, uInt32Array);
 #endif
 }
 
@@ -395,18 +407,6 @@ ViStatus NiFakeLibrary::GetError(ViSession vi, ViStatus* errorCode, ViInt32 buff
     throw nidevice_grpc::LibraryLoadException("Could not find niFake_GetError.");
   }
   return function_pointers_.GetError(vi, errorCode, bufferSize, description);
-}
-
-ViStatus NiFakeLibrary::AcceptViUInt32Array(ViSession vi, ViInt32 arrayLen, ViUInt32 uInt32Array[])
-{
-  if (!function_pointers_.AcceptViUInt32Array) {
-    throw nidevice_grpc::LibraryLoadException("Could not find niFake_AcceptViUInt32Array.");
-  }
-#if defined(_MSC_VER)
-  return niFake_AcceptViUInt32Array(vi, arrayLen, uInt32Array);
-#else
-  return function_pointers_.AcceptViUInt32Array(vi, arrayLen, uInt32Array);
-#endif
 }
 
 ViStatus NiFakeLibrary::ImportAttributeConfigurationBuffer(ViSession vi, ViInt32 sizeInBytes, ViInt8 configuration[])

@@ -20,6 +20,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   ::grpc::Status check_function_exists(std::string functionName);
   ViStatus Abort(ViSession vi);
   ViStatus AcceptListOfDurationsInSeconds(ViSession vi, ViInt32 count, ViReal64 delays[]);
+  ViStatus AcceptViUInt32Array(ViSession vi, ViInt32 arrayLen, ViUInt32 uInt32Array[]);
   ViStatus BoolArrayOutputFunction(ViSession vi, ViInt32 numberOfElements, ViBoolean anArray[]);
   ViStatus BoolArrayInputFunction(ViSession vi, ViInt32 numberOfElements, ViBoolean anArray[]);
   ViStatus DoubleAllTheNums(ViSession vi, ViInt32 numberCount, ViReal64 numbers[]);
@@ -44,7 +45,6 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   ViStatus GetCustomTypeArray(ViSession vi, ViInt32 numberOfElements, CustomStruct cs[]);
   ViStatus GetEnumValue(ViSession vi, ViInt32* aQuantity, ViInt16* aTurtle);
   ViStatus GetError(ViSession vi, ViStatus* errorCode, ViInt32 bufferSize, ViChar description[]);
-  ViStatus AcceptViUInt32Array(ViSession vi, ViInt32 arrayLen, ViUInt32 uInt32Array[]);
   ViStatus ImportAttributeConfigurationBuffer(ViSession vi, ViInt32 sizeInBytes, ViInt8 configuration[]);
   ViStatus InitWithOptions(ViString resourceName, ViBoolean idQuery, ViBoolean resetDevice, ViConstString optionString, ViSession* vi);
   ViStatus Initiate(ViSession vi);
@@ -77,6 +77,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
  private:
   using AbortPtr = ViStatus (*)(ViSession vi);
   using AcceptListOfDurationsInSecondsPtr = ViStatus (*)(ViSession vi, ViInt32 count, ViReal64 delays[]);
+  using AcceptViUInt32ArrayPtr = ViStatus (*)(ViSession vi, ViInt32 arrayLen, ViUInt32 uInt32Array[]);
   using BoolArrayOutputFunctionPtr = ViStatus (*)(ViSession vi, ViInt32 numberOfElements, ViBoolean anArray[]);
   using BoolArrayInputFunctionPtr = ViStatus (*)(ViSession vi, ViInt32 numberOfElements, ViBoolean anArray[]);
   using DoubleAllTheNumsPtr = ViStatus (*)(ViSession vi, ViInt32 numberCount, ViReal64 numbers[]);
@@ -101,7 +102,6 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   using GetCustomTypeArrayPtr = ViStatus (*)(ViSession vi, ViInt32 numberOfElements, CustomStruct cs[]);
   using GetEnumValuePtr = ViStatus (*)(ViSession vi, ViInt32* aQuantity, ViInt16* aTurtle);
   using GetErrorPtr = ViStatus (*)(ViSession vi, ViStatus* errorCode, ViInt32 bufferSize, ViChar description[]);
-  using AcceptViUInt32ArrayPtr = ViStatus (*)(ViSession vi, ViInt32 arrayLen, ViUInt32 uInt32Array[]);
   using ImportAttributeConfigurationBufferPtr = ViStatus (*)(ViSession vi, ViInt32 sizeInBytes, ViInt8 configuration[]);
   using InitWithOptionsPtr = ViStatus (*)(ViString resourceName, ViBoolean idQuery, ViBoolean resetDevice, ViConstString optionString, ViSession* vi);
   using InitiatePtr = ViStatus (*)(ViSession vi);
@@ -134,6 +134,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   typedef struct FunctionPointers {
     AbortPtr Abort;
     AcceptListOfDurationsInSecondsPtr AcceptListOfDurationsInSeconds;
+    AcceptViUInt32ArrayPtr AcceptViUInt32Array;
     BoolArrayOutputFunctionPtr BoolArrayOutputFunction;
     BoolArrayInputFunctionPtr BoolArrayInputFunction;
     DoubleAllTheNumsPtr DoubleAllTheNums;
@@ -158,7 +159,6 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
     GetCustomTypeArrayPtr GetCustomTypeArray;
     GetEnumValuePtr GetEnumValue;
     GetErrorPtr GetError;
-    AcceptViUInt32ArrayPtr AcceptViUInt32Array;
     ImportAttributeConfigurationBufferPtr ImportAttributeConfigurationBuffer;
     InitWithOptionsPtr InitWithOptions;
     InitiatePtr Initiate;
