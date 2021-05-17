@@ -101,7 +101,7 @@ def has_viboolean_array_param(functions):
   return False
 
 def has_bytes_type_param(functions):
-  '''Returns True if atleast one function has parameter which requires less than 32 bits'''
+  '''Returns True if atleast one function has parameter whose protobuf equivalent is bytes'''
   for function in functions:
     for parameter in functions[function]["parameters"]:
       if is_bytes_type(parameter['type']):
