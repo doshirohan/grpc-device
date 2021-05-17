@@ -144,6 +144,54 @@ class NiTClkDriverApiTest : public ::testing::Test {
     EXPECT_EQ(kTClkDriverApiSuccess, response.status());
     return response.value();
   }
+  
+  void set_real64_attribute(const char* channel_name, tclk::NiTClkAttributes attribute_id, const ViReal64 attribute_value)
+  {
+    ::grpc::ClientContext context;
+    tclk::SetAttributeViReal64Request request;
+    request.mutable_session()->set_id(GetScopeSessionId());
+    request.set_channel_name(channel_name);
+    request.set_attribute_id(attribute_id);
+    request.set_value(attribute_value);
+    tclk::SetAttributeViReal64Response response;
+
+    ::grpc::Status status = GetTClkStub()->SetAttributeViReal64(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(kTClkDriverApiSuccess, response.status());
+  }
+
+  void set_session_attribute(const char* channel_name, tclk::NiTClkAttributes attribute_id, const int session_id)
+  {
+    ::grpc::ClientContext context;
+    tclk::SetAttributeViSessionRequest request;
+    request.mutable_session()->set_id(GetScopeSessionId());
+    request.set_channel_name(channel_name);
+    request.set_attribute_id(attribute_id);
+    request.mutable_value()->set_id(session_id);
+    tclk::SetAttributeViSessionResponse response;
+
+    ::grpc::Status status = GetTClkStub()->SetAttributeViSession(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(kTClkDriverApiSuccess, response.status());
+  }
+
+  void set_string_attribute(const char* channel_name, tclk::NiTClkAttributes attribute_id, const ViString attribute_value)
+  {
+    ::grpc::ClientContext context;
+    tclk::SetAttributeViStringRequest request;
+    request.mutable_session()->set_id(GetScopeSessionId());
+    request.set_channel_name(channel_name);
+    request.set_attribute_id(attribute_id);
+    request.set_value(attribute_value);
+    tclk::GetAttributeViStringResponse response;
+
+    ::grpc::Status status = GetTClkStub()->SetAttributeViString(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(kTClkDriverApiSuccess, response.status());
+  }
 
  private:
   std::shared_ptr<::grpc::Channel> channel_;
@@ -163,17 +211,8 @@ TEST_F(NiTClkDriverApiTest, SetAttributeViReal64_GetAttributeViReal64ReturnsSame
   const char* channel_name = "";
   const tclk::NiTClkAttributes attribute_to_set = tclk::NiTClkAttributes::NITCLK_ATTRIBUTE_SAMPLE_CLOCK_DELAY;
   const ViReal64 expected_value = 4.24;
-  ::grpc::ClientContext context;
-  tclk::SetAttributeViReal64Request request;
-  request.mutable_session()->set_id(GetScopeSessionId());
-  request.set_channel_name(channel_name);
-  request.set_attribute_id(attribute_to_set);
-  request.set_value(expected_value);
-  tclk::SetAttributeViReal64Response response;
-  ::grpc::Status status = GetTClkStub()->SetAttributeViReal64(&context, request, &response);
+  set_real64_attribute(channel_name, attribute_to_set, expected_value);
 
-  EXPECT_TRUE(status.ok());
-  EXPECT_EQ(kTClkDriverApiSuccess, response.status());
   ViReal64 get_attribute_value = get_real64_attribute(channel_name, attribute_to_set);
   EXPECT_EQ(expected_value, get_attribute_value);
 }
@@ -182,20 +221,11 @@ TEST_F(NiTClkDriverApiTest, SetAttributeViSession_GetAttributeViSessionReturnsSa
 {
   const char* channel_name = "";
   const tclk::NiTClkAttributes attribute_to_set = tclk::NiTClkAttributes::NITCLK_ATTRIBUTE_START_TRIGGER_MASTER_SESSION;
-  ::grpc::ClientContext context;
-  tclk::SetAttributeViSessionRequest request;
-  int session_id = GetScopeSessionId();
-  request.mutable_session()->set_id(session_id);
-  request.set_channel_name(channel_name);
-  request.set_attribute_id(attribute_to_set);
-  request.mutable_value()->set_id(session_id);
-  tclk::SetAttributeViSessionResponse response;
-  ::grpc::Status status = GetTClkStub()->SetAttributeViSession(&context, request, &response);
+  int expected_value = GetScopeSessionId();
+  set_session_attribute(channel_name, attribute_to_set, expected_value);
 
-  EXPECT_TRUE(status.ok());
-  EXPECT_EQ(kTClkDriverApiSuccess, response.status());
-  int session_id_from_attribute = get_session_id_from_attribute(channel_name, attribute_to_set);
-  EXPECT_EQ(session_id, session_id_from_attribute);
+  int get_attribute_value = get_session_id_from_attribute(channel_name, attribute_to_set);
+  EXPECT_EQ(expected_value, get_attribute_value);
 }
 
 TEST_F(NiTClkDriverApiTest, SetAttributeViString_GetAttributeViStringReturnsSameValue)
@@ -203,17 +233,8 @@ TEST_F(NiTClkDriverApiTest, SetAttributeViString_GetAttributeViStringReturnsSame
   const char* channel_name = "";
   const tclk::NiTClkAttributes attribute_to_set = tclk::NiTClkAttributes::NITCLK_ATTRIBUTE_SYNC_PULSE_SOURCE;
   const ViString expected_value = "Hello world!";
-  ::grpc::ClientContext context;
-  tclk::SetAttributeViStringRequest request;
-  request.mutable_session()->set_id(GetScopeSessionId());
-  request.set_channel_name(channel_name);
-  request.set_attribute_id(attribute_to_set);
-  request.set_value(expected_value);
-  tclk::SetAttributeViStringResponse response;
-  ::grpc::Status status = GetTClkStub()->SetAttributeViString(&context, request, &response);
+  set_string_attribute(channel_name, attribute_to_set, expected_value);
 
-  EXPECT_TRUE(status.ok());
-  EXPECT_EQ(kTClkDriverApiSuccess, response.status());
   std::string get_attribute_value = get_string_attribute(channel_name, attribute_to_set);
   EXPECT_STREQ(expected_value, get_attribute_value.c_str());
 }
