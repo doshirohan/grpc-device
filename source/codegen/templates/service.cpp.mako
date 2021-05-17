@@ -37,7 +37,7 @@ namespace ${config["namespace_component"]}_grpc {
   {
   }
 
-% if common_helpers.has_byte_type_param(functions):
+% if common_helpers.has_bytes_type_param(functions):
   template <typename T1, typename T2>
   void ${service_class_prefix}Service::Copy(const std::vector<T1>& input, T2 output)
   {

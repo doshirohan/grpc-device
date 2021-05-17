@@ -13,7 +13,7 @@ def is_enum(parameter):
 def is_struct(parameter):
   return parameter["type"].startswith("struct")
 
-def is_byte_type(dataType):
+def is_bytes_type(dataType):
   return dataType == 'ViUInt8[]'
 
 def get_underlying_type_name(parameter_type):
@@ -100,11 +100,11 @@ def has_viboolean_array_param(functions):
         return True
   return False
 
-def has_byte_type_param(functions):
+def has_bytes_type_param(functions):
   '''Returns True if atleast one function has parameter which requires less than 32 bits'''
   for function in functions:
     for parameter in functions[function]["parameters"]:
-      if is_byte_type(parameter['type']):
+      if is_bytes_type(parameter['type']):
         return True
   return False
 
