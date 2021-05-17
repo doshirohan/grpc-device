@@ -13,10 +13,10 @@ def create_args(parameters):
       parameter_name = common_helpers.camel_to_snake(parameter['cppName'])
       is_array = common_helpers.is_array(parameter['type'])
       is_output = common_helpers.is_output_parameter(parameter)
-      if common_helpers.is_output_parameter(parameter) and is_string_arg(parameter):
+      if is_output and is_string_arg(parameter):
         type_without_brackets = common_helpers.get_underlying_type_name(parameter['type'])
         result = f'{result}({type_without_brackets}*){parameter_name}.data(), '
-      elif parameter['type'] == 'ViSession[]':
+      elif parameter['type'] == 'ViBoolean[]' or parameter['type'] == 'ViSession[]':
         result = f'{result}{parameter_name}.data(), '
       else:
         if is_array and common_helpers.is_struct(parameter):
@@ -109,3 +109,8 @@ def get_cname(functions, method_name, c_function_prefix):
     return functions[method_name]['cname']
   return c_function_prefix + method_name
 
+def is_private_method(function_data):
+  return function_data.get('codegen_method', '') == 'private'
+
+def is_custom_close_method(function_data):
+  return function_data.get('custom_close_method', False)

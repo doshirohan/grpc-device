@@ -10,6 +10,7 @@
   output_parameters = [p for p in parameters if common_helpers.is_output_parameter(p)]
   session_output_param = next((parameter for parameter in output_parameters if parameter['type'] == 'ViSession'), None)
   session_output_var_name = session_output_param['cppName']
+  close_function_call = function_data['custom_close'] if 'custom_close' in function_data else f"{config['close_function']}(id)"
 %>\
 ${initialize_input_params(function_name, parameters)}
       auto init_lambda = [&] () -> std::tuple<int, uint32_t> {
@@ -19,7 +20,7 @@ ${initialize_input_params(function_name, parameters)}
       };
       uint32_t session_id = 0;
       const std::string& session_name = request->session_name();
-      auto cleanup_lambda = [&] (uint32_t id) { library_->${config['close_function']}(id); };
+      auto cleanup_lambda = [&] (uint32_t id) { library_->${close_function_call}; };
       int status = session_repository_->add_session(session_name, init_lambda, cleanup_lambda, session_id);
       response->set_status(status);
       if (status == 0) {
@@ -62,12 +63,11 @@ ${set_response_values(output_parameters)}\
 %>\
 ${initialize_input_params(function_name, parameters)}\
 ${initialize_output_params(output_parameters)}\
-% if function_name == config['close_function']:
-      session_repository_->remove_session(${service_helpers.create_args(parameters)});
-% else:
+% if function_name == config['close_function'] or service_helpers.is_custom_close_method(function_data):
+      session_repository_->remove_session(${service_helpers.create_args(parameters[:1])});
+% endif
       auto status = library_->${function_name}(${service_helpers.create_args(parameters)});
       response->set_status(status);
-% endif
 % if output_parameters:
       if (status == 0) {
 ${set_response_values(output_parameters=output_parameters)}\
@@ -170,6 +170,10 @@ ${initialize_standard_input_param(function_name, parameter)}\
       auto ${parameter_name}_request = ${request_snippet};
       std::vector<${c_type_underlying_type}> ${parameter_name};
       std::transform(${parameter_name}_request.begin(), ${parameter_name}_request.end(), std::back_inserter(${parameter_name}), [&](auto session) { return session_repository_->access_session(session.id(), session.name()); }); \
+% elif c_type == 'ViBoolean[]':
+      auto ${parameter_name}_request = ${request_snippet};
+      std::vector<${c_type_underlying_type}> ${parameter_name};
+      std::transform(${parameter_name}_request.begin(), ${parameter_name}_request.end(), std::back_inserter(${parameter_name}), [](auto x) { return x ? VI_TRUE : VI_FALSE; });
 % elif 'enum' in parameter:
 <%
 PascalFieldName = common_helpers.snake_to_pascal(field_name)
@@ -192,6 +196,8 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
 % elif c_type == 'ViSession':
       auto ${parameter_name}_grpc_session = ${request_snippet};
       ${c_type} ${parameter_name} = session_repository_->access_session(${parameter_name}_grpc_session.id(), ${parameter_name}_grpc_session.name());\
+% elif c_type == 'ViInt32[]' or c_type == 'ViAddr[]':
+      auto ${parameter_name} = const_cast<${c_type_pointer}>(reinterpret_cast<const ${c_type_pointer}>(${request_snippet}.data()));\
 % elif common_helpers.is_array(c_type):
       auto ${parameter_name} = const_cast<${c_type_pointer}>(${request_snippet}.data());\
 % else:
@@ -214,10 +220,13 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
   else:
     size = common_helpers.camel_to_snake(parameter['size']['value'])
 %>\
-%     if common_helpers.is_struct(parameter):
+%     if common_helpers.is_struct(parameter) or underlying_param_type == 'ViBoolean':
       std::vector<${underlying_param_type}> ${parameter_name}(${size}, ${underlying_param_type}());
 %     elif service_helpers.is_string_arg(parameter):
       std::string ${parameter_name}(${size}, '\0');
+%     elif underlying_param_type == 'ViAddr':
+      response->mutable_${parameter_name}()->Resize(${size}, 0);
+      ${underlying_param_type}* ${parameter_name} = reinterpret_cast<${underlying_param_type}*>(response->mutable_${parameter_name}()->mutable_data());
 %     else:
       response->mutable_${parameter_name}()->Resize(${size}, 0);
       ${underlying_param_type}* ${parameter_name} = response->mutable_${parameter_name}()->mutable_data();
@@ -256,7 +265,7 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
 %   elif common_helpers.is_array(parameter['type']):
 %     if service_helpers.is_string_arg(parameter):
         response->set_${parameter_name}(${parameter_name});
-%     elif common_helpers.is_struct(parameter):
+%     elif common_helpers.is_struct(parameter) or parameter['type'] == 'ViBoolean[]':
         Copy(${parameter_name}, response->mutable_${parameter_name}());
 %     endif
 %   elif parameter['type'] == 'ViSession':
