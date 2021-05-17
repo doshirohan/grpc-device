@@ -185,7 +185,7 @@ class NiTClkDriverApiTest : public ::testing::Test {
     request.set_channel_name(channel_name);
     request.set_attribute_id(attribute_id);
     request.set_value(attribute_value);
-    tclk::GetAttributeViStringResponse response;
+    tclk::SetAttributeViStringResponse response;
 
     ::grpc::Status status = GetTClkStub()->SetAttributeViString(&context, request, &response);
 
