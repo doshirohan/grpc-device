@@ -327,37 +327,51 @@ TEST_F(NiDigitalDriverApiTest, SelfCalibrate_CompletesSuccessfully)
   expect_api_success(response.status());
 }
 
-TEST_F(NiDigitalDriverApiTest, GetPinName_CorrectPinNameReturned)
-{
-  int pin_index = 1;
-  std::string expected_pin_name = "DIO18";
-
-  ::grpc::ClientContext context;
-  digital::GetPinNameRequest request;
-  request.mutable_vi()->set_id(GetSessionId());
-  request.set_pin_index(pin_index);
-  digital::GetPinNameResponse response;
-  ::grpc::Status status = GetStub()->GetPinName(&context, request, &response);
-
-  EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());
-  EXPECT_EQ(expected_pin_name, response.name());
-}
-
-TEST_F(NiDigitalDriverApiTest, ClockGeneratorGenerateClock_ClockGenerationConfiguredAndInitiated)
+TEST_F(NiDigitalDriverApiTest, ClockGeneratorInitiate_ClockGenerationInitiated)
 {
   std::string channel_list = "0";
 
   ::grpc::ClientContext context;
-  digital::ClockGeneratorGenerateClockRequest request;
+  digital::ClockGeneratorInitiateRequest request;
   request.mutable_vi()->set_id(GetSessionId());
   request.set_channel_list(channel_list);
-  digital::ClockGeneratorGenerateClockResponse response;
-  ::grpc::Status status = GetStub()->ClockGeneratorGenerateClock(&context, request, &response);
+  digital::ClockGeneratorInitiateResponse response;
+  ::grpc::Status status = GetStub()->ClockGeneratorInitiate(&context, request, &response);
 
   EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
-  EXPECT_TRUE(digital::NIDIGITAL_ATTRIBUTE_CLOCK_GENERATOR_IS_RUNNING);
+  EXPECT_TRUE(get_bool_attribute("0", digital::NIDIGITAL_ATTRIBUTE_CLOCK_GENERATOR_IS_RUNNING));
+}
+
+TEST_F(NiDigitalDriverApiTest, ConfigureSoftwareEdgeStartTrigger_SoftwareEdgeStartTriggerConfigured)
+{
+  ::grpc::ClientContext context;
+  digital::ConfigureSoftwareEdgeStartTriggerRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  digital::ConfigureSoftwareEdgeStartTriggerResponse response;
+  ::grpc::Status status = GetStub()->ConfigureSoftwareEdgeStartTrigger(&context, request, &response);
+
+  EXPECT_TRUE(status.ok());
+  expect_api_success(response.status());
+  int start_trigger_type = get_int32_attribute("", digital::NIDIGITAL_ATTRIBUTE_START_TRIGGER_TYPE);
+  EXPECT_EQ(start_trigger_type, digital::TriggerType::TRIGGER_TYPE_NIDIGITAL_VAL_SOFTWARE);
+}
+
+TEST_F(NiDigitalDriverApiTest, ConfigureStartLabel_StartLabelConfigured)
+{
+  const char* start_label = "abcde";
+
+  ::grpc::ClientContext context;
+  digital::ConfigureStartLabelRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  request.set_label(start_label);
+  digital::ConfigureStartLabelResponse response;
+  ::grpc::Status status = GetStub()->ConfigureStartLabel(&context, request, &response);
+
+  EXPECT_TRUE(status.ok());
+  expect_api_success(response.status());
+  std::string actual_start_label = get_string_attribute("", digital::NIDIGITAL_ATTRIBUTE_START_LABEL);
+  EXPECT_EQ(start_label, actual_start_label.substr(0, actual_start_label.size()-1));  // substring taken to remove the \0 at the end
 }
 
 }  // namespace system
