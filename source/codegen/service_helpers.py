@@ -37,6 +37,49 @@ def create_args_for_ivi_dance(parameters):
         result = result + common_helpers.camel_to_snake(parameter['cppName']) + ', '
     return result[:-2]
 
+def create_args_for_ivi_dance_with_a_twist(parameters):
+    result = ''
+    for parameter in parameters:
+      name = common_helpers.camel_to_snake(parameter['cppName'])
+      is_array = common_helpers.is_array(parameter['type'])
+      if parameter.get('is_size_param', False):
+        result = f'{result}0, '
+      elif common_helpers.is_output_parameter(parameter):
+          if is_array:
+              result = f'{result}nullptr, '
+          else:
+              result = result + f'&{name}' + ','
+      else:
+        result = result + common_helpers.camel_to_snake(name) + ', '
+    return result[:-1]
+
+def create_args_for_twist(parameters):
+    result = ''
+    twist_value = common_helpers.get_twist_value(parameters)
+    twist_value_name = common_helpers.camel_to_snake(twist_value)
+    has_struct = common_helpers.has_struct(parameters)
+    for parameter in parameters:
+      parameter_name = common_helpers.camel_to_snake(parameter['cppName'])
+      is_array = common_helpers.is_array(parameter['type'])
+      is_output = common_helpers.is_output_parameter(parameter)
+      if is_output and is_string_arg(parameter):
+        type_without_brackets = common_helpers.get_underlying_type_name(parameter['type'])
+        result = f'{result}({type_without_brackets}*){parameter_name}.data(), '
+      elif parameter['type'] == 'ViBoolean[]':
+        result = f'{result}{parameter_name}.data(), '
+      elif parameter.get('is_size_param', False):
+          if has_struct:
+              continue
+          else:
+            result = f'{result}{twist_value_name}, '
+      else:
+        if is_array and common_helpers.is_struct(parameter):
+          parameter_name = parameter_name + ".size()" + ", " + parameter_name + ".data()"
+        elif not is_array and is_output:
+          result = f'{result}&'
+        result = f'{result}{parameter_name}, '
+    return result[:-2]
+
 def create_params(parameters):
     return ', '.join(create_param(p) for p in parameters)
 

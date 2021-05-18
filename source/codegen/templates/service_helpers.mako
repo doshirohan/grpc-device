@@ -55,6 +55,31 @@ ${set_response_values(output_parameters)}\
       return ::grpc::Status::OK;\
 </%def>
 
+## Generate the core method body for an ivi-dance-with_a_twist method. This should be what gets included within the try block in the service method.
+<%def name="define_ivi_dance_with_a_twist_method_body(function_name, function_data, parameters)">\
+<%
+  (size_param, array_param, non_ivi_params) = common_helpers.get_ivi_dance_with_a_twist_params(parameters)
+  output_parameters = [p for p in parameters if common_helpers.is_output_parameter(p)]
+%>\
+${initialize_input_params(function_name, non_ivi_params)}\
+
+${initialize_scalar_output_params(output_parameters[1])}\
+      auto status = library_->${function_name}(${service_helpers.create_args_for_ivi_dance_with_a_twist(parameters)});
+      if (status < 0) {
+        response->set_status(status);
+        return ::grpc::Status::OK;
+      }
+${initialize_array_output_params(output_parameters[0])}\
+      status = library_->${function_name}(${service_helpers.create_args_for_twist(parameters)});
+      response->set_status(status);
+% if output_parameters:
+      if (status == 0) {
+${set_response_values(output_parameters)}\
+      }
+% endif
+      return ::grpc::Status::OK;\
+</%def>
+
 ## Generate the core method body for an ivi-dance method. This should be what gets included within the try block in the service method.
 <%def name="define_simple_method_body(function_name, function_data, parameters)">\
 <%
@@ -202,17 +227,17 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
 </%def>
 
 ## Initialize the output parameters for an API call.
-<%def name="initialize_output_params(output_parameters)">\
-% for parameter in output_parameters:
+<%def name="initialize_array_output_params(parameter)">\
 <%
   parameter_name = common_helpers.camel_to_snake(parameter['cppName'])
   underlying_param_type = common_helpers.get_underlying_type_name(parameter["type"])
 %>\
-%   if common_helpers.is_array(parameter['type']):
 <%
   size = ''
   if common_helpers.get_size_mechanism(parameter) == 'fixed':
     size = parameter['size']['value']
+  elif common_helpers.get_size_mechanism(parameter) == 'ivi_dance_with_a_twist':
+    size = common_helpers.camel_to_snake(parameter['size']['value_twist'])
   else:
     size = common_helpers.camel_to_snake(parameter['size']['value'])
 %>\
@@ -220,16 +245,33 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
       std::vector<${underlying_param_type}> ${parameter_name}(${size}, ${underlying_param_type}());
 %     elif service_helpers.is_string_arg(parameter):
       std::string ${parameter_name}(${size}, '\0');
-%     elif underlying_param_type == 'ViAddr':
+%     elif underlying_param_type in ['ViAddr', 'ViInt32', 'ViUInt32']:
       response->mutable_${parameter_name}()->Resize(${size}, 0);
       ${underlying_param_type}* ${parameter_name} = reinterpret_cast<${underlying_param_type}*>(response->mutable_${parameter_name}()->mutable_data());
 %     else:
       response->mutable_${parameter_name}()->Resize(${size}, 0);
       ${underlying_param_type}* ${parameter_name} = response->mutable_${parameter_name}()->mutable_data();
 %     endif
-%   else:
+</%def>
+
+## Initialize the output parameters for an API call.
+<%def name="initialize_scalar_output_params(parameter)">\
+<%
+  parameter_name = common_helpers.camel_to_snake(parameter['cppName'])
+  underlying_param_type = common_helpers.get_underlying_type_name(parameter["type"])
+%>\
       ${underlying_param_type} ${parameter_name} {};
-%   endif
+</%def>
+
+## Initialize the output parameters for an API call.
+<%def name="initialize_output_params(output_parameters)">\
+% for parameter in output_parameters:
+<%  
+    if common_helpers.is_array(parameter['type']):
+        initialize_array_output_params(parameter)
+    else:
+        initialize_scalar_output_params(parameter)
+%>\
 % endfor
 </%def>
 
