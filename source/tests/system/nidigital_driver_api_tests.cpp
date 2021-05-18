@@ -342,7 +342,7 @@ TEST_F(NiDigitalDriverApiTest, ClockGeneratorInitiate_ClockGenerationInitiated)
   EXPECT_TRUE(get_bool_attribute("0", digital::NIDIGITAL_ATTRIBUTE_CLOCK_GENERATOR_IS_RUNNING));
 }
 
-TEST_F(NiDigitalDriverApiTest, ConfigureSoftwareEdgeStartTrigger_SoftwareEdgeStartTriggerConfigured)
+TEST_F(NiDigitalDriverApiTest, ConfigureSoftwareEdgeStartTrigger_StartTriggerTypeAttributeIsSoftware)
 {
   ::grpc::ClientContext context;
   digital::ConfigureSoftwareEdgeStartTriggerRequest request;
