@@ -7,8 +7,6 @@ The following functions, not originally in nimi-python metadata, were newly adde
 - `'CloseExtCal'`
 - `'BoolArrayInputFunction'`
 	- This function allows testing of ViBoolean[] input parameter
-- `'BoolArrayOutputFunction'`
-	- This function allows testing of ViBoolean[] output parameter
 - `'GetViUInt8'`
 	- This function allows testing of ViUInt8 parameter
 - `'ViUInt8ArrayInputFunction'`

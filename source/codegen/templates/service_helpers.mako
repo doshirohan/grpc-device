@@ -164,7 +164,7 @@ ${initialize_standard_input_param(function_name, parameter)}\
       ${c_type} ${parameter_name} = ${request_snippet}.c_str();\
 % elif c_type == 'ViString' or c_type == 'ViRsrc':
       ${c_type} ${parameter_name} = (${c_type})${request_snippet}.c_str();\
-% elif c_type == 'ViInt8[]' or c_type == 'ViChar[]':
+% elif c_type == 'ViInt8[]' or c_type == 'ViChar[]' or common_helpers.is_bytes_type(c_type):
       ${c_type_pointer} ${parameter_name} = (${c_type[:-2]}*)${request_snippet}.c_str();\
 % elif c_type == 'ViBoolean[]':
       auto ${parameter_name}_request = ${request_snippet};
@@ -192,7 +192,7 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
 % elif c_type == 'ViSession':
       auto ${parameter_name}_grpc_session = ${request_snippet};
       ${c_type} ${parameter_name} = session_repository_->access_session(${parameter_name}_grpc_session.id(), ${parameter_name}_grpc_session.name());\
-% elif c_type == 'ViInt32[]' or c_type == 'ViAddr[]' or common_helpers.is_bytes_type(c_type):
+% elif c_type == 'ViInt32[]' or c_type == 'ViAddr[]':
       auto ${parameter_name} = const_cast<${c_type_pointer}>(reinterpret_cast<const ${c_type_pointer}>(${request_snippet}.data()));\
 % elif common_helpers.is_array(c_type):
       auto ${parameter_name} = const_cast<${c_type_pointer}>(${request_snippet}.data());\
@@ -220,6 +220,7 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
       std::vector<${underlying_param_type}> ${parameter_name}(${size}, ${underlying_param_type}());
 %     elif common_helpers.is_bytes_type(parameter['type']):
       std::vector<${underlying_param_type}> ${parameter_name}(${size}, 0);
+      response->mutable_${parameter_name}()->resize(${size}, '\0');
 %     elif service_helpers.is_string_arg(parameter):
       std::string ${parameter_name}(${size}, '\0');
 %     elif underlying_param_type == 'ViAddr':
@@ -245,6 +246,7 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
 % for parameter in output_parameters:
 <%
   parameter_name = common_helpers.camel_to_snake(parameter['cppName'])
+  underlying_param_type = common_helpers.get_underlying_type_name(parameter["type"])
 %>\
 %   if common_helpers.is_enum(parameter) == True:
 %     if enums[parameter["enum"]].get("generate-mappings", False):
@@ -263,8 +265,10 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
 %   elif common_helpers.is_array(parameter['type']):
 %     if service_helpers.is_string_arg(parameter):
         response->set_${parameter_name}(${parameter_name});
-%     elif common_helpers.is_struct(parameter) or parameter['type'] == 'ViBoolean[]' or common_helpers.is_bytes_type(parameter['type']):
+%     elif common_helpers.is_struct(parameter) or parameter['type'] == 'ViBoolean[]':
         Copy(${parameter_name}, response->mutable_${parameter_name}());
+%     elif common_helpers.is_bytes_type(parameter['type']):
+        Copy(${parameter_name}, (${underlying_param_type}*)response->mutable_${parameter_name}()->data());
 %     endif
 %   elif parameter['type'] == 'ViSession':
         response->mutable_${parameter_name}()->set_id(${parameter_name});

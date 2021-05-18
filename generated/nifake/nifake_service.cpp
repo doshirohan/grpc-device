@@ -26,11 +26,9 @@ namespace nifake_grpc {
   template <typename T1, typename T2>
   void NiFakeService::Copy(const std::vector<T1>& input, T2 output)
   {
-    output->insert(0, (size_t)input.size(), '\0');
-    T1* result = (T1*)output->data();
     auto i = 0;
     for(auto item : input){
-      result[i] = item;
+      output[i] = item;
       i++;
     }
   }
@@ -1249,7 +1247,7 @@ namespace nifake_grpc {
       auto vi_grpc_session = request->vi();
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 number_of_elements = request->number_of_elements();
-      auto an_array = const_cast<ViUInt8*>(reinterpret_cast<const ViUInt8*>(request->an_array().data()));
+      ViUInt8* an_array = (ViUInt8*)request->an_array().c_str();
       auto status = library_->ViUInt8ArrayInputFunction(vi, number_of_elements, an_array);
       response->set_status(status);
       return ::grpc::Status::OK;
@@ -1271,10 +1269,11 @@ namespace nifake_grpc {
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 number_of_elements = request->number_of_elements();
       std::vector<ViUInt8> an_array(number_of_elements, 0);
+      response->mutable_an_array()->resize(number_of_elements, '\0');
       auto status = library_->ViUInt8ArrayOutputFunction(vi, number_of_elements, an_array.data());
       response->set_status(status);
       if (status == 0) {
-        Copy(an_array, response->mutable_an_array());
+        Copy(an_array, (ViUInt8*)response->mutable_an_array()->data());
       }
       return ::grpc::Status::OK;
     }

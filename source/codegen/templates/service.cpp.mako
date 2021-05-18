@@ -41,11 +41,9 @@ namespace ${config["namespace_component"]}_grpc {
   template <typename T1, typename T2>
   void ${service_class_prefix}Service::Copy(const std::vector<T1>& input, T2 output)
   {
-    output->insert(0, (size_t)input.size(), '\0');
-    T1* result = (T1*)output->data();
     auto i = 0;
     for(auto item : input){
-      result[i] = item;
+      output[i] = item;
       i++;
     }
   }
