@@ -1190,8 +1190,32 @@ functions = {
             },
             {
                 'direction': 'out',
-                'name': 'int32Arrat',
+                'name': 'int32Array',
                 'type': 'ViInt32[]',
+                'size': {
+                    'mechanism': 'passed-in',
+                    'value': 'arrayLen'
+                }
+            }
+        ],
+        'returns': 'ViStatus'
+    },
+    'GetViUInt32Array': {
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'vi',
+                'type': 'ViSession'
+            },
+            {
+                'direction': 'in',
+                'name': 'arrayLen',
+                'type': 'ViInt32'
+            },
+            {
+                'direction': 'out',
+                'name': 'uInt32Array',
+                'type': 'ViUInt32[]',
                 'size': {
                     'mechanism': 'passed-in',
                     'value': 'arrayLen'
