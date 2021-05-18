@@ -7,7 +7,7 @@
 #define NITCLK_GRPC_LIBRARY_WRAPPER_H
 
 #include <grpcpp/grpcpp.h>
-#include <nitclk.h>
+#include <niTClk.h>
 
 namespace nitclk_grpc {
 
