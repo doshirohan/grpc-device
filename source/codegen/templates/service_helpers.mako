@@ -243,7 +243,6 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
 % for parameter in output_parameters:
 <%
   parameter_name = common_helpers.camel_to_snake(parameter['cppName'])
-  underlying_param_type = common_helpers.get_underlying_type_name(parameter["type"])
 %>\
 %   if common_helpers.is_enum(parameter) == True:
 %     if enums[parameter["enum"]].get("generate-mappings", False):
