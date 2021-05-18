@@ -59,7 +59,7 @@ set(metadata_dir ${CMAKE_SOURCE_DIR}/source/codegen/metadata)
 set(service_output_dir ${CMAKE_SOURCE_DIR}/generated)
 set(codegen_dir ${CMAKE_SOURCE_DIR}/source/codegen)
 set(custom_dir ${CMAKE_SOURCE_DIR}/source/custom)
-set(nidrivers "nidcpower" "nidigital" "nifake" "niscope" "niswitch" "nisync" "nitclk")
+set(nidrivers "nidcpower" "nidigital" "nidmm" "nifake" "niscope" "niswitch" "nisync" "nitclk")
 
 #----------------------------------------------------------------------
 # Create NI Driver APIs proto and server files
@@ -299,6 +299,8 @@ add_executable(SystemTestsRunner
     "source/tests/system/nidcpower_session_tests.cpp"
     "source/tests/system/nidigital_driver_api_tests.cpp"
     "source/tests/system/nidigital_session_tests.cpp"
+    "source/tests/system/nidmm_driver_api_tests.cpp"
+    "source/tests/system/nidmm_session_tests.cpp"
     "source/tests/system/niscope_driver_api_tests.cpp"
     "source/tests/system/niscope_session_tests.cpp"
     "source/tests/system/niswitch_driver_api_tests.cpp"
