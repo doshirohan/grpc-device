@@ -23,16 +23,6 @@ namespace nifake_grpc {
   {
   }
 
-  template <typename T1, typename T2>
-  void NiFakeService::Copy(const std::vector<T1>& input, T2* output)
-  {
-    auto i = 0;
-    for(auto item : input){
-      output[i] = item;
-      i++;
-    }
-  }
-
   void NiFakeService::Copy(const std::vector<ViBoolean>& input, google::protobuf::RepeatedField<bool>* output) 
   {
     for (auto item : input) {
@@ -697,6 +687,29 @@ namespace nifake_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
+  ::grpc::Status NiFakeService::GetViUInt8(::grpc::ServerContext* context, const GetViUInt8Request* request, GetViUInt8Response* response)
+  {
+    if (context->IsCancelled()) {
+      return ::grpc::Status::CANCELLED;
+    }
+    try {
+      auto vi_grpc_session = request->vi();
+      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
+      ViUInt8 a_uint8_number {};
+      auto status = library_->GetViUInt8(vi, &a_uint8_number);
+      response->set_status(status);
+      if (status == 0) {
+        response->set_a_uint8_number(a_uint8_number);
+      }
+      return ::grpc::Status::OK;
+    }
+    catch (nidevice_grpc::LibraryLoadException& ex) {
+      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
+    }
+  }
+
+  //---------------------------------------------------------------------
+  //---------------------------------------------------------------------
   ::grpc::Status NiFakeService::ImportAttributeConfigurationBuffer(::grpc::ServerContext* context, const ImportAttributeConfigurationBufferRequest* request, ImportAttributeConfigurationBufferResponse* response)
   {
     if (context->IsCancelled()) {
@@ -1236,29 +1249,6 @@ namespace nifake_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
-  ::grpc::Status NiFakeService::GetViUInt8(::grpc::ServerContext* context, const GetViUInt8Request* request, GetViUInt8Response* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      auto vi_grpc_session = request->vi();
-      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
-      ViUInt8 a_uint8_number {};
-      auto status = library_->GetViUInt8(vi, &a_uint8_number);
-      response->set_status(status);
-      if (status == 0) {
-        response->set_a_uint8_number(a_uint8_number);
-      }
-      return ::grpc::Status::OK;
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
   ::grpc::Status NiFakeService::ViUInt8ArrayInputFunction(::grpc::ServerContext* context, const ViUInt8ArrayInputFunctionRequest* request, ViUInt8ArrayInputFunctionResponse* response)
   {
     if (context->IsCancelled()) {
@@ -1289,12 +1279,11 @@ namespace nifake_grpc {
       auto vi_grpc_session = request->vi();
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 number_of_elements = request->number_of_elements();
-      std::vector<ViUInt8> an_array(number_of_elements, 0);
-      response->mutable_an_array()->resize(number_of_elements, '\0');
-      auto status = library_->ViUInt8ArrayOutputFunction(vi, number_of_elements, an_array.data());
+      std::string an_array(number_of_elements, '\0');
+      auto status = library_->ViUInt8ArrayOutputFunction(vi, number_of_elements, (ViUInt8*)an_array.data());
       response->set_status(status);
       if (status == 0) {
-        Copy(an_array, (ViUInt8*)response->mutable_an_array()->data());
+        response->set_an_array(an_array);
       }
       return ::grpc::Status::OK;
     }

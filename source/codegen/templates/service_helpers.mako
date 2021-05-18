@@ -164,8 +164,8 @@ ${initialize_standard_input_param(function_name, parameter)}\
       ${c_type} ${parameter_name} = ${request_snippet}.c_str();\
 % elif c_type == 'ViString' or c_type == 'ViRsrc':
       ${c_type} ${parameter_name} = (${c_type})${request_snippet}.c_str();\
-% elif c_type == 'ViInt8[]' or c_type == 'ViChar[]' or common_helpers.is_bytes_type(c_type):
-      ${c_type_pointer} ${parameter_name} = (${c_type[:-2]}*)${request_snippet}.c_str();\
+% elif service_helpers.is_string_arg(parameter):
+      ${c_type_pointer} ${parameter_name} = (${c_type_pointer})${request_snippet}.c_str();\
 % elif c_type == 'ViBoolean[]':
       auto ${parameter_name}_request = ${request_snippet};
       std::vector<${c_type_underlying_type}> ${parameter_name};
@@ -218,9 +218,6 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
 %>\
 %     if common_helpers.is_struct(parameter) or underlying_param_type == 'ViBoolean':
       std::vector<${underlying_param_type}> ${parameter_name}(${size}, ${underlying_param_type}());
-%     elif common_helpers.is_bytes_type(parameter['type']):
-      std::vector<${underlying_param_type}> ${parameter_name}(${size}, 0);
-      response->mutable_${parameter_name}()->resize(${size}, '\0');
 %     elif service_helpers.is_string_arg(parameter):
       std::string ${parameter_name}(${size}, '\0');
 %     elif underlying_param_type == 'ViAddr':
@@ -267,8 +264,6 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
         response->set_${parameter_name}(${parameter_name});
 %     elif common_helpers.is_struct(parameter) or parameter['type'] == 'ViBoolean[]':
         Copy(${parameter_name}, response->mutable_${parameter_name}());
-%     elif common_helpers.is_bytes_type(parameter['type']):
-        Copy(${parameter_name}, (${underlying_param_type}*)response->mutable_${parameter_name}()->data());
 %     endif
 %   elif parameter['type'] == 'ViSession':
         response->mutable_${parameter_name}()->set_id(${parameter_name});

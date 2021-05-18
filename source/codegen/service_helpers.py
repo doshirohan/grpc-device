@@ -5,7 +5,7 @@ def get_include_guard_name(config, suffix):
     return include_guard_name.upper()
 
 def is_string_arg(parameter):
-    return parameter['type'] == 'ViChar[]' or parameter['type'] == 'ViInt8[]'
+    return parameter['type'] in ['ViChar[]', 'ViInt8[]', 'ViUInt8[]']
 
 def create_args(parameters):
     result = ''
@@ -17,8 +17,6 @@ def create_args(parameters):
         type_without_brackets = common_helpers.get_underlying_type_name(parameter['type'])
         result = f'{result}({type_without_brackets}*){parameter_name}.data(), '
       elif parameter['type'] == 'ViBoolean[]':
-        result = f'{result}{parameter_name}.data(), '
-      elif is_output and is_array and common_helpers.is_bytes_type(parameter['type']):
         result = f'{result}{parameter_name}.data(), '
       else:
         if is_array and common_helpers.is_struct(parameter):
