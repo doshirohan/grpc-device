@@ -193,6 +193,45 @@ class NiTClkDriverApiTest : public ::testing::Test {
     EXPECT_EQ(kTClkDriverApiSuccess, response.status());
   }
 
+  void configure_for_homogeneous_triggers()
+  {
+    ::grpc::ClientContext context;
+    tclk::ConfigureForHomogeneousTriggersRequest request;
+    request.add_sessions()->set_id(GetScopeSessionId());
+    tclk::ConfigureForHomogeneousTriggersResponse response;
+
+    ::grpc::Status status = GetTClkStub()->ConfigureForHomogeneousTriggers(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(kTClkDriverApiSuccess, response.status());
+  }
+
+  void synchronize()
+  {
+    ::grpc::ClientContext context;
+    tclk::SynchronizeRequest request;
+    request.add_sessions()->set_id(GetScopeSessionId());
+    tclk::SynchronizeResponse response;
+
+    ::grpc::Status status = GetTClkStub()->Synchronize(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(kTClkDriverApiSuccess, response.status());
+  }
+
+  void initiate()
+  {
+    ::grpc::ClientContext context;
+    tclk::InitiateRequest request;
+    request.add_sessions()->set_id(GetScopeSessionId());
+    tclk::InitiateResponse response;
+
+    ::grpc::Status status = GetTClkStub()->Initiate(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(kTClkDriverApiSuccess, response.status());
+  }
+
  private:
   std::shared_ptr<::grpc::Channel> channel_;
   std::unique_ptr<::nidevice_grpc::Session> scope_session_;
@@ -237,6 +276,14 @@ TEST_F(NiTClkDriverApiTest, SetAttributeViString_GetAttributeViStringReturnsSame
 
   std::string get_attribute_value = get_string_attribute(channel_name, attribute_to_set);
   EXPECT_STREQ(expected_value, get_attribute_value.c_str());
+}
+
+TEST_F(NiTClkDriverApiTest, ScopeSessionConfiguredForHomogeneousTriggers_SynchronizeAndInitiateCompletesSuccessfully)
+{
+  configure_for_homogeneous_triggers();
+
+  synchronize();
+  initiate();
 }
 
 }  // namespace system
