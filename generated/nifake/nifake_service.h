@@ -75,7 +75,7 @@ public:
 private:
   NiFakeLibraryInterface* library_;
   nidevice_grpc::SessionRepository* session_repository_;
-  template<typename T1, typename T2> void Copy(const std::vector<T1>& input, T2 output);
+  template<typename T1, typename T2> void Copy(const std::vector<T1>& input, T2* output);
   void Copy(const std::vector<ViBoolean>& input, google::protobuf::RepeatedField<bool>* output);
   void Copy(const CustomStruct& input, nifake_grpc::FakeCustomStruct* output);
   void Copy(const std::vector<CustomStruct>& input, google::protobuf::RepeatedPtrField<nifake_grpc::FakeCustomStruct>* output);

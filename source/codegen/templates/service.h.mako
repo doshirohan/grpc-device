@@ -52,7 +52,7 @@ private:
   ${service_class_prefix}LibraryInterface* library_;
   nidevice_grpc::SessionRepository* session_repository_;
 % if common_helpers.has_bytes_type_param(functions):
-  template<typename T1, typename T2> void Copy(const std::vector<T1>& input, T2 output);
+  template<typename T1, typename T2> void Copy(const std::vector<T1>& input, T2* output);
 % endif
 % if common_helpers.has_viboolean_array_param(functions):
   void Copy(const std::vector<ViBoolean>& input, google::protobuf::RepeatedField<bool>* output);

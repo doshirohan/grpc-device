@@ -24,7 +24,7 @@ namespace nifake_grpc {
   }
 
   template <typename T1, typename T2>
-  void NiFakeService::Copy(const std::vector<T1>& input, T2 output)
+  void NiFakeService::Copy(const std::vector<T1>& input, T2* output)
   {
     auto i = 0;
     for(auto item : input){
