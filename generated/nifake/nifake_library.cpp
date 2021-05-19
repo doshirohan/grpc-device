@@ -49,6 +49,8 @@ NiFakeLibrary::NiFakeLibrary() : shared_library_(kLibraryName)
   function_pointers_.GetEnumValue = reinterpret_cast<GetEnumValuePtr>(shared_library_.get_function_pointer("niFake_GetEnumValue"));
   function_pointers_.GetError = reinterpret_cast<GetErrorPtr>(shared_library_.get_function_pointer("niFake_GetError"));
   function_pointers_.GetViUInt8 = reinterpret_cast<GetViUInt8Ptr>(shared_library_.get_function_pointer("niFake_GetViUInt8"));
+  function_pointers_.GetViInt32Array = reinterpret_cast<GetViInt32ArrayPtr>(shared_library_.get_function_pointer("niFake_GetViInt32Array"));
+  function_pointers_.GetViUInt32Array = reinterpret_cast<GetViUInt32ArrayPtr>(shared_library_.get_function_pointer("niFake_GetViUInt32Array"));
   function_pointers_.ImportAttributeConfigurationBuffer = reinterpret_cast<ImportAttributeConfigurationBufferPtr>(shared_library_.get_function_pointer("niFake_ImportAttributeConfigurationBuffer"));
   function_pointers_.InitWithOptions = reinterpret_cast<InitWithOptionsPtr>(shared_library_.get_function_pointer("niFake_InitWithOptions"));
   function_pointers_.Initiate = reinterpret_cast<InitiatePtr>(shared_library_.get_function_pointer("niFake_Initiate"));
@@ -421,6 +423,30 @@ ViStatus NiFakeLibrary::GetViUInt8(ViSession vi, ViUInt8* aUint8Number)
   return niFake_GetViUInt8(vi, aUint8Number);
 #else
   return function_pointers_.GetViUInt8(vi, aUint8Number);
+#endif
+}
+
+ViStatus NiFakeLibrary::GetViInt32Array(ViSession vi, ViInt32 arrayLen, ViInt32 int32Array[])
+{
+  if (!function_pointers_.GetViInt32Array) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niFake_GetViInt32Array.");
+  }
+#if defined(_MSC_VER)
+  return niFake_GetViInt32Array(vi, arrayLen, int32Array);
+#else
+  return function_pointers_.GetViInt32Array(vi, arrayLen, int32Array);
+#endif
+}
+
+ViStatus NiFakeLibrary::GetViUInt32Array(ViSession vi, ViInt32 arrayLen, ViUInt32 uInt32Array[])
+{
+  if (!function_pointers_.GetViUInt32Array) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niFake_GetViUInt32Array.");
+  }
+#if defined(_MSC_VER)
+  return niFake_GetViUInt32Array(vi, arrayLen, uInt32Array);
+#else
+  return function_pointers_.GetViUInt32Array(vi, arrayLen, uInt32Array);
 #endif
 }
 
