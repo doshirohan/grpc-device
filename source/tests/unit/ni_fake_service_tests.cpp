@@ -1205,7 +1205,7 @@ TEST(NiFakeServiceTests, NiFakeService_GetViUInt8_CallsGetViUInt8)
   std::uint32_t session_id = create_session(session_repository, kTestViSession);
   NiFakeMockLibrary library;
   nifake_grpc::NiFakeService service(&library, &session_repository);
-  ViUInt8 a_ViUInt8_number = 255;
+  ViUInt8 a_ViUInt8_number = 0xFF;
   EXPECT_CALL(library, GetViUInt8(kTestViSession, _))
       .WillOnce(DoAll(SetArgPointee<1>(a_ViUInt8_number), Return(kDriverSuccess)));
 
@@ -1227,7 +1227,7 @@ TEST(NiFakeServiceTests, NiFakeService_ViUInt8ArrayInputFunction_CallsViUInt8Arr
   NiFakeMockLibrary library;
   nifake_grpc::NiFakeService service(&library, &session_repository);
   ViInt32 number_of_elements = 3;
-  ViUInt8 expected_array[] = {0, 127, 255};
+  ViUInt8 expected_array[] = {0, 127, 0xFF};
   EXPECT_CALL(library, ViUInt8ArrayInputFunction(kTestViSession, number_of_elements, _))
     .With(Args<2, 1>(ElementsAreArray(expected_array)))
     .WillOnce(Return(kDriverSuccess));
@@ -1239,7 +1239,7 @@ TEST(NiFakeServiceTests, NiFakeService_ViUInt8ArrayInputFunction_CallsViUInt8Arr
   std::string input_array;
   input_array.push_back(0);
   input_array.push_back(127);
-  input_array.push_back(255);
+  input_array.push_back(0xFF);
   request.set_an_array(input_array);
   nifake_grpc::ViUInt8ArrayInputFunctionResponse response;
   ::grpc::Status status = service.ViUInt8ArrayInputFunction(&context, &request, &response);
@@ -1255,7 +1255,7 @@ TEST(NiFakeServiceTests, NiFakeService_ViUInt8ArrayOutputFunction_CallsViUInt8Ar
   NiFakeMockLibrary library;
   nifake_grpc::NiFakeService service(&library, &session_repository);
   ViInt32 number_of_elements = 3;
-  ViUInt8 an_array[] = {0, 127, 255};
+  ViUInt8 an_array[] = {0, 127, 0xFF};
   EXPECT_CALL(library, ViUInt8ArrayOutputFunction(kTestViSession, number_of_elements, _))
       .WillOnce(DoAll(
           SetArrayArgument<2>(an_array, an_array + number_of_elements),
@@ -1272,6 +1272,75 @@ TEST(NiFakeServiceTests, NiFakeService_ViUInt8ArrayOutputFunction_CallsViUInt8Ar
   EXPECT_EQ(kDriverSuccess, response.status());
   EXPECT_EQ(response.an_array().size(), number_of_elements);
   EXPECT_THAT(response.an_array(), ElementsAreArray(an_array, number_of_elements));
+}
+
+TEST(NiFakeServiceTests, NiFakeService_AcceptViUInt32Array_CallsAcceptViUInt32Array)
+{
+  nidevice_grpc::SessionRepository session_repository;
+  std::uint32_t session_id = create_session(session_repository, kTestViSession);
+  NiFakeMockLibrary library;
+  nifake_grpc::NiFakeService service(&library, &session_repository);
+  std::uint32_t uint32_array[] = {0, 1, 0xFFFFFFFD, 0xFFFFFFFE, 0xFFFFFFFF};
+  std::int32_t array_len = 5;
+  EXPECT_CALL(library, AcceptViUInt32Array(kTestViSession, array_len, _))
+      .With(Args<2, 1>(ElementsAreArray(uint32_array)))
+      .WillOnce(Return(kDriverSuccess));
+
+  ::grpc::ServerContext context;
+  nifake_grpc::AcceptViUInt32ArrayRequest request;
+  request.mutable_vi()->set_id(session_id);
+  request.mutable_u_int32_array()->CopyFrom(google::protobuf::RepeatedField<google::protobuf::uint32>(uint32_array, uint32_array+5));
+  nifake_grpc::AcceptViUInt32ArrayResponse response;
+  ::grpc::Status status = service.AcceptViUInt32Array(&context, &request, &response);
+
+  EXPECT_TRUE(status.ok());
+  EXPECT_EQ(kDriverSuccess, response.status());
+}
+
+TEST(NiFakeServiceTests, NiFakeService_GetViInt32Array_CallsGetViInt32Array)
+{
+  nidevice_grpc::SessionRepository session_repository;
+  std::uint32_t session_id = create_session(session_repository, kTestViSession);
+  NiFakeMockLibrary library;
+  nifake_grpc::NiFakeService service(&library, &session_repository);
+  int array_len = 4;
+  std::int32_t int32_array[] = {-2147483646, -2147483645, 2147483646, 2147483647};
+  EXPECT_CALL(library, GetViInt32Array(kTestViSession, array_len, _))
+      .WillOnce(DoAll(SetArrayArgument<2>(int32_array, int32_array + array_len), Return(kDriverSuccess)));
+
+  ::grpc::ServerContext context;
+  nifake_grpc::GetViInt32ArrayRequest request;
+  request.mutable_vi()->set_id(session_id);
+  request.set_array_len(array_len);
+  nifake_grpc::GetViInt32ArrayResponse response;
+  ::grpc::Status status = service.GetViInt32Array(&context, &request, &response);
+
+  EXPECT_TRUE(status.ok());
+  EXPECT_EQ(kDriverSuccess, response.status());
+  EXPECT_THAT(response.int32_array(), ElementsAreArray(int32_array, array_len));
+}
+
+TEST(NiFakeServiceTests, NiFakeService_GetViUInt32Array_CallsGetViUInt32Array)
+{
+  nidevice_grpc::SessionRepository session_repository;
+  std::uint32_t session_id = create_session(session_repository, kTestViSession);
+  NiFakeMockLibrary library;
+  nifake_grpc::NiFakeService service(&library, &session_repository);
+  int array_len = 4;
+  std::uint32_t uint32_array[] = {0, 1, 0xFFFFFFFE, 0xFFFFFFFF};
+  EXPECT_CALL(library, GetViUInt32Array(kTestViSession, array_len, _))
+      .WillOnce(DoAll(SetArrayArgument<2>(uint32_array, uint32_array + array_len), Return(kDriverSuccess)));
+
+  ::grpc::ServerContext context;
+  nifake_grpc::GetViUInt32ArrayRequest request;
+  request.mutable_vi()->set_id(session_id);
+  request.set_array_len(array_len);
+  nifake_grpc::GetViUInt32ArrayResponse response;
+  ::grpc::Status status = service.GetViUInt32Array(&context, &request, &response);
+
+  EXPECT_TRUE(status.ok());
+  EXPECT_EQ(kDriverSuccess, response.status());
+  EXPECT_THAT(response.u_int32_array(), ElementsAreArray(uint32_array, array_len));
 }
 
 }  // namespace unit

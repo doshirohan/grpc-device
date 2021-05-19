@@ -57,6 +57,30 @@ functions = {
         ],
         'returns': 'ViStatus'
     },
+    'AcceptViUInt32Array': {
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'vi',
+                'type': 'ViSession'
+            },
+            {
+                'direction': 'in',
+                'name': 'arrayLen',
+                'type': 'ViInt32'
+            },
+            {
+                'direction': 'in',
+                'name': 'uInt32Array',
+                'type': 'ViUInt32[]',
+                'size': {
+                    'mechanism': 'len',
+                    'value': 'arrayLen'
+                }
+            }
+        ],
+        'returns': 'ViStatus'
+    },
     'BoolArrayOutputFunction': {
         'codegen_method': 'public',
         'documentation': {
@@ -1151,6 +1175,70 @@ functions = {
         ],
         'returns': 'ViStatus',
         'use_session_lock': False
+    },
+    'GetViUInt8': {
+        'codegen_method': 'public',
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'vi',
+                'type': 'ViSession'
+            },
+            {
+                'direction': 'out',
+                'name': 'aUint8Number',
+                'type': 'ViUInt8'
+            }
+        ],
+        'returns': 'ViStatus'
+    },
+    'GetViInt32Array': {
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'vi',
+                'type': 'ViSession'
+            },
+            {
+                'direction': 'in',
+                'name': 'arrayLen',
+                'type': 'ViInt32'
+            },
+            {
+                'direction': 'out',
+                'name': 'int32Array',
+                'type': 'ViInt32[]',
+                'size': {
+                    'mechanism': 'passed-in',
+                    'value': 'arrayLen'
+                }
+            }
+        ],
+        'returns': 'ViStatus'
+    },
+    'GetViUInt32Array': {
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'vi',
+                'type': 'ViSession'
+            },
+            {
+                'direction': 'in',
+                'name': 'arrayLen',
+                'type': 'ViInt32'
+            },
+            {
+                'direction': 'out',
+                'name': 'uInt32Array',
+                'type': 'ViUInt32[]',
+                'size': {
+                    'mechanism': 'passed-in',
+                    'value': 'arrayLen'
+                }
+            }
+        ],
+        'returns': 'ViStatus'
     },
     'ImportAttributeConfigurationBuffer': {
         'documentation': {
@@ -2518,22 +2606,6 @@ functions = {
                     'value': 256
                 },
                 'type': 'ViChar[]'
-            }
-        ],
-        'returns': 'ViStatus'
-    },
-    'GetViUInt8': {
-        'codegen_method': 'public',
-        'parameters': [
-            {
-                'direction': 'in',
-                'name': 'vi',
-                'type': 'ViSession'
-            },
-            {
-                'direction': 'out',
-                'name': 'aUint8Number',
-                'type': 'ViUInt8'
             }
         ],
         'returns': 'ViStatus'
