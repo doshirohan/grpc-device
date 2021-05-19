@@ -60,16 +60,18 @@ ${set_response_values(output_parameters)}\
 <%
   (size_param, array_param, non_ivi_params) = common_helpers.get_ivi_dance_with_a_twist_params(parameters)
   output_parameters = [p for p in parameters if common_helpers.is_output_parameter(p)]
+  array_output_parameters = [p for p in output_parameters if common_helpers.is_array(p['type'])]
+  scalar_output_parameters = [p for p in output_parameters if p not in array_output_parameters]
 %>\
 ${initialize_input_params(function_name, non_ivi_params)}\
 
-${initialize_scalar_output_params(output_parameters[1])}\
+${initialize_output_params(scalar_output_parameters)}\
       auto status = library_->${function_name}(${service_helpers.create_args_for_ivi_dance_with_a_twist(parameters)});
       if (status < 0) {
         response->set_status(status);
         return ::grpc::Status::OK;
       }
-${initialize_array_output_params(output_parameters[0])}\
+${initialize_output_params(array_output_parameters)}\
       status = library_->${function_name}(${service_helpers.create_args_for_twist(parameters)});
       response->set_status(status);
 % if output_parameters:
@@ -239,11 +241,13 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
 </%def>
 
 ## Initialize the output parameters for an API call.
-<%def name="initialize_array_output_params(parameter)">\
+<%def name="initialize_output_params(output_parameters)">\
+% for parameter in output_parameters:
 <%
   parameter_name = common_helpers.camel_to_snake(parameter['cppName'])
   underlying_param_type = common_helpers.get_underlying_type_name(parameter["type"])
 %>\
+%   if common_helpers.is_array(parameter['type']):
 <%
   size = ''
   if common_helpers.get_size_mechanism(parameter) == 'fixed':
@@ -264,26 +268,9 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
       response->mutable_${parameter_name}()->Resize(${size}, 0);
       ${underlying_param_type}* ${parameter_name} = response->mutable_${parameter_name}()->mutable_data();
 %     endif
-</%def>
-
-## Initialize the output parameters for an API call.
-<%def name="initialize_scalar_output_params(parameter)">\
-<%
-  parameter_name = common_helpers.camel_to_snake(parameter['cppName'])
-  underlying_param_type = common_helpers.get_underlying_type_name(parameter["type"])
-%>\
+%   else:
       ${underlying_param_type} ${parameter_name} {};
-</%def>
-
-## Initialize the output parameters for an API call.
-<%def name="initialize_output_params(output_parameters)">\
-% for parameter in output_parameters:
-<%  
-    if common_helpers.is_array(parameter['type']):
-        initialize_array_output_params(parameter)
-    else:
-        initialize_scalar_output_params(parameter)
-%>\
+%   endif
 % endfor
 </%def>
 
