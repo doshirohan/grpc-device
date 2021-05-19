@@ -126,7 +126,7 @@ class NiTClkDriverApiTest : public ::testing::Test {
 
     EXPECT_TRUE(status.ok());
     EXPECT_EQ(kTClkDriverApiSuccess, response.status());
-    return response.mutable_value()->id();
+    return response.value().id();
   }
 
   std::string get_string_attribute(const char* channel_name, tclk::NiTClkAttributes attribute_id)
@@ -230,7 +230,7 @@ TEST_F(NiTClkDriverApiTest, SetupForSyncPulseSenderSynchronize_ReturnsStatusAsSu
   EXPECT_EQ(kTClkDriverApiSuccess, response.status());
 }
 
-TEST_F(NiTClkDriverApiTest, SetAttributeViReal64_GetAttributeViReal64ReturnsSameValue)
+TEST_F(NiTClkDriverApiTest, SetAttributeViReal64_CallGetAttributeViReal64_ValuesMatch)
 {
   const char* channel_name = "";
   const tclk::NiTClkAttributes attribute_to_set = tclk::NiTClkAttributes::NITCLK_ATTRIBUTE_SAMPLE_CLOCK_DELAY;
@@ -238,10 +238,11 @@ TEST_F(NiTClkDriverApiTest, SetAttributeViReal64_GetAttributeViReal64ReturnsSame
   set_real64_attribute(channel_name, attribute_to_set, expected_value);
 
   ViReal64 get_attribute_value = get_real64_attribute(channel_name, attribute_to_set);
+
   EXPECT_EQ(expected_value, get_attribute_value);
 }
 
-TEST_F(NiTClkDriverApiTest, SetAttributeViSession_GetAttributeViSessionReturnsSameSessionId)
+TEST_F(NiTClkDriverApiTest, SetAttributeViSession_CallGetAttributeViSession_ValuesMatch)
 {
   const char* channel_name = "";
   const tclk::NiTClkAttributes attribute_to_set = tclk::NiTClkAttributes::NITCLK_ATTRIBUTE_START_TRIGGER_MASTER_SESSION;
@@ -249,10 +250,11 @@ TEST_F(NiTClkDriverApiTest, SetAttributeViSession_GetAttributeViSessionReturnsSa
   set_session_attribute(channel_name, attribute_to_set, expected_value);
 
   int get_attribute_value = get_session_id_from_attribute(channel_name, attribute_to_set);
+
   EXPECT_EQ(expected_value, get_attribute_value);
 }
 
-TEST_F(NiTClkDriverApiTest, SetAttributeViString_GetAttributeViStringReturnsSameValue)
+TEST_F(NiTClkDriverApiTest, SetAttributeViString_CallGetAttributeViString_ValuesMatch)
 {
   const char* channel_name = "";
   const tclk::NiTClkAttributes attribute_to_set = tclk::NiTClkAttributes::NITCLK_ATTRIBUTE_SYNC_PULSE_SOURCE;
@@ -260,6 +262,7 @@ TEST_F(NiTClkDriverApiTest, SetAttributeViString_GetAttributeViStringReturnsSame
   set_string_attribute(channel_name, attribute_to_set, expected_value);
 
   std::string get_attribute_value = get_string_attribute(channel_name, attribute_to_set);
+
   EXPECT_STREQ(expected_value, get_attribute_value.c_str());
 }
 
