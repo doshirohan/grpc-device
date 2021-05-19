@@ -1198,6 +1198,41 @@ TEST(NiFakeServiceTests, NiFakeService_GetAttributeViString_CallsGetAttributeViS
   EXPECT_THAT(response.attribute_value(), ElementsAreArray(attribute_char_array, expected_size));
 }
 
+//Test for ivi-dance-with-a-twist mechanism
+TEST(NiFakeServiceTests, NiFakeService_GetPatternPinIndexes_CallsGetPatternPinIndexes)
+{
+    nidevice_grpc::SessionRepository session_repository;
+    std::uint32_t session_id = create_session(session_repository, kTestViSession);
+    NiFakeMockLibrary library;
+    nifake_grpc::NiFakeService service(&library, &session_repository);
+    const char* start_label = "abc";
+    ViInt32 pin_indexes[] = { 1, 2, 3 };
+    ViInt32 expected_num_pins = 3;
+    // ivi-dance-with-a-twist call
+    EXPECT_CALL(library, GetPatternPinIndexes(kTestViSession, Pointee(*start_label), 0, nullptr, _))
+        .WillOnce(DoAll(
+            SetArgPointee<4>(expected_num_pins),
+            Return(kDriverSuccess)));          
+    // follow up call with size returned from ivi-dance-with-a-twist setup.
+    EXPECT_CALL(library, GetPatternPinIndexes(kTestViSession, Pointee(*start_label) , expected_num_pins, _, _))
+        .WillOnce(DoAll(
+            SetArrayArgument<3>(pin_indexes, pin_indexes + expected_num_pins),
+            SetArgPointee<4>(expected_num_pins),
+            Return(kDriverSuccess)));
+
+    ::grpc::ServerContext context;
+    nifake_grpc::GetPatternPinIndexesRequest request;
+    request.mutable_vi()->set_id(session_id);
+    request.set_start_label(start_label);
+    nifake_grpc::GetPatternPinIndexesResponse response;
+    ::grpc::Status status = service.GetPatternPinIndexes(&context, &request, &response);
+
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(kDriverSuccess, response.status());
+    EXPECT_THAT(response.pin_indexes(), ElementsAreArray(pin_indexes,expected_num_pins));
+    EXPECT_EQ(response.actual_num_pins(), expected_num_pins);
+}
+
 }  // namespace unit
 }  // namespace tests
 }  // namespace ni

@@ -41,6 +41,7 @@ service NiFake {
   rpc GetCalInterval(GetCalIntervalRequest) returns (GetCalIntervalResponse);
   rpc GetCustomTypeArray(GetCustomTypeArrayRequest) returns (GetCustomTypeArrayResponse);
   rpc GetEnumValue(GetEnumValueRequest) returns (GetEnumValueResponse);
+  rpc GetPatternPinIndexes(GetPatternPinIndexesRequest) returns (GetPatternPinIndexesResponse);
   rpc ImportAttributeConfigurationBuffer(ImportAttributeConfigurationBufferRequest) returns (ImportAttributeConfigurationBufferResponse);
   rpc InitWithOptions(InitWithOptionsRequest) returns (InitWithOptionsResponse);
   rpc InitExtCal(InitExtCalRequest) returns (InitExtCalResponse);
@@ -367,6 +368,17 @@ message GetEnumValueResponse {
   sint32 a_quantity = 2;
   Turtle a_turtle = 3;
   sint32 a_turtle_raw = 4;
+}
+
+message GetPatternPinIndexesRequest {
+  nidevice_grpc.Session vi = 1;
+  string start_label = 2;
+}
+
+message GetPatternPinIndexesResponse {
+  int32 status = 1;
+  repeated sint32 pin_indexes = 2;
+  sint32 actual_num_pins = 3;
 }
 
 message ImportAttributeConfigurationBufferRequest {
