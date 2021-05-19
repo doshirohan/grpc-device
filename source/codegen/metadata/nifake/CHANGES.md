@@ -19,7 +19,7 @@ The following functions, not originally in nimi-python metadata, were newly adde
 	- This function allows testing of ViInt32[] output parameter
 - `'GetViUInt32Array'`
 	- This function allows testing of ViUInt32[] output parameter
-- `'AcceptViUInt32Array'`
+- `'AcceptViSessionArray'`
 	- This function allows testing of ViSession[] input parameter
  
 The following functions were tagged with `'init_method': True,` to ensure their generated service handlers register the new session
