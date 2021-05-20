@@ -149,6 +149,7 @@ NiDigitalLibrary::NiDigitalLibrary() : shared_library_(kLibraryName)
   function_pointers_.WriteSourceWaveformBroadcastU32 = reinterpret_cast<WriteSourceWaveformBroadcastU32Ptr>(shared_library_.get_function_pointer("niDigital_WriteSourceWaveformBroadcastU32"));
   function_pointers_.WriteSourceWaveformDataFromFileTDMS = reinterpret_cast<WriteSourceWaveformDataFromFileTDMSPtr>(shared_library_.get_function_pointer("niDigital_WriteSourceWaveformDataFromFileTDMS"));
   function_pointers_.WriteSourceWaveformSiteUniqueU32 = reinterpret_cast<WriteSourceWaveformSiteUniqueU32Ptr>(shared_library_.get_function_pointer("niDigital_WriteSourceWaveformSiteUniqueU32"));
+  function_pointers_.WriteStatic = reinterpret_cast<WriteStaticPtr>(shared_library_.get_function_pointer("niDigital_WriteStatic"));
 }
 
 NiDigitalLibrary::~NiDigitalLibrary()
@@ -1695,6 +1696,18 @@ ViStatus NiDigitalLibrary::WriteSourceWaveformSiteUniqueU32(ViSession vi, ViCons
   return niDigital_WriteSourceWaveformSiteUniqueU32(vi, siteList, waveformName, numWaveforms, samplesPerWaveform, waveformData);
 #else
   return function_pointers_.WriteSourceWaveformSiteUniqueU32(vi, siteList, waveformName, numWaveforms, samplesPerWaveform, waveformData);
+#endif
+}
+
+ViStatus NiDigitalLibrary::WriteStatic(ViSession vi, ViConstString channelList, ViUInt8 state)
+{
+  if (!function_pointers_.WriteStatic) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niDigital_WriteStatic.");
+  }
+#if defined(_MSC_VER)
+  return niDigital_WriteStatic(vi, channelList, state);
+#else
+  return function_pointers_.WriteStatic(vi, channelList, state);
 #endif
 }
 

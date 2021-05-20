@@ -3181,5 +3181,26 @@ functions = {
             }
         ],
         'returns': 'ViStatus'
+    },
+    'WriteStatic': {
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'vi',
+                'type': 'ViSession'
+            },
+            {
+                'direction': 'in',
+                'name': 'channelList',
+                'type': 'ViConstString'
+            },
+            {
+                'direction': 'in',
+                'enum': 'WriteStaticPinState',
+                'name': 'state',
+                'type': 'ViUInt8'
+            }
+        ],
+        'returns': 'ViStatus'
     }
 }
