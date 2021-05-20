@@ -119,12 +119,6 @@ def get_twist_value(parameters):
         size = p.get('size', {})
         return size.get('value_twist', None)
 
-def has_struct(parameters):
-    for p in parameters:
-        if is_struct(p):
-            return True
-    return False
-
 def is_ivi_dance_array_with_a_twist_param(parameter):
   return get_size_mechanism(parameter) == 'ivi_dance_with_a_twist'
 

@@ -57,7 +57,6 @@ def create_args_for_twist(parameters):
     result = ''
     twist_value = common_helpers.get_twist_value(parameters)
     twist_value_name = common_helpers.camel_to_snake(twist_value)
-    has_struct = common_helpers.has_struct(parameters)
     for parameter in parameters:
       parameter_name = common_helpers.camel_to_snake(parameter['cppName'])
       is_array = common_helpers.is_array(parameter['type'])
@@ -65,7 +64,7 @@ def create_args_for_twist(parameters):
       if is_output and is_string_arg(parameter):
         type_without_brackets = common_helpers.get_underlying_type_name(parameter['type'])
         result = f'{result}({type_without_brackets}*){parameter_name}.data(), '
-      elif parameter['type'] == 'ViBoolean[]':
+      elif parameter['type'] in {"ViBoolean[]", "ViSession[]"}:
         result = f'{result}{parameter_name}.data(), '
       elif parameter.get('is_size_param', False):
         result = f'{result}{twist_value_name}, '
