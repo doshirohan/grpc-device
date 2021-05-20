@@ -64,7 +64,6 @@ ${set_response_values(output_parameters)}\
   scalar_output_parameters = [p for p in output_parameters if p not in array_output_parameters]
 %>\
 ${initialize_input_params(function_name, non_ivi_params)}\
-
 ${initialize_output_params(scalar_output_parameters)}\
       auto status = library_->${function_name}(${service_helpers.create_args_for_ivi_dance_with_a_twist(parameters)});
       if (status < 0) {

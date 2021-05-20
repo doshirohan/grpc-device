@@ -20,7 +20,7 @@ The following functions, not originally in nimi-python metadata, were newly adde
 - `'GetViUInt32Array'`
 	- This function allows testing of ViUInt32[] output parameter
 - `'GetPatternPinIndexes'` 
-  -  This function allows testing of ivi-dance-with-twist mechanism
+  -  This function allows testing of ivi-dance-with-a-twist mechanism
 
 The following functions were tagged with `'init_method': True,` to ensure their generated service handlers register the new session
 with the session_repository.

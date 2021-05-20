@@ -771,7 +771,6 @@ namespace nifake_grpc {
       auto vi_grpc_session = request->vi();
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViConstString start_label = request->start_label().c_str();
-
       ViInt32 actual_num_pins {};
       auto status = library_->GetPatternPinIndexes(vi, start_label, 0, nullptr, &actual_num_pins);
       if (status < 0) {

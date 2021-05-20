@@ -48,10 +48,10 @@ def create_args_for_ivi_dance_with_a_twist(parameters):
           if is_array:
               result = f'{result}nullptr, '
           else:
-              result = result + f'&{name}' + ','
+              result = result + f'&{name}' + ', '
       else:
         result = result + common_helpers.camel_to_snake(name) + ', '
-    return result[:-1]
+    return result[:-2]
 
 def create_args_for_twist(parameters):
     result = ''
@@ -68,13 +68,10 @@ def create_args_for_twist(parameters):
       elif parameter['type'] == 'ViBoolean[]':
         result = f'{result}{parameter_name}.data(), '
       elif parameter.get('is_size_param', False):
-          if has_struct:
-              continue
-          else:
-            result = f'{result}{twist_value_name}, '
+        result = f'{result}{twist_value_name}, '
       else:
         if is_array and common_helpers.is_struct(parameter):
-          parameter_name = parameter_name + ".size()" + ", " + parameter_name + ".data()"
+          parameter_name = parameter_name + ".data()"
         elif not is_array and is_output:
           result = f'{result}&'
         result = f'{result}{parameter_name}, '
