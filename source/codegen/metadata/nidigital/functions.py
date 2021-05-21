@@ -128,6 +128,50 @@ functions = {
         ],
         "returns": "ViStatus"
     },
+    "BurstPatternSynchronized":{
+        "parameters":[
+            {
+                "name":"sessionCount",
+                "direction":"in",
+                "type":"ViUInt32"
+            },
+            {
+                "name":"sessions",
+                "direction":"in",
+                "type":"ViSession[]",
+                "size":{
+                    "mechanism":"passed-in",
+                    "value":"sessionCount"
+                }
+            },
+            {
+                "name":"siteList",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"startLabel",
+                "direction":"in",
+                "type":"ViConstString"
+            },
+            {
+                "name":"selectDigitalFunction",
+                "direction":"in",
+                "type":"ViBoolean"
+            },
+            {
+                "name":"waitUntilDone",
+                "direction":"in",
+                "type":"ViBoolean"
+            },
+            {
+                "name":"timeout",
+                "direction":"in",
+                "type":"ViReal64"
+            }
+        ],
+        "returns":"ViStatus"
+    },
     "ClearError": {
         "codegen_method": "public",
         "parameters": [
@@ -1057,6 +1101,30 @@ functions = {
             }
         ],
         "returns": "ViStatus"
+    },
+    "EnableMatchFailCombination":{
+        "parameters":[
+            {
+                "name":"sessionCount",
+                "direction":"in",
+                "type":"ViUInt32"
+            },
+            {
+                "name":"sessions",
+                "direction":"in",
+                "type":"ViSession[]",
+                "size":{
+                    "mechanism":"passed-in",
+                    "value":"sessionCount"
+                }
+            },
+            {
+                "name":"syncSession",
+                "direction":"in",
+                "type":"ViSession"
+            }
+        ],
+        "returns":"ViStatus"
     },
     "EnableSites": {
         "parameters": [
@@ -2586,6 +2654,35 @@ functions = {
         ],
         "returns": "ViStatus"
     },
+    "WriteSequencerFlagSynchronized":{
+        "parameters":[
+            {
+                "name":"sessionCount",
+                "direction":"in",
+                "type":"ViUInt32"
+            },
+            {
+                "name":"sessions",
+                "direction":"in",
+                "type":"ViSession[]",
+                "size":{
+                    "mechanism":"passed-in",
+                    "value":"sessionCount"
+                }
+            },
+            {
+                "name":"flag",
+                "direction":"in",
+                "type":"ViConstString",
+            },
+            {
+                "name":"value",
+                "direction":"in",
+                "type":"ViBoolean"
+            }
+        ],
+        "returns":"ViStatus"
+    },
     "WriteSequencerRegister": {
         "parameters": [
             {
@@ -2654,6 +2751,27 @@ functions = {
             }
         ],
         "returns": "ViStatus"
+    },
+    'WriteStatic': {
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'vi',
+                'type': 'ViSession'
+            },
+            {
+                'direction': 'in',
+                'name': 'channelList',
+                'type': 'ViConstString'
+            },
+            {
+                'direction': 'in',
+                'enum': 'WriteStaticPinState',
+                'name': 'state',
+                'type': 'ViUInt8'
+            }
+        ],
+        'returns': 'ViStatus'
     },
     'WriteSourceWaveformSiteUniqueU32': {
         'codegen_method': 'public',
