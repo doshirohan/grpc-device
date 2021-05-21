@@ -409,13 +409,29 @@ namespace nifake_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
-  ::grpc::Status NiFakeService::GetAnIviDanceWithATwistString(::grpc::ServerContext* context, const GetAnIviDanceWithATwistStringRequest* request, GetAnIviDanceWithATwistStringResponse* response)
+  ::grpc::Status NiFakeService::GetAnIviDanceWithATwistArray(::grpc::ServerContext* context, const GetAnIviDanceWithATwistArrayRequest* request, GetAnIviDanceWithATwistArrayResponse* response)
   {
     if (context->IsCancelled()) {
       return ::grpc::Status::CANCELLED;
     }
     try {
-      return ::grpc::Status(::grpc::UNIMPLEMENTED, "TODO: This server handler has not been implemented.");
+      auto vi_grpc_session = request->vi();
+      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
+      ViConstString a_string = request->a_string().c_str();
+      ViInt32 actual_size {};
+      auto status = library_->GetAnIviDanceWithATwistArray(vi, a_string, 0, nullptr, &actual_size);
+      if (status < 0) {
+        response->set_status(status);
+        return ::grpc::Status::OK;
+      }
+      response->mutable_array_out()->Resize(actual_size, 0);
+      ViInt32* array_out = reinterpret_cast<ViInt32*>(response->mutable_array_out()->mutable_data());
+      status = library_->GetAnIviDanceWithATwistArray(vi, a_string, actual_size, array_out, &actual_size);
+      response->set_status(status);
+      if (status == 0) {
+        response->set_actual_size(actual_size);
+      }
+      return ::grpc::Status::OK;
     }
     catch (nidevice_grpc::LibraryLoadException& ex) {
       return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
@@ -706,37 +722,6 @@ namespace nifake_grpc {
         response->set_a_quantity(a_quantity);
         response->set_a_turtle(static_cast<nifake_grpc::Turtle>(a_turtle));
         response->set_a_turtle_raw(a_turtle);
-      }
-      return ::grpc::Status::OK;
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
-  ::grpc::Status NiFakeService::GetPatternPinIndexes(::grpc::ServerContext* context, const GetPatternPinIndexesRequest* request, GetPatternPinIndexesResponse* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      auto vi_grpc_session = request->vi();
-      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
-      ViConstString start_label = request->start_label().c_str();
-      ViInt32 actual_num_pins {};
-      auto status = library_->GetPatternPinIndexes(vi, start_label, 0, nullptr, &actual_num_pins);
-      if (status < 0) {
-        response->set_status(status);
-        return ::grpc::Status::OK;
-      }
-      response->mutable_pin_indexes()->Resize(actual_num_pins, 0);
-      ViInt32* pin_indexes = reinterpret_cast<ViInt32*>(response->mutable_pin_indexes()->mutable_data());
-      status = library_->GetPatternPinIndexes(vi, start_label, actual_num_pins, pin_indexes, &actual_num_pins);
-      response->set_status(status);
-      if (status == 0) {
-        response->set_actual_num_pins(actual_num_pins);
       }
       return ::grpc::Status::OK;
     }

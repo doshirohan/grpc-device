@@ -36,7 +36,7 @@ NiFakeLibrary::NiFakeLibrary() : shared_library_(kLibraryName)
   function_pointers_.GetANumber = reinterpret_cast<GetANumberPtr>(shared_library_.get_function_pointer("niFake_GetANumber"));
   function_pointers_.GetAStringOfFixedMaximumSize = reinterpret_cast<GetAStringOfFixedMaximumSizePtr>(shared_library_.get_function_pointer("niFake_GetAStringOfFixedMaximumSize"));
   function_pointers_.GetAnIviDanceString = reinterpret_cast<GetAnIviDanceStringPtr>(shared_library_.get_function_pointer("niFake_GetAnIviDanceString"));
-  function_pointers_.GetAnIviDanceWithATwistString = reinterpret_cast<GetAnIviDanceWithATwistStringPtr>(shared_library_.get_function_pointer("niFake_GetAnIviDanceWithATwistString"));
+  function_pointers_.GetAnIviDanceWithATwistArray = reinterpret_cast<GetAnIviDanceWithATwistArrayPtr>(shared_library_.get_function_pointer("niFake_GetAnIviDanceWithATwistArray"));
   function_pointers_.GetArraySizeForCustomCode = reinterpret_cast<GetArraySizeForCustomCodePtr>(shared_library_.get_function_pointer("niFake_GetArraySizeForCustomCode"));
   function_pointers_.GetArrayUsingIviDance = reinterpret_cast<GetArrayUsingIviDancePtr>(shared_library_.get_function_pointer("niFake_GetArrayUsingIviDance"));
   function_pointers_.GetAttributeViBoolean = reinterpret_cast<GetAttributeViBooleanPtr>(shared_library_.get_function_pointer("niFake_GetAttributeViBoolean"));
@@ -49,7 +49,6 @@ NiFakeLibrary::NiFakeLibrary() : shared_library_(kLibraryName)
   function_pointers_.GetCustomTypeArray = reinterpret_cast<GetCustomTypeArrayPtr>(shared_library_.get_function_pointer("niFake_GetCustomTypeArray"));
   function_pointers_.GetEnumValue = reinterpret_cast<GetEnumValuePtr>(shared_library_.get_function_pointer("niFake_GetEnumValue"));
   function_pointers_.GetError = reinterpret_cast<GetErrorPtr>(shared_library_.get_function_pointer("niFake_GetError"));
-  function_pointers_.GetPatternPinIndexes = reinterpret_cast<GetPatternPinIndexesPtr>(shared_library_.get_function_pointer("niFake_GetPatternPinIndexes"));
   function_pointers_.GetViUInt8 = reinterpret_cast<GetViUInt8Ptr>(shared_library_.get_function_pointer("niFake_GetViUInt8"));
   function_pointers_.GetViInt32Array = reinterpret_cast<GetViInt32ArrayPtr>(shared_library_.get_function_pointer("niFake_GetViInt32Array"));
   function_pointers_.GetViUInt32Array = reinterpret_cast<GetViUInt32ArrayPtr>(shared_library_.get_function_pointer("niFake_GetViUInt32Array"));
@@ -276,15 +275,15 @@ ViStatus NiFakeLibrary::GetAnIviDanceString(ViSession vi, ViInt32 bufferSize, Vi
 #endif
 }
 
-ViStatus NiFakeLibrary::GetAnIviDanceWithATwistString(ViSession vi, ViInt32 bufferSize, ViChar aString[], ViInt32* actualSize)
+ViStatus NiFakeLibrary::GetAnIviDanceWithATwistArray(ViSession vi, ViConstString aString, ViInt32 bufferSize, ViInt32 arrayOut[], ViInt32* actualSize)
 {
-  if (!function_pointers_.GetAnIviDanceWithATwistString) {
-    throw nidevice_grpc::LibraryLoadException("Could not find niFake_GetAnIviDanceWithATwistString.");
+  if (!function_pointers_.GetAnIviDanceWithATwistArray) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niFake_GetAnIviDanceWithATwistArray.");
   }
 #if defined(_MSC_VER)
-  return niFake_GetAnIviDanceWithATwistString(vi, bufferSize, aString, actualSize);
+  return niFake_GetAnIviDanceWithATwistArray(vi, aString, bufferSize, arrayOut, actualSize);
 #else
-  return function_pointers_.GetAnIviDanceWithATwistString(vi, bufferSize, aString, actualSize);
+  return function_pointers_.GetAnIviDanceWithATwistArray(vi, aString, bufferSize, arrayOut, actualSize);
 #endif
 }
 
@@ -426,18 +425,6 @@ ViStatus NiFakeLibrary::GetError(ViSession vi, ViStatus* errorCode, ViInt32 buff
     throw nidevice_grpc::LibraryLoadException("Could not find niFake_GetError.");
   }
   return function_pointers_.GetError(vi, errorCode, bufferSize, description);
-}
-
-ViStatus NiFakeLibrary::GetPatternPinIndexes(ViSession vi, ViConstString startLabel, ViInt32 pinIndexesBufferSize, ViInt32 pinIndexes[], ViInt32* actualNumPins)
-{
-  if (!function_pointers_.GetPatternPinIndexes) {
-    throw nidevice_grpc::LibraryLoadException("Could not find niFake_GetPatternPinIndexes.");
-  }
-#if defined(_MSC_VER)
-  return niFake_GetPatternPinIndexes(vi, startLabel, pinIndexesBufferSize, pinIndexes, actualNumPins);
-#else
-  return function_pointers_.GetPatternPinIndexes(vi, startLabel, pinIndexesBufferSize, pinIndexes, actualNumPins);
-#endif
 }
 
 ViStatus NiFakeLibrary::GetViUInt8(ViSession vi, ViUInt8* aUint8Number)

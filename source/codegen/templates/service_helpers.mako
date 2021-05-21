@@ -251,7 +251,7 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
   size = ''
   if common_helpers.get_size_mechanism(parameter) == 'fixed':
     size = parameter['size']['value']
-  elif common_helpers.get_size_mechanism(parameter) == 'ivi_dance_with_a_twist':
+  elif common_helpers.get_size_mechanism(parameter) == 'ivi-dance-with-a-twist':
     size = common_helpers.camel_to_snake(parameter['size']['value_twist'])
   else:
     size = common_helpers.camel_to_snake(parameter['size']['value'])

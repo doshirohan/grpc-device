@@ -33,7 +33,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   ViStatus GetANumber(ViSession vi, ViInt16* aNumber);
   ViStatus GetAStringOfFixedMaximumSize(ViSession vi, ViChar aString[256]);
   ViStatus GetAnIviDanceString(ViSession vi, ViInt32 bufferSize, ViChar aString[]);
-  ViStatus GetAnIviDanceWithATwistString(ViSession vi, ViInt32 bufferSize, ViChar aString[], ViInt32* actualSize);
+  ViStatus GetAnIviDanceWithATwistArray(ViSession vi, ViConstString aString, ViInt32 bufferSize, ViInt32 arrayOut[], ViInt32* actualSize);
   ViStatus GetArraySizeForCustomCode(ViSession vi, ViInt32* sizeOut);
   ViStatus GetArrayUsingIviDance(ViSession vi, ViInt32 arraySize, ViReal64 arrayOut[]);
   ViStatus GetAttributeViBoolean(ViSession vi, ViConstString channelName, ViAttr attributeId, ViBoolean* attributeValue);
@@ -46,7 +46,6 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   ViStatus GetCustomTypeArray(ViSession vi, ViInt32 numberOfElements, CustomStruct cs[]);
   ViStatus GetEnumValue(ViSession vi, ViInt32* aQuantity, ViInt16* aTurtle);
   ViStatus GetError(ViSession vi, ViStatus* errorCode, ViInt32 bufferSize, ViChar description[]);
-  ViStatus GetPatternPinIndexes(ViSession vi, ViConstString startLabel, ViInt32 pinIndexesBufferSize, ViInt32 pinIndexes[], ViInt32* actualNumPins);
   ViStatus GetViUInt8(ViSession vi, ViUInt8* aUint8Number);
   ViStatus GetViInt32Array(ViSession vi, ViInt32 arrayLen, ViInt32 int32Array[]);
   ViStatus GetViUInt32Array(ViSession vi, ViInt32 arrayLen, ViUInt32 uInt32Array[]);
@@ -97,7 +96,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   using GetANumberPtr = ViStatus (*)(ViSession vi, ViInt16* aNumber);
   using GetAStringOfFixedMaximumSizePtr = ViStatus (*)(ViSession vi, ViChar aString[256]);
   using GetAnIviDanceStringPtr = ViStatus (*)(ViSession vi, ViInt32 bufferSize, ViChar aString[]);
-  using GetAnIviDanceWithATwistStringPtr = ViStatus (*)(ViSession vi, ViInt32 bufferSize, ViChar aString[], ViInt32* actualSize);
+  using GetAnIviDanceWithATwistArrayPtr = ViStatus (*)(ViSession vi, ViConstString aString, ViInt32 bufferSize, ViInt32 arrayOut[], ViInt32* actualSize);
   using GetArraySizeForCustomCodePtr = ViStatus (*)(ViSession vi, ViInt32* sizeOut);
   using GetArrayUsingIviDancePtr = ViStatus (*)(ViSession vi, ViInt32 arraySize, ViReal64 arrayOut[]);
   using GetAttributeViBooleanPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViAttr attributeId, ViBoolean* attributeValue);
@@ -110,7 +109,6 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
   using GetCustomTypeArrayPtr = ViStatus (*)(ViSession vi, ViInt32 numberOfElements, CustomStruct cs[]);
   using GetEnumValuePtr = ViStatus (*)(ViSession vi, ViInt32* aQuantity, ViInt16* aTurtle);
   using GetErrorPtr = ViStatus (*)(ViSession vi, ViStatus* errorCode, ViInt32 bufferSize, ViChar description[]);
-  using GetPatternPinIndexesPtr = ViStatus (*)(ViSession vi, ViConstString startLabel, ViInt32 pinIndexesBufferSize, ViInt32 pinIndexes[], ViInt32* actualNumPins);
   using GetViUInt8Ptr = ViStatus (*)(ViSession vi, ViUInt8* aUint8Number);
   using GetViInt32ArrayPtr = ViStatus (*)(ViSession vi, ViInt32 arrayLen, ViInt32 int32Array[]);
   using GetViUInt32ArrayPtr = ViStatus (*)(ViSession vi, ViInt32 arrayLen, ViUInt32 uInt32Array[]);
@@ -161,7 +159,7 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
     GetANumberPtr GetANumber;
     GetAStringOfFixedMaximumSizePtr GetAStringOfFixedMaximumSize;
     GetAnIviDanceStringPtr GetAnIviDanceString;
-    GetAnIviDanceWithATwistStringPtr GetAnIviDanceWithATwistString;
+    GetAnIviDanceWithATwistArrayPtr GetAnIviDanceWithATwistArray;
     GetArraySizeForCustomCodePtr GetArraySizeForCustomCode;
     GetArrayUsingIviDancePtr GetArrayUsingIviDance;
     GetAttributeViBooleanPtr GetAttributeViBoolean;
@@ -174,7 +172,6 @@ class NiFakeLibrary : public nifake_grpc::NiFakeLibraryInterface {
     GetCustomTypeArrayPtr GetCustomTypeArray;
     GetEnumValuePtr GetEnumValue;
     GetErrorPtr GetError;
-    GetPatternPinIndexesPtr GetPatternPinIndexes;
     GetViUInt8Ptr GetViUInt8;
     GetViInt32ArrayPtr GetViInt32Array;
     GetViUInt32ArrayPtr GetViUInt32Array;
