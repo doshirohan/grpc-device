@@ -57,7 +57,7 @@ functions = {
         ],
         'returns': 'ViStatus'
     },
-    'AcceptViSessionArray':{
+    'AcceptViSessionArray': {
         'codegen_method': 'public',
         'parameters': [
             {
@@ -69,7 +69,7 @@ functions = {
                 'direction': 'in',
                 'name': 'sessionArray',
                 'type': 'ViSession[]',
-                'size':{
+                'size': {
                     'mechanism': 'passed-in',
                     'value': 'sessionCount'
                 }
