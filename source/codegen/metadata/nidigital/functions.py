@@ -1243,7 +1243,7 @@ functions = {
                 'direction': 'out',
                 'name': 'data',
                 'size': {
-                    'mechanism': 'ivi_dance_with_a_twist',
+                    'mechanism': 'ivi-dance-with-a-twist',
                     'value': 'dataBufferSize',
                     'value_twist': 'actualNumWaveforms'
                 },
@@ -1347,7 +1347,7 @@ functions = {
                 'direction': 'out',
                 'name': 'expectedPinStates',
                 'size': {
-                    'mechanism': 'ivi_dance_with_a_twist',
+                    'mechanism': 'ivi-dance-with-a-twist',
                     'value': 'pinDataBufferSize',
                     'value_twist': 'actualNumPinData'
                 },
@@ -1357,7 +1357,7 @@ functions = {
                 'direction': 'out',
                 'name': 'actualPinStates',
                 'size': {
-                    'mechanism': 'ivi_dance_with_a_twist',
+                    'mechanism': 'ivi-dance-with-a-twist',
                     'value': 'pinDataBufferSize',
                     'value_twist': 'actualNumPinData'
                 },
@@ -1367,7 +1367,7 @@ functions = {
                 'direction': 'out',
                 'name': 'perPinPassFail',
                 'size': {
-                    'mechanism': 'ivi_dance_with_a_twist',
+                    'mechanism': 'ivi-dance-with-a-twist',
                     'value': 'pinDataBufferSize',
                     'value_twist': 'actualNumPinData'
                 },
@@ -1469,7 +1469,7 @@ functions = {
                 'direction': 'out',
                 'name': 'frequencies',
                 'size': {
-                    'mechanism': 'ivi_dance_with_a_twist',
+                    'mechanism': 'ivi-dance-with-a-twist',
                     'value': 'frequenciesBufferSize',
                     'value_twist': 'actualNumFrequencies'
                 },
@@ -1759,7 +1759,7 @@ functions = {
                 'direction': 'out',
                 'name': 'failureCount',
                 'size': {
-                    'mechanism': 'ivi_dance_with_a_twist',
+                    'mechanism': 'ivi-dance-with-a-twist',
                     'value': 'bufferSize',
                     'value_twist': 'actualNumRead'
                 },
@@ -1817,7 +1817,7 @@ functions = {
                 "direction":"out",
                 "type":"ViInt32[]",
                 "size":{
-                    "mechanism":"ivi_dance_with_a_twist",
+                    "mechanism":"ivi-dance-with-a-twist",
                     "value":"pinIndexesBufferSize",
                     "value_twist":"actualNumPins"
                 }
@@ -1943,7 +1943,7 @@ functions = {
                 'direction': 'out',
                 'name': 'pinIndexes',
                 'size': {
-                    'mechanism': 'ivi_dance_with_a_twist',
+                    'mechanism': 'ivi-dance-with-a-twist',
                     'value': 'bufferSize',
                     'value_twist': 'actualNumValues'
                 },
@@ -1953,7 +1953,7 @@ functions = {
                 'direction': 'out',
                 'name': 'siteNumbers',
                 'size': {
-                    'mechanism': 'ivi_dance_with_a_twist',
+                    'mechanism': 'ivi-dance-with-a-twist',
                     'value': 'bufferSize',
                     'value_twist': 'actualNumValues'
                 },
@@ -1963,7 +1963,7 @@ functions = {
                 'direction': 'out',
                 'name': 'channelIndexes',
                 'size': {
-                    'mechanism': 'ivi_dance_with_a_twist',
+                    'mechanism': 'ivi-dance-with-a-twist',
                     'value': 'bufferSize',
                     'value_twist': 'actualNumValues'
                 },
@@ -1999,7 +1999,7 @@ functions = {
                 'direction': 'out',
                 'name': 'passFail',
                 'size': {
-                    'mechanism': 'ivi_dance_with_a_twist',
+                    'mechanism': 'ivi-dance-with-a-twist',
                     'value': 'passFailBufferSize',
                     'value_twist': 'actualNumSites'
                 },
@@ -2041,7 +2041,7 @@ functions = {
                 'direction': 'out',
                 'name': 'siteNumbers',
                 'size': {
-                    'mechanism': 'ivi_dance_with_a_twist',
+                    'mechanism': 'ivi-dance-with-a-twist',
                     'value': 'siteNumbersBufferSize',
                     'value_twist': 'actualNumSiteNumbers'
                 },
@@ -2634,7 +2634,7 @@ functions = {
                 'direction': 'out',
                 'name': 'measurements',
                 'size': {
-                    'mechanism': 'ivi_dance_with_a_twist',
+                    'mechanism': 'ivi-dance-with-a-twist',
                     'value': 'bufferSize',
                     'value_twist': 'actualNumRead'
                 },
@@ -2725,7 +2725,7 @@ functions = {
                 'direction': 'out',
                 'name': 'data',
                 'size': {
-                    'mechanism': 'ivi_dance_with_a_twist',
+                    'mechanism': 'ivi-dance-with-a-twist',
                     'value': 'bufferSize',
                     'value_twist': 'actualNumRead'
                 },
@@ -3042,7 +3042,7 @@ functions = {
                 'direction': 'out',
                 'name': 'offsets',
                 'size': {
-                    'mechanism': 'ivi_dance_with_a_twist',
+                    'mechanism': 'ivi-dance-with-a-twist',
                     'value': 'offsetsBufferSize',
                     'value_twist': 'actualNumOffsets'
                 },
