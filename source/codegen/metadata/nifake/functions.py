@@ -57,6 +57,26 @@ functions = {
         ],
         'returns': 'ViStatus'
     },
+    'AcceptViSessionArray': {
+        'codegen_method': 'public',
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'sessionCount',
+                'type': 'ViUInt32'
+            },
+            {
+                'direction': 'in',
+                'name': 'sessionArray',
+                'type': 'ViSession[]',
+                'size': {
+                    'mechanism': 'passed-in',
+                    'value': 'sessionCount'
+                }
+            }
+        ],
+        'returns': 'ViStatus'
+    },
     'AcceptViUInt32Array': {
         'parameters': [
             {
@@ -521,40 +541,40 @@ functions = {
         ],
         'returns': 'ViStatus'
     },
-    'GetAnIviDanceWithATwistString': {
-        'codegen_method': 'public',
-        'documentation': {
-            'description': 'TBD'
-        },
-        'parameters': [
+    'GetAnIviDanceWithATwistArray':{
+        'parameters':[
             {
-                'direction': 'in',
-                'name': 'vi',
-                'type': 'ViSession'
+                'name':'vi',
+                'direction':'in',
+                'type':'ViSession'
             },
             {
-                'direction': 'in',
-                'name': 'bufferSize',
-                'type': 'ViInt32'
+                'name':'aString',
+                'direction':'in',
+                'type':'ViConstString'
             },
             {
-                'direction': 'out',
-                'name': 'aString',
-                'size': {
-                    'mechanism': 'ivi-dance-with-a-twist',
-                    'value': 'bufferSize',
-                    'value_twist': 'actualSize'
-                },
-                'type': 'ViChar[]'
+                'name':'bufferSize',
+                'direction':'in',
+                'type':'ViInt32'
             },
             {
-                'direction': 'out',
-                'name': 'actualSize',
-                'type': 'ViInt32',
-                'use_in_python_api': False
+                'name':'arrayOut',
+                'direction':'out',
+                'type':'ViInt32[]',
+                'size':{
+                    'mechanism':'ivi-dance-with-a-twist',
+                    'value':'bufferSize',
+                    'value_twist':'actualSize'
+                }
+            },
+            {
+                'name':'actualSize',
+                'direction':'out',
+                'type':'ViInt32'
             }
         ],
-        'returns': 'ViStatus'
+        'returns':'ViStatus'
     },
     'GetArrayForCustomCodeCustomType': {
         'codegen_method': 'no',
@@ -1239,41 +1259,6 @@ functions = {
             }
         ],
         'returns': 'ViStatus'
-    },
-    'GetPatternPinIndexes':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            },
-            {
-                'name':'startLabel',
-                'direction':'in',
-                'type':'ViConstString'
-            },
-            {
-                'name':'pinIndexesBufferSize',
-                'direction':'in',
-                'type':'ViInt32'
-            },
-            {
-                'name':'pinIndexes',
-                'direction':'out',
-                'type':'ViInt32[]',
-                'size':{
-                    'mechanism':'ivi_dance_with_a_twist',
-                    'value':'pinIndexesBufferSize',
-                    'value_twist':'actualNumPins'
-                }
-            },
-            {
-                'name':'actualNumPins',
-                'direction':'out',
-                'type':'ViInt32'
-            }
-        ],
-        'returns':'ViStatus'
     },
     'ImportAttributeConfigurationBuffer': {
         'documentation': {

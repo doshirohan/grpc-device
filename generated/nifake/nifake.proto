@@ -18,6 +18,7 @@ import "session.proto";
 service NiFake {
   rpc Abort(AbortRequest) returns (AbortResponse);
   rpc AcceptListOfDurationsInSeconds(AcceptListOfDurationsInSecondsRequest) returns (AcceptListOfDurationsInSecondsResponse);
+  rpc AcceptViSessionArray(AcceptViSessionArrayRequest) returns (AcceptViSessionArrayResponse);
   rpc AcceptViUInt32Array(AcceptViUInt32ArrayRequest) returns (AcceptViUInt32ArrayResponse);
   rpc BoolArrayOutputFunction(BoolArrayOutputFunctionRequest) returns (BoolArrayOutputFunctionResponse);
   rpc BoolArrayInputFunction(BoolArrayInputFunctionRequest) returns (BoolArrayInputFunctionResponse);
@@ -30,7 +31,7 @@ service NiFake {
   rpc GetANumber(GetANumberRequest) returns (GetANumberResponse);
   rpc GetAStringOfFixedMaximumSize(GetAStringOfFixedMaximumSizeRequest) returns (GetAStringOfFixedMaximumSizeResponse);
   rpc GetAnIviDanceString(GetAnIviDanceStringRequest) returns (GetAnIviDanceStringResponse);
-  rpc GetAnIviDanceWithATwistString(GetAnIviDanceWithATwistStringRequest) returns (GetAnIviDanceWithATwistStringResponse);
+  rpc GetAnIviDanceWithATwistArray(GetAnIviDanceWithATwistArrayRequest) returns (GetAnIviDanceWithATwistArrayResponse);
   rpc GetArraySizeForCustomCode(GetArraySizeForCustomCodeRequest) returns (GetArraySizeForCustomCodeResponse);
   rpc GetArrayUsingIviDance(GetArrayUsingIviDanceRequest) returns (GetArrayUsingIviDanceResponse);
   rpc GetAttributeViBoolean(GetAttributeViBooleanRequest) returns (GetAttributeViBooleanResponse);
@@ -45,7 +46,6 @@ service NiFake {
   rpc GetViUInt8(GetViUInt8Request) returns (GetViUInt8Response);
   rpc GetViInt32Array(GetViInt32ArrayRequest) returns (GetViInt32ArrayResponse);
   rpc GetViUInt32Array(GetViUInt32ArrayRequest) returns (GetViUInt32ArrayResponse);
-  rpc GetPatternPinIndexes(GetPatternPinIndexesRequest) returns (GetPatternPinIndexesResponse);
   rpc ImportAttributeConfigurationBuffer(ImportAttributeConfigurationBufferRequest) returns (ImportAttributeConfigurationBufferResponse);
   rpc InitWithOptions(InitWithOptionsRequest) returns (InitWithOptionsResponse);
   rpc InitExtCal(InitExtCalRequest) returns (InitExtCalResponse);
@@ -137,6 +137,15 @@ message AcceptListOfDurationsInSecondsRequest {
 }
 
 message AcceptListOfDurationsInSecondsResponse {
+  int32 status = 1;
+}
+
+message AcceptViSessionArrayRequest {
+  uint32 session_count = 1;
+  repeated nidevice_grpc.Session session_array = 2;
+}
+
+message AcceptViSessionArrayResponse {
   int32 status = 1;
 }
 
@@ -257,14 +266,14 @@ message GetAnIviDanceStringResponse {
   string a_string = 2;
 }
 
-message GetAnIviDanceWithATwistStringRequest {
+message GetAnIviDanceWithATwistArrayRequest {
   nidevice_grpc.Session vi = 1;
-  sint32 buffer_size = 2;
+  string a_string = 2;
 }
 
-message GetAnIviDanceWithATwistStringResponse {
+message GetAnIviDanceWithATwistArrayResponse {
   int32 status = 1;
-  string a_string = 2;
+  repeated sint32 array_out = 2;
   sint32 actual_size = 3;
 }
 
@@ -412,17 +421,6 @@ message GetViUInt32ArrayRequest {
 message GetViUInt32ArrayResponse {
   int32 status = 1;
   repeated uint32 u_int32_array = 2;
-}
-
-message GetPatternPinIndexesRequest {
-  nidevice_grpc.Session vi = 1;
-  string start_label = 2;
-}
-
-message GetPatternPinIndexesResponse {
-  int32 status = 1;
-  repeated sint32 pin_indexes = 2;
-  sint32 actual_num_pins = 3;
 }
 
 message ImportAttributeConfigurationBufferRequest {

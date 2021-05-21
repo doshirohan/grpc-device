@@ -19,9 +19,11 @@ The following functions, not originally in nimi-python metadata, were newly adde
 	- This function allows testing of ViInt32[] output parameter
 - `'GetViUInt32Array'`
 	- This function allows testing of ViUInt32[] output parameter
-- `'GetPatternPinIndexes'` 
+- `'AcceptViSessionArray'`
+	- This function allows testing of ViSession[] input parameter
+- `'GetAnIviDanceWithATwistArray'` 
   -  This function allows testing of ivi-dance-with-a-twist mechanism
-
+ 
 The following functions were tagged with `'init_method': True,` to ensure their generated service handlers register the new session
 with the session_repository.
 - `InitWithOptions`

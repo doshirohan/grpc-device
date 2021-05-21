@@ -26,7 +26,7 @@ def is_unsupported_parameter(parameter):
       or is_unsupported_scalar_array(parameter)
 
 def is_unsupported_size_mechanism(parameter):
-  return not get_size_mechanism(parameter) in {'fixed', 'len', 'ivi-dance', 'passed-in', 'ivi_dance_with_a_twist', None}
+  return not get_size_mechanism(parameter) in {'fixed', 'len', 'ivi-dance', 'passed-in', 'ivi-dance-with-a-twist', None}
 
 def is_unsupported_struct(parameter):
   return is_struct(parameter) and is_input_parameter(parameter)
@@ -119,14 +119,8 @@ def get_twist_value(parameters):
         size = p.get('size', {})
         return size.get('value_twist', None)
 
-def has_struct(parameters):
-    for p in parameters:
-        if is_struct(p):
-            return True
-    return False
-
 def is_ivi_dance_array_with_a_twist_param(parameter):
-  return get_size_mechanism(parameter) == 'ivi_dance_with_a_twist'
+  return get_size_mechanism(parameter) == 'ivi-dance-with-a-twist'
 
 def has_ivi_dance_with_a_twist_param(parameters):
   return any(is_ivi_dance_array_with_a_twist_param(p) for p in parameters)

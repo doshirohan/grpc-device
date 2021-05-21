@@ -71,7 +71,7 @@ ${initialize_output_params(scalar_output_parameters)}\
         return ::grpc::Status::OK;
       }
 ${initialize_output_params(array_output_parameters)}\
-      status = library_->${function_name}(${service_helpers.create_args_for_twist(parameters)});
+      status = library_->${function_name}(${service_helpers.create_args(parameters)});
       response->set_status(status);
 % if output_parameters:
       if (status == 0) {
@@ -251,7 +251,7 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
   size = ''
   if common_helpers.get_size_mechanism(parameter) == 'fixed':
     size = parameter['size']['value']
-  elif common_helpers.get_size_mechanism(parameter) == 'ivi_dance_with_a_twist':
+  elif common_helpers.get_size_mechanism(parameter) == 'ivi-dance-with-a-twist':
     size = common_helpers.camel_to_snake(parameter['size']['value_twist'])
   else:
     size = common_helpers.camel_to_snake(parameter['size']['value'])
