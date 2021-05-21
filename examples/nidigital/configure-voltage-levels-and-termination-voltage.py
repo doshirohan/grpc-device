@@ -32,12 +32,8 @@
 import grpc
 import sys
 import os
-import time
 import nidigital_pb2 as nidigital_types
 import nidigital_pb2_grpc as grpc_nidigital
-import session_pb2 as session_types
-import session_pb2_grpc as grpc_session
-import keyword
 
 server_address = "localhost"
 server_port = "31763"
