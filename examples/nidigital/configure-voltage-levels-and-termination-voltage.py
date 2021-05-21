@@ -4,9 +4,9 @@
 # user can select from High-Z (h), Active Load (a) and Three-Level Drive (t)
 # termination options in termSelect.
 #
-# The gRPC API is built from the C API.  NI-Digital Pattern documentation is installed with
+# The gRPC API is built from the C API.  NI-Digital Pattern Driver Pattern documentation is installed with
 # the driver at:
-# C:\Users\Public\Documents\National Instruments\NI-Digital\Documentation\Digital Pattern Help.chm
+# C:\Users\Public\Documents\National Instruments\NI-Digital-Pattern-Driver\Documentation\Digital Pattern Help.chm
 #
 # Getting Started:
 #
@@ -18,17 +18,13 @@
 # our "Creating a gRPC Client" wiki page.
 # Link: https://github.com/ni/grpc-device/wiki/Creating-a-gRPC-Client
 #
-# Refer to the NI Digital gRPC Wiki for the latest C Function Reference:
-# Link: https://github.com/doshirohan/grpc-device/wiki/NI-DIGITAL-C-Function-Reference
+# Refer to the NI-Digital Pattern Driver gRPC Wiki for the latest C Function Reference:
+# Link: https://github.com/ni/grpc-device/wiki/NI-DIGITAL-PATTERN-DRIVER-C-Function-Reference
 #
 # Running from command line:
-#
-# Server machine's IP address, port number, and resource name can be passed as
-# separate command line arguments.
-#   > python configure-voltage-levels-and-termination-voltage.py <server_address>
-#   <port_number>
-# If they are not passed in as command line arguments, then by default the
-# server address will be "localhost:31763"
+# Server machine's IP address, port number, and resource name can be passed as separate command line arguments.
+#   > python configure-voltage-levels-and-termination-voltage.py <server_address> <port_number>
+# If they are not passed in as command line arguments, then by default the server address will be "localhost:31763"
 import grpc
 import sys
 import os
@@ -37,11 +33,11 @@ import nidigital_pb2_grpc as grpc_nidigital
 
 server_address = "localhost"
 server_port = "31763"
-session_name = "NI-Digital-Session"
+session_name = "NI-Digital-Pattern-Driver-Session"
 
-# deviceID and options for a simulated 6570 client. Change them according
-# to the NI-Digital model.
-deviceID = "PXI1Slot2,PXI1Slot3"
+# resource and options for a simulated 6570 client. Change them according
+# to the NI-Digital Pattern Driver model.
+resource = "PXI1Slot2,PXI1Slot3"
 options = "Simulate=1, DriverSetup=Model:6570"
 
 # Fixed parameters
@@ -50,14 +46,23 @@ idQuery = False
 resetDevice = False
 
 # Configurable parameters
+# The voltage that the instrument will apply to the DUT input pin when driving a logic low (0)
 vil = 0
+# The voltage that the instrument will apply to the DUT input pin when driving a logic high (1)
 vih = 5
+# The voltage below which the instrument pin comparator will interpret a logic low (L)
 vol = 3
+# The voltage above which the instrument pin comparator will interpret a logic high (H)
 voh = 2
+# The termination voltage the instrument applies during non-drive cycles when the termination mode is set to Vterm
 vterm = 5
+# The maximum current (A) the DUT sinks while outputting a voltage below VCOM
 iol = 0.015
+# The maximum current (A) the DUT sources while outputting a voltage above VCOM
 ioh = -0.024
+# The commutating voltage level at which the active load circuit switches between sourcing current and sinking current
 vcom = 2
+# Device termination mode [High-Z (h), Active Load (a), Three-Level Drive (t)]
 termSelect = 'h'
 
 # Read in cmd args
@@ -69,8 +74,7 @@ if len(sys.argv) >= 4:
     resource = sys.argv[3]
     options = ""
 
-# Create the communication channel for the remote host and create connections
-# to the NI-DMM and session services.
+# Create the communication channel for the remote host and create connections to the NI-Digital Pattern Driver and session services.
 channel = grpc.insecure_channel(f"{server_address}:{server_port}")
 nidigital_client = grpc_nidigital.NiDigitalStub(channel)
 
@@ -82,7 +86,7 @@ def CheckForError(vi, status) :
         any_error = True
         ThrowOnError(vi, status)
 
-# Converts an error code returned by NI-Digital into a user-readable string.
+# Converts an error code returned by NI-Digital Pattern Driver into a user-readable string.
 def ThrowOnError(vi, error_code):
     error_message_request = nidigital_types.GetErrorRequest(vi = vi
     )
@@ -90,9 +94,9 @@ def ThrowOnError(vi, error_code):
     raise Exception(error_message_response.error_description)
 
 try:
-    # Open session to NI-Digital with options
+    # Open session to NI-Digital Pattern Driver with options
      init_with_options_response = nidigital_client.InitWithOptions(nidigital_types.InitWithOptionsRequest(session_name = session_name, 
-         resource_name = deviceID, 
+         resource_name = resource, 
          id_query = True,
          reset_device = True,
          option_string = options))
@@ -135,36 +139,36 @@ try:
          vterm = vterm))
      CheckForError(vi, configure_voltage_response.status)
      
-     while True:
-        if termSelect == 'h':
-            configure_termination_Mode_response = nidigital_client.ConfigureTerminationMode(nidigital_types.ConfigureTerminationModeRequest(vi = vi,
-                channel_list = channelList,
-                mode = nidigital_types.TerminationMode.TERMINATION_MODE_NIDIGITAL_VAL_HIGH_Z))
-            CheckForError(vi, configure_termination_Mode_response.status)
+     if termSelect == 'h':
+        configure_termination_Mode_response = nidigital_client.ConfigureTerminationMode(nidigital_types.ConfigureTerminationModeRequest(vi = vi,
+            channel_list = channelList,
+            mode = nidigital_types.TerminationMode.TERMINATION_MODE_NIDIGITAL_VAL_HIGH_Z))
+        CheckForError(vi, configure_termination_Mode_response.status)
 
-        if termSelect == 'a':
-            configure_termination_Mode_response = nidigital_client.ConfigureTerminationMode(nidigital_types.ConfigureTerminationModeRequest(vi = vi,
-                channel_list = channelList,
-                mode = nidigital_types.TerminationMode.TERMINATION_MODE_NIDIGITAL_VAL_ACTIVE_LOAD))
-            CheckForError(vi, configure_termination_Mode_response.status)
+     if termSelect == 'a':
+        configure_termination_Mode_response = nidigital_client.ConfigureTerminationMode(nidigital_types.ConfigureTerminationModeRequest(vi = vi,
+            channel_list = channelList,
+            mode = nidigital_types.TerminationMode.TERMINATION_MODE_NIDIGITAL_VAL_ACTIVE_LOAD))
+        CheckForError(vi, configure_termination_Mode_response.status)
 
-            
-            configure_active_load_levels_response = nidigital_client.ConfigureActiveLoadLevels(nidigital_types.ConfigureActiveLoadLevelsRequest(vi = vi,
-                channel_list = channelList,
-                iol = iol,
-                ioh = ioh,
-                vcom = vcom))
-            CheckForError(vi, configure_active_load_levels_response.status)
+        
+        configure_active_load_levels_response = nidigital_client.ConfigureActiveLoadLevels(nidigital_types.ConfigureActiveLoadLevelsRequest(vi = vi,
+            channel_list = channelList,
+            iol = iol,
+            ioh = ioh,
+            vcom = vcom))
+        CheckForError(vi, configure_active_load_levels_response.status)
 
-        if termSelect == 't':
-            configure_termination_mode_response = nidigital_client.ConfigureTerminationMode(nidigital_types.ConfigureTerminationModeRequest(vi = vi,
-                channel_list = channelList,
-                mode = nidigital_types.TerminationMode.TERMINATION_MODE_NIDIGITAL_VAL_VTERM))
-            CheckForError(vi, configure_termination_mode_response.status)
+     if termSelect == 't':
+        configure_termination_mode_response = nidigital_client.ConfigureTerminationMode(nidigital_types.ConfigureTerminationModeRequest(vi = vi,
+            channel_list = channelList,
+            mode = nidigital_types.TerminationMode.TERMINATION_MODE_NIDIGITAL_VAL_VTERM))
+        CheckForError(vi, configure_termination_mode_response.status)
 
-        if(termSelect == 'h' or termSelect == 'a' or termSelect == 't'):
-            break
-
+     if(termSelect != 'h' and termSelect != 'a' and termSelect != 't'):
+        print('The value of termSelect is invalid. Please set it to one of \'h\', \'a\', or \'t\' values.')
+        exit(0)
+     
      burst_pattern_response = nidigital_client.BurstPattern(nidigital_types.BurstPatternRequest(vi = vi,
         site_list = "",
         start_label = "new_pattern",
@@ -178,9 +182,9 @@ try:
         function_raw = nidigital_types.SelectedFunction.SELECTED_FUNCTION_NIDIGITAL_VAL_DISCONNECT))
      CheckForError(vi, select_function_response.status)
 
-     print('Done without error.\n')
+     print('NI-Digital Pattern Device is configured without error.\n')
 
-# If NI-Digital API throws an exception, print the error message  
+# If NI-Digital Pattern Driver API throws an exception, print the error message  
 except grpc.RpcError as rpc_error:
     error_message = rpc_error.details()
     if rpc_error.code() == grpc.StatusCode.UNAVAILABLE :
@@ -190,7 +194,7 @@ except grpc.RpcError as rpc_error:
     print(f"{error_message}") 
 finally:
     if('vi' in vars() and vi.id != 0):      
-        # Close NI-Digital session
+        # Close NI-Digital Pattern Driver session
         close_session_response = nidigital_client.Close(nidigital_types.CloseRequest(
             vi = vi
         ))
