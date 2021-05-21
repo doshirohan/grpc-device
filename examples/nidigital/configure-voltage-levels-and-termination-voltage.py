@@ -4,13 +4,13 @@
 # user can select from High-Z (h), Active Load (a) and Three-Level Drive (t)
 # termination options in termSelect.
 #
-# The gRPC API is built from the C API.  NI-Digital documentation is installed with
+# The gRPC API is built from the C API.  NI-Digital Pattern documentation is installed with
 # the driver at:
 # C:\Users\Public\Documents\National Instruments\NI-Digital\Documentation\Digital Pattern Help.chm
 #
 # Getting Started:
 #
-# To run this example, install "NI-Digital Driver" on the server machine.
+# To run this example, install "NI-Digital Pattern Driver" on the server machine.
 # Link :
 # https://www.ni.com/en-in/support/downloads/drivers/download.ni-digital-pattern-driver.html#367315
 #
