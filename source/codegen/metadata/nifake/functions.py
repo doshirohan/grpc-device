@@ -541,40 +541,40 @@ functions = {
         ],
         'returns': 'ViStatus'
     },
-    'GetAnIviDanceWithATwistArray':{
-        'parameters':[
+    'GetAnIviDanceWithATwistArray': {
+        'parameters': [
             {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
+                'name': 'vi',
+                'direction': 'in',
+                'type': 'ViSession'
             },
             {
-                'name':'aString',
-                'direction':'in',
-                'type':'ViConstString'
+                'name': 'aString',
+                'direction': 'in',
+                'type': 'ViConstString'
             },
             {
-                'name':'bufferSize',
-                'direction':'in',
-                'type':'ViInt32'
+                'name': 'bufferSize',
+                'direction': 'in',
+                'type': 'ViInt32'
             },
             {
-                'name':'arrayOut',
-                'direction':'out',
-                'type':'ViInt32[]',
-                'size':{
-                    'mechanism':'ivi-dance-with-a-twist',
-                    'value':'bufferSize',
-                    'value_twist':'actualSize'
+                'name': 'arrayOut',
+                'direction': 'out',
+                'type': 'ViInt32[]',
+                'size': {
+                    'mechanism': 'ivi-dance-with-a-twist',
+                    'value': 'bufferSize',
+                    'value_twist': 'actualSize'
                 }
             },
             {
-                'name':'actualSize',
-                'direction':'out',
-                'type':'ViInt32'
+                'name': 'actualSize',
+                'direction': 'out',
+                'type': 'ViInt32'
             }
         ],
-        'returns':'ViStatus'
+        'returns': 'ViStatus'
     },
     'GetArrayForCustomCodeCustomType': {
         'codegen_method': 'no',

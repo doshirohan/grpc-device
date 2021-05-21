@@ -10,7 +10,7 @@ def is_string_arg(parameter):
 def create_args(parameters):
     result = ''
     is_twist_mechanism = common_helpers.has_ivi_dance_with_a_twist_param(parameters)
-    if is_twist_mechanism :
+    if is_twist_mechanism:
         twist_value = common_helpers.get_twist_value(parameters)
         twist_value_name = common_helpers.camel_to_snake(twist_value)
     for parameter in parameters:
