@@ -71,7 +71,7 @@ ${initialize_output_params(scalar_output_parameters)}\
         return ::grpc::Status::OK;
       }
 ${initialize_output_params(array_output_parameters)}\
-      status = library_->${function_name}(${service_helpers.create_args_for_twist(parameters)});
+      status = library_->${function_name}(${service_helpers.create_args(parameters)});
       response->set_status(status);
 % if output_parameters:
       if (status == 0) {
