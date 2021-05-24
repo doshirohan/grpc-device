@@ -260,6 +260,9 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
       std::vector<${underlying_param_type}> ${parameter_name}(${size}, ${underlying_param_type}());
 %     elif service_helpers.is_string_arg(parameter):
       std::string ${parameter_name}(${size}, '\0');
+%           if common_helpers.is_enum(parameter):
+      response->mutable_${parameter_name}()->Resize(${size}, 0);
+%           endif
 %     elif underlying_param_type in ['ViAddr', 'ViInt32', 'ViUInt32']:
       response->mutable_${parameter_name}()->Resize(${size}, 0);
       ${underlying_param_type}* ${parameter_name} = reinterpret_cast<${underlying_param_type}*>(response->mutable_${parameter_name}()->mutable_data());
@@ -293,6 +296,11 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
         auto ${iterator_name} = ${map_name}.find(${parameter_name});
         if(${iterator_name} != ${map_name}.end()) {
           response->set_${parameter_name}(static_cast<${namespace_prefix}${parameter["enum"]}>(${iterator_name}->second));
+        }
+%     elif common_helpers.is_array(parameter['type']) and service_helpers.is_string_arg(parameter):
+        for (int i = 0; i < ${parameter_name}.size(); i++)
+        {
+          response->set_${parameter_name}(i, static_cast<${namespace_prefix}${parameter["enum"]}>(${parameter_name}[i] - '0'));
         }
 %     else:
         response->set_${parameter_name}(static_cast<${namespace_prefix}${parameter["enum"]}>(${parameter_name}));

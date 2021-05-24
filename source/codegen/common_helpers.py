@@ -32,7 +32,7 @@ def is_unsupported_struct(parameter):
   return is_struct(parameter) and is_input_parameter(parameter)
 
 def is_unsupported_scalar_array(parameter):
-  if not is_array(parameter['type']):
+  if (not is_array(parameter['type'])) or (is_output_parameter(parameter) and get_underlying_type_name(parameter['type']) == 'ViUInt8'):
     return False
   return is_enum(parameter) or get_underlying_type_name(parameter['type']) == 'ViInt16'
 

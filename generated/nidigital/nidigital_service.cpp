@@ -2832,10 +2832,15 @@ namespace nidigital_grpc {
         return ::grpc::Status::OK;
       }
       std::string data(actual_num_read, '\0');
+      response->mutable_data()->Resize(actual_num_read, 0);
       status = library_->ReadStatic(vi, channel_list, actual_num_read, (ViUInt8*)data.data(), &actual_num_read);
       response->set_status(status);
       if (status == 0) {
-        response->set_data(data);
+        for (int i = 0; i < data.size(); i++)
+        {
+          response->set_data(i, static_cast<nidigital_grpc::PinState>(data[i] - '0'));
+        }
+        response->set_data_raw(data);
         response->set_actual_num_read(actual_num_read);
       }
       return ::grpc::Status::OK;
