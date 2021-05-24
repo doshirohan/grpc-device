@@ -35,10 +35,11 @@ server_address = "localhost"
 server_port = "31763"
 session_name = "NI-Digital-Pattern-Driver-Session"
 
-# resource and options for a simulated 6570 client. Change them according
-# to the NI-Digital Pattern Driver model.
+# resource and options for a simulated 6570 client. Change them according to the NI-Digital Pattern Driver model.
 resource = "PXI1Slot2,PXI1Slot3"
 options = "Simulate=1, DriverSetup=Model:6570"
+# Set dir to point to location of shipped pinmap file with gRPC Example
+dir = os.path.dirname(__file__)
 
 # Fixed parameters
 channelList = "PinGroup1"
@@ -102,8 +103,6 @@ try:
          option_string = options))
      vi = init_with_options_response.vi
      CheckForError(vi, init_with_options_response.status)
-
-     dir = os.path.dirname(__file__)
 
      load_pin_map_response = nidigital_client.LoadPinMap(nidigital_types.LoadPinMapRequest(vi = vi,
          file_path = os.path.join(dir, 'PinMap.pinmap')))
