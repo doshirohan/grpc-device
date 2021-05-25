@@ -5,8 +5,7 @@
 # termination options in termSelect.
 #
 # The gRPC API is built from the C API. NI-Digital Pattern Driver Pattern documentation is installed with
-# the driver at:
-# C:\Users\Public\Documents\National Instruments\NI-Digital-Pattern-Driver\Documentation\Digital Pattern Help.chm
+# the driver at: C:\Users\Public\Documents\National Instruments\NI-Digital-Pattern-Driver\Documentation\Digital Pattern Help.chm
 # 
 # Copy the .pinmap, .specs, .digitiming & .digipat files that come with this example to a folder on the server machine & note down the path of the folder.
 # Use the NI Digital Pattern Editor to create or modify pin or channel map files.
