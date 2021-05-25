@@ -21,10 +21,10 @@ The following functions, not originally in nimi-python metadata, were newly adde
 	- This function allows testing of ViUInt32[] output parameter
 - `'AcceptViSessionArray'`
 	- This function allows testing of ViSession[] input parameter
-- `'GetAnIviDanceWithATwistArray'` 
-  -  This function allows testing of ivi-dance-with-a-twist mechanism
 - `'GetArrayViUInt8WithEnum'`
   - This function allows testing of ViUInt8[] output parameters that use enum
+- Changed `'GetAnIviDanceWithATwistString'` to `'GetAnIviDanceWithATwistArray'` and updated the parameters
+    -  This function allows testing of ivi-dance-with-a-twist mechanism
  
 The following functions were tagged with `'init_method': True,` to ensure their generated service handlers register the new session
 with the session_repository.
