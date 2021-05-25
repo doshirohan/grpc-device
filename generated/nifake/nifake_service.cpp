@@ -29,6 +29,15 @@ namespace nifake_grpc {
       output->Add(item != VI_FALSE);
     }
   }
+  template <typename T1, typename T2>
+  void NiFakeService::Copy(const T1& input, T2* output)
+  {
+    int i = 0;
+    for(auto item : input){
+      output->Add(item);
+      i++;
+    }
+  }
   void NiFakeService::Copy(const CustomStruct& input, nifake_grpc::FakeCustomStruct* output) 
   {
     output->set_struct_int(input.structInt);
@@ -484,6 +493,30 @@ namespace nifake_grpc {
       status = library_->GetArrayUsingIviDance(vi, array_size, array_out);
       response->set_status(status);
       if (status == 0) {
+      }
+      return ::grpc::Status::OK;
+    }
+    catch (nidevice_grpc::LibraryLoadException& ex) {
+      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
+    }
+  }
+
+  //---------------------------------------------------------------------
+  //---------------------------------------------------------------------
+  ::grpc::Status NiFakeService::GetArrayViUInt8WithEnum(::grpc::ServerContext* context, const GetArrayViUInt8WithEnumRequest* request, GetArrayViUInt8WithEnumResponse* response)
+  {
+    if (context->IsCancelled()) {
+      return ::grpc::Status::CANCELLED;
+    }
+    try {
+      auto vi_grpc_session = request->vi();
+      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
+      ViInt32 array_len = request->array_len();
+      response->mutable_u_int8_enum_array_raw()->resize(array_len, '\0');
+      auto status = library_->GetArrayViUInt8WithEnum(vi, array_len, (ViUInt8*)response->mutable_u_int8_enum_array_raw()->data());
+      response->set_status(status);
+      if (status == 0) {
+        Copy(response->u_int8_enum_array_raw(), response->mutable_u_int8_enum_array());
       }
       return ::grpc::Status::OK;
     }

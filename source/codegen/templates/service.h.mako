@@ -54,6 +54,10 @@ private:
 % if common_helpers.has_viboolean_array_param(functions):
   void Copy(const std::vector<ViBoolean>& input, google::protobuf::RepeatedField<bool>* output);
 % endif
+% if common_helpers.has_enum_array_string_out_param(functions):
+  template <typename T1, typename T2>
+  void Copy(const T1& input, T2* output);
+% endif
 % if 'custom_types' in locals():
 %   for custom_type in custom_types:
   void Copy(const ${custom_type["name"]}& input, ${namespace_prefix}${custom_type["grpc_name"]}* output);

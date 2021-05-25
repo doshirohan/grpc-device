@@ -4,9 +4,6 @@ def get_include_guard_name(config, suffix):
     include_guard_name = config['namespace_component'] + "_grpc" + suffix
     return include_guard_name.upper()
 
-def is_string_arg(parameter):
-    return parameter['type'] in ['ViChar[]', 'ViInt8[]', 'ViUInt8[]']
-
 def create_args(parameters):
     result = ''
     is_twist_mechanism = common_helpers.has_ivi_dance_with_a_twist_param(parameters)
@@ -17,9 +14,13 @@ def create_args(parameters):
       parameter_name = common_helpers.camel_to_snake(parameter['cppName'])
       is_array = common_helpers.is_array(parameter['type'])
       is_output = common_helpers.is_output_parameter(parameter)
-      if is_output and is_string_arg(parameter):
+      if is_output and common_helpers.is_string_arg(parameter):
         type_without_brackets = common_helpers.get_underlying_type_name(parameter['type'])
-        result = f'{result}({type_without_brackets}*){parameter_name}.data(), '
+        if common_helpers.is_enum(parameter):
+          arg = f'response->mutable_{parameter_name}_raw()->data()'
+        else:
+          arg = f'{parameter_name}.data()'
+        result = f'{result}({type_without_brackets}*){arg}, '
       elif parameter['type'] in {"ViBoolean[]", "ViSession[]"}:
         result = f'{result}{parameter_name}.data(), '
       elif parameter.get('is_size_param', False) and is_twist_mechanism:

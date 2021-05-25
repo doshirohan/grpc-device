@@ -45,6 +45,17 @@ namespace ${config["namespace_component"]}_grpc {
     }
   }
 % endif
+% if common_helpers.has_enum_array_string_out_param(functions):
+  template <typename T1, typename T2>
+  void ${service_class_prefix}Service::Copy(const T1& input, T2* output)
+  {
+    int i = 0;
+    for(auto item : input){
+      output->Add(item);
+      i++;
+    }
+  }
+% endif
 % if 'custom_types' in locals():
 %   for custom_type in custom_types:
   void ${service_class_prefix}Service::Copy(const ${custom_type["name"]}& input, ${namespace_prefix}${custom_type["grpc_name"]}* output) 

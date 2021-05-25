@@ -2723,7 +2723,6 @@ functions = {
             },
             {
                 'direction': 'out',
-                'enum': 'PinState',
                 'name': 'data',
                 'size': {
                     'mechanism': 'ivi-dance-with-a-twist',
