@@ -156,7 +156,6 @@ public:
   ::grpc::Status WriteSourceWaveformDataFromFileTDMS(::grpc::ServerContext* context, const WriteSourceWaveformDataFromFileTDMSRequest* request, WriteSourceWaveformDataFromFileTDMSResponse* response) override;
   ::grpc::Status WriteStatic(::grpc::ServerContext* context, const WriteStaticRequest* request, WriteStaticResponse* response) override;
   ::grpc::Status WriteSourceWaveformSiteUniqueU32(::grpc::ServerContext* context, const WriteSourceWaveformSiteUniqueU32Request* request, WriteSourceWaveformSiteUniqueU32Response* response) override;
-  ::grpc::Status WriteStatic(::grpc::ServerContext* context, const WriteStaticRequest* request, WriteStaticResponse* response) override;
 private:
   NiDigitalLibraryInterface* library_;
   nidevice_grpc::SessionRepository* session_repository_;
