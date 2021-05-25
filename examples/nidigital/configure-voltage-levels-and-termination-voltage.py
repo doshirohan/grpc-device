@@ -7,7 +7,12 @@
 # The gRPC API is built from the C API.  NI-Digital Pattern Driver Pattern documentation is installed with
 # the driver at:
 # C:\Users\Public\Documents\National Instruments\NI-Digital-Pattern-Driver\Documentation\Digital Pattern Help.chm
-#
+# 
+# Copy the .pinmap, .specs, .digitiming & .digipat files that come with this example to a folder on the server machine & note down the path of the folder.
+# Use the NI Digital Pattern Editor to create or modify pin or channel map files.
+# Link : 
+# https://www.ni.com/documentation/en/ni-digital/20.6/digital-pattern-editor/pin-channel-map-editor/
+# 
 # Getting Started:
 #
 # To run this example, install "NI-Digital Pattern Driver" on the server machine.
@@ -36,10 +41,12 @@ server_port = "31763"
 session_name = "NI-Digital-Pattern-Driver-Session"
 
 # resource and options for a simulated 6570 client. Change them according to the NI-Digital Pattern Driver model.
-resource = "PXI1Slot2,PXI1Slot3"
+resource = "PXI1Slot2"
 options = "Simulate=1, DriverSetup=Model:6570"
-# Set dir to point to location of shipped pinmap file with gRPC Example
-dir = os.path.dirname(__file__)
+# Provide the absolute path to the folder on the server machine containing the .pinmap, .specs, .digitiming & .digipat files.
+dir = ""
+while dir == "":
+    dir = input("\n Provide the absolute path to the folder on the server machine containing the .pinmap, .specs, .digitiming & .digipat files.")
 
 # Fixed parameters
 channelList = "PinGroup1"
@@ -117,12 +124,12 @@ try:
      CheckForError(vi, load_timing_response.status)
 
      load_apply_levels_and_timing_response = nidigital_client.ApplyLevelsAndTiming(nidigital_types.ApplyLevelsAndTimingRequest(vi = vi,
-         site_list ="",
-         levels_sheet ="",
+         site_list = "",
+         levels_sheet = "",
          timing_sheet = os.path.join(dir, "Timing.digitiming"),
-         initial_state_high_pins ="",
-         initial_state_low_pins ="",
-         initial_state_tristate_pins =""))
+         initial_state_high_pins = "",
+         initial_state_low_pins = "",
+         initial_state_tristate_pins = ""))
      CheckForError(vi, load_apply_levels_and_timing_response.status)
 
      load_pattern_response = nidigital_client.LoadPattern(nidigital_types.LoadPatternRequest(vi = vi,
@@ -181,7 +188,7 @@ try:
         function_raw = nidigital_types.SelectedFunction.SELECTED_FUNCTION_NIDIGITAL_VAL_DISCONNECT))
      CheckForError(vi, select_function_response.status)
 
-     print('NI-Digital Pattern Device is configured without error.\n')
+     print('The NI-Digital Pattern device was configured successfully.\n')
 
 # If NI-Digital Pattern Driver API throws an exception, print the error message  
 except grpc.RpcError as rpc_error:
