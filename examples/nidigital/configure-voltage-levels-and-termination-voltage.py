@@ -4,20 +4,18 @@
 # user can select from High-Z (h), Active Load (a) and Three-Level Drive (t)
 # termination options in termSelect.
 #
-# The gRPC API is built from the C API.  NI-Digital Pattern Driver Pattern documentation is installed with
+# The gRPC API is built from the C API. NI-Digital Pattern Driver Pattern documentation is installed with
 # the driver at:
 # C:\Users\Public\Documents\National Instruments\NI-Digital-Pattern-Driver\Documentation\Digital Pattern Help.chm
 # 
 # Copy the .pinmap, .specs, .digitiming & .digipat files that come with this example to a folder on the server machine & note down the path of the folder.
 # Use the NI Digital Pattern Editor to create or modify pin or channel map files.
-# Link : 
-# https://www.ni.com/documentation/en/ni-digital/20.6/digital-pattern-editor/pin-channel-map-editor/
+# Link : https://www.ni.com/documentation/en/ni-digital/20.6/digital-pattern-editor/pin-channel-map-editor/
 # 
 # Getting Started:
 #
 # To run this example, install "NI-Digital Pattern Driver" on the server machine.
-# Link :
-# https://www.ni.com/en-in/support/downloads/drivers/download.ni-digital-pattern-driver.html#367315
+# Link :  https://www.ni.com/en-in/support/downloads/drivers/download.ni-digital-pattern-driver.html#367315
 #
 # For instructions on how to use protoc to generate gRPC client interfaces, see
 # our "Creating a gRPC Client" wiki page.
@@ -28,7 +26,7 @@
 #
 # Running from command line:
 # Server machine's IP address, port number, and resource name can be passed as separate command line arguments.
-#   > python configure-voltage-levels-and-termination-voltage.py <server_address> <port_number>
+#   > python configure-voltage-levels-and-termination-voltage.py <server_address> <port_number> <resource>
 # If they are not passed in as command line arguments, then by default the server address will be "localhost:31763"
 import grpc
 import sys
@@ -44,10 +42,10 @@ session_name = "NI-Digital-Pattern-Driver-Session"
 resource = "PXI1Slot2"
 options = "Simulate=1, DriverSetup=Model:6570"
 # Provide the absolute path to the folder on the server machine containing the .pinmap, .specs, .digitiming & .digipat files.
-dir = ""
-while dir == "":
-    dir = input("\n Provide the absolute path to the folder on the server machine containing the .pinmap, .specs, .digitiming & .digipat files.")
-
+directory_path =  ""
+if directory_path == "":
+    print("\n Provide the absolute path to the folder on the server machine containing the .pinmap, .specs, .digitiming & .digipat files.")
+    exit(1)
 # Fixed parameters
 channelList = "PinGroup1"
 idQuery = False
@@ -112,28 +110,28 @@ try:
      CheckForError(vi, init_with_options_response.status)
 
      load_pin_map_response = nidigital_client.LoadPinMap(nidigital_types.LoadPinMapRequest(vi = vi,
-         file_path = os.path.join(dir, 'PinMap.pinmap')))
+         file_path = os.path.join(directory_path, 'PinMap.pinmap')))
      CheckForError(vi, load_pin_map_response.status)
 
      load_specification_response = nidigital_client.LoadSpecifications(nidigital_types.LoadSpecificationsRequest(vi = vi,
-         file_path = os.path.join(dir, "Specifications.specs")))
+         file_path = os.path.join(directory_path, "Specifications.specs")))
      CheckForError(vi, load_specification_response.status)
 
      load_timing_response = nidigital_client.LoadTiming(nidigital_types.LoadTimingRequest(vi = vi,
-         file_path = os.path.join(dir, "Timing.digitiming")))
+         file_path = os.path.join(directory_path, "Timing.digitiming")))
      CheckForError(vi, load_timing_response.status)
 
      load_apply_levels_and_timing_response = nidigital_client.ApplyLevelsAndTiming(nidigital_types.ApplyLevelsAndTimingRequest(vi = vi,
          site_list = "",
          levels_sheet = "",
-         timing_sheet = os.path.join(dir, "Timing.digitiming"),
+         timing_sheet = os.path.join(directory_path, "Timing.digitiming"),
          initial_state_high_pins = "",
          initial_state_low_pins = "",
          initial_state_tristate_pins = ""))
      CheckForError(vi, load_apply_levels_and_timing_response.status)
 
      load_pattern_response = nidigital_client.LoadPattern(nidigital_types.LoadPatternRequest(vi = vi,
-         file_path = os.path.join(dir, "Pattern.digipat")))
+         file_path = os.path.join(directory_path, "Pattern.digipat")))
      CheckForError(vi, load_pattern_response.status)
 
      configure_voltage_response = nidigital_client.ConfigureVoltageLevels(nidigital_types.ConfigureVoltageLevelsRequest(vi = vi,
