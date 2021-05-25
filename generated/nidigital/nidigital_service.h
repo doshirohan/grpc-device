@@ -160,6 +160,8 @@ private:
   NiDigitalLibraryInterface* library_;
   nidevice_grpc::SessionRepository* session_repository_;
   void Copy(const std::vector<ViBoolean>& input, google::protobuf::RepeatedField<bool>* output);
+  template <typename T1, typename T2>
+  void Copy(const T1& input, T2* output);
 };
 
 } // namespace nidigital_grpc

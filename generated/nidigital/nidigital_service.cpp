@@ -29,6 +29,15 @@ namespace nidigital_grpc {
       output->Add(item != VI_FALSE);
     }
   }
+  template <typename T1, typename T2>
+  void NiDigitalService::Copy(const T1& input, T2* output)
+  {
+    int i = 0;
+    for(auto item : input){
+      output->Add(item);
+      i++;
+    }
+  }
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
   ::grpc::Status NiDigitalService::Abort(::grpc::ServerContext* context, const AbortRequest* request, AbortResponse* response)
@@ -1400,14 +1409,14 @@ namespace nidigital_grpc {
         response->set_status(status);
         return ::grpc::Status::OK;
       }
-      std::string expected_pin_states(actual_num_pin_data, '\0');
-      std::string actual_pin_states(actual_num_pin_data, '\0');
+      response->mutable_expected_pin_states_raw()->resize(actual_num_pin_data, '\0');
+      response->mutable_actual_pin_states_raw()->resize(actual_num_pin_data, '\0');
       std::vector<ViBoolean> per_pin_pass_fail(actual_num_pin_data, ViBoolean());
-      status = library_->FetchHistoryRAMCyclePinData(vi, site, pin_list, sample_index, dut_cycle_index, actual_num_pin_data, (ViUInt8*)expected_pin_states.data(), (ViUInt8*)actual_pin_states.data(), per_pin_pass_fail.data(), &actual_num_pin_data);
+      status = library_->FetchHistoryRAMCyclePinData(vi, site, pin_list, sample_index, dut_cycle_index, actual_num_pin_data, (ViUInt8*)response->mutable_expected_pin_states_raw()->data(), (ViUInt8*)response->mutable_actual_pin_states_raw()->data(), per_pin_pass_fail.data(), &actual_num_pin_data);
       response->set_status(status);
       if (status == 0) {
-        response->set_expected_pin_states(expected_pin_states);
-        response->set_actual_pin_states(actual_pin_states);
+        Copy(response->expected_pin_states_raw(), response->mutable_expected_pin_states());
+        Copy(response->actual_pin_states_raw(), response->mutable_actual_pin_states());
         Copy(per_pin_pass_fail, response->mutable_per_pin_pass_fail());
         response->set_actual_num_pin_data(actual_num_pin_data);
       }
@@ -2831,11 +2840,11 @@ namespace nidigital_grpc {
         response->set_status(status);
         return ::grpc::Status::OK;
       }
-      std::string data(actual_num_read, '\0');
-      status = library_->ReadStatic(vi, channel_list, actual_num_read, (ViUInt8*)data.data(), &actual_num_read);
+      response->mutable_data_raw()->resize(actual_num_read, '\0');
+      status = library_->ReadStatic(vi, channel_list, actual_num_read, (ViUInt8*)response->mutable_data_raw()->data(), &actual_num_read);
       response->set_status(status);
       if (status == 0) {
-        response->set_data(data);
+        Copy(response->data_raw(), response->mutable_data());
         response->set_actual_num_read(actual_num_read);
       }
       return ::grpc::Status::OK;
