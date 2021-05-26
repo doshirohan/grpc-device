@@ -82,7 +82,7 @@ private:
   nidevice_grpc::SessionRepository* session_repository_;
   void Copy(const std::vector<ViBoolean>& input, google::protobuf::RepeatedField<bool>* output);
   template <typename T1, typename T2>
-  void CopyEnumValues(const T1* input, T2* output,int length, std::map<T1, std::int32_t> enum_map = std::map<T1, std::int32_t>());
+  void CopyEnumValues(const T1* input, T2* output, int length, std::map<T1, std::int32_t> enum_map = std::map<T1, std::int32_t>());
   void Copy(const CustomStruct& input, nifake_grpc::FakeCustomStruct* output);
   void Copy(const std::vector<CustomStruct>& input, google::protobuf::RepeatedPtrField<nifake_grpc::FakeCustomStruct>* output);
   std::map<std::int32_t, float> floatenum_input_map_ { {1, 3.5f},{2, 4.5f},{3, 5.5f},{4, 6.5f},{5, 7.5f}, };

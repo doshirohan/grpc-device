@@ -259,11 +259,7 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
 %     if common_helpers.is_struct(parameter) or underlying_param_type == 'ViBoolean':
       std::vector<${underlying_param_type}> ${parameter_name}(${size}, ${underlying_param_type}());
 %     elif common_helpers.is_string_arg(parameter):
-%           if common_helpers.is_enum(parameter):
-      response->mutable_${parameter_name}_raw()->resize(${size}, '\0');
-%           else:
       std::string ${parameter_name}(${size}, '\0');
-%           endif
 %     elif underlying_param_type in ['ViAddr', 'ViInt32', 'ViUInt32']:
       response->mutable_${parameter_name}()->Resize(${size}, 0);
       ${underlying_param_type}* ${parameter_name} = reinterpret_cast<${underlying_param_type}*>(response->mutable_${parameter_name}()->mutable_data());
@@ -298,13 +294,12 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
         if(${iterator_name} != ${map_name}.end()) {
           response->set_${parameter_name}(static_cast<${namespace_prefix}${parameter["enum"]}>(${iterator_name}->second));
         }
-        response->set_${parameter_name}_raw(${parameter_name});
 %     elif common_helpers.is_array(parameter['type']) and common_helpers.is_string_arg(parameter):
-        CopyEnumValues(response->${parameter_name}_raw().data(), response->mutable_${parameter_name}(), response->${parameter_name}_raw().size());
+        CopyEnumValues(${parameter_name}.data(), response->mutable_${parameter_name}(), ${parameter_name}.size());
 %     else:
         response->set_${parameter_name}(static_cast<${namespace_prefix}${parameter["enum"]}>(${parameter_name}));
-        response->set_${parameter_name}_raw(${parameter_name});
 %     endif
+        response->set_${parameter_name}_raw(${parameter_name});
 %   elif common_helpers.is_array(parameter['type']):
 %     if common_helpers.is_string_arg(parameter):
         response->set_${parameter_name}(${parameter_name});

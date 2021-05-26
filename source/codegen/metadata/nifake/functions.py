@@ -574,7 +574,7 @@ functions = {
                 'type': 'ViInt32'
             }
         ],
-        'returns':'ViStatus'
+        'returns': 'ViStatus'
     },
     'GetArrayForCustomCodeCustomType': {
         'codegen_method': 'no',
