@@ -1422,7 +1422,6 @@ TEST(NiFakeServiceTests, NiFakeService_GetArrayViUInt8WithEnum_CallsGetArrayViUI
   NiFakeMockLibrary library;
   nifake_grpc::NiFakeService service(&library, &session_repository);
   int array_len = 3;
-  // using string because in grpc, ViUInt8 array gets converted to string
   ViUInt8 uint8_array[] = {nifake_grpc::Color::COLOR_RED, nifake_grpc::Color::COLOR_BLACK, nifake_grpc::Color::COLOR_BLUE};
   nifake_grpc::Color enum_array[] = {nifake_grpc::Color::COLOR_RED, nifake_grpc::Color::COLOR_BLACK, nifake_grpc::Color::COLOR_BLUE};
   EXPECT_CALL(library, GetArrayViUInt8WithEnum(kTestViSession, array_len, _))
