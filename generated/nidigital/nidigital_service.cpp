@@ -29,6 +29,7 @@ namespace nidigital_grpc {
       output->Add(item != VI_FALSE);
     }
   }
+<<<<<<< HEAD
   template <typename T1, typename T2>
   void NiDigitalService::Copy(const T1& input, T2* output)
   {
@@ -38,6 +39,9 @@ namespace nidigital_grpc {
       i++;
     }
   }
+=======
+
+>>>>>>> users/sshinde/enum_array
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
   ::grpc::Status NiDigitalService::Abort(::grpc::ServerContext* context, const AbortRequest* request, AbortResponse* response)
