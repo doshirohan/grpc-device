@@ -35,17 +35,14 @@ namespace nifake_grpc {
   {
     for(int i = 0; i < length; i++)
     {
-      if (enum_map.empty())
+      auto it = enum_map.find(input[i]);
+      if (it != enum_map.end())
       {
-        output->Add(input[i]);
+        output->Add(it->second);
       }
       else
       {
-        auto it = enum_map.find(input[i]);
-        if (it != enum_map.end())
-        {
-          output->Add(it->second);
-        }
+        output->Add(input[i]);
       }
     }
   }
