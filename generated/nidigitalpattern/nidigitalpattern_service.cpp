@@ -4,7 +4,7 @@
 //---------------------------------------------------------------------
 // Service implementation for the NI-Digital Pattern Driver Metadata
 //---------------------------------------------------------------------
-#include "nidigital_service.h"
+#include "nidigitalpattern_service.h"
 
 #include <sstream>
 #include <fstream>

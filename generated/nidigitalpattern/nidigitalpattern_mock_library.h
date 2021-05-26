@@ -9,7 +9,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "nidigital_library_interface.h"
+#include "nidigitalpattern_library_interface.h"
 
 namespace ni {
 namespace tests {

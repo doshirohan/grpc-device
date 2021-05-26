@@ -6,7 +6,7 @@
 #ifndef NIDIGITAL_GRPC_LIBRARY_H
 #define NIDIGITAL_GRPC_LIBRARY_H
 
-#include "nidigital_library_interface.h"
+#include "nidigitalpattern_library_interface.h"
 
 #include <server/shared_library.h>
 

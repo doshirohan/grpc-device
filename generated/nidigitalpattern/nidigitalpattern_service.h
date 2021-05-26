@@ -7,7 +7,7 @@
 #ifndef NIDIGITAL_GRPC_SERVICE_H
 #define NIDIGITAL_GRPC_SERVICE_H
 
-#include <nidigital.grpc.pb.h>
+#include <nidigitalpattern.grpc.pb.h>
 #include <condition_variable>
 #include <grpcpp/grpcpp.h>
 #include <grpcpp/health_check_service_interface.h>
@@ -16,7 +16,7 @@
 #include <server/session_repository.h>
 #include <server/shared_library.h>
 
-#include "nidigital_library_interface.h"
+#include "nidigitalpattern_library_interface.h"
 
 namespace nidigital_grpc {
 

@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------
 // Service implementation for the NI-Digital Pattern Driver Metadata
 //---------------------------------------------------------------------
-#include "nidigital_library.h"
+#include "nidigitalpattern_library.h"
 
 #if defined(_MSC_VER)
 static const char* kLibraryName = "niDigital_64.dll";
