@@ -1,5 +1,5 @@
-#include <nidigital/nidigital_library.h>
-#include <nidigital/nidigital_service.h>
+#include <nidigitalpattern/nidigitalpattern_library.h>
+#include <nidigitalpattern/nidigitalpattern_service.h>
 #include <niscope/niscope_library.h>
 #include <niscope/niscope_service.h>
 #include <niswitch/niswitch_library.h>
