@@ -29,6 +29,27 @@ namespace nidigital_grpc {
       output->Add(item != VI_FALSE);
     }
   }
+<<<<<<< Updated upstream
+=======
+  template <typename T1, typename T2>
+  void NiDigitalService::CopyEnumValues(const T1* input, T2* output, int length, std::map<T1, std::int32_t> enum_map)
+  {
+    for (int i = 0; i < length; i++)
+    {
+      if (enum_map.empty())
+      {
+        output->Add(input[i]);
+      }
+      else
+      {
+        auto it = enum_map.find(input[i]);
+        if(it != enum_map.end()) {
+          output->Add(it->second);
+        }
+      }
+    }
+  }
+>>>>>>> Stashed changes
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
   ::grpc::Status NiDigitalService::Abort(::grpc::ServerContext* context, const AbortRequest* request, AbortResponse* response)
@@ -1406,8 +1427,13 @@ namespace nidigital_grpc {
       status = library_->FetchHistoryRAMCyclePinData(vi, site, pin_list, sample_index, dut_cycle_index, actual_num_pin_data, (ViUInt8*)expected_pin_states.data(), (ViUInt8*)actual_pin_states.data(), per_pin_pass_fail.data(), &actual_num_pin_data);
       response->set_status(status);
       if (status == 0) {
+<<<<<<< Updated upstream
         response->set_expected_pin_states(expected_pin_states);
         response->set_actual_pin_states(actual_pin_states);
+=======
+        CopyEnumValues(response->expected_pin_states_raw().data(), response->mutable_expected_pin_states(), response->expected_pin_states_raw().size());
+        CopyEnumValues(response->actual_pin_states_raw().data(), response->mutable_actual_pin_states(), response->actual_pin_states_raw().size());
+>>>>>>> Stashed changes
         Copy(per_pin_pass_fail, response->mutable_per_pin_pass_fail());
         response->set_actual_num_pin_data(actual_num_pin_data);
       }
@@ -2835,7 +2861,11 @@ namespace nidigital_grpc {
       status = library_->ReadStatic(vi, channel_list, actual_num_read, (ViUInt8*)data.data(), &actual_num_read);
       response->set_status(status);
       if (status == 0) {
+<<<<<<< Updated upstream
         response->set_data(data);
+=======
+        CopyEnumValues(response->data_raw().data(), response->mutable_data(), response->data_raw().size());
+>>>>>>> Stashed changes
         response->set_actual_num_read(actual_num_read);
       }
       return ::grpc::Status::OK;
