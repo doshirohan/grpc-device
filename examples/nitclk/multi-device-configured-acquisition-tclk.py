@@ -19,8 +19,8 @@
 # Refer to the NI-SCOPE gRPC Wiki to determine the valid channel and resource names for your NI-SCOPE module.
 # Link : https://github.com/ni/grpc-device/wiki/NI-SCOPE-C-Function-Reference
 #
-# Refer to the NI-tclk gRPC Wiki to determine the valid channel and resource names for your NI-tclk module.
-# Link : https://github.com/ni/grpc-device/wiki/NI-TCLK-C-Function-Reference
+# Refer to the NI-TClk gRPC Wiki to determine the valid channel and resource names for your NI-TClk module.
+# Link : https://github.com/ni/grpc-device/wiki/NI-TClk-C-Function-Reference
 #
 # Running from command line:
 #
@@ -46,7 +46,7 @@ resources = []
 # Resource name and options for a simulated 5122 client. Change them according to the NI-SCOPE model.
 resource1 = "SimulatedScope1"
 resource2 = "SimulatedScope2"
-options = "Simulate=1, DriverSetup=Model:5122; BoardType:PCI;"
+options = "Simulate=1, DriverSetup=Model:5122; BoardType:PXIe;"
 resources.extend([resource1, resource2])
 
 # Parameters
@@ -71,7 +71,7 @@ if len(sys.argv) >= 4:
     options = ""
 
 # Create the communication channel for the remote host (in this case we are connecting to a local server)
-# and create a connection to the NI-SCOPE service and NI-TCLK service
+# and create a connection to the NI-SCOPE service and NI-TClk service
 channel = grpc.insecure_channel(f"{server_address}:{server_port}")
 scope_service = grpc_scope.NiScopeStub(channel)
 tclk_service = grpc_tclk.NiTClkStub(channel)
@@ -274,7 +274,7 @@ try:
                 data = np.array(read_result.waveform[0:500])
                 plt.axis([0, 500, -6, 6])
                 # Add labels for axes and legends
-                plt.ylabel('Amplitude(V)')
+                plt.ylabel('Amplitude')
                 plt.xlabel('Samples')
                 plt.plot(np.round(data,2), label='$Scope{i}$'.format(i=i))
                 plt.legend(loc='lower left')
