@@ -300,7 +300,7 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
         }
         response->set_${parameter_name}_raw(${parameter_name});
 %     elif common_helpers.is_array(parameter['type']) and common_helpers.is_string_arg(parameter):
-        Copy(response->${parameter_name}_raw(), response->mutable_${parameter_name}());
+        CopyEnumValues(response->${parameter_name}_raw().data(), response->mutable_${parameter_name}(), response->${parameter_name}_raw().size());
 %     else:
         response->set_${parameter_name}(static_cast<${namespace_prefix}${parameter["enum"]}>(${parameter_name}));
         response->set_${parameter_name}_raw(${parameter_name});
