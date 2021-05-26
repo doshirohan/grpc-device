@@ -52,13 +52,13 @@ namespace ${config["namespace_component"]}_grpc {
   {
     for(int i = 0; i < length; i++)
     {
-      if (enum.empty())
+      if (enum_map.empty())
       {
         output->Add(input[i]);
       }
       else
       {
-        auto it = enum.find(input[i]);
+        auto it = enum_map.find(input[i]);
         if (it != enum_map.end())
         {
           output->Add(it->second);
@@ -66,7 +66,7 @@ namespace ${config["namespace_component"]}_grpc {
       }
     }
   }
-  
+
 % endif
 % if 'custom_types' in locals():
 %   for custom_type in custom_types:

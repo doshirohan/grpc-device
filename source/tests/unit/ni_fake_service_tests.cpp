@@ -1423,10 +1423,13 @@ TEST(NiFakeServiceTests, NiFakeService_GetArrayViUInt8WithEnum_CallsGetArrayViUI
   nifake_grpc::NiFakeService service(&library, &session_repository);
   int array_len = 3;
   // using string because in grpc, ViUInt8 array gets converted to string
-  std::string uint8_array = {nifake_grpc::Color::COLOR_RED, nifake_grpc::Color::COLOR_BLACK, nifake_grpc::Color::COLOR_BLUE};
+  ViUInt8 uint8_array[] = {nifake_grpc::Color::COLOR_RED, nifake_grpc::Color::COLOR_BLACK, nifake_grpc::Color::COLOR_BLUE};
   nifake_grpc::Color enum_array[] = {nifake_grpc::Color::COLOR_RED, nifake_grpc::Color::COLOR_BLACK, nifake_grpc::Color::COLOR_BLUE};
   EXPECT_CALL(library, GetArrayViUInt8WithEnum(kTestViSession, array_len, _))
-      .WillOnce(DoAll(SetArrayArgument<2>(enum_array, enum_array + array_len), Return(kDriverSuccess)));
+      .WillOnce(
+        DoAll(
+          SetArrayArgument<2>(uint8_array, uint8_array + array_len), 
+          Return(kDriverSuccess)));
   
   ::grpc::ServerContext context;
   nifake_grpc::GetArrayViUInt8WithEnumRequest request;
@@ -1438,7 +1441,7 @@ TEST(NiFakeServiceTests, NiFakeService_GetArrayViUInt8WithEnum_CallsGetArrayViUI
   EXPECT_TRUE(status.ok());
   EXPECT_EQ(kDriverSuccess, response.status());
   EXPECT_THAT(response.u_int8_enum_array(), ElementsAreArray(enum_array, array_len));
-  EXPECT_EQ(uint8_array, response.u_int8_enum_array_raw());
+  EXPECT_EQ(std::string(uint8_array, uint8_array+array_len), response.u_int8_enum_array_raw());
 }
 
 }  // namespace unit

@@ -35,13 +35,13 @@ namespace nifake_grpc {
   {
     for(int i = 0; i < length; i++)
     {
-      if (enum.empty())
+      if (enum_map.empty())
       {
         output->Add(input[i]);
       }
       else
       {
-        auto it = enum.find(input[i]);
+        auto it = enum_map.find(input[i]);
         if (it != enum_map.end())
         {
           output->Add(it->second);
@@ -49,7 +49,7 @@ namespace nifake_grpc {
       }
     }
   }
-  
+
   void NiFakeService::Copy(const CustomStruct& input, nifake_grpc::FakeCustomStruct* output) 
   {
     output->set_struct_int(input.structInt);
