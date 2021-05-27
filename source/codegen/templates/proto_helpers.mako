@@ -1,6 +1,7 @@
 <%!
   import common_helpers
   import proto_helpers
+  import hashlib
 %>
 
 ## Define a proto enum capturing all attributes from the metadata.
@@ -30,8 +31,7 @@ enum ${service_class_prefix}Attributes {
 <%
   enum = enums[enum_name]
   enum_value_prefix = enum.get("enum-value-prefix", common_helpers.pascal_to_snake(enum_name).upper())
-  allow_alias = proto_helpers.should_allow_alias(enum)
-  nonint_index = 1
+  allow_alias = enum.get("allow_alias", False) or proto_helpers.should_allow_alias(enum)
 %>\
 enum ${enum_name} {
 %   if allow_alias == True:
@@ -40,10 +40,20 @@ enum ${enum_name} {
   ${enum_value_prefix}_UNSPECIFIED = 0;
 %   for value in enum["values"]:
 %     if enum.get("generate-mappings", False):
-  ${enum_value_prefix}_${value["name"]} = ${nonint_index};
 <%
-    nonint_index = nonint_index + 1
+    if isinstance(value["value"], str):
+      seed = value["value"].encode()
+      hash_digest = hashlib.shake_128(seed).digest(4)
+      value_value = int.from_bytes(hash_digest, byteorder='big', signed=True)
+      value_comment = ""
+    else:
+      value_value = int(value["value"])
+      seed = str(value["value"]).encode()
+      hash_digest = hashlib.shake_128(seed).digest(4)
+      comment = int.from_bytes(hash_digest, byteorder='big', signed=True)
+      value_comment = " // str-hash: " + str(comment)
 %>\
+  ${enum_value_prefix}_${value["name"]} = ${value_value}; ${value_comment}
 %     else:
   ${enum_value_prefix}_${value["name"]} = ${value["value"]};
 %     endif

@@ -68,10 +68,10 @@ def add_attribute_values_enums(enums, attribute_enums, service_class_prefix):
         type_enum_name = get_attribute_values_enum_name(service_class_prefix, type_name)
         enum_value_prefix = (f"{service_class_prefix}_{type_name[2:]}").upper()
         generate_mappings = type_name in mapping_types
-        allow_alias = False
-        if not generate_mappings:
-            enum_values = values_to_create.values()
-            allow_alias = len(enum_values) != len(set(enum_values))
+        # allow_alias = False
+        # if not generate_mappings:
+        enum_values = values_to_create.values()
+        allow_alias = (len(enum_values) != len(set(enum_values))) or 0 in enum_values
         values = [{"name": name, "value": values_to_create[name]} for name in values_to_create]
         new_enum = {
             'enum-value-prefix': enum_value_prefix,
