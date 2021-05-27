@@ -30,11 +30,10 @@ namespace nidigital_grpc {
     }
   }
 
-  template <typename T1, typename T2>
-  void NiDigitalService::CopyEnumValues(const T1* input, T2* output, int length, const std::map<T1, std::int32_t> enum_map)
+  template <typename T1>
+  void NiDigitalService::CopyEnumValues(const std::string& input, T1* output, int length, const std::map<char, std::int32_t>& enum_map)
   {
-    std::vector<T1> input_vector(input, input + length);
-    for (auto item : input_vector)
+    for (auto item : input)
     {
       auto it = enum_map.find(item);
       if (it != enum_map.end())
@@ -1425,9 +1424,9 @@ namespace nidigital_grpc {
       status = library_->FetchHistoryRAMCyclePinData(vi, site, pin_list, sample_index, dut_cycle_index, actual_num_pin_data, (ViUInt8*)expected_pin_states.data(), (ViUInt8*)actual_pin_states.data(), per_pin_pass_fail.data(), &actual_num_pin_data);
       response->set_status(status);
       if (status == 0) {
-        CopyEnumValues(expected_pin_states.data(), response->mutable_expected_pin_states(), expected_pin_states.size());
+        CopyEnumValues(expected_pin_states, response->mutable_expected_pin_states(), expected_pin_states.size());
         response->set_expected_pin_states_raw(expected_pin_states);
-        CopyEnumValues(actual_pin_states.data(), response->mutable_actual_pin_states(), actual_pin_states.size());
+        CopyEnumValues(actual_pin_states, response->mutable_actual_pin_states(), actual_pin_states.size());
         response->set_actual_pin_states_raw(actual_pin_states);
         Copy(per_pin_pass_fail, response->mutable_per_pin_pass_fail());
         response->set_actual_num_pin_data(actual_num_pin_data);
@@ -2856,7 +2855,7 @@ namespace nidigital_grpc {
       status = library_->ReadStatic(vi, channel_list, actual_num_read, (ViUInt8*)data.data(), &actual_num_read);
       response->set_status(status);
       if (status == 0) {
-        CopyEnumValues(data.data(), response->mutable_data(), data.size());
+        CopyEnumValues(data, response->mutable_data(), data.size());
         response->set_data_raw(data);
         response->set_actual_num_read(actual_num_read);
       }
