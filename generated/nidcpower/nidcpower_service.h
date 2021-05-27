@@ -178,6 +178,8 @@ private:
   NiDCPowerLibraryInterface* library_;
   nidevice_grpc::SessionRepository* session_repository_;
   void Copy(const std::vector<ViBoolean>& input, google::protobuf::RepeatedField<bool>* output);
+  std::map<std::int32_t, std::int32_t> powerlinefrequencies_input_map_ { {0, 0},{1, 50},{2, 60}, };
+  std::map<std::int32_t, std::int32_t> powerlinefrequencies_output_map_ { {0, 0},{50, 1},{60, 2}, };
   std::map<std::int32_t, double> nidcpowerreal64attributevalues_input_map_ { {0, 0},{1, 50},{2, 60}, };
   std::map<double, std::int32_t> nidcpowerreal64attributevalues_output_map_ { {0, 0},{50, 1},{60, 2}, };
   std::map<std::int32_t, std::string> nidcpowerstringattributevalues_input_map_ {  };

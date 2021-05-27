@@ -50,8 +50,8 @@ enum ${enum_name} {
       value_value = int(value["value"])
       seed = str(value["value"]).encode()
       hash_digest = hashlib.shake_128(seed).digest(4)
-      comment = int.from_bytes(hash_digest, byteorder='big', signed=True)
-      value_comment = " // str-hash: " + str(comment)
+      str_hash = int.from_bytes(hash_digest, byteorder='big', signed=True)
+      value_comment = " // str-hash: " + str(str_hash) + "    orig_value: " + str(value["value"])
 %>\
   ${enum_value_prefix}_${value["name"]} = ${value_value}; ${value_comment}
 %     else:

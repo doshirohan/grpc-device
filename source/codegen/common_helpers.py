@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 def is_output_parameter(parameter):
     return "out" in parameter["direction"]
 
@@ -100,6 +102,15 @@ def get_function_enums(functions):
     for parameter in functions[function]['parameters']:
       if 'enum' in parameter:
         function_enums.add(parameter['enum'])
+  return function_enums
+
+def get_function_enums_dict(functions):
+  '''Returns a set of enums used with functions.'''
+  function_enums = defaultdict(set)
+  for function in functions:
+    for parameter in functions[function]['parameters']:
+      if 'enum' in parameter:
+        function_enums[parameter["type"]].add(parameter['enum'])
   return function_enums
 
 def has_viboolean_array_param(functions):

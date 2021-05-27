@@ -1653,15 +1653,22 @@ namespace nidcpower_grpc {
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViReal64 powerline_frequency;
       switch (request->powerline_frequency_enum_case()) {
-        case nidcpower_grpc::ConfigurePowerLineFrequencyRequest::PowerlineFrequencyEnumCase::kPowerlineFrequency:
-          powerline_frequency = (ViReal64)request->powerline_frequency();
+        case ConfigurePowerLineFrequencyRequest::PowerlineFrequencyEnumCase::kPowerlineFrequency: {
+          auto powerline_frequency_imap_it = powerlinefrequencies_input_map_.find(request->powerline_frequency());
+          if (powerline_frequency_imap_it == powerlinefrequencies_input_map_.end()) {
+            return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for powerline_frequency was not specified or out of range.");
+          }
+          powerline_frequency = static_cast<ViReal64>(powerline_frequency_imap_it->second);
           break;
-        case nidcpower_grpc::ConfigurePowerLineFrequencyRequest::PowerlineFrequencyEnumCase::kPowerlineFrequencyRaw:
-          powerline_frequency = (ViReal64)request->powerline_frequency_raw();
+        }
+        case ConfigurePowerLineFrequencyRequest::PowerlineFrequencyEnumCase::kPowerlineFrequencyRaw: {
+          powerline_frequency = static_cast<ViReal64>(request->powerline_frequency_raw());
           break;
-        case nidcpower_grpc::ConfigurePowerLineFrequencyRequest::PowerlineFrequencyEnumCase::POWERLINE_FREQUENCY_ENUM_NOT_SET:
+        } 
+        case ConfigurePowerLineFrequencyRequest::PowerlineFrequencyEnumCase::POWERLINE_FREQUENCY_ENUM_NOT_SET: {
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for powerline_frequency was not specified or out of range");
           break;
+        }
       }
 
       auto status = library_->ConfigurePowerLineFrequency(vi, powerline_frequency);

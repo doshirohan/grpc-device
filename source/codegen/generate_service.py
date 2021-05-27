@@ -30,6 +30,10 @@ def mutate_metadata(metadata):
   service_class_prefix = config["service_class_prefix"]
   attribute_enums = common_helpers.get_attribute_enums(metadata["attributes"])
   metadata_mutation.add_attribute_values_enums(metadata["enums"], attribute_enums, service_class_prefix)
+  
+  function_enums = common_helpers.get_function_enums_dict(metadata["functions"])
+  metadata_mutation.mutate_function_parameter_enums(metadata["enums"], function_enums)
+
   for function_name in metadata["functions"]:
     function = metadata["functions"][function_name]
     parameters = function["parameters"]

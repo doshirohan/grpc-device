@@ -83,6 +83,12 @@ def add_attribute_values_enums(enums, attribute_enums, service_class_prefix):
             new_enum['value-type'] = mapping_types[type_name]
         enums.update({type_enum_name: new_enum})
     
+def mutate_function_parameter_enums(enums, function_enums):
+    for param_type in function_enums:
+        if common_helpers.get_underlying_type_name(param_type) in ["ViReal64", "ViString", "ViConstString"]:
+            for enum_name in function_enums[param_type]:
+                enums[enum_name]['generate-mappings'] = True
+
 def mark_attr_value_param_if_required(function, attribute_enums, service_class_prefix):
     """For SetAttribute* and CheckAttribute* APIs, update function metadata to mark attribute_value parameter as enum."""
     attribute_value_param = next((param for param in function["parameters"] if param["name"] in {"value", "attributeValue"}), None)

@@ -613,15 +613,22 @@ namespace nidmm_grpc {
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViReal64 voltage_range;
       switch (request->voltage_range_enum_case()) {
-        case nidmm_grpc::ConfigureFrequencyVoltageRangeRequest::VoltageRangeEnumCase::kVoltageRange:
-          voltage_range = (ViReal64)request->voltage_range();
+        case ConfigureFrequencyVoltageRangeRequest::VoltageRangeEnumCase::kVoltageRange: {
+          auto voltage_range_imap_it = frequencyvoltagerange_input_map_.find(request->voltage_range());
+          if (voltage_range_imap_it == frequencyvoltagerange_input_map_.end()) {
+            return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for voltage_range was not specified or out of range.");
+          }
+          voltage_range = static_cast<ViReal64>(voltage_range_imap_it->second);
           break;
-        case nidmm_grpc::ConfigureFrequencyVoltageRangeRequest::VoltageRangeEnumCase::kVoltageRangeRaw:
-          voltage_range = (ViReal64)request->voltage_range_raw();
+        }
+        case ConfigureFrequencyVoltageRangeRequest::VoltageRangeEnumCase::kVoltageRangeRaw: {
+          voltage_range = static_cast<ViReal64>(request->voltage_range_raw());
           break;
-        case nidmm_grpc::ConfigureFrequencyVoltageRangeRequest::VoltageRangeEnumCase::VOLTAGE_RANGE_ENUM_NOT_SET:
+        } 
+        case ConfigureFrequencyVoltageRangeRequest::VoltageRangeEnumCase::VOLTAGE_RANGE_ENUM_NOT_SET: {
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for voltage_range was not specified or out of range");
           break;
+        }
       }
 
       auto status = library_->ConfigureFrequencyVoltageRange(vi, voltage_range);
@@ -792,15 +799,22 @@ namespace nidmm_grpc {
 
       ViReal64 sample_interval;
       switch (request->sample_interval_enum_case()) {
-        case nidmm_grpc::ConfigureMultiPointRequest::SampleIntervalEnumCase::kSampleInterval:
-          sample_interval = (ViReal64)request->sample_interval();
+        case ConfigureMultiPointRequest::SampleIntervalEnumCase::kSampleInterval: {
+          auto sample_interval_imap_it = sampleinterval_input_map_.find(request->sample_interval());
+          if (sample_interval_imap_it == sampleinterval_input_map_.end()) {
+            return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for sample_interval was not specified or out of range.");
+          }
+          sample_interval = static_cast<ViReal64>(sample_interval_imap_it->second);
           break;
-        case nidmm_grpc::ConfigureMultiPointRequest::SampleIntervalEnumCase::kSampleIntervalRaw:
-          sample_interval = (ViReal64)request->sample_interval_raw();
+        }
+        case ConfigureMultiPointRequest::SampleIntervalEnumCase::kSampleIntervalRaw: {
+          sample_interval = static_cast<ViReal64>(request->sample_interval_raw());
           break;
-        case nidmm_grpc::ConfigureMultiPointRequest::SampleIntervalEnumCase::SAMPLE_INTERVAL_ENUM_NOT_SET:
+        } 
+        case ConfigureMultiPointRequest::SampleIntervalEnumCase::SAMPLE_INTERVAL_ENUM_NOT_SET: {
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for sample_interval was not specified or out of range");
           break;
+        }
       }
 
       auto status = library_->ConfigureMultiPoint(vi, trigger_count, sample_count, sample_trigger, sample_interval);
@@ -877,15 +891,22 @@ namespace nidmm_grpc {
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViReal64 power_line_frequency_hz;
       switch (request->power_line_frequency_hz_enum_case()) {
-        case nidmm_grpc::ConfigurePowerLineFrequencyRequest::PowerLineFrequencyHzEnumCase::kPowerLineFrequencyHz:
-          power_line_frequency_hz = (ViReal64)request->power_line_frequency_hz();
+        case ConfigurePowerLineFrequencyRequest::PowerLineFrequencyHzEnumCase::kPowerLineFrequencyHz: {
+          auto power_line_frequency_hz_imap_it = powerlinefrequencies_input_map_.find(request->power_line_frequency_hz());
+          if (power_line_frequency_hz_imap_it == powerlinefrequencies_input_map_.end()) {
+            return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for power_line_frequency_hz was not specified or out of range.");
+          }
+          power_line_frequency_hz = static_cast<ViReal64>(power_line_frequency_hz_imap_it->second);
           break;
-        case nidmm_grpc::ConfigurePowerLineFrequencyRequest::PowerLineFrequencyHzEnumCase::kPowerLineFrequencyHzRaw:
-          power_line_frequency_hz = (ViReal64)request->power_line_frequency_hz_raw();
+        }
+        case ConfigurePowerLineFrequencyRequest::PowerLineFrequencyHzEnumCase::kPowerLineFrequencyHzRaw: {
+          power_line_frequency_hz = static_cast<ViReal64>(request->power_line_frequency_hz_raw());
           break;
-        case nidmm_grpc::ConfigurePowerLineFrequencyRequest::PowerLineFrequencyHzEnumCase::POWER_LINE_FREQUENCY_HZ_ENUM_NOT_SET:
+        } 
+        case ConfigurePowerLineFrequencyRequest::PowerLineFrequencyHzEnumCase::POWER_LINE_FREQUENCY_HZ_ENUM_NOT_SET: {
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for power_line_frequency_hz was not specified or out of range");
           break;
+        }
       }
 
       auto status = library_->ConfigurePowerLineFrequency(vi, power_line_frequency_hz);
@@ -1137,15 +1158,22 @@ namespace nidmm_grpc {
 
       ViReal64 trigger_delay;
       switch (request->trigger_delay_enum_case()) {
-        case nidmm_grpc::ConfigureTriggerRequest::TriggerDelayEnumCase::kTriggerDelay:
-          trigger_delay = (ViReal64)request->trigger_delay();
+        case ConfigureTriggerRequest::TriggerDelayEnumCase::kTriggerDelay: {
+          auto trigger_delay_imap_it = triggerdelays_input_map_.find(request->trigger_delay());
+          if (trigger_delay_imap_it == triggerdelays_input_map_.end()) {
+            return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for trigger_delay was not specified or out of range.");
+          }
+          trigger_delay = static_cast<ViReal64>(trigger_delay_imap_it->second);
           break;
-        case nidmm_grpc::ConfigureTriggerRequest::TriggerDelayEnumCase::kTriggerDelayRaw:
-          trigger_delay = (ViReal64)request->trigger_delay_raw();
+        }
+        case ConfigureTriggerRequest::TriggerDelayEnumCase::kTriggerDelayRaw: {
+          trigger_delay = static_cast<ViReal64>(request->trigger_delay_raw());
           break;
-        case nidmm_grpc::ConfigureTriggerRequest::TriggerDelayEnumCase::TRIGGER_DELAY_ENUM_NOT_SET:
+        } 
+        case ConfigureTriggerRequest::TriggerDelayEnumCase::TRIGGER_DELAY_ENUM_NOT_SET: {
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for trigger_delay was not specified or out of range");
           break;
+        }
       }
 
       auto status = library_->ConfigureTrigger(vi, trigger_source, trigger_delay);
@@ -1475,7 +1503,10 @@ namespace nidmm_grpc {
       auto status = library_->GetApertureTimeInfo(vi, &aperture_time, &aperture_time_units);
       response->set_status(status);
       if (status == 0) {
-        response->set_aperture_time(static_cast<nidmm_grpc::ApertureTime>(aperture_time));
+        auto aperture_time_omap_it = aperturetime_output_map_.find(aperture_time);
+        if(aperture_time_omap_it != aperturetime_output_map_.end()) {
+          response->set_aperture_time(static_cast<nidmm_grpc::ApertureTime>(aperture_time_omap_it->second));
+        }
         response->set_aperture_time_raw(aperture_time);
         response->set_aperture_time_units(static_cast<nidmm_grpc::ApertureTimeUnits>(aperture_time_units));
         response->set_aperture_time_units_raw(aperture_time_units);

@@ -80,11 +80,11 @@ enum NiFakeAttributes {
 
 enum FloatEnum {
   FLOAT_ENUM_UNSPECIFIED = 0;
-  FLOAT_ENUM_THREE_POINT_FIVE = 3;  // str-hash: 1679586936
-  FLOAT_ENUM_FOUR_POINT_FIVE = 4;  // str-hash: -1943860973
-  FLOAT_ENUM_FIVE_POINT_FIVE = 5;  // str-hash: 1114477506
-  FLOAT_ENUM_SIX_POINT_FIVE = 6;  // str-hash: 149616237
-  FLOAT_ENUM_SEVEN_POINT_FIVE = 7;  // str-hash: -1182811016
+  FLOAT_ENUM_THREE_POINT_FIVE = 3;  // str-hash: 1679586936    orig_value: 3.5
+  FLOAT_ENUM_FOUR_POINT_FIVE = 4;  // str-hash: -1943860973    orig_value: 4.5
+  FLOAT_ENUM_FIVE_POINT_FIVE = 5;  // str-hash: 1114477506    orig_value: 5.5
+  FLOAT_ENUM_SIX_POINT_FIVE = 6;  // str-hash: 149616237    orig_value: 6.5
+  FLOAT_ENUM_SEVEN_POINT_FIVE = 7;  // str-hash: -1182811016    orig_value: 7.5
 }
 
 enum MobileOSNames {
@@ -117,11 +117,11 @@ enum NiFakeInt64AttributeValues {
 
 enum NiFakeReal64AttributeValues {
   NIFAKE_REAL64_UNSPECIFIED = 0;
-  NIFAKE_REAL64_THREE_POINT_FIVE = 3;  // str-hash: 1679586936
-  NIFAKE_REAL64_FOUR_POINT_FIVE = 4;  // str-hash: -1943860973
-  NIFAKE_REAL64_FIVE_POINT_FIVE = 5;  // str-hash: 1114477506
-  NIFAKE_REAL64_SIX_POINT_FIVE = 6;  // str-hash: 149616237
-  NIFAKE_REAL64_SEVEN_POINT_FIVE = 7;  // str-hash: -1182811016
+  NIFAKE_REAL64_THREE_POINT_FIVE = 3;  // str-hash: 1679586936    orig_value: 3.5
+  NIFAKE_REAL64_FOUR_POINT_FIVE = 4;  // str-hash: -1943860973    orig_value: 4.5
+  NIFAKE_REAL64_FIVE_POINT_FIVE = 5;  // str-hash: 1114477506    orig_value: 5.5
+  NIFAKE_REAL64_SIX_POINT_FIVE = 6;  // str-hash: 149616237    orig_value: 6.5
+  NIFAKE_REAL64_SEVEN_POINT_FIVE = 7;  // str-hash: -1182811016    orig_value: 7.5
 }
 
 enum NiFakeStringAttributeValues {
