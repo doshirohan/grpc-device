@@ -31,7 +31,7 @@ namespace nifake_grpc {
   }
 
   template <typename T1>
-  void NiFakeService::CopyEnumValues(const std::string& input, T1* output, int length, const std::map<char, std::int32_t>& enum_map)
+  void NiFakeService::CopyEnumValues(const std::string& input, T1* output, const std::map<char, std::int32_t>& enum_map)
   {
     for (auto item : input)
     {
@@ -525,7 +525,7 @@ namespace nifake_grpc {
       auto status = library_->GetArrayViUInt8WithEnum(vi, array_len, (ViUInt8*)u_int8_enum_array.data());
       response->set_status(status);
       if (status == 0) {
-        CopyEnumValues(u_int8_enum_array, response->mutable_u_int8_enum_array(), u_int8_enum_array.size());
+        CopyEnumValues(u_int8_enum_array, response->mutable_u_int8_enum_array());
         response->set_u_int8_enum_array_raw(u_int8_enum_array);
       }
       return ::grpc::Status::OK;

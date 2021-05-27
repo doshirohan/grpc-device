@@ -56,7 +56,7 @@ private:
 % endif
 % if common_helpers.has_enum_array_string_out_param(functions):
   template <typename T1>
-  void CopyEnumValues(const std::string& input, T1* output, int length, const std::map<char, std::int32_t>& enum_map = std::map<char, std::int32_t>());
+  void CopyEnumValues(const std::string& input, T1* output, const std::map<char, std::int32_t>& enum_map = std::map<char, std::int32_t>());
 % endif
 % if 'custom_types' in locals():
 %   for custom_type in custom_types:

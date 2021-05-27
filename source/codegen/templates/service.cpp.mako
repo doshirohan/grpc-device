@@ -48,7 +48,7 @@ namespace ${config["namespace_component"]}_grpc {
 % endif
 % if common_helpers.has_enum_array_string_out_param(functions):
   template <typename T1>
-  void ${service_class_prefix}Service::CopyEnumValues(const std::string& input, T1* output, int length, const std::map<char, std::int32_t>& enum_map)
+  void ${service_class_prefix}Service::CopyEnumValues(const std::string& input, T1* output, const std::map<char, std::int32_t>& enum_map)
   {
     for (auto item : input)
     {
