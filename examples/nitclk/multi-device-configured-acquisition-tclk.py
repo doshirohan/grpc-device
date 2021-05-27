@@ -43,10 +43,10 @@ server_address = "localhost"
 server_port = "31763"
 resources = []
 
-# Resource name and options for a simulated 5122 client. Change them according to the NI-SCOPE model.
+# Resource name and options for a simulated 5164 client. Change them according to the NI-SCOPE model.
 resource1 = "SimulatedScope1"
 resource2 = "SimulatedScope2"
-options = "Simulate=1, DriverSetup=Model:5122; BoardType:PXIe;"
+options = "Simulate=1, DriverSetup=Model:5164; BoardType:PXIe;"
 resources.extend([resource1, resource2])
 
 # Parameters
