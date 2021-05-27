@@ -291,7 +291,7 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
   iterator_name = parameter_name + "_omap_it"
 %>\
 %       if common_helpers.is_array(parameter['type']) and common_helpers.is_string_arg(parameter):
-        CopyEnumValues(${parameter_name}.data(), response->mutable_${parameter_name}(), ${parameter_name}.size(), ${map_name});
+        CopyEnumValues(${parameter_name}, response->mutable_${parameter_name}(), ${parameter_name}.size(), ${map_name});
 %       else:
         auto ${iterator_name} = ${map_name}.find(${parameter_name});
         if(${iterator_name} != ${map_name}.end()) {
@@ -299,7 +299,7 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
         }
 %       endif
 %     elif common_helpers.is_array(parameter['type']) and common_helpers.is_string_arg(parameter):
-        CopyEnumValues(${parameter_name}.data(), response->mutable_${parameter_name}(), ${parameter_name}.size());
+        CopyEnumValues(${parameter_name}, response->mutable_${parameter_name}(), ${parameter_name}.size());
 %     else:
         response->set_${parameter_name}(static_cast<${namespace_prefix}${parameter["enum"]}>(${parameter_name}));
 %     endif

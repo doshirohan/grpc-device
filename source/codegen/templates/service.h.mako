@@ -55,8 +55,8 @@ private:
   void Copy(const std::vector<ViBoolean>& input, google::protobuf::RepeatedField<bool>* output);
 % endif
 % if common_helpers.has_enum_array_string_out_param(functions):
-  template <typename T1, typename T2>
-  void CopyEnumValues(const T1* input, T2* output, int length, const std::map<T1, std::int32_t> enum_map = std::map<T1, std::int32_t>());
+  template <typename T1>
+  void CopyEnumValues(const std::string& input, T1* output, int length, const std::map<char, std::int32_t>& enum_map = std::map<char, std::int32_t>());
 % endif
 % if 'custom_types' in locals():
 %   for custom_type in custom_types:

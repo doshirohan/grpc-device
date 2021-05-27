@@ -47,11 +47,10 @@ namespace ${config["namespace_component"]}_grpc {
 
 % endif
 % if common_helpers.has_enum_array_string_out_param(functions):
-  template <typename T1, typename T2>
-  void ${service_class_prefix}Service::CopyEnumValues(const T1* input, T2* output, int length, const std::map<T1, std::int32_t> enum_map)
+  template <typename T1>
+  void ${service_class_prefix}Service::CopyEnumValues(const std::string& input, T1* output, int length, const std::map<char, std::int32_t>& enum_map)
   {
-    std::vector<T1> input_vector(input, input + length);
-    for (auto item : input_vector)
+    for (auto item : input)
     {
       auto it = enum_map.find(item);
       if (it != enum_map.end())
