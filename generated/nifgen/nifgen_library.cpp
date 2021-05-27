@@ -118,6 +118,7 @@ NiFgenLibrary::NiFgenLibrary() : shared_library_(kLibraryName)
   function_pointers_.GetStreamEndpointHandle = reinterpret_cast<GetStreamEndpointHandlePtr>(shared_library_.get_function_pointer("niFgen_GetStreamEndpointHandle"));
   function_pointers_.ImportAttributeConfigurationBuffer = reinterpret_cast<ImportAttributeConfigurationBufferPtr>(shared_library_.get_function_pointer("niFgen_ImportAttributeConfigurationBuffer"));
   function_pointers_.ImportAttributeConfigurationFile = reinterpret_cast<ImportAttributeConfigurationFilePtr>(shared_library_.get_function_pointer("niFgen_ImportAttributeConfigurationFile"));
+  function_pointers_.InitWithOptions = reinterpret_cast<InitWithOptionsPtr>(shared_library_.get_function_pointer("niFgen_InitWithOptions"));
   function_pointers_.InitializeAnalogOutputCalibration = reinterpret_cast<InitializeAnalogOutputCalibrationPtr>(shared_library_.get_function_pointer("niFgen_InitializeAnalogOutputCalibration"));
   function_pointers_.InitializeCalAdcCalibration = reinterpret_cast<InitializeCalAdcCalibrationPtr>(shared_library_.get_function_pointer("niFgen_InitializeCalADCCalibration"));
   function_pointers_.InitializeFlatnessCalibration = reinterpret_cast<InitializeFlatnessCalibrationPtr>(shared_library_.get_function_pointer("niFgen_InitializeFlatnessCalibration"));
@@ -1333,6 +1334,18 @@ ViStatus NiFgenLibrary::ImportAttributeConfigurationFile(ViSession vi, ViConstSt
   return niFgen_ImportAttributeConfigurationFile(vi, filePath);
 #else
   return function_pointers_.ImportAttributeConfigurationFile(vi, filePath);
+#endif
+}
+
+ViStatus NiFgenLibrary::InitWithOptions(ViRsrc resourceName, ViBoolean idQuery, ViBoolean resetDevice, ViConstString optionString, ViSession* vi)
+{
+  if (!function_pointers_.InitWithOptions) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_InitWithOptions.");
+  }
+#if defined(_MSC_VER)
+  return niFgen_InitWithOptions(resourceName, idQuery, resetDevice, optionString, vi);
+#else
+  return function_pointers_.InitWithOptions(resourceName, idQuery, resetDevice, optionString, vi);
 #endif
 }
 

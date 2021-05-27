@@ -2085,6 +2085,37 @@ functions = {
         ],
         'returns':'ViStatus'
     },
+    'InitWithOptions':{
+        'parameters':[
+            {
+                'name':'resourceName',
+                'direction':'in',
+                'type':'ViRsrc'
+            },
+            {
+                'name':'idQuery',
+                'direction':'in',
+                'type':'ViBoolean'
+            },
+            {
+                'name':'resetDevice',
+                'direction':'in',
+                'type':'ViBoolean'
+            },
+            {
+                'name':'optionString',
+                'direction':'in',
+                'type':'ViConstString'
+            },
+            {
+                'name':'vi',
+                'direction':'out',
+                'type':'ViSession'
+            }
+        ],
+        'returns':'ViStatus'
+    },
+    
     'InitializeAnalogOutputCalibration':{
         'parameters':[
             {

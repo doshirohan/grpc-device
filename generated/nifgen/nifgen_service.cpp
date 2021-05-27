@@ -2241,6 +2241,31 @@ namespace nifgen_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
+  ::grpc::Status NiFgenService::InitWithOptions(::grpc::ServerContext* context, const InitWithOptionsRequest* request, InitWithOptionsResponse* response)
+  {
+    if (context->IsCancelled()) {
+      return ::grpc::Status::CANCELLED;
+    }
+    try {
+      ViRsrc resource_name = (ViRsrc)request->resource_name().c_str();
+      ViBoolean id_query = request->id_query();
+      ViBoolean reset_device = request->reset_device();
+      ViConstString option_string = request->option_string().c_str();
+      ViSession vi {};
+      auto status = library_->InitWithOptions(resource_name, id_query, reset_device, option_string, &vi);
+      response->set_status(status);
+      if (status == 0) {
+        response->mutable_vi()->set_id(vi);
+      }
+      return ::grpc::Status::OK;
+    }
+    catch (nidevice_grpc::LibraryLoadException& ex) {
+      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
+    }
+  }
+
+  //---------------------------------------------------------------------
+  //---------------------------------------------------------------------
   ::grpc::Status NiFgenService::InitializeAnalogOutputCalibration(::grpc::ServerContext* context, const InitializeAnalogOutputCalibrationRequest* request, InitializeAnalogOutputCalibrationResponse* response)
   {
     if (context->IsCancelled()) {
