@@ -47,20 +47,12 @@ namespace ${config["namespace_component"]}_grpc {
 
 % endif
 % if common_helpers.has_enum_array_string_out_param(functions):
-  template <typename T1>
-  void ${service_class_prefix}Service::CopyEnumValues(const std::string& input, T1* output, const std::map<char, std::int32_t>& enum_map)
+  template <typename TEnum>
+  void ${service_class_prefix}Service::CopyBytesToEnums(const std::string& input, google::protobuf::RepeatedField<TEnum>* output)
   {
     for (auto item : input)
     {
-      auto it = enum_map.find(item);
-      if (it != enum_map.end())
-      {
-        output->Add(it->second);
-      }
-      else
-      {
-        output->Add(item);
-      }
+      output->Add(item);
     }
   }
 
