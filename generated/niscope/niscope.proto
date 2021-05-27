@@ -755,7 +755,7 @@ enum NiScopeReal64AttributeValues {
   option allow_alias = true;
   NISCOPE_REAL64_UNSPECIFIED = 0;
   NISCOPE_REAL64_CABLE_SENSE_MODE_VAL_CABLE_SENSE_MODE_DISABLED = 0;  // str-hash: 1653504463    orig_value: 0
-  NISCOPE_REAL64_CABLE_SENSE_MODE_VAL_CABLE_SENSE_MODE_ON_DEMAND = 1;  // str-hash: -340828979    orig_value: 1
+  NISCOPE_REAL64_CABLE_SENSE_MODE_VAL_CABLE_SENSE_MODE_ON_DEMAND = 1065353216;  // str-hash: -340828979    orig_value: 1
 }
 
 enum NiScopeStringAttributeValues {

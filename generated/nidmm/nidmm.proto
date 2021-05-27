@@ -224,14 +224,14 @@ enum AcquisitionStatus {
 
 enum ApertureTime {
   APERTURE_TIME_UNSPECIFIED = 0;
-  APERTURE_TIME_NIDMM_VAL_APERTURE_TIME_AUTO = -1;  // str-hash: -298372852    orig_value: -1
-  APERTURE_TIME_NIDMM_VAL_1_PLC = 1;  // str-hash: -340828979    orig_value: 1
-  APERTURE_TIME_NIDMM_VAL_5_PLC = 5;  // str-hash: -1266296961    orig_value: 5
-  APERTURE_TIME_NIDMM_VAL_6_PLC = 6;  // str-hash: 567881875    orig_value: 6
-  APERTURE_TIME_NIDMM_VAL_10_PLC = 10;  // str-hash: -1097944516    orig_value: 10
-  APERTURE_TIME_NIDMM_VAL_12_PLC = 12;  // str-hash: -899582450    orig_value: 12
-  APERTURE_TIME_NIDMM_VAL_100_PLC = 100;  // str-hash: -598286705    orig_value: 100
-  APERTURE_TIME_NIDMM_VAL_120_PLC = 120;  // str-hash: 1853707594    orig_value: 120
+  APERTURE_TIME_NIDMM_VAL_APERTURE_TIME_AUTO = -1082130432;  // str-hash: -298372852    orig_value: -1
+  APERTURE_TIME_NIDMM_VAL_1_PLC = 1065353216;  // str-hash: -340828979    orig_value: 1
+  APERTURE_TIME_NIDMM_VAL_5_PLC = 1084227584;  // str-hash: -1266296961    orig_value: 5
+  APERTURE_TIME_NIDMM_VAL_6_PLC = 1086324736;  // str-hash: 567881875    orig_value: 6
+  APERTURE_TIME_NIDMM_VAL_10_PLC = 1092616192;  // str-hash: -1097944516    orig_value: 10
+  APERTURE_TIME_NIDMM_VAL_12_PLC = 1094713344;  // str-hash: -899582450    orig_value: 12
+  APERTURE_TIME_NIDMM_VAL_100_PLC = 1120403456;  // str-hash: -598286705    orig_value: 100
+  APERTURE_TIME_NIDMM_VAL_120_PLC = 1123024896;  // str-hash: 1853707594    orig_value: 120
 }
 
 enum ApertureTimeUnits {
@@ -280,8 +280,8 @@ enum ControlCommit {
 
 enum FrequencyVoltageRange {
   FREQUENCY_VOLTAGE_RANGE_UNSPECIFIED = 0;
-  FREQUENCY_VOLTAGE_RANGE_NIDMM_VAL_AUTO_RANGE_ON = -1;  // str-hash: -298372852    orig_value: -1
-  FREQUENCY_VOLTAGE_RANGE_NIDMM_VAL_AUTO_RANGE_OFF = -2;  // str-hash: -435683092    orig_value: -2
+  FREQUENCY_VOLTAGE_RANGE_NIDMM_VAL_AUTO_RANGE_ON = -1082130432;  // str-hash: -298372852    orig_value: -1
+  FREQUENCY_VOLTAGE_RANGE_NIDMM_VAL_AUTO_RANGE_OFF = -1073741824;  // str-hash: -435683092    orig_value: -2
 }
 
 enum Function {
@@ -334,8 +334,8 @@ enum MiscCalibration {
 
 enum PowerLineFrequencies {
   POWER_LINE_FREQUENCIES_UNSPECIFIED = 0;
-  POWER_LINE_FREQUENCIES_NIDMM_VAL_50_HERTZ = 50;  // str-hash: 809796431    orig_value: 50
-  POWER_LINE_FREQUENCIES_NIDMM_VAL_60_HERTZ = 60;  // str-hash: 1632273862    orig_value: 60
+  POWER_LINE_FREQUENCIES_NIDMM_VAL_50_HERTZ = 1112014848;  // str-hash: 809796431    orig_value: 50
+  POWER_LINE_FREQUENCIES_NIDMM_VAL_60_HERTZ = 1114636288;  // str-hash: 1632273862    orig_value: 60
 }
 
 enum RtdType {
@@ -358,7 +358,7 @@ enum SampleCount {
 
 enum SampleInterval {
   SAMPLE_INTERVAL_UNSPECIFIED = 0;
-  SAMPLE_INTERVAL_NIDMM_VAL_AUTO_DELAY = -1;  // str-hash: -298372852    orig_value: -1
+  SAMPLE_INTERVAL_NIDMM_VAL_AUTO_DELAY = -1082130432;  // str-hash: -298372852    orig_value: -1
 }
 
 enum SampleTrigSlope {
@@ -417,8 +417,8 @@ enum TriggerCount {
 
 enum TriggerDelays {
   TRIGGER_DELAYS_UNSPECIFIED = 0;
-  TRIGGER_DELAYS_NIDMM_VAL_AUTO_DELAY_ON = -1;  // str-hash: -298372852    orig_value: -1
-  TRIGGER_DELAYS_NIDMM_VAL_AUTO_DELAY_OFF = -2;  // str-hash: -435683092    orig_value: -2
+  TRIGGER_DELAYS_NIDMM_VAL_AUTO_DELAY_ON = -1082130432;  // str-hash: -298372852    orig_value: -1
+  TRIGGER_DELAYS_NIDMM_VAL_AUTO_DELAY_OFF = -1073741824;  // str-hash: -435683092    orig_value: -2
 }
 
 enum TriggerSlope {
@@ -571,25 +571,25 @@ enum NiDmmInt32AttributeValues {
 enum NiDmmReal64AttributeValues {
   option allow_alias = true;
   NIDMM_REAL64_UNSPECIFIED = 0;
-  NIDMM_REAL64_APERTURE_TIME_VAL_APERTURE_TIME_AUTO = -1;  // str-hash: -298372852    orig_value: -1
-  NIDMM_REAL64_APERTURE_TIME_VAL_1_PLC = 1;  // str-hash: -340828979    orig_value: 1
-  NIDMM_REAL64_APERTURE_TIME_VAL_5_PLC = 5;  // str-hash: -1266296961    orig_value: 5
-  NIDMM_REAL64_APERTURE_TIME_VAL_6_PLC = 6;  // str-hash: 567881875    orig_value: 6
-  NIDMM_REAL64_APERTURE_TIME_VAL_10_PLC = 10;  // str-hash: -1097944516    orig_value: 10
-  NIDMM_REAL64_APERTURE_TIME_VAL_12_PLC = 12;  // str-hash: -899582450    orig_value: 12
-  NIDMM_REAL64_APERTURE_TIME_VAL_100_PLC = 100;  // str-hash: -598286705    orig_value: 100
-  NIDMM_REAL64_APERTURE_TIME_VAL_120_PLC = 120;  // str-hash: 1853707594    orig_value: 120
-  NIDMM_REAL64_FREQUENCY_VOLTAGE_RANGE_VAL_AUTO_RANGE_ON = -1;  // str-hash: -298372852    orig_value: -1
-  NIDMM_REAL64_FREQUENCY_VOLTAGE_RANGE_VAL_AUTO_RANGE_OFF = -2;  // str-hash: -435683092    orig_value: -2
-  NIDMM_REAL64_POWER_LINE_FREQUENCIES_VAL_50_HERTZ = 50;  // str-hash: 809796431    orig_value: 50
-  NIDMM_REAL64_POWER_LINE_FREQUENCIES_VAL_60_HERTZ = 60;  // str-hash: 1632273862    orig_value: 60
-  NIDMM_REAL64_RANGE_VAL_AUTO_RANGE_ON = -1;  // str-hash: -298372852    orig_value: -1
-  NIDMM_REAL64_RANGE_VAL_AUTO_RANGE_OFF = -2;  // str-hash: -435683092    orig_value: -2
-  NIDMM_REAL64_RANGE_VAL_AUTO_RANGE_ONCE = -3;  // str-hash: 337842156    orig_value: -3
-  NIDMM_REAL64_SAMPLE_INTERVAL_VAL_AUTO_DELAY = -1;  // str-hash: -298372852    orig_value: -1
-  NIDMM_REAL64_SETTLE_TIME_VAL_SETTLE_TIME_AUTO = -1;  // str-hash: -298372852    orig_value: -1
-  NIDMM_REAL64_TRIGGER_DELAYS_VAL_AUTO_DELAY_ON = -1;  // str-hash: -298372852    orig_value: -1
-  NIDMM_REAL64_TRIGGER_DELAYS_VAL_AUTO_DELAY_OFF = -2;  // str-hash: -435683092    orig_value: -2
+  NIDMM_REAL64_APERTURE_TIME_VAL_APERTURE_TIME_AUTO = -1082130432;  // str-hash: -298372852    orig_value: -1
+  NIDMM_REAL64_APERTURE_TIME_VAL_1_PLC = 1065353216;  // str-hash: -340828979    orig_value: 1
+  NIDMM_REAL64_APERTURE_TIME_VAL_5_PLC = 1084227584;  // str-hash: -1266296961    orig_value: 5
+  NIDMM_REAL64_APERTURE_TIME_VAL_6_PLC = 1086324736;  // str-hash: 567881875    orig_value: 6
+  NIDMM_REAL64_APERTURE_TIME_VAL_10_PLC = 1092616192;  // str-hash: -1097944516    orig_value: 10
+  NIDMM_REAL64_APERTURE_TIME_VAL_12_PLC = 1094713344;  // str-hash: -899582450    orig_value: 12
+  NIDMM_REAL64_APERTURE_TIME_VAL_100_PLC = 1120403456;  // str-hash: -598286705    orig_value: 100
+  NIDMM_REAL64_APERTURE_TIME_VAL_120_PLC = 1123024896;  // str-hash: 1853707594    orig_value: 120
+  NIDMM_REAL64_FREQUENCY_VOLTAGE_RANGE_VAL_AUTO_RANGE_ON = -1082130432;  // str-hash: -298372852    orig_value: -1
+  NIDMM_REAL64_FREQUENCY_VOLTAGE_RANGE_VAL_AUTO_RANGE_OFF = -1073741824;  // str-hash: -435683092    orig_value: -2
+  NIDMM_REAL64_POWER_LINE_FREQUENCIES_VAL_50_HERTZ = 1112014848;  // str-hash: 809796431    orig_value: 50
+  NIDMM_REAL64_POWER_LINE_FREQUENCIES_VAL_60_HERTZ = 1114636288;  // str-hash: 1632273862    orig_value: 60
+  NIDMM_REAL64_RANGE_VAL_AUTO_RANGE_ON = -1082130432;  // str-hash: -298372852    orig_value: -1
+  NIDMM_REAL64_RANGE_VAL_AUTO_RANGE_OFF = -1073741824;  // str-hash: -435683092    orig_value: -2
+  NIDMM_REAL64_RANGE_VAL_AUTO_RANGE_ONCE = -1069547520;  // str-hash: 337842156    orig_value: -3
+  NIDMM_REAL64_SAMPLE_INTERVAL_VAL_AUTO_DELAY = -1082130432;  // str-hash: -298372852    orig_value: -1
+  NIDMM_REAL64_SETTLE_TIME_VAL_SETTLE_TIME_AUTO = -1082130432;  // str-hash: -298372852    orig_value: -1
+  NIDMM_REAL64_TRIGGER_DELAYS_VAL_AUTO_DELAY_ON = -1082130432;  // str-hash: -298372852    orig_value: -1
+  NIDMM_REAL64_TRIGGER_DELAYS_VAL_AUTO_DELAY_OFF = -1073741824;  // str-hash: -435683092    orig_value: -2
 }
 
 enum NiDmmStringAttributeValues {

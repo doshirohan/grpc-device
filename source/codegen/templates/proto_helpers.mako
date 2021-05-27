@@ -2,6 +2,7 @@
   import common_helpers
   import proto_helpers
   import hashlib
+  from struct import pack, unpack
 %>
 
 ## Define a proto enum capturing all attributes from the metadata.
@@ -47,7 +48,10 @@ enum ${enum_name} {
       value_value = int.from_bytes(hash_digest, byteorder='big', signed=True)
       value_comment = ""
     else:
-      value_value = int(value["value"])
+      # equivalent of reinterpret_cast<> in CPP
+      # https://stackoverflow.com/questions/51502600/what-is-the-python-equivalent-of-cpp-reinterpret-cast
+      b = pack('f', value["value"])
+      value_value = unpack('i', b)[0]
       seed = str(value["value"]).encode()
       hash_digest = hashlib.shake_128(seed).digest(4)
       str_hash = int.from_bytes(hash_digest, byteorder='big', signed=True)
