@@ -161,7 +161,7 @@ private:
   nidevice_grpc::SessionRepository* session_repository_;
   void Copy(const std::vector<ViBoolean>& input, google::protobuf::RepeatedField<bool>* output);
   template <typename T1>
-  void CopyEnumValues(const std::string& input, T1* output, int length, const std::map<char, std::int32_t>& enum_map = std::map<char, std::int32_t>());
+  void CopyEnumValues(const std::string& input, T1* output, const std::map<char, std::int32_t>& enum_map = std::map<char, std::int32_t>());
 };
 
 } // namespace nidigital_grpc
