@@ -7,7 +7,7 @@ namespace ni {
 namespace tests {
 namespace system {
 
-namespace digital = nidigital_grpc;
+namespace digital = nidigitalpattern_grpc;
 
 const int kDigitalDriverApiSuccess = 0;
 

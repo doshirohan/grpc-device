@@ -11,7 +11,7 @@ static const char* kLibraryName = "niDigital_64.dll";
 static const char* kLibraryName = "libnidigital.so";
 #endif
 
-namespace nidigital_grpc {
+namespace nidigitalpattern_grpc {
 
 NiDigitalLibrary::NiDigitalLibrary() : shared_library_(kLibraryName)
 {
@@ -1750,4 +1750,4 @@ ViStatus NiDigitalLibrary::WriteSourceWaveformSiteUniqueU32(ViSession vi, ViCons
 #endif
 }
 
-}  // namespace nidigital_grpc
+}  // namespace nidigitalpattern_grpc
