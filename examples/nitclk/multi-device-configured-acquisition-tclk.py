@@ -276,16 +276,15 @@ try:
                 # Add labels for axes and legends
                 plt.ylabel('Amplitude')
                 plt.xlabel('Samples')
-                plt.plot(np.round(data,2), label='$Scope{i}$'.format(i=i))
-                plt.legend(loc='lower left')
+                plt.plot(np.round(data,2))
+                plt.title(label='$Scope{i}$'.format(i=i))
             plt.subplots_adjust(wspace=0.5)    
             plt.pause(0.001)
             time.sleep(0.1)
     except KeyboardInterrupt:
         pass
 
-    for session in sessions:
-        i=0
+    for i in range(len(sessions)):
         sample_rate_result = scope_service.SampleRate(niscope_types.SampleRateRequest(
            vi = session 
         ))
@@ -293,8 +292,8 @@ try:
             vi = session
         ))
         print(resources[i])
-        print(sample_rate_result,record_length_result)
-        i=i+1
+        print("Actual Sample Rate = %f"  %sample_rate_result.sample_rate)
+        print("Actual Record Length = %f\n"  %record_length_result.record_length)
 
 
 except grpc.RpcError as rpc_error:
