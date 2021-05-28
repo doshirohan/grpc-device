@@ -260,18 +260,18 @@ try:
             plt.axis([0, 500, -6, 6])
             plt.ylabel('Amplitude')
             plt.xlabel('Samples')
-            # Read a waveform from the scope
+            # Fetch a waveform from the scope
             for i in range(len(sessions)):
-                read_result = scope_service.Read(niscope_types.ReadRequest(
+                fetch_result = scope_service.Fetch(niscope_types.FetchRequest(
                     vi = sessions[i],
                     channel_list = channels,
                     timeout = 1,
                     num_samples = 500
                 ))
-                CheckForError(scope_service, session, read_result.status)
+                CheckForError(scope_service, session, fetch_result.status)
                 plt.subplot(1,len(sessions),i+1)
                 # Round the array to 2 decimal places and Update the plot with the new waveform
-                data = np.array(read_result.waveform[0:500])
+                data = np.array(fetch_result.waveform[0:500])
                 plt.axis([0, 500, -6, 6])
                 # Add labels for axes and legends
                 plt.ylabel('Amplitude')
