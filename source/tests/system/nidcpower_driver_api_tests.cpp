@@ -58,7 +58,7 @@ class NiDCPowerDriverApiTest : public ::testing::Test {
     ::grpc::ClientContext context;
     dcpower::InitializeWithIndependentChannelsRequest request;
     request.set_resource_name("FakeDevice");
-    request.set_option_string("Simulate=1, DriverSetup=Model:4147; BoardType:PXIe");
+    request.set_option_string("Simulate=1, DriverSetup=Model:5421; BoardType:PXIe");
     request.set_session_name("");
     request.set_reset(false);
     dcpower::InitializeWithIndependentChannelsResponse response;

@@ -115,6 +115,8 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   ViStatus GetStreamEndpointHandle(ViSession vi, ViConstString streamEndpoint, ViUInt32* readerHandle);
   ViStatus ImportAttributeConfigurationBuffer(ViSession vi, ViInt32 sizeInBytes, ViAddr configuration[]);
   ViStatus ImportAttributeConfigurationFile(ViSession vi, ViConstString filePath);
+  ViStatus InitWithOptions(ViRsrc resourceName, ViBoolean idQuery, ViBoolean resetDevice, ViConstString optionString, ViSession* vi);
+  ViStatus InitializeWithChannels(ViRsrc resourceName, ViConstString channelName, ViBoolean resetDevice, ViConstString optionString, ViSession* vi);
   ViStatus InitializeAnalogOutputCalibration(ViSession vi);
   ViStatus InitializeCalAdcCalibration(ViSession vi);
   ViStatus InitializeFlatnessCalibration(ViSession vi);
@@ -255,6 +257,8 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   using GetStreamEndpointHandlePtr = ViStatus (*)(ViSession vi, ViConstString streamEndpoint, ViUInt32* readerHandle);
   using ImportAttributeConfigurationBufferPtr = ViStatus (*)(ViSession vi, ViInt32 sizeInBytes, ViAddr configuration[]);
   using ImportAttributeConfigurationFilePtr = ViStatus (*)(ViSession vi, ViConstString filePath);
+  using InitWithOptionsPtr = ViStatus (*)(ViRsrc resourceName, ViBoolean idQuery, ViBoolean resetDevice, ViConstString optionString, ViSession* vi);
+  using InitializeWithChannelsPtr = ViStatus (*)(ViRsrc resourceName, ViConstString channelName, ViBoolean resetDevice, ViConstString optionString, ViSession* vi);
   using InitializeAnalogOutputCalibrationPtr = ViStatus (*)(ViSession vi);
   using InitializeCalAdcCalibrationPtr = ViStatus (*)(ViSession vi);
   using InitializeFlatnessCalibrationPtr = ViStatus (*)(ViSession vi);
@@ -395,6 +399,8 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
     GetStreamEndpointHandlePtr GetStreamEndpointHandle;
     ImportAttributeConfigurationBufferPtr ImportAttributeConfigurationBuffer;
     ImportAttributeConfigurationFilePtr ImportAttributeConfigurationFile;
+    InitWithOptionsPtr InitWithOptions;
+    InitializeWithChannelsPtr InitializeWithChannels;
     InitializeAnalogOutputCalibrationPtr InitializeAnalogOutputCalibration;
     InitializeCalAdcCalibrationPtr InitializeCalAdcCalibration;
     InitializeFlatnessCalibrationPtr InitializeFlatnessCalibration;

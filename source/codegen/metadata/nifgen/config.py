@@ -8,7 +8,7 @@ config = {
     'java_package': 'com.ni.grpc.fgen',
     'csharp_namespace': 'NationalInstruments.Grpc.Fgen',
     'namespace_component': 'nifgen',
-    'close_function': 'close',
+    'close_function': 'Close',
     'context_manager_name': {
         'abort_function': 'AbortGeneration',
         'initiate_function': 'InitiateGeneration',
