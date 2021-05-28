@@ -39,7 +39,7 @@ session_name = "NI-FGEN-Session"
 
 # Resource name and options for a simulated 5413 client. Change them according to the NI-DMM model.
 resource = "SimulatedFGEN"
-options = "Simulate=1, DriverSetup=Model:5413; BoardType:PXIe"
+options = "Simulate=1, DriverSetup=Model:5404; BoardType:PXI"
 
 # parameters
 num_resources = 2
@@ -92,9 +92,10 @@ try:
     vis = []
     for i in range(num_resources):
         # Initalize NI-FGEN session
-        init_with_channels_resp = nifgen_service.InitializeWithChannels(nifgen_types.InitializeWithChannelsRequest(
+        init_with_channels_resp = nifgen_service.InitWithOptions(nifgen_types.InitWithOptionsRequest(
             session_name = session_name,
             resource_name = resource,
+            id_query = False,
             option_string = options
         ))
         vi = init_with_channels_resp.vi
