@@ -4,10 +4,10 @@
 //---------------------------------------------------------------------
 // Service header for the NI-Digital Pattern Driver Metadata
 //---------------------------------------------------------------------
-#ifndef NIDIGITAL_GRPC_SERVICE_H
-#define NIDIGITAL_GRPC_SERVICE_H
+#ifndef NIDIGITALPATTERN_GRPC_SERVICE_H
+#define NIDIGITALPATTERN_GRPC_SERVICE_H
 
-#include <nidigital.grpc.pb.h>
+#include <nidigitalpattern.grpc.pb.h>
 #include <condition_variable>
 #include <grpcpp/grpcpp.h>
 #include <grpcpp/health_check_service_interface.h>
@@ -16,9 +16,9 @@
 #include <server/session_repository.h>
 #include <server/shared_library.h>
 
-#include "nidigital_library_interface.h"
+#include "nidigitalpattern_library_interface.h"
 
-namespace nidigital_grpc {
+namespace nidigitalpattern_grpc {
 
 class NiDigitalService final : public NiDigital::Service {
 public:
@@ -160,10 +160,10 @@ private:
   NiDigitalLibraryInterface* library_;
   nidevice_grpc::SessionRepository* session_repository_;
   void Copy(const std::vector<ViBoolean>& input, google::protobuf::RepeatedField<bool>* output);
-  template <typename T1>
-  void CopyEnumValues(const std::string& input, T1* output, const std::map<char, std::int32_t>& enum_map = std::map<char, std::int32_t>());
+  template <typename TEnum>
+  void CopyBytesToEnums(const std::string& input, google::protobuf::RepeatedField<TEnum>* output);
 };
 
-} // namespace nidigital_grpc
+} // namespace nidigitalpattern_grpc
 
-#endif  // NIDIGITAL_GRPC_SERVICE_H
+#endif  // NIDIGITALPATTERN_GRPC_SERVICE_H

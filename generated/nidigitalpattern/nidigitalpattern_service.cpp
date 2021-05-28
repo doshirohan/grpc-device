@@ -4,7 +4,7 @@
 //---------------------------------------------------------------------
 // Service implementation for the NI-Digital Pattern Driver Metadata
 //---------------------------------------------------------------------
-#include "nidigital_service.h"
+#include "nidigitalpattern_service.h"
 
 #include <sstream>
 #include <fstream>
@@ -12,7 +12,7 @@
 #include <atomic>
 #include <vector>
 
-namespace nidigital_grpc {
+namespace nidigitalpattern_grpc {
 
   NiDigitalService::NiDigitalService(NiDigitalLibraryInterface* library, nidevice_grpc::SessionRepository* session_repository)
       : library_(library), session_repository_(session_repository)
@@ -30,20 +30,12 @@ namespace nidigital_grpc {
     }
   }
 
-  template <typename T1>
-  void NiDigitalService::CopyEnumValues(const std::string& input, T1* output, const std::map<char, std::int32_t>& enum_map)
+  template <typename TEnum>
+  void NiDigitalService::CopyBytesToEnums(const std::string& input, google::protobuf::RepeatedField<TEnum>* output)
   {
     for (auto item : input)
     {
-      auto it = enum_map.find(item);
-      if (it != enum_map.end())
-      {
-        output->Add(it->second);
-      }
-      else
-      {
-        output->Add(item);
-      }
+      output->Add(item);
     }
   }
 
@@ -364,13 +356,13 @@ namespace nidigital_grpc {
       ViConstString source = request->source().c_str();
       ViInt32 edge;
       switch (request->edge_enum_case()) {
-        case nidigital_grpc::ConfigureDigitalEdgeConditionalJumpTriggerRequest::EdgeEnumCase::kEdge:
+        case nidigitalpattern_grpc::ConfigureDigitalEdgeConditionalJumpTriggerRequest::EdgeEnumCase::kEdge:
           edge = (ViInt32)request->edge();
           break;
-        case nidigital_grpc::ConfigureDigitalEdgeConditionalJumpTriggerRequest::EdgeEnumCase::kEdgeRaw:
+        case nidigitalpattern_grpc::ConfigureDigitalEdgeConditionalJumpTriggerRequest::EdgeEnumCase::kEdgeRaw:
           edge = (ViInt32)request->edge_raw();
           break;
-        case nidigital_grpc::ConfigureDigitalEdgeConditionalJumpTriggerRequest::EdgeEnumCase::EDGE_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::ConfigureDigitalEdgeConditionalJumpTriggerRequest::EdgeEnumCase::EDGE_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for edge was not specified or out of range");
           break;
       }
@@ -397,13 +389,13 @@ namespace nidigital_grpc {
       ViConstString source = request->source().c_str();
       ViInt32 edge;
       switch (request->edge_enum_case()) {
-        case nidigital_grpc::ConfigureDigitalEdgeStartTriggerRequest::EdgeEnumCase::kEdge:
+        case nidigitalpattern_grpc::ConfigureDigitalEdgeStartTriggerRequest::EdgeEnumCase::kEdge:
           edge = (ViInt32)request->edge();
           break;
-        case nidigital_grpc::ConfigureDigitalEdgeStartTriggerRequest::EdgeEnumCase::kEdgeRaw:
+        case nidigitalpattern_grpc::ConfigureDigitalEdgeStartTriggerRequest::EdgeEnumCase::kEdgeRaw:
           edge = (ViInt32)request->edge_raw();
           break;
-        case nidigital_grpc::ConfigureDigitalEdgeStartTriggerRequest::EdgeEnumCase::EDGE_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::ConfigureDigitalEdgeStartTriggerRequest::EdgeEnumCase::EDGE_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for edge was not specified or out of range");
           break;
       }
@@ -449,13 +441,13 @@ namespace nidigital_grpc {
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 cycles_to_acquire;
       switch (request->cycles_to_acquire_enum_case()) {
-        case nidigital_grpc::ConfigureHistoryRAMCyclesToAcquireRequest::CyclesToAcquireEnumCase::kCyclesToAcquire:
+        case nidigitalpattern_grpc::ConfigureHistoryRAMCyclesToAcquireRequest::CyclesToAcquireEnumCase::kCyclesToAcquire:
           cycles_to_acquire = (ViInt32)request->cycles_to_acquire();
           break;
-        case nidigital_grpc::ConfigureHistoryRAMCyclesToAcquireRequest::CyclesToAcquireEnumCase::kCyclesToAcquireRaw:
+        case nidigitalpattern_grpc::ConfigureHistoryRAMCyclesToAcquireRequest::CyclesToAcquireEnumCase::kCyclesToAcquireRaw:
           cycles_to_acquire = (ViInt32)request->cycles_to_acquire_raw();
           break;
-        case nidigital_grpc::ConfigureHistoryRAMCyclesToAcquireRequest::CyclesToAcquireEnumCase::CYCLES_TO_ACQUIRE_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::ConfigureHistoryRAMCyclesToAcquireRequest::CyclesToAcquireEnumCase::CYCLES_TO_ACQUIRE_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for cycles_to_acquire was not specified or out of range");
           break;
       }
@@ -584,13 +576,13 @@ namespace nidigital_grpc {
       ViConstString channel_list = request->channel_list().c_str();
       ViInt32 mode;
       switch (request->mode_enum_case()) {
-        case nidigital_grpc::ConfigureTerminationModeRequest::ModeEnumCase::kMode:
+        case nidigitalpattern_grpc::ConfigureTerminationModeRequest::ModeEnumCase::kMode:
           mode = (ViInt32)request->mode();
           break;
-        case nidigital_grpc::ConfigureTerminationModeRequest::ModeEnumCase::kModeRaw:
+        case nidigitalpattern_grpc::ConfigureTerminationModeRequest::ModeEnumCase::kModeRaw:
           mode = (ViInt32)request->mode_raw();
           break;
-        case nidigital_grpc::ConfigureTerminationModeRequest::ModeEnumCase::MODE_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::ConfigureTerminationModeRequest::ModeEnumCase::MODE_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for mode was not specified or out of range");
           break;
       }
@@ -663,13 +655,13 @@ namespace nidigital_grpc {
       ViConstString time_set_name = request->time_set_name().c_str();
       ViInt32 format;
       switch (request->format_enum_case()) {
-        case nidigital_grpc::ConfigureTimeSetDriveEdgesRequest::FormatEnumCase::kFormat:
+        case nidigitalpattern_grpc::ConfigureTimeSetDriveEdgesRequest::FormatEnumCase::kFormat:
           format = (ViInt32)request->format();
           break;
-        case nidigital_grpc::ConfigureTimeSetDriveEdgesRequest::FormatEnumCase::kFormatRaw:
+        case nidigitalpattern_grpc::ConfigureTimeSetDriveEdgesRequest::FormatEnumCase::kFormatRaw:
           format = (ViInt32)request->format_raw();
           break;
-        case nidigital_grpc::ConfigureTimeSetDriveEdgesRequest::FormatEnumCase::FORMAT_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::ConfigureTimeSetDriveEdgesRequest::FormatEnumCase::FORMAT_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for format was not specified or out of range");
           break;
       }
@@ -701,13 +693,13 @@ namespace nidigital_grpc {
       ViConstString time_set_name = request->time_set_name().c_str();
       ViInt32 format;
       switch (request->format_enum_case()) {
-        case nidigital_grpc::ConfigureTimeSetDriveEdges2xRequest::FormatEnumCase::kFormat:
+        case nidigitalpattern_grpc::ConfigureTimeSetDriveEdges2xRequest::FormatEnumCase::kFormat:
           format = (ViInt32)request->format();
           break;
-        case nidigital_grpc::ConfigureTimeSetDriveEdges2xRequest::FormatEnumCase::kFormatRaw:
+        case nidigitalpattern_grpc::ConfigureTimeSetDriveEdges2xRequest::FormatEnumCase::kFormatRaw:
           format = (ViInt32)request->format_raw();
           break;
-        case nidigital_grpc::ConfigureTimeSetDriveEdges2xRequest::FormatEnumCase::FORMAT_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::ConfigureTimeSetDriveEdges2xRequest::FormatEnumCase::FORMAT_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for format was not specified or out of range");
           break;
       }
@@ -741,13 +733,13 @@ namespace nidigital_grpc {
       ViConstString time_set_name = request->time_set_name().c_str();
       ViInt32 drive_format;
       switch (request->drive_format_enum_case()) {
-        case nidigital_grpc::ConfigureTimeSetDriveFormatRequest::DriveFormatEnumCase::kDriveFormat:
+        case nidigitalpattern_grpc::ConfigureTimeSetDriveFormatRequest::DriveFormatEnumCase::kDriveFormat:
           drive_format = (ViInt32)request->drive_format();
           break;
-        case nidigital_grpc::ConfigureTimeSetDriveFormatRequest::DriveFormatEnumCase::kDriveFormatRaw:
+        case nidigitalpattern_grpc::ConfigureTimeSetDriveFormatRequest::DriveFormatEnumCase::kDriveFormatRaw:
           drive_format = (ViInt32)request->drive_format_raw();
           break;
-        case nidigital_grpc::ConfigureTimeSetDriveFormatRequest::DriveFormatEnumCase::DRIVE_FORMAT_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::ConfigureTimeSetDriveFormatRequest::DriveFormatEnumCase::DRIVE_FORMAT_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for drive_format was not specified or out of range");
           break;
       }
@@ -775,13 +767,13 @@ namespace nidigital_grpc {
       ViConstString time_set_name = request->time_set_name().c_str();
       ViInt32 edge;
       switch (request->edge_enum_case()) {
-        case nidigital_grpc::ConfigureTimeSetEdgeRequest::EdgeEnumCase::kEdge:
+        case nidigitalpattern_grpc::ConfigureTimeSetEdgeRequest::EdgeEnumCase::kEdge:
           edge = (ViInt32)request->edge();
           break;
-        case nidigital_grpc::ConfigureTimeSetEdgeRequest::EdgeEnumCase::kEdgeRaw:
+        case nidigitalpattern_grpc::ConfigureTimeSetEdgeRequest::EdgeEnumCase::kEdgeRaw:
           edge = (ViInt32)request->edge_raw();
           break;
-        case nidigital_grpc::ConfigureTimeSetEdgeRequest::EdgeEnumCase::EDGE_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::ConfigureTimeSetEdgeRequest::EdgeEnumCase::EDGE_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for edge was not specified or out of range");
           break;
       }
@@ -921,13 +913,13 @@ namespace nidigital_grpc {
       ViUInt32 sample_width = request->sample_width();
       ViInt32 bit_order;
       switch (request->bit_order_enum_case()) {
-        case nidigital_grpc::CreateCaptureWaveformSerialRequest::BitOrderEnumCase::kBitOrder:
+        case nidigitalpattern_grpc::CreateCaptureWaveformSerialRequest::BitOrderEnumCase::kBitOrder:
           bit_order = (ViInt32)request->bit_order();
           break;
-        case nidigital_grpc::CreateCaptureWaveformSerialRequest::BitOrderEnumCase::kBitOrderRaw:
+        case nidigitalpattern_grpc::CreateCaptureWaveformSerialRequest::BitOrderEnumCase::kBitOrderRaw:
           bit_order = (ViInt32)request->bit_order_raw();
           break;
-        case nidigital_grpc::CreateCaptureWaveformSerialRequest::BitOrderEnumCase::BIT_ORDER_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::CreateCaptureWaveformSerialRequest::BitOrderEnumCase::BIT_ORDER_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for bit_order was not specified or out of range");
           break;
       }
@@ -1039,13 +1031,13 @@ namespace nidigital_grpc {
       ViConstString waveform_name = request->waveform_name().c_str();
       ViInt32 data_mapping;
       switch (request->data_mapping_enum_case()) {
-        case nidigital_grpc::CreateSourceWaveformParallelRequest::DataMappingEnumCase::kDataMapping:
+        case nidigitalpattern_grpc::CreateSourceWaveformParallelRequest::DataMappingEnumCase::kDataMapping:
           data_mapping = (ViInt32)request->data_mapping();
           break;
-        case nidigital_grpc::CreateSourceWaveformParallelRequest::DataMappingEnumCase::kDataMappingRaw:
+        case nidigitalpattern_grpc::CreateSourceWaveformParallelRequest::DataMappingEnumCase::kDataMappingRaw:
           data_mapping = (ViInt32)request->data_mapping_raw();
           break;
-        case nidigital_grpc::CreateSourceWaveformParallelRequest::DataMappingEnumCase::DATA_MAPPING_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::CreateSourceWaveformParallelRequest::DataMappingEnumCase::DATA_MAPPING_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for data_mapping was not specified or out of range");
           break;
       }
@@ -1073,13 +1065,13 @@ namespace nidigital_grpc {
       ViConstString waveform_name = request->waveform_name().c_str();
       ViInt32 data_mapping;
       switch (request->data_mapping_enum_case()) {
-        case nidigital_grpc::CreateSourceWaveformSerialRequest::DataMappingEnumCase::kDataMapping:
+        case nidigitalpattern_grpc::CreateSourceWaveformSerialRequest::DataMappingEnumCase::kDataMapping:
           data_mapping = (ViInt32)request->data_mapping();
           break;
-        case nidigital_grpc::CreateSourceWaveformSerialRequest::DataMappingEnumCase::kDataMappingRaw:
+        case nidigitalpattern_grpc::CreateSourceWaveformSerialRequest::DataMappingEnumCase::kDataMappingRaw:
           data_mapping = (ViInt32)request->data_mapping_raw();
           break;
-        case nidigital_grpc::CreateSourceWaveformSerialRequest::DataMappingEnumCase::DATA_MAPPING_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::CreateSourceWaveformSerialRequest::DataMappingEnumCase::DATA_MAPPING_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for data_mapping was not specified or out of range");
           break;
       }
@@ -1087,13 +1079,13 @@ namespace nidigital_grpc {
       ViUInt32 sample_width = request->sample_width();
       ViInt32 bit_order;
       switch (request->bit_order_enum_case()) {
-        case nidigital_grpc::CreateSourceWaveformSerialRequest::BitOrderEnumCase::kBitOrder:
+        case nidigitalpattern_grpc::CreateSourceWaveformSerialRequest::BitOrderEnumCase::kBitOrder:
           bit_order = (ViInt32)request->bit_order();
           break;
-        case nidigital_grpc::CreateSourceWaveformSerialRequest::BitOrderEnumCase::kBitOrderRaw:
+        case nidigitalpattern_grpc::CreateSourceWaveformSerialRequest::BitOrderEnumCase::kBitOrderRaw:
           bit_order = (ViInt32)request->bit_order_raw();
           break;
-        case nidigital_grpc::CreateSourceWaveformSerialRequest::BitOrderEnumCase::BIT_ORDER_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::CreateSourceWaveformSerialRequest::BitOrderEnumCase::BIT_ORDER_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for bit_order was not specified or out of range");
           break;
       }
@@ -1307,13 +1299,13 @@ namespace nidigital_grpc {
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 signal;
       switch (request->signal_enum_case()) {
-        case nidigital_grpc::ExportSignalRequest::SignalEnumCase::kSignal:
+        case nidigitalpattern_grpc::ExportSignalRequest::SignalEnumCase::kSignal:
           signal = (ViInt32)request->signal();
           break;
-        case nidigital_grpc::ExportSignalRequest::SignalEnumCase::kSignalRaw:
+        case nidigitalpattern_grpc::ExportSignalRequest::SignalEnumCase::kSignalRaw:
           signal = (ViInt32)request->signal_raw();
           break;
-        case nidigital_grpc::ExportSignalRequest::SignalEnumCase::SIGNAL_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::ExportSignalRequest::SignalEnumCase::SIGNAL_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for signal was not specified or out of range");
           break;
       }
@@ -1424,9 +1416,9 @@ namespace nidigital_grpc {
       status = library_->FetchHistoryRAMCyclePinData(vi, site, pin_list, sample_index, dut_cycle_index, actual_num_pin_data, (ViUInt8*)expected_pin_states.data(), (ViUInt8*)actual_pin_states.data(), per_pin_pass_fail.data(), &actual_num_pin_data);
       response->set_status(status);
       if (status == 0) {
-        CopyEnumValues(expected_pin_states, response->mutable_expected_pin_states());
+        CopyBytesToEnums(expected_pin_states, response->mutable_expected_pin_states());
         response->set_expected_pin_states_raw(expected_pin_states);
-        CopyEnumValues(actual_pin_states, response->mutable_actual_pin_states());
+        CopyBytesToEnums(actual_pin_states, response->mutable_actual_pin_states());
         response->set_actual_pin_states_raw(actual_pin_states);
         Copy(per_pin_pass_fail, response->mutable_per_pin_pass_fail());
         response->set_actual_num_pin_data(actual_num_pin_data);
@@ -1475,13 +1467,13 @@ namespace nidigital_grpc {
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 measurement_mode;
       switch (request->measurement_mode_enum_case()) {
-        case nidigital_grpc::FrequencyCounterConfigureMeasurementModeRequest::MeasurementModeEnumCase::kMeasurementMode:
+        case nidigitalpattern_grpc::FrequencyCounterConfigureMeasurementModeRequest::MeasurementModeEnumCase::kMeasurementMode:
           measurement_mode = (ViInt32)request->measurement_mode();
           break;
-        case nidigital_grpc::FrequencyCounterConfigureMeasurementModeRequest::MeasurementModeEnumCase::kMeasurementModeRaw:
+        case nidigitalpattern_grpc::FrequencyCounterConfigureMeasurementModeRequest::MeasurementModeEnumCase::kMeasurementModeRaw:
           measurement_mode = (ViInt32)request->measurement_mode_raw();
           break;
-        case nidigital_grpc::FrequencyCounterConfigureMeasurementModeRequest::MeasurementModeEnumCase::MEASUREMENT_MODE_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::FrequencyCounterConfigureMeasurementModeRequest::MeasurementModeEnumCase::MEASUREMENT_MODE_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for measurement_mode was not specified or out of range");
           break;
       }
@@ -2063,13 +2055,13 @@ namespace nidigital_grpc {
       ViConstString site_list = request->site_list().c_str();
       ViInt32 site_result_type;
       switch (request->site_result_type_enum_case()) {
-        case nidigital_grpc::GetSiteResultsSiteNumbersRequest::SiteResultTypeEnumCase::kSiteResultType:
+        case nidigitalpattern_grpc::GetSiteResultsSiteNumbersRequest::SiteResultTypeEnumCase::kSiteResultType:
           site_result_type = (ViInt32)request->site_result_type();
           break;
-        case nidigital_grpc::GetSiteResultsSiteNumbersRequest::SiteResultTypeEnumCase::kSiteResultTypeRaw:
+        case nidigitalpattern_grpc::GetSiteResultsSiteNumbersRequest::SiteResultTypeEnumCase::kSiteResultTypeRaw:
           site_result_type = (ViInt32)request->site_result_type_raw();
           break;
-        case nidigital_grpc::GetSiteResultsSiteNumbersRequest::SiteResultTypeEnumCase::SITE_RESULT_TYPE_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::GetSiteResultsSiteNumbersRequest::SiteResultTypeEnumCase::SITE_RESULT_TYPE_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for site_result_type was not specified or out of range");
           break;
       }
@@ -2110,7 +2102,7 @@ namespace nidigital_grpc {
       auto status = library_->GetTimeSetDriveFormat(vi, pin, time_set_name, &format);
       response->set_status(status);
       if (status == 0) {
-        response->set_format(static_cast<nidigital_grpc::DriveFormat>(format));
+        response->set_format(static_cast<nidigitalpattern_grpc::DriveFormat>(format));
         response->set_format_raw(format);
       }
       return ::grpc::Status::OK;
@@ -2134,13 +2126,13 @@ namespace nidigital_grpc {
       ViConstString time_set_name = request->time_set_name().c_str();
       ViInt32 edge;
       switch (request->edge_enum_case()) {
-        case nidigital_grpc::GetTimeSetEdgeRequest::EdgeEnumCase::kEdge:
+        case nidigitalpattern_grpc::GetTimeSetEdgeRequest::EdgeEnumCase::kEdge:
           edge = (ViInt32)request->edge();
           break;
-        case nidigital_grpc::GetTimeSetEdgeRequest::EdgeEnumCase::kEdgeRaw:
+        case nidigitalpattern_grpc::GetTimeSetEdgeRequest::EdgeEnumCase::kEdgeRaw:
           edge = (ViInt32)request->edge_raw();
           break;
-        case nidigital_grpc::GetTimeSetEdgeRequest::EdgeEnumCase::EDGE_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::GetTimeSetEdgeRequest::EdgeEnumCase::EDGE_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for edge was not specified or out of range");
           break;
       }
@@ -2529,13 +2521,13 @@ namespace nidigital_grpc {
       ViReal64 aperture_time = request->aperture_time();
       ViInt32 units;
       switch (request->units_enum_case()) {
-        case nidigital_grpc::PPMUConfigureApertureTimeRequest::UnitsEnumCase::kUnits:
+        case nidigitalpattern_grpc::PPMUConfigureApertureTimeRequest::UnitsEnumCase::kUnits:
           units = (ViInt32)request->units();
           break;
-        case nidigital_grpc::PPMUConfigureApertureTimeRequest::UnitsEnumCase::kUnitsRaw:
+        case nidigitalpattern_grpc::PPMUConfigureApertureTimeRequest::UnitsEnumCase::kUnitsRaw:
           units = (ViInt32)request->units_raw();
           break;
-        case nidigital_grpc::PPMUConfigureApertureTimeRequest::UnitsEnumCase::UNITS_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::PPMUConfigureApertureTimeRequest::UnitsEnumCase::UNITS_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for units was not specified or out of range");
           break;
       }
@@ -2604,13 +2596,13 @@ namespace nidigital_grpc {
       ViConstString channel_list = request->channel_list().c_str();
       ViInt32 behavior;
       switch (request->behavior_enum_case()) {
-        case nidigital_grpc::PPMUConfigureCurrentLimitRequest::BehaviorEnumCase::kBehavior:
+        case nidigitalpattern_grpc::PPMUConfigureCurrentLimitRequest::BehaviorEnumCase::kBehavior:
           behavior = (ViInt32)request->behavior();
           break;
-        case nidigital_grpc::PPMUConfigureCurrentLimitRequest::BehaviorEnumCase::kBehaviorRaw:
+        case nidigitalpattern_grpc::PPMUConfigureCurrentLimitRequest::BehaviorEnumCase::kBehaviorRaw:
           behavior = (ViInt32)request->behavior_raw();
           break;
-        case nidigital_grpc::PPMUConfigureCurrentLimitRequest::BehaviorEnumCase::BEHAVIOR_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::PPMUConfigureCurrentLimitRequest::BehaviorEnumCase::BEHAVIOR_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for behavior was not specified or out of range");
           break;
       }
@@ -2659,13 +2651,13 @@ namespace nidigital_grpc {
       ViConstString channel_list = request->channel_list().c_str();
       ViInt32 output_function;
       switch (request->output_function_enum_case()) {
-        case nidigital_grpc::PPMUConfigureOutputFunctionRequest::OutputFunctionEnumCase::kOutputFunction:
+        case nidigitalpattern_grpc::PPMUConfigureOutputFunctionRequest::OutputFunctionEnumCase::kOutputFunction:
           output_function = (ViInt32)request->output_function();
           break;
-        case nidigital_grpc::PPMUConfigureOutputFunctionRequest::OutputFunctionEnumCase::kOutputFunctionRaw:
+        case nidigitalpattern_grpc::PPMUConfigureOutputFunctionRequest::OutputFunctionEnumCase::kOutputFunctionRaw:
           output_function = (ViInt32)request->output_function_raw();
           break;
-        case nidigital_grpc::PPMUConfigureOutputFunctionRequest::OutputFunctionEnumCase::OUTPUT_FUNCTION_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::PPMUConfigureOutputFunctionRequest::OutputFunctionEnumCase::OUTPUT_FUNCTION_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for output_function was not specified or out of range");
           break;
       }
@@ -2735,13 +2727,13 @@ namespace nidigital_grpc {
       ViConstString channel_list = request->channel_list().c_str();
       ViInt32 measurement_type;
       switch (request->measurement_type_enum_case()) {
-        case nidigital_grpc::PPMUMeasureRequest::MeasurementTypeEnumCase::kMeasurementType:
+        case nidigitalpattern_grpc::PPMUMeasureRequest::MeasurementTypeEnumCase::kMeasurementType:
           measurement_type = (ViInt32)request->measurement_type();
           break;
-        case nidigital_grpc::PPMUMeasureRequest::MeasurementTypeEnumCase::kMeasurementTypeRaw:
+        case nidigitalpattern_grpc::PPMUMeasureRequest::MeasurementTypeEnumCase::kMeasurementTypeRaw:
           measurement_type = (ViInt32)request->measurement_type_raw();
           break;
-        case nidigital_grpc::PPMUMeasureRequest::MeasurementTypeEnumCase::MEASUREMENT_TYPE_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::PPMUMeasureRequest::MeasurementTypeEnumCase::MEASUREMENT_TYPE_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for measurement_type was not specified or out of range");
           break;
       }
@@ -2855,7 +2847,7 @@ namespace nidigital_grpc {
       status = library_->ReadStatic(vi, channel_list, actual_num_read, (ViUInt8*)data.data(), &actual_num_read);
       response->set_status(status);
       if (status == 0) {
-        CopyEnumValues(data, response->mutable_data());
+        CopyBytesToEnums(data, response->mutable_data());
         response->set_data_raw(data);
         response->set_actual_num_read(actual_num_read);
       }
@@ -2938,13 +2930,13 @@ namespace nidigital_grpc {
       ViConstString channel_list = request->channel_list().c_str();
       ViInt32 function;
       switch (request->function_enum_case()) {
-        case nidigital_grpc::SelectFunctionRequest::FunctionEnumCase::kFunction:
+        case nidigitalpattern_grpc::SelectFunctionRequest::FunctionEnumCase::kFunction:
           function = (ViInt32)request->function();
           break;
-        case nidigital_grpc::SelectFunctionRequest::FunctionEnumCase::kFunctionRaw:
+        case nidigitalpattern_grpc::SelectFunctionRequest::FunctionEnumCase::kFunctionRaw:
           function = (ViInt32)request->function_raw();
           break;
-        case nidigital_grpc::SelectFunctionRequest::FunctionEnumCase::FUNCTION_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::SelectFunctionRequest::FunctionEnumCase::FUNCTION_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for function was not specified or out of range");
           break;
       }
@@ -3014,13 +3006,13 @@ namespace nidigital_grpc {
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 trigger;
       switch (request->trigger_enum_case()) {
-        case nidigital_grpc::SendSoftwareEdgeTriggerRequest::TriggerEnumCase::kTrigger:
+        case nidigitalpattern_grpc::SendSoftwareEdgeTriggerRequest::TriggerEnumCase::kTrigger:
           trigger = (ViInt32)request->trigger();
           break;
-        case nidigital_grpc::SendSoftwareEdgeTriggerRequest::TriggerEnumCase::kTriggerRaw:
+        case nidigitalpattern_grpc::SendSoftwareEdgeTriggerRequest::TriggerEnumCase::kTriggerRaw:
           trigger = (ViInt32)request->trigger_raw();
           break;
-        case nidigital_grpc::SendSoftwareEdgeTriggerRequest::TriggerEnumCase::TRIGGER_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::SendSoftwareEdgeTriggerRequest::TriggerEnumCase::TRIGGER_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for trigger was not specified or out of range");
           break;
       }
@@ -3408,13 +3400,13 @@ namespace nidigital_grpc {
       ViConstString channel_list = request->channel_list().c_str();
       ViUInt8 state;
       switch (request->state_enum_case()) {
-        case nidigital_grpc::WriteStaticRequest::StateEnumCase::kState:
+        case nidigitalpattern_grpc::WriteStaticRequest::StateEnumCase::kState:
           state = (ViUInt8)request->state();
           break;
-        case nidigital_grpc::WriteStaticRequest::StateEnumCase::kStateRaw:
+        case nidigitalpattern_grpc::WriteStaticRequest::StateEnumCase::kStateRaw:
           state = (ViUInt8)request->state_raw();
           break;
-        case nidigital_grpc::WriteStaticRequest::StateEnumCase::STATE_ENUM_NOT_SET:
+        case nidigitalpattern_grpc::WriteStaticRequest::StateEnumCase::STATE_ENUM_NOT_SET:
           return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for state was not specified or out of range");
           break;
       }
@@ -3452,5 +3444,5 @@ namespace nidigital_grpc {
     }
   }
 
-} // namespace nidigital_grpc
+} // namespace nidigitalpattern_grpc
 
