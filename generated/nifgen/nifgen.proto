@@ -113,6 +113,9 @@ service NiFgen {
   rpc GetStreamEndpointHandle(GetStreamEndpointHandleRequest) returns (GetStreamEndpointHandleResponse);
   rpc ImportAttributeConfigurationBuffer(ImportAttributeConfigurationBufferRequest) returns (ImportAttributeConfigurationBufferResponse);
   rpc ImportAttributeConfigurationFile(ImportAttributeConfigurationFileRequest) returns (ImportAttributeConfigurationFileResponse);
+  rpc InitExtCal(InitExtCalRequest) returns (InitExtCalResponse);
+  rpc InitWithOptions(InitWithOptionsRequest) returns (InitWithOptionsResponse);
+  rpc InitializeWithChannels(InitializeWithChannelsRequest) returns (InitializeWithChannelsResponse);
   rpc InitializeAnalogOutputCalibration(InitializeAnalogOutputCalibrationRequest) returns (InitializeAnalogOutputCalibrationResponse);
   rpc InitializeCalAdcCalibration(InitializeCalAdcCalibrationRequest) returns (InitializeCalAdcCalibrationResponse);
   rpc InitializeFlatnessCalibration(InitializeFlatnessCalibrationRequest) returns (InitializeFlatnessCalibrationResponse);
@@ -1397,6 +1400,42 @@ message ImportAttributeConfigurationFileRequest {
 
 message ImportAttributeConfigurationFileResponse {
   int32 status = 1;
+}
+
+message InitExtCalRequest {
+  string session_name = 1;
+  string resource_name = 2;
+  string password = 3;
+}
+
+message InitExtCalResponse {
+  int32 status = 1;
+  nidevice_grpc.Session vi = 2;
+}
+
+message InitWithOptionsRequest {
+  string resource_name = 1;
+  bool id_query = 2;
+  bool reset_device = 3;
+  string option_string = 4;
+}
+
+message InitWithOptionsResponse {
+  int32 status = 1;
+  nidevice_grpc.Session vi = 2;
+}
+
+message InitializeWithChannelsRequest {
+  string session_name = 1;
+  string resource_name = 2;
+  string channel_name = 3;
+  bool reset_device = 4;
+  string option_string = 5;
+}
+
+message InitializeWithChannelsResponse {
+  int32 status = 1;
+  nidevice_grpc.Session vi = 2;
 }
 
 message InitializeAnalogOutputCalibrationRequest {
