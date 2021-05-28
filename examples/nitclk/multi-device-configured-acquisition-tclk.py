@@ -258,8 +258,6 @@ try:
             # Clear the plot and setup the axis
             fig.clf()
             plt.axis([0, 500, -6, 6])
-            plt.ylabel('Amplitude')
-            plt.xlabel('Samples')
             # Fetch a waveform from the scope
             for i in range(len(sessions)):
                 fetch_result = scope_service.Fetch(niscope_types.FetchRequest(
@@ -269,10 +267,9 @@ try:
                     num_samples = 500
                 ))
                 CheckForError(scope_service, session, fetch_result.status)
-                plt.subplot(1,len(sessions),i+1)
+                plt.subplot(1,len(sessions),i+1, label=str(i))
                 # Round the array to 2 decimal places and Update the plot with the new waveform
                 data = np.array(fetch_result.waveform[0:500])
-                plt.axis([0, 500, -6, 6])
                 # Add labels for axes and legends
                 plt.ylabel('Amplitude')
                 plt.xlabel('Samples')
@@ -294,7 +291,6 @@ try:
         print(resources[i])
         print("Actual Sample Rate = %f"  %sample_rate_result.sample_rate)
         print("Actual Record Length = %f\n"  %record_length_result.record_length)
-
 
 except grpc.RpcError as rpc_error:
     error_message = rpc_error.details()
