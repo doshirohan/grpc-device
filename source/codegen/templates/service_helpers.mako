@@ -190,7 +190,7 @@ ${initialize_standard_input_param(function_name, parameter)}\
       ${c_type} ${parameter_name} = ${request_snippet}.c_str();\
 % elif c_type == 'ViString' or c_type == 'ViRsrc':
       ${c_type} ${parameter_name} = (${c_type})${request_snippet}.c_str();\
-% elif service_helpers.is_string_arg(parameter):
+% elif common_helpers.is_string_arg(parameter):
       ${c_type_pointer} ${parameter_name} = (${c_type_pointer})${request_snippet}.c_str();\
 % elif c_type == 'ViSession[]':
       auto ${parameter_name}_request = ${request_snippet};
@@ -258,7 +258,7 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
 %>\
 %     if common_helpers.is_struct(parameter) or underlying_param_type == 'ViBoolean':
       std::vector<${underlying_param_type}> ${parameter_name}(${size}, ${underlying_param_type}());
-%     elif service_helpers.is_string_arg(parameter):
+%     elif common_helpers.is_string_arg(parameter):
       std::string ${parameter_name}(${size}, '\0');
 %     elif underlying_param_type in ['ViAddr', 'ViInt32', 'ViUInt32']:
       response->mutable_${parameter_name}()->Resize(${size}, 0);
@@ -294,12 +294,14 @@ one_of_case_prefix = f'{namespace_prefix}{function_name}Request::{PascalFieldNam
         if(${iterator_name} != ${map_name}.end()) {
           response->set_${parameter_name}(static_cast<${namespace_prefix}${parameter["enum"]}>(${iterator_name}->second));
         }
+%     elif common_helpers.is_array(parameter['type']) and common_helpers.is_string_arg(parameter):
+        CopyBytesToEnums(${parameter_name}, response->mutable_${parameter_name}());
 %     else:
         response->set_${parameter_name}(static_cast<${namespace_prefix}${parameter["enum"]}>(${parameter_name}));
 %     endif
         response->set_${parameter_name}_raw(${parameter_name});
 %   elif common_helpers.is_array(parameter['type']):
-%     if service_helpers.is_string_arg(parameter):
+%     if common_helpers.is_string_arg(parameter):
         response->set_${parameter_name}(${parameter_name});
 %     elif common_helpers.is_struct(parameter) or parameter['type'] == 'ViBoolean[]':
         Copy(${parameter_name}, response->mutable_${parameter_name}());
