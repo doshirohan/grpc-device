@@ -56,14 +56,14 @@ class nifgenDriverApiTest : public ::testing::Test {
   void initialize_driver_session()
   {
     ::grpc::ClientContext context;
-    fgen::InitWithOptionsRequest request;
-    request.set_id_query(false);
+    fgen::InitializeWithChannelsRequest request;
+    request.set_channel_name("");
     request.set_resource_name("FakeDevice");
-    request.set_option_string("Simulate=1, DriverSetup=Model:5404; BoardType:PXI");
+    request.set_option_string("Simulate=1, DriverSetup=Model:5421;BoardType:PXI");
     request.set_reset_device(false);
-    fgen::InitWithOptionsResponse response;
+    fgen::InitializeWithChannelsResponse response;
 
-    ::grpc::Status status = GetStub()->InitWithOptions(&context, request, &response);
+    ::grpc::Status status = GetStub()->InitializeWithChannels(&context, request, &response);
     driver_session_ = std::make_unique<nidevice_grpc::Session>(response.vi());
 
     ASSERT_TRUE(status.ok());
@@ -188,23 +188,23 @@ class nifgenDriverApiTest : public ::testing::Test {
     return response.attribute_value();
   }
 
-//   void set_int32_attribute(const char* channel_list, fgen::NiFgenAttributes attribute_id, fgen::MeasureWhen attribute_value)
-//   {
-//     ::grpc::ClientContext context;
-//     const fgen::NiFgenAttributes attribute_to_set = attribute_id;
-//     const ViInt32 value = attribute_value;
-//     fgen::SetAttributeViInt32Request request;
-//     request.mutable_vi()->set_id(GetSessionId());
-//     request.set_channel_name(channel_list);
-//     request.set_attribute_id(attribute_to_set);
-//     request.set_attribute_value(value);
-//     fgen::SetAttributeViInt32Response response;
+  void set_int32_attribute(const char* channel_list, fgen::NiFgenAttributes attribute_id, fgen::TerminalConfiguration attribute_value)
+  {
+    ::grpc::ClientContext context;
+    const fgen::NiFgenAttributes attribute_to_set = attribute_id;
+    const ViInt32 value = attribute_value;
+    fgen::SetAttributeViInt32Request request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_channel_name(channel_list);
+    request.set_attribute_id(attribute_to_set);
+    request.set_attribute_value(value);
+    fgen::SetAttributeViInt32Response response;
 
-//     ::grpc::Status status = GetStub()->SetAttributeViInt32(&context, request, &response);
+    ::grpc::Status status = GetStub()->SetAttributeViInt32(&context, request, &response);
 
-//     EXPECT_TRUE(status.ok());
-//     EXPECT_EQ(kfgenDriverApiSuccess, response.status());
-//   }
+    // EXPECT_TRUE(status.ok());
+    // EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+  }
 
 //   void configure_output_function(const char* channel_name, fgen::OutputFunction function)
 //   {
@@ -344,97 +344,96 @@ TEST_F(nifgenDriverApiTest, PerformReset_CompletesSuccessfuly)
   EXPECT_EQ(kfgenDriverApiSuccess, response.status());
 }
 
-// TEST_F(nifgenDriverApiTest, SetAttributeViInt32_GetAttributeViInt32ReturnsSameValue)
-// {
-//   const char* channel_name = "";
-//   const fgen::NiFgenAttributes attribute_to_set = fgen::NiFgenAttributes::nifgen_ATTRIBUTE_MEASURE_WHEN;
-//   const ViInt32 expected_value = fgen::MeasureWhen::MEASURE_WHEN_nifgen_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE;
-//   ::grpc::ClientContext context;
-//   fgen::SetAttributeViInt32Request request;
-//   request.mutable_vi()->set_id(GetSessionId());
-//   request.set_channel_name(channel_name);
-//   request.set_attribute_id(attribute_to_set);
-//   request.set_attribute_value(expected_value);
-//   fgen::SetAttributeViInt32Response response;
-//   ::grpc::Status status = GetStub()->SetAttributeViInt32(&context, request, &response);
+TEST_F(nifgenDriverApiTest, SetAttributeViInt32_GetAttributeViInt32ReturnsSameValue)
+{
+  const char* channel_name = "";
+  const fgen::NiFgenAttributes attribute_to_set = fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_OUTPUT_MODE;
+  const ViInt32 expected_value = fgen::OutputMode::OUTPUT_MODE_NIFGEN_VAL_OUTPUT_ARB;
+  ::grpc::ClientContext context;
+  fgen::SetAttributeViInt32Request request;
+  request.mutable_vi()->set_id(GetSessionId());
+  request.set_channel_name(channel_name);
+  request.set_attribute_id(attribute_to_set);
+  request.set_attribute_value(expected_value);
+  fgen::SetAttributeViInt32Response response;
+  ::grpc::Status status = GetStub()->SetAttributeViInt32(&context, request, &response);
 
-//   EXPECT_TRUE(status.ok());
-//   EXPECT_EQ(kfgenDriverApiSuccess, response.status());
-//   ViInt32 get_attribute_value = get_int32_attribute(channel_name, attribute_to_set);
-//   EXPECT_EQ(expected_value, get_attribute_value);
-// }
+  EXPECT_TRUE(status.ok());
+  EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+  ViInt32 get_attribute_value = get_int32_attribute(channel_name, attribute_to_set);
+  EXPECT_EQ(expected_value, get_attribute_value);
+}
 
-// TEST_F(nifgenDriverApiTest, SetAttributeViReal64_GetAttributeViReal64ReturnsSameValue)
-// {
-//   const char* channel_name = "0";
-//   // Attribute 'nifgen_ATTRIBUTE_MEASURE_WHEN' must be set to 'MEASURE_WHEN_nifgen_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE'
-//   // before setting attribute 'nifgen_ATTRIBUTE_SOURCE_DELAY'.
-//   set_int32_attribute(
-//       channel_name,
-//       fgen::NiFgenAttributes::nifgen_ATTRIBUTE_MEASURE_WHEN,
-//       fgen::MeasureWhen::MEASURE_WHEN_nifgen_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE);
-//   const fgen::NiFgenAttributes attribute_to_set = fgen::NiFgenAttributes::nifgen_ATTRIBUTE_SOURCE_DELAY;
-//   const ViReal64 expected_value = 2.516;
-//   ::grpc::ClientContext context;
-//   fgen::SetAttributeViReal64Request request;
-//   request.mutable_vi()->set_id(GetSessionId());
-//   request.set_channel_name(channel_name);
-//   request.set_attribute_id(attribute_to_set);
-//   request.set_attribute_value(expected_value);
-//   fgen::SetAttributeViReal64Response response;
-//   ::grpc::Status status = GetStub()->SetAttributeViReal64(&context, request, &response);
+TEST_F(nifgenDriverApiTest, SetAttributeViReal64_GetAttributeViReal64ReturnsSameValue)
+{
+  const char* channel_name = "0";
+  set_int32_attribute(
+      channel_name,
+      fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_TERMINAL_CONFIGURATION,
+      fgen::TerminalConfiguration::TERMINAL_CONFIGURATION_NIFGEN_VAL_DIFFERENTIAL);
+  const fgen::NiFgenAttributes attribute_to_set = fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_COMMON_MODE_OFFSET;
+  const ViReal64 expected_value = 0;
+  ::grpc::ClientContext context;
+  fgen::SetAttributeViReal64Request request;
+  request.mutable_vi()->set_id(GetSessionId());
+  request.set_channel_name(channel_name);
+  request.set_attribute_id(attribute_to_set);
+  request.set_attribute_value(expected_value);
+  fgen::SetAttributeViReal64Response response;
+  ::grpc::Status status = GetStub()->SetAttributeViReal64(&context, request, &response);
 
-//   EXPECT_TRUE(status.ok());
-//   EXPECT_EQ(kfgenDriverApiSuccess, response.status());
-//   ViReal64 get_attribute_value_sourcedelay = get_real64_attribute(channel_name, attribute_to_set);
-//   EXPECT_EQ(expected_value, get_attribute_value_sourcedelay);
-// }
+  EXPECT_EQ("", status.error_message());
+  EXPECT_TRUE(status.ok());
+  EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+  ViReal64 get_attribute_value_sourcedelay = get_real64_attribute(channel_name, attribute_to_set);
+  EXPECT_EQ(expected_value, get_attribute_value_sourcedelay);
+}
 
-// TEST_F(nifgenDriverApiTest, SetAttributeViBoolean_GetAttributeViBooleanReturnsSameValue)
-// {
-//   const char* channel_name = "0";
-//   // Attribute 'nifgen_ATTRIBUTE_MEASURE_WHEN' must be set to 'MEASURE_WHEN_nifgen_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE'
-//   // before setting attribute 'nifgen_ATTRIBUTE_MEASURE_RECORD_LENGTH_IS_FINITE'.
-//   set_int32_attribute(
-//       channel_name,
-//       fgen::NiFgenAttributes::nifgen_ATTRIBUTE_MEASURE_WHEN,
-//       fgen::MeasureWhen::MEASURE_WHEN_nifgen_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE);
-//   const fgen::NiFgenAttributes attribute_to_set = fgen::NiFgenAttributes::nifgen_ATTRIBUTE_MEASURE_RECORD_LENGTH_IS_FINITE;
-//   const ViBoolean expected_value = true;
-//   ::grpc::ClientContext context;
-//   fgen::SetAttributeViBooleanRequest request;
-//   request.mutable_vi()->set_id(GetSessionId());
-//   request.set_channel_name(channel_name);
-//   request.set_attribute_id(attribute_to_set);
-//   request.set_attribute_value(expected_value);
-//   fgen::SetAttributeViBooleanResponse response;
-//   ::grpc::Status status = GetStub()->SetAttributeViBoolean(&context, request, &response);
+TEST_F(nifgenDriverApiTest, SetAttributeViBoolean_GetAttributeViBooleanReturnsSameValue)
+{
+  const char* channel_name = "0";
+  // Attribute 'nifgen_ATTRIBUTE_MEASURE_WHEN' must be set to 'MEASURE_WHEN_nifgen_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE'
+  // before setting attribute 'nifgen_ATTRIBUTE_MEASURE_RECORD_LENGTH_IS_FINITE'.
+  // set_int32_attribute(
+  //     channel_name,
+  //     fgen::NiFgenAttributes::enabl,
+  //     fgen::MeasureWhen::MEASURE_WHEN_nifgen_VAL_AUTOMATICALLY_AFTER_SOURCE_COMPLETE);
+  const fgen::NiFgenAttributes attribute_to_set = fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_OUTPUT_ENABLED;
+  const ViBoolean expected_value = true;
+  ::grpc::ClientContext context;
+  fgen::SetAttributeViBooleanRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  request.set_channel_name(channel_name);
+  request.set_attribute_id(attribute_to_set);
+  request.set_attribute_value(expected_value);
+  fgen::SetAttributeViBooleanResponse response;
+  ::grpc::Status status = GetStub()->SetAttributeViBoolean(&context, request, &response);
 
-//   EXPECT_TRUE(status.ok());
-//   EXPECT_EQ(kfgenDriverApiSuccess, response.status());
-//   ViBoolean get_attribute_value = get_bool_attribute(channel_name, attribute_to_set);
-//   EXPECT_EQ(expected_value, get_attribute_value);
-// }
+  EXPECT_TRUE(status.ok());
+  EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+  ViBoolean get_attribute_value = get_bool_attribute(channel_name, attribute_to_set);
+  EXPECT_EQ(expected_value, get_attribute_value);
+}
 
-// TEST_F(nifgenDriverApiTest, SetAttributeViString_GetAttributeViStringReturnsSameValue)
-// {
-//   const char* channel_name = "0";
-//   const fgen::NiFgenAttributes attribute_to_set = fgen::NiFgenAttributes::nifgen_ATTRIBUTE_EXPORTED_START_TRIGGER_OUTPUT_TERMINAL;
-//   const ViString expected_value = "/Dev1/PXI_Trig0";
-//   ::grpc::ClientContext context;
-//   fgen::SetAttributeViStringRequest request;
-//   request.mutable_vi()->set_id(GetSessionId());
-//   request.set_channel_name(channel_name);
-//   request.set_attribute_id(attribute_to_set);
-//   request.set_attribute_value(expected_value);
-//   fgen::SetAttributeViStringResponse response;
-//   ::grpc::Status status = GetStub()->SetAttributeViString(&context, request, &response);
+TEST_F(nifgenDriverApiTest, SetAttributeViString_GetAttributeViStringReturnsSameValue)
+{
+  const char* channel_name = "";
+  const fgen::NiFgenAttributes attribute_to_set = fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_MARKER_EVENT_OUTPUT_TERMINAL;
+  const ViString expected_value = "sample";
+  ::grpc::ClientContext context;
+  fgen::SetAttributeViStringRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  request.set_channel_name(channel_name);
+  request.set_attribute_id(attribute_to_set);
+  request.set_attribute_value(expected_value);
+  fgen::SetAttributeViStringResponse response;
+  ::grpc::Status status = GetStub()->SetAttributeViString(&context, request, &response);
 
-//   EXPECT_TRUE(status.ok());
-//   EXPECT_EQ(kfgenDriverApiSuccess, response.status());
-//   std::string get_attribute_value = get_string_attribute(channel_name, attribute_to_set);
-//   EXPECT_STREQ(expected_value, get_attribute_value.c_str());
-// }
+  EXPECT_TRUE(status.ok());
+  EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+  std::string get_attribute_value = get_string_attribute(channel_name, attribute_to_set);
+  EXPECT_STREQ(expected_value, get_attribute_value.c_str());
+}
 
 // TEST_F(nifgenDriverApiTest, SetAttributeViInt64_GetAttributeViInt64ReturnsSameValue)
 // {

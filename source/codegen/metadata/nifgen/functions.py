@@ -2115,7 +2115,37 @@ functions = {
         ],
         'returns':'ViStatus'
     },
-    
+    'InitializeWithChannels':{
+        'init_method' : True,    
+        'parameters':[
+            {
+                'name':'resourceName',
+                'direction':'in',
+                'type':'ViRsrc'
+            },
+            {
+                'name':'channelName',
+                'direction':'in',
+                'type':'ViConstString'
+            },
+            {
+                'name':'resetDevice',
+                'direction':'in',
+                'type':'ViBoolean'
+            },
+            {
+                'name':'optionString',
+                'direction':'in',
+                'type':'ViConstString'
+            },
+            {
+                'name':'vi',
+                'direction':'out',
+                'type':'ViSession'
+            }
+        ],
+        'returns':'ViStatus'
+    },
     'InitializeAnalogOutputCalibration':{
         'parameters':[
             {

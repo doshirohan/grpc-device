@@ -122,6 +122,7 @@ public:
   ::grpc::Status ImportAttributeConfigurationBuffer(::grpc::ServerContext* context, const ImportAttributeConfigurationBufferRequest* request, ImportAttributeConfigurationBufferResponse* response) override;
   ::grpc::Status ImportAttributeConfigurationFile(::grpc::ServerContext* context, const ImportAttributeConfigurationFileRequest* request, ImportAttributeConfigurationFileResponse* response) override;
   ::grpc::Status InitWithOptions(::grpc::ServerContext* context, const InitWithOptionsRequest* request, InitWithOptionsResponse* response) override;
+  ::grpc::Status InitializeWithChannels(::grpc::ServerContext* context, const InitializeWithChannelsRequest* request, InitializeWithChannelsResponse* response) override;
   ::grpc::Status InitializeAnalogOutputCalibration(::grpc::ServerContext* context, const InitializeAnalogOutputCalibrationRequest* request, InitializeAnalogOutputCalibrationResponse* response) override;
   ::grpc::Status InitializeCalAdcCalibration(::grpc::ServerContext* context, const InitializeCalAdcCalibrationRequest* request, InitializeCalAdcCalibrationResponse* response) override;
   ::grpc::Status InitializeFlatnessCalibration(::grpc::ServerContext* context, const InitializeFlatnessCalibrationRequest* request, InitializeFlatnessCalibrationResponse* response) override;
