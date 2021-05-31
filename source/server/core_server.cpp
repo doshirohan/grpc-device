@@ -12,6 +12,8 @@
 #include <nitclk/nitclk_service.h>
 #include <nidcpower/nidcpower_library.h>
 #include <nidcpower/nidcpower_service.h>
+#include <nifgen/nifgen_library.h>
+#include <nifgen/nifgen_service.h>
 
 #include "server_configuration_parser.h"
 #include "server_security_configuration.h"
@@ -78,6 +80,10 @@ static void RunServer(const std::string& config_file_path)
   nidcpower_grpc::NiDCPowerLibrary nidcpower_library;
   nidcpower_grpc::NiDCPowerService nidcpower_service(&nidcpower_library, &session_repository);
   builder.RegisterService(&nidcpower_service);
+
+  nifgen_grpc::NiFgenLibrary nifgen_library;
+  nifgen_grpc::NiFgenService nifgen_service(&nifgen_library, &session_repository);
+  builder.RegisterService(&nifgen_service);
 
   // Assemble the server.
   auto server = builder.BuildAndStart();
