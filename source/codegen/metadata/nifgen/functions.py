@@ -436,6 +436,7 @@ functions = {
         'returns':'ViStatus'
     },
     'CloseExtCal':{
+        'custom_close_method': True,
         'parameters':[
             {
                 'name':'vi',
@@ -2081,6 +2082,28 @@ functions = {
                 'name':'filePath',
                 'direction':'in',
                 'type':'ViConstString'
+            }
+        ],
+        'returns':'ViStatus'
+    },
+    'InitExtCal':{
+        'init_method' : True,
+        'custom_close': 'CloseExtCal(id, NIFGEN_VAL_EXT_CAL_ABORT)',
+        'parameters':[
+            {
+                'name':'resourceName',
+                'direction':'in',
+                'type':'ViRsrc'
+            },
+            {
+                'name':'password',
+                'direction':'in',
+                'type':'ViConstString'
+            },
+            {
+                'name':'vi',
+                'direction':'out',
+                'type':'ViSession'
             }
         ],
         'returns':'ViStatus'

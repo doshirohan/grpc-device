@@ -118,6 +118,7 @@ NiFgenLibrary::NiFgenLibrary() : shared_library_(kLibraryName)
   function_pointers_.GetStreamEndpointHandle = reinterpret_cast<GetStreamEndpointHandlePtr>(shared_library_.get_function_pointer("niFgen_GetStreamEndpointHandle"));
   function_pointers_.ImportAttributeConfigurationBuffer = reinterpret_cast<ImportAttributeConfigurationBufferPtr>(shared_library_.get_function_pointer("niFgen_ImportAttributeConfigurationBuffer"));
   function_pointers_.ImportAttributeConfigurationFile = reinterpret_cast<ImportAttributeConfigurationFilePtr>(shared_library_.get_function_pointer("niFgen_ImportAttributeConfigurationFile"));
+  function_pointers_.InitExtCal = reinterpret_cast<InitExtCalPtr>(shared_library_.get_function_pointer("niFgen_InitExtCal"));
   function_pointers_.InitWithOptions = reinterpret_cast<InitWithOptionsPtr>(shared_library_.get_function_pointer("niFgen_InitWithOptions"));
   function_pointers_.InitializeWithChannels = reinterpret_cast<InitializeWithChannelsPtr>(shared_library_.get_function_pointer("niFgen_InitializeWithChannels"));
   function_pointers_.InitializeAnalogOutputCalibration = reinterpret_cast<InitializeAnalogOutputCalibrationPtr>(shared_library_.get_function_pointer("niFgen_InitializeAnalogOutputCalibration"));
@@ -1335,6 +1336,18 @@ ViStatus NiFgenLibrary::ImportAttributeConfigurationFile(ViSession vi, ViConstSt
   return niFgen_ImportAttributeConfigurationFile(vi, filePath);
 #else
   return function_pointers_.ImportAttributeConfigurationFile(vi, filePath);
+#endif
+}
+
+ViStatus NiFgenLibrary::InitExtCal(ViRsrc resourceName, ViConstString password, ViSession* vi)
+{
+  if (!function_pointers_.InitExtCal) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_InitExtCal.");
+  }
+#if defined(_MSC_VER)
+  return niFgen_InitExtCal(resourceName, password, vi);
+#else
+  return function_pointers_.InitExtCal(resourceName, password, vi);
 #endif
 }
 
