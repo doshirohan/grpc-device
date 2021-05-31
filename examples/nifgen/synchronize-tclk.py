@@ -43,7 +43,7 @@ options = "Simulate=1, DriverSetup=Model:5404; BoardType:PXI"
 
 # parameters
 num_resources = 2
-sample_rate = 10.0
+sample_rate = 20000000.0
 waveform_size = 16
 # Create waveform data
 waveform_data = []
@@ -93,7 +93,6 @@ try:
     for i in range(num_resources):
         # Initalize NI-FGEN session
         init_with_channels_resp = nifgen_service.InitWithOptions(nifgen_types.InitWithOptionsRequest(
-            session_name = session_name,
             resource_name = resource,
             id_query = False,
             option_string = options
@@ -108,6 +107,12 @@ try:
             channels = "0"
         ))
         CheckForError(nifgen_service, vi, config_channels_resp.status)
+
+        # Configure output mode
+        config_out_resp = nifgen_service.ConfigureOutputMode(nifgen_types.ConfigureOutputModeRequest(
+            vi = vi,
+            output_mode = 1
+        ))
 
         # Configure sample rate
         config_sample_rate_resp = nifgen_service.ConfigureSampleRate(nifgen_types.ConfigureSampleRateRequest(
@@ -136,7 +141,7 @@ try:
     ))
     CheckForError(nitclk_service)
     initiate_resp = nifgen_service.Initiate(nitclk_types.InitiateRequest(
-        sessions = vi
+        sessions = vis
     ))
     CheckForError(nitclk_service)
 
@@ -154,5 +159,5 @@ finally:
         close_session_response = nifgen_service.Close(nifgen_types.CloseRequest(
             vi = vi
         ))
-        CheckForError(vi, close_session_response.status)
+        CheckForError(nifgen_service, vi, close_session_response.status)
 
