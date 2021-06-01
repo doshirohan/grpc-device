@@ -47,6 +47,7 @@ namespace ${config["namespace_component"]}_grpc {
 % endif
 % if 'custom_types' in locals():
 %   for custom_type in custom_types:
+% if common_helpers.has_output_param_of_type_struct(functions):
   void ${service_class_prefix}Service::Copy(const ${custom_type["name"]}& input, ${namespace_prefix}${custom_type["grpc_name"]}* output) 
   {
 %     for field in custom_type["fields"]: 
@@ -62,6 +63,17 @@ namespace ${config["namespace_component"]}_grpc {
       output->AddAllocated(message);
     }
   }
+% endif
+% if common_helpers.has_input_param_of_type_struct(functions):
+   ${custom_type["name"]} ${service_class_prefix}Service::get_vector(const ${namespace_prefix}${custom_type["grpc_name"]}& input) 
+  {
+    ${custom_type["name"]}* output;  
+%     for field in custom_type["fields"]: 
+    output->${common_helpers.pascal_to_camel(common_helpers.snake_to_pascal(field["grpc_name"]))} = input.${common_helpers.camel_to_snake(field["name"])}();
+%     endfor
+    return *output;
+  }
+% endif
 
 %   endfor
 % endif

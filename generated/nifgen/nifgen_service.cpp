@@ -23,6 +23,22 @@ namespace nifgen_grpc {
   {
   }
 
+   NIComplexNumber_struct NiFgenService::get_vector(const nifgen_grpc::NIComplexNumber& input) 
+  {
+    NIComplexNumber_struct* output;  
+    output->real = input.real();
+    output->imaginary = input.imaginary();
+    return *output;
+  }
+
+   NIComplexI16_struct NiFgenService::get_vector(const nifgen_grpc::NIComplexInt32& input) 
+  {
+    NIComplexI16_struct* output;  
+    output->real = input.real();
+    output->imaginary = input.imaginary();
+    return *output;
+  }
+
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
   ::grpc::Status NiFgenService::AbortGeneration(::grpc::ServerContext* context, const AbortGenerationRequest* request, AbortGenerationResponse* response)
@@ -1207,6 +1223,39 @@ namespace nifgen_grpc {
       response->set_status(status);
       if (status == 0) {
         response->set_frequency_list_handle(frequency_list_handle);
+      }
+      return ::grpc::Status::OK;
+    }
+    catch (nidevice_grpc::LibraryLoadException& ex) {
+      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
+    }
+  }
+
+  //---------------------------------------------------------------------
+  //---------------------------------------------------------------------
+  ::grpc::Status NiFgenService::CreateWaveformComplexF64(::grpc::ServerContext* context, const CreateWaveformComplexF64Request* request, CreateWaveformComplexF64Response* response)
+  {
+    if (context->IsCancelled()) {
+      return ::grpc::Status::CANCELLED;
+    }
+    try {
+      auto vi_grpc_session = request->vi();
+      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
+      ViConstString channel_name = request->channel_name().c_str();
+      ViInt32 number_of_samples = request->waveform_data_array().size();
+      auto waveform_data_array_request = request->waveform_data_array();
+      std::vector<NIComplexNumber_struct> waveform_data_array(number_of_samples, NIComplexNumber_struct());
+      std::transform(
+        waveform_data_array_request.begin(),
+        waveform_data_array_request.end(),
+        std::back_inserter(waveform_data_array),
+        [&](nifgen_grpc::NIComplexNumber x) { return get_vector(x); });
+
+      ViInt32 waveform_handle {};
+      auto status = library_->CreateWaveformComplexF64(vi, channel_name, number_of_samples, waveform_data_array.data(), &waveform_handle);
+      response->set_status(status);
+      if (status == 0) {
+        response->set_waveform_handle(waveform_handle);
       }
       return ::grpc::Status::OK;
     }

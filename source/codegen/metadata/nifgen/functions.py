@@ -1139,6 +1139,41 @@ functions = {
         ],
         'returns':'ViStatus'
     },
+    'CreateWaveformComplexF64':{
+        'parameters':[
+            {
+                'name':'vi',
+                'direction':'in',
+                'type':'ViSession'
+            },
+            {
+                'name':'channelName',
+                'direction':'in',
+                'type':'ViConstString'
+            },
+            {
+                'name':'numberOfSamples',
+                'direction':'in',
+                'type':'ViInt32'
+            },
+            {
+                'name':'waveformDataArray',
+                'direction':'in',
+                'type': 'struct NIComplexNumber_struct[]',
+                'grpc_type': 'repeated NIComplexNumber',
+                'size': {
+                    'mechanism': 'len',
+                    'value': 'numberOfSamples'
+                }
+            },
+            {
+                'name':'waveformHandle',
+                'direction':'out',
+                'type':'ViInt32'
+            }
+        ],
+        'returns':'ViStatus'
+    },
     'CreateWaveformF64':{
         'parameters':[
             {

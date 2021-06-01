@@ -56,8 +56,13 @@ private:
 % endif
 % if 'custom_types' in locals():
 %   for custom_type in custom_types:
+	% if common_helpers.has_output_param_of_type_struct(functions):
   void Copy(const ${custom_type["name"]}& input, ${namespace_prefix}${custom_type["grpc_name"]}* output);
   void Copy(const std::vector<${custom_type["name"]}>& input, google::protobuf::RepeatedPtrField<${namespace_prefix}${custom_type["grpc_name"]}>* output);
+	% endif
+	% if common_helpers.has_input_param_of_type_struct(functions):
+  ${custom_type["name"]} get_vector(const ${namespace_prefix}${custom_type["grpc_name"]}& input);
+	%endif
 %   endfor
 % endif
 % for enum in enums_to_map:

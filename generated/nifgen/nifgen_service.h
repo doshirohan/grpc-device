@@ -79,6 +79,7 @@ public:
   ::grpc::Status ConfigureUpdateClockSource(::grpc::ServerContext* context, const ConfigureUpdateClockSourceRequest* request, ConfigureUpdateClockSourceResponse* response) override;
   ::grpc::Status CreateArbSequence(::grpc::ServerContext* context, const CreateArbSequenceRequest* request, CreateArbSequenceResponse* response) override;
   ::grpc::Status CreateFreqList(::grpc::ServerContext* context, const CreateFreqListRequest* request, CreateFreqListResponse* response) override;
+  ::grpc::Status CreateWaveformComplexF64(::grpc::ServerContext* context, const CreateWaveformComplexF64Request* request, CreateWaveformComplexF64Response* response) override;
   ::grpc::Status CreateWaveformF64(::grpc::ServerContext* context, const CreateWaveformF64Request* request, CreateWaveformF64Response* response) override;
   ::grpc::Status CreateWaveformFromFileF64(::grpc::ServerContext* context, const CreateWaveformFromFileF64Request* request, CreateWaveformFromFileF64Response* response) override;
   ::grpc::Status CreateWaveformFromFileHws(::grpc::ServerContext* context, const CreateWaveformFromFileHwsRequest* request, CreateWaveformFromFileHwsResponse* response) override;
@@ -165,6 +166,8 @@ public:
 private:
   NiFgenLibraryInterface* library_;
   nidevice_grpc::SessionRepository* session_repository_;
+  NIComplexNumber_struct get_vector(const nifgen_grpc::NIComplexNumber& input);
+  NIComplexI16_struct get_vector(const nifgen_grpc::NIComplexInt32& input);
 };
 
 } // namespace nifgen_grpc

@@ -76,6 +76,7 @@ NiFgenLibrary::NiFgenLibrary() : shared_library_(kLibraryName)
   function_pointers_.ConfigureUpdateClockSource = reinterpret_cast<ConfigureUpdateClockSourcePtr>(shared_library_.get_function_pointer("niFgen_ConfigureUpdateClockSource"));
   function_pointers_.CreateArbSequence = reinterpret_cast<CreateArbSequencePtr>(shared_library_.get_function_pointer("niFgen_CreateArbSequence"));
   function_pointers_.CreateFreqList = reinterpret_cast<CreateFreqListPtr>(shared_library_.get_function_pointer("niFgen_CreateFreqList"));
+  function_pointers_.CreateWaveformComplexF64 = reinterpret_cast<CreateWaveformComplexF64Ptr>(shared_library_.get_function_pointer("niFgen_CreateWaveformComplexF64"));
   function_pointers_.CreateWaveformF64 = reinterpret_cast<CreateWaveformF64Ptr>(shared_library_.get_function_pointer("niFgen_CreateWaveformF64"));
   function_pointers_.CreateWaveformFromFileF64 = reinterpret_cast<CreateWaveformFromFileF64Ptr>(shared_library_.get_function_pointer("niFgen_CreateWaveformFromFileF64"));
   function_pointers_.CreateWaveformFromFileHws = reinterpret_cast<CreateWaveformFromFileHwsPtr>(shared_library_.get_function_pointer("niFgen_CreateWaveformFromFileHWS"));
@@ -829,6 +830,18 @@ ViStatus NiFgenLibrary::CreateFreqList(ViSession vi, ViInt32 waveform, ViInt32 f
   return niFgen_CreateFreqList(vi, waveform, frequencyListLength, frequencyArray, durationArray, frequencyListHandle);
 #else
   return function_pointers_.CreateFreqList(vi, waveform, frequencyListLength, frequencyArray, durationArray, frequencyListHandle);
+#endif
+}
+
+ViStatus NiFgenLibrary::CreateWaveformComplexF64(ViSession vi, ViConstString channelName, ViInt32 numberOfSamples, NIComplexNumber_struct waveformDataArray[], ViInt32* waveformHandle)
+{
+  if (!function_pointers_.CreateWaveformComplexF64) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_CreateWaveformComplexF64.");
+  }
+#if defined(_MSC_VER)
+  return niFgen_CreateWaveformComplexF64(vi, channelName, numberOfSamples, waveformDataArray, waveformHandle);
+#else
+  return function_pointers_.CreateWaveformComplexF64(vi, channelName, numberOfSamples, waveformDataArray, waveformHandle);
 #endif
 }
 

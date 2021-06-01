@@ -13,23 +13,39 @@ def is_enum(parameter):
 def is_struct(parameter):
   return parameter["type"].startswith("struct")
 
+def has_input_param_of_type_struct(functions):
+  '''Returns True if atleast one function has input parameter of type Struct'''
+  for function in functions:
+    for parameter in functions[function]["parameters"]:
+      if is_struct(parameter) and is_input_parameter(parameter):
+        return True
+  return False
+
+def has_output_param_of_type_struct(functions):
+  '''Returns True if atleast one function has output parameter of type Struct'''
+  for function in functions:
+    for parameter in functions[function]["parameters"]:
+      if is_struct(parameter) and is_output_parameter(parameter):
+        return True
+  return False
+
 def get_underlying_type_name(parameter_type):
   '''Strip away information from type name like brackets for arrays, leading "struct ", etc. leaving just the underlying type name.'''
   return parameter_type.replace("struct ","").replace('[]', '')
+
+def get_underlying_grpc_type_name(parameter_type):
+  '''Strip away information from type name like brackets for arrays, leading "struct ", etc. leaving just the underlying type name.'''
+  return parameter_type.replace("repeated ","")
 
 def has_unsupported_parameter(function):
   return any(is_unsupported_parameter(p) for p in function['parameters'])
 
 def is_unsupported_parameter(parameter):
   return is_unsupported_size_mechanism(parameter) \
-      or is_unsupported_struct(parameter) \
       or is_unsupported_scalar_array(parameter)
 
 def is_unsupported_size_mechanism(parameter):
   return not get_size_mechanism(parameter) in {'fixed', 'len', 'ivi-dance', 'passed-in', 'ivi-dance-with-a-twist', None}
-
-def is_unsupported_struct(parameter):
-  return is_struct(parameter) and is_input_parameter(parameter)
 
 def is_unsupported_scalar_array(parameter):
   if not is_array(parameter['type']):
