@@ -147,13 +147,16 @@ try:
     ))
     CheckForError(vi, init_gen_resp.status)
 
-    print(f"Generating sine wave at {sample_rate} Hz")
-    print('Close the window to stop generation...')
+    print(f"Generating sine wave at {sample_rate} Hz...")
+    print('Close the window to stop generation')
 
     # Plot the sine wave
     fig = plt.gcf()
     fig.canvas.manager.set_window_title('Sine Wave')
     plt.plot(sine)
+    plt.suptitle("Close the window to stop generation", fontsize=10)
+    plt.xlabel("Samples")
+    plt.ylabel("Amplitude")
     plt.show()
 
 
