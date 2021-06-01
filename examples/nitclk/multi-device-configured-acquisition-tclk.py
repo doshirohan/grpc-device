@@ -267,7 +267,7 @@ try:
                     num_samples = 500
                 ))
                 CheckForError(scope_service, session, fetch_result.status)
-                plt.subplot(1,len(sessions),i+1, label=str(i))
+                plt.subplot(1, len(sessions), i + 1, label = str(i))
                 # Round the array to 2 decimal places and Update the plot with the new waveform
                 data = np.array(fetch_result.waveform[0:500])
                 # Add labels for axes and legends
