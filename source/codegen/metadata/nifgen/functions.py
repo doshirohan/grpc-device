@@ -436,6 +436,7 @@ functions = {
         'returns':'ViStatus'
     },
     'CloseExtCal':{
+        'custom_close_method': True,
         'parameters':[
             {
                 'name':'vi',
@@ -2116,6 +2117,90 @@ functions = {
                 'name':'filePath',
                 'direction':'in',
                 'type':'ViConstString'
+            }
+        ],
+        'returns':'ViStatus'
+    },
+    'InitExtCal':{
+        'init_method' : True,
+        'custom_close': 'CloseExtCal(id, NIFGEN_VAL_EXT_CAL_ABORT)',
+        'parameters':[
+            {
+                'name':'resourceName',
+                'direction':'in',
+                'type':'ViRsrc'
+            },
+            {
+                'name':'password',
+                'direction':'in',
+                'type':'ViConstString'
+            },
+            {
+                'name':'vi',
+                'direction':'out',
+                'type':'ViSession'
+            }
+        ],
+        'returns':'ViStatus'
+    },
+    'InitWithOptions':{
+        'init_method' : True,
+        'parameters':[
+            {
+                'name':'resourceName',
+                'direction':'in',
+                'type':'ViRsrc'
+            },
+            {
+                'name':'idQuery',
+                'direction':'in',
+                'type':'ViBoolean'
+            },
+            {
+                'name':'resetDevice',
+                'direction':'in',
+                'type':'ViBoolean'
+            },
+            {
+                'name':'optionString',
+                'direction':'in',
+                'type':'ViConstString'
+            },
+            {
+                'name':'vi',
+                'direction':'out',
+                'type':'ViSession'
+            }
+        ],
+        'returns':'ViStatus'
+    },
+    'InitializeWithChannels':{
+        'init_method' : True,    
+        'parameters':[
+            {
+                'name':'resourceName',
+                'direction':'in',
+                'type':'ViRsrc'
+            },
+            {
+                'name':'channelName',
+                'direction':'in',
+                'type':'ViConstString'
+            },
+            {
+                'name':'resetDevice',
+                'direction':'in',
+                'type':'ViBoolean'
+            },
+            {
+                'name':'optionString',
+                'direction':'in',
+                'type':'ViConstString'
+            },
+            {
+                'name':'vi',
+                'direction':'out',
+                'type':'ViSession'
             }
         ],
         'returns':'ViStatus'
