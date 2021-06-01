@@ -168,3 +168,4 @@ finally:
             vi = vi
         ))
         CheckForError(vi, close_session_response.status)
+        
