@@ -23,8 +23,6 @@ import grpc
 import sys
 import nifgen_pb2 as nifgen_types
 import nifgen_pb2_grpc as grpc_nifgen
-import nitclk_pb2 as nitclk_types
-import nitclk_pb2_grpc as grpc_nitclk
 import session_pb2 as session_types
 import session_pb2_grpc as grpc_session
 import math
@@ -47,7 +45,7 @@ waveform_size = 64
 # initialize sine waveform data
 sine = []
 for i in range(waveform_size):
-    sine.append(math.sin((i/waveform_size)*2*3.141596))
+    sine.append(math.sin((i/waveform_size)*2*math.pi))
 
 # Read in cmd args
 if len(sys.argv) >= 2:
