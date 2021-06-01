@@ -75,7 +75,6 @@ service NiFgen {
   rpc CreateWaveformFromFileF64(CreateWaveformFromFileF64Request) returns (CreateWaveformFromFileF64Response);
   rpc CreateWaveformFromFileHws(CreateWaveformFromFileHwsRequest) returns (CreateWaveformFromFileHwsResponse);
   rpc CreateWaveformFromFileI16(CreateWaveformFromFileI16Request) returns (CreateWaveformFromFileI16Response);
-  rpc CreateWaveformI16(CreateWaveformI16Request) returns (CreateWaveformI16Response);
   rpc DefineUserStandardWaveform(DefineUserStandardWaveformRequest) returns (DefineUserStandardWaveformResponse);
   rpc DeleteNamedWaveform(DeleteNamedWaveformRequest) returns (DeleteNamedWaveformResponse);
   rpc DeleteScript(DeleteScriptRequest) returns (DeleteScriptResponse);
@@ -152,9 +151,7 @@ service NiFgen {
   rpc UnlockSession(UnlockSessionRequest) returns (UnlockSessionResponse);
   rpc WaitUntilDone(WaitUntilDoneRequest) returns (WaitUntilDoneResponse);
   rpc WriteBinary16AnalogStaticValue(WriteBinary16AnalogStaticValueRequest) returns (WriteBinary16AnalogStaticValueResponse);
-  rpc WriteBinary16Waveform(WriteBinary16WaveformRequest) returns (WriteBinary16WaveformResponse);
   rpc WriteNamedWaveformF64(WriteNamedWaveformF64Request) returns (WriteNamedWaveformF64Response);
-  rpc WriteNamedWaveformI16(WriteNamedWaveformI16Request) returns (WriteNamedWaveformI16Response);
   rpc WriteScript(WriteScriptRequest) returns (WriteScriptResponse);
   rpc WriteWaveform(WriteWaveformRequest) returns (WriteWaveformResponse);
 }
@@ -1027,17 +1024,6 @@ message CreateWaveformFromFileI16Response {
   sint32 waveform_handle = 2;
 }
 
-message CreateWaveformI16Request {
-  nidevice_grpc.Session vi = 1;
-  string channel_name = 2;
-  repeated sint32 waveform_data_array = 3;
-}
-
-message CreateWaveformI16Response {
-  int32 status = 1;
-  sint32 waveform_handle = 2;
-}
-
 message DefineUserStandardWaveformRequest {
   nidevice_grpc.Session vi = 1;
   string channel_name = 2;
@@ -1414,10 +1400,11 @@ message InitExtCalResponse {
 }
 
 message InitWithOptionsRequest {
-  string resource_name = 1;
-  bool id_query = 2;
-  bool reset_device = 3;
-  string option_string = 4;
+  string session_name = 1;
+  string resource_name = 2;
+  bool id_query = 3;
+  bool reset_device = 4;
+  string option_string = 5;
 }
 
 message InitWithOptionsResponse {
@@ -1791,17 +1778,6 @@ message WriteBinary16AnalogStaticValueResponse {
   int32 status = 1;
 }
 
-message WriteBinary16WaveformRequest {
-  nidevice_grpc.Session vi = 1;
-  string channel_name = 2;
-  sint32 waveform_handle = 3;
-  repeated sint32 data = 4;
-}
-
-message WriteBinary16WaveformResponse {
-  int32 status = 1;
-}
-
 message WriteNamedWaveformF64Request {
   nidevice_grpc.Session vi = 1;
   string channel_name = 2;
@@ -1810,17 +1786,6 @@ message WriteNamedWaveformF64Request {
 }
 
 message WriteNamedWaveformF64Response {
-  int32 status = 1;
-}
-
-message WriteNamedWaveformI16Request {
-  nidevice_grpc.Session vi = 1;
-  string channel_name = 2;
-  string waveform_name = 3;
-  repeated sint32 data = 4;
-}
-
-message WriteNamedWaveformI16Response {
   int32 status = 1;
 }
 

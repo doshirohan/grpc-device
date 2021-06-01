@@ -1272,40 +1272,6 @@ functions = {
         ],
         'returns':'ViStatus'
     },
-    'CreateWaveformI16':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            },
-            {
-                'name':'channelName',
-                'direction':'in',
-                'type':'ViConstString'
-            },
-            {
-                'name':'waveformSize',
-                'direction':'in',
-                'type':'ViInt32'
-            },
-            {
-                'name':'waveformDataArray',
-                'direction':'in',
-                'type':'ViInt16[]',
-                'size':{
-                    'mechanism':'len',
-                    'value':'waveformSize'
-                }
-            },
-            {
-                'name':'waveformHandle',
-                'direction':'out',
-                'type':'ViInt32'
-            }
-        ],
-        'returns':'ViStatus'
-    },
     'DefineUserStandardWaveform':{
         'parameters':[
             {
@@ -2109,6 +2075,7 @@ functions = {
         'returns':'ViStatus'
     },
     'InitWithOptions':{
+        'init_method' : True,
         'parameters':[
             {
                 'name':'resourceName',
@@ -2835,40 +2802,6 @@ functions = {
         ],
         'returns':'ViStatus'
     },
-    'WriteBinary16Waveform':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            },
-            {
-                'name':'channelName',
-                'direction':'in',
-                'type':'ViConstString'
-            },
-            {
-                'name':'waveformHandle',
-                'direction':'in',
-                'type':'ViInt32'
-            },
-            {
-                'name':'size',
-                'direction':'in',
-                'type':'ViInt32'
-            },
-            {
-                'name':'data',
-                'direction':'in',
-                'type':'ViInt16[]',
-                'size':{
-                    'mechanism':'len',
-                    'value':'size'
-                }
-            }
-        ],
-        'returns':'ViStatus'
-    },
     'WriteNamedWaveformF64':{
         'parameters':[
             {
@@ -2895,40 +2828,6 @@ functions = {
                 'name':'data',
                 'direction':'in',
                 'type':'ViReal64[]',
-                'size':{
-                    'mechanism':'len',
-                    'value':'size'
-                }
-            }
-        ],
-        'returns':'ViStatus'
-    },
-    'WriteNamedWaveformI16':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            },
-            {
-                'name':'channelName',
-                'direction':'in',
-                'type':'ViConstString'
-            },
-            {
-                'name':'waveformName',
-                'direction':'in',
-                'type':'ViConstString'
-            },
-            {
-                'name':'size',
-                'direction':'in',
-                'type':'ViInt32'
-            },
-            {
-                'name':'data',
-                'direction':'in',
-                'type':'ViInt16[]',
                 'size':{
                     'mechanism':'len',
                     'value':'size'
