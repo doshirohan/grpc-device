@@ -38,6 +38,7 @@ resource = "SimulatedFGEN"
 options = "Simulate=1, DriverSetup=Model:5441; BoardType:PXI"
 
 # parameters
+channel_name = "0"
 sample_rate = 40e+6
 gain = 1.0
 dc_offset = 0.0
@@ -91,7 +92,7 @@ try:
     # Configure channels
     config_channels_resp = nifgen_service.ConfigureChannels(nifgen_types.ConfigureChannelsRequest(
         vi = vi,
-        channels = "0"
+        channels = channel_name
     ))
     CheckForError(vi, config_channels_resp.status)
 
@@ -105,7 +106,7 @@ try:
     # Create waveform
     create_waveform_resp = nifgen_service.CreateWaveformF64(nifgen_types.CreateWaveformF64Request(
         vi = vi,
-        channel_name = "0",
+        channel_name = channel_name,
         waveform_data_array = sine
     ))
     waveform_handle = create_waveform_resp.waveform_handle
@@ -114,7 +115,7 @@ try:
     # Configure arbitrary waveform
     config_waveform_resp = nifgen_service.ConfigureArbWaveform(nifgen_types.ConfigureArbWaveformRequest(
         vi = vi,
-        channel_name = "0",
+        channel_name = channel_name,
         waveform_handle = waveform_handle,
         gain = gain,
         offset = dc_offset
@@ -138,7 +139,7 @@ try:
     # Configure output enabled
     config_outenbl_resp = nifgen_service.ConfigureOutputEnabled(nifgen_types.ConfigureOutputEnabledRequest(
         vi = vi,
-        channel_name = "0",
+        channel_name = channel_name,
         enabled = True
     ))
     CheckForError(vi, config_outenbl_resp.status)
@@ -168,4 +169,3 @@ finally:
             vi = vi
         ))
         CheckForError(vi, close_session_response.status)
-        
