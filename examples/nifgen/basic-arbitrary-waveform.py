@@ -11,8 +11,6 @@
 # For instructions on how to use protoc to generate gRPC client interfaces, see our "Creating a gRPC Client" wiki page.
 # Link: https://github.com/ni/grpc-device/wiki/Creating-a-gRPC-Client
 #
-# 
-#
 # Running from command line:
 #
 # Server machine's IP address, port number, and resource name can be passed as separate command line arguments.
@@ -26,6 +24,7 @@ import nifgen_pb2_grpc as grpc_nifgen
 import session_pb2 as session_types
 import session_pb2_grpc as grpc_session
 import math
+import matplotlib.pyplot as plt
 
 server_address = "localhost"
 server_port = "31763"
@@ -149,8 +148,14 @@ try:
     CheckForError(vi, init_gen_resp.status)
 
     print(f"Generating sine wave at {sample_rate} Hz")
+    print('Close the window to stop generation...')
 
-    input("Press Enter to continue...")
+    # Plot the sine wave
+    fig = plt.gcf()
+    fig.canvas.manager.set_window_title('Sine Wave')
+    plt.plot(sine)
+    plt.show()
+
 
 # If NI-FGEN API throws an exception, print the error message  
 except grpc.RpcError as rpc_error:
