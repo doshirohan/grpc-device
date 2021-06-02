@@ -63,7 +63,7 @@ any_error = False
 # Checks for errors. If any, throws an exception to stop the execution.
 def CheckForError (vi, status) :
     global any_error
-    if(status != 0 and not any_error):
+    if status != 0 and not any_error:
         any_error = True
         ThrowOnError (vi, status)
 
@@ -152,13 +152,12 @@ try:
 
     # Plot the sine wave
     fig = plt.gcf()
-    fig.canvas.manager.set_window_title('Sine Wave')
+    fig.canvas.manager.set_window_title('Sample Waveform')
     plt.plot(sine)
     plt.suptitle("Close the window to stop generation", fontsize=10)
     plt.xlabel("Samples")
     plt.ylabel("Amplitude")
     plt.show()
-
 
 # If NI-FGEN API throws an exception, print the error message  
 except grpc.RpcError as rpc_error:
@@ -169,7 +168,7 @@ except grpc.RpcError as rpc_error:
         error_message = "The operation is not implemented or is not supported/enabled in this service"
     print(f"{error_message}") 
 finally:
-    if('vi' in vars() and vi.id != 0):
+    if 'vi' in vars() and vi.id != 0:
         # Close NI-FGEN session
         close_session_response = nifgen_service.Close(nifgen_types.CloseRequest(
             vi = vi
