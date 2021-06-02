@@ -45,7 +45,7 @@ namespace nifake_grpc {
   }
    CustomStruct NiFakeService::get_vector(const nifake_grpc::FakeCustomStruct& input) 
   {
-    CustomStruct* output;  
+    CustomStruct* output = new CustomStruct();  
     output->structInt = input.struct_int();
     output->structDouble = input.struct_double();
     return *output;
@@ -1213,7 +1213,7 @@ namespace nifake_grpc {
       ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
       ViInt32 number_of_elements = request->cs().size();
       auto cs_request = request->cs();
-      std::vector<CustomStruct> cs(number_of_elements, CustomStruct());
+      std::vector<CustomStruct> cs;
       std::transform(
         cs_request.begin(),
         cs_request.end(),

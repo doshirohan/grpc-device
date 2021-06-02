@@ -214,7 +214,7 @@ ${initialize_standard_input_param(function_name, parameter)}\
         [](auto x) { return x ? VI_TRUE : VI_FALSE; });
  % elif common_helpers.is_struct(parameter):
       auto ${parameter_name}_request = ${request_snippet};
-      std::vector<${c_type_underlying_type}> ${parameter_name}(${size}, ${c_type_underlying_type}());
+      std::vector<${c_type_underlying_type}> ${parameter_name};
       std::transform(
         ${parameter_name}_request.begin(),
         ${parameter_name}_request.end(),

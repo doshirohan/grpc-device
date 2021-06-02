@@ -67,7 +67,7 @@ namespace ${config["namespace_component"]}_grpc {
 % if common_helpers.has_input_param_of_type_struct(functions):
    ${custom_type["name"]} ${service_class_prefix}Service::get_vector(const ${namespace_prefix}${custom_type["grpc_name"]}& input) 
   {
-    ${custom_type["name"]}* output;  
+    ${custom_type["name"]}* output = new ${custom_type["name"]}();  
 %     for field in custom_type["fields"]: 
     output->${common_helpers.pascal_to_camel(common_helpers.snake_to_pascal(field["grpc_name"]))} = input.${common_helpers.camel_to_snake(field["name"])}();
 %     endfor

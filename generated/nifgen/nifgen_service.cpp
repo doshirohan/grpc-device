@@ -25,7 +25,7 @@ namespace nifgen_grpc {
 
    NIComplexNumber_struct NiFgenService::get_vector(const nifgen_grpc::NIComplexNumber& input) 
   {
-    NIComplexNumber_struct* output;  
+    NIComplexNumber_struct* output = new NIComplexNumber_struct();  
     output->real = input.real();
     output->imaginary = input.imaginary();
     return *output;
@@ -33,7 +33,7 @@ namespace nifgen_grpc {
 
    NIComplexI16_struct NiFgenService::get_vector(const nifgen_grpc::NIComplexInt32& input) 
   {
-    NIComplexI16_struct* output;  
+    NIComplexI16_struct* output = new NIComplexI16_struct();  
     output->real = input.real();
     output->imaginary = input.imaginary();
     return *output;
@@ -1246,7 +1246,7 @@ namespace nifgen_grpc {
       ViConstString channel_name = request->channel_name().c_str();
       ViInt32 number_of_samples = request->waveform_data_array().size();
       auto waveform_data_array_request = request->waveform_data_array();
-      std::vector<NIComplexNumber_struct> waveform_data_array(number_of_samples, NIComplexNumber_struct());
+      std::vector<NIComplexNumber_struct> waveform_data_array;
       std::transform(
         waveform_data_array_request.begin(),
         waveform_data_array_request.end(),
