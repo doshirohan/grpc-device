@@ -176,16 +176,14 @@ class nifgenDriverApiTest : public ::testing::Test {
     return response.attribute_value();
   }
 
-  void set_int32_attribute(const char* channel_list, fgen::NiFgenAttributes attribute_id, fgen::TerminalConfiguration attribute_value)
+  void set_int32_attribute(const char* channel_list, fgen::NiFgenAttributes attribute_id, ViInt32 attribute_value)
   {
     ::grpc::ClientContext context;
-    const fgen::NiFgenAttributes attribute_to_set = attribute_id;
-    const ViInt32 value = attribute_value;
     fgen::SetAttributeViInt32Request request;
     request.mutable_vi()->set_id(GetSessionId());
     request.set_channel_name(channel_list);
-    request.set_attribute_id(attribute_to_set);
-    request.set_attribute_value(value);
+    request.set_attribute_id(attribute_id);
+    request.set_attribute_value(attribute_value);
     fgen::SetAttributeViInt32Response response;
 
     ::grpc::Status status = GetStub()->SetAttributeViInt32(&context, request, &response);
@@ -361,40 +359,36 @@ TEST_F(nifgenDriverApiTest, ConfigureTriggerMode_ConfiguresSuccessfully)
   fgen::TriggerMode expected_value = fgen::TriggerMode::TRIGGER_MODE_NIFGEN_VAL_CONTINUOUS;
   configure_trigger_mode(channel_name, expected_value);
 
-  ViInt32 actual_output_function_value = get_int32_attribute(channel_name, fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_TRIGGER_MODE);
-  EXPECT_EQ(expected_value, actual_output_function_value);
+  ViInt32 actual_trigger_mode = get_int32_attribute(channel_name, fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_TRIGGER_MODE);
+  EXPECT_EQ(expected_value, actual_trigger_mode);
 }
 
 TEST_F(nifgenDriverApiTest, SendSoftwareTrigger_TriggersSuccessfully)
 {
   const char* channel_name = "0";
   ViReal64 expected_current_level = 3.0;
+  ::grpc::ClientContext context;
+  fgen::SendSoftwareTriggerRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  fgen::SendSoftwareTriggerResponse response;
+  ::grpc::Status status = GetStub()->SendSoftwareTrigger(&context, request, &response);
 
-    ::grpc::ClientContext context;
-    fgen::SendSoftwareTriggerRequest request;
-    request.mutable_vi()->set_id(GetSessionId());
-    fgen::SendSoftwareTriggerResponse response;
-
-    ::grpc::Status status = GetStub()->SendSoftwareTrigger(&context, request, &response);
-
-    EXPECT_TRUE(status.ok());
-    EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+  EXPECT_TRUE(status.ok());
+  EXPECT_EQ(kfgenDriverApiSuccess, response.status());
 }
 
 TEST_F(nifgenDriverApiTest, ResetInterchangeCheck_ResetsSuccessfully)
 {
   const char* channel_name = "0";
   ViReal64 expected_current_level = 3.0;
+  ::grpc::ClientContext context;
+  fgen::ResetInterchangeCheckRequest request;
+  request.mutable_vi()->set_id(GetSessionId());
+  fgen::ResetInterchangeCheckResponse response;
+  ::grpc::Status status = GetStub()->ResetInterchangeCheck(&context, request, &response);
 
-    ::grpc::ClientContext context;
-    fgen::ResetInterchangeCheckRequest request;
-    request.mutable_vi()->set_id(GetSessionId());
-    fgen::ResetInterchangeCheckResponse response;
-
-    ::grpc::Status status = GetStub()->ResetInterchangeCheck(&context, request, &response);
-
-    EXPECT_TRUE(status.ok());
-    EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+  EXPECT_TRUE(status.ok());
+  EXPECT_EQ(kfgenDriverApiSuccess, response.status());
 }
 
 }  // namespace system
