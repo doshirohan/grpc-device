@@ -3,6 +3,9 @@
 # The gRPC API is built from the C API. NI-FGEN documentation is installed with the driver at:
 # C:\Program Files (x86)\IVI Foundation\IVI\Drivers\niFgen\documentation\English\SigGenHelp.chm
 #
+# The gRPC API is built from the C API. NI-TClk documentation is installed with the driver at:
+# C:\Program Files (x86)\IVI Foundation\IVI\Drivers\niTClk\documentation\English\nitclk.chm
+#
 # Getting Started:
 #
 # To run this example, install "NI-FGEN Driver" on the server machine.
