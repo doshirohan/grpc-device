@@ -157,7 +157,7 @@ except grpc.RpcError as rpc_error:
     print(f"{error_message}") 
 finally:
     if 'vi' in vars() and vi.id != 0:
-        # Close NI-DMM session
+        # Close NI-FGEN session
         close_session_response = nifgen_service.Close(nifgen_types.CloseRequest(
             vi = vi
         ))
