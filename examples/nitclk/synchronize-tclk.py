@@ -162,4 +162,3 @@ finally:
             vi = vi
         ))
         CheckForError(nifgen_service, vi, close_session_response.status)
-
