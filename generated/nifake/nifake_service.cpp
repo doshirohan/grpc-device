@@ -43,6 +43,7 @@ namespace nifake_grpc {
       output->AddAllocated(message);
     }
   }
+
    CustomStruct NiFakeService::GetStructFromGrpcType(const nifake_grpc::FakeCustomStruct& input) 
   {
     CustomStruct* output = new CustomStruct();  

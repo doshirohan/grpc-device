@@ -64,6 +64,7 @@ namespace ${config["namespace_component"]}_grpc {
       output->AddAllocated(message);
     }
   }
+
 % endif
 % if custom_type["name"] in input_custom_types:
    ${custom_type["name"]} ${service_class_prefix}Service::GetStructFromGrpcType(const ${namespace_prefix}${custom_type["grpc_name"]}& input) 
@@ -74,8 +75,8 @@ namespace ${config["namespace_component"]}_grpc {
 %     endfor
     return *output;
   }
-% endif
 
+% endif
 %   endfor
 % endif
 % for function_name in service_helpers.filter_proto_rpc_functions_to_generate(functions):
