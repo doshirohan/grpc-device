@@ -1397,21 +1397,6 @@ namespace nifgen_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
-  ::grpc::Status NiFgenService::CreateWaveformI16(::grpc::ServerContext* context, const CreateWaveformI16Request* request, CreateWaveformI16Response* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      return ::grpc::Status(::grpc::UNIMPLEMENTED, "TODO: This server handler has not been implemented.");
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
   ::grpc::Status NiFgenService::DefineUserStandardWaveform(::grpc::ServerContext* context, const DefineUserStandardWaveformRequest* request, DefineUserStandardWaveformResponse* response)
   {
     if (context->IsCancelled()) {
@@ -3196,21 +3181,6 @@ namespace nifgen_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
-  ::grpc::Status NiFgenService::WriteBinary16Waveform(::grpc::ServerContext* context, const WriteBinary16WaveformRequest* request, WriteBinary16WaveformResponse* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      return ::grpc::Status(::grpc::UNIMPLEMENTED, "TODO: This server handler has not been implemented.");
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
   ::grpc::Status NiFgenService::WriteComplexBinary16Waveform(::grpc::ServerContext* context, const WriteComplexBinary16WaveformRequest* request, WriteComplexBinary16WaveformResponse* response)
   {
     if (context->IsCancelled()) {
@@ -3256,21 +3226,6 @@ namespace nifgen_grpc {
       auto status = library_->WriteNamedWaveformF64(vi, channel_name, waveform_name, size, data);
       response->set_status(status);
       return ::grpc::Status::OK;
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
-  ::grpc::Status NiFgenService::WriteNamedWaveformI16(::grpc::ServerContext* context, const WriteNamedWaveformI16Request* request, WriteNamedWaveformI16Response* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      return ::grpc::Status(::grpc::UNIMPLEMENTED, "TODO: This server handler has not been implemented.");
     }
     catch (nidevice_grpc::LibraryLoadException& ex) {
       return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
