@@ -47,7 +47,7 @@ namespace ${config["namespace_component"]}_grpc {
 % endif
 % if 'custom_types' in locals():
 %   for custom_type in custom_types:
-% if common_helpers.has_output_param_of_type_struct(functions):
+% if common_helpers.has_output_param_of_type_struct(functions, custom_type):
   void ${service_class_prefix}Service::Copy(const ${custom_type["name"]}& input, ${namespace_prefix}${custom_type["grpc_name"]}* output) 
   {
 %     for field in custom_type["fields"]: 
@@ -64,7 +64,7 @@ namespace ${config["namespace_component"]}_grpc {
     }
   }
 % endif
-% if common_helpers.has_input_param_of_type_struct(functions):
+% if common_helpers.has_input_param_of_type_struct(functions, custom_type):
    ${custom_type["name"]} ${service_class_prefix}Service::get_custom_type_from_grpc_repeated_type(const ${namespace_prefix}${custom_type["grpc_name"]}& input) 
   {
     ${custom_type["name"]}* output = new ${custom_type["name"]}();  

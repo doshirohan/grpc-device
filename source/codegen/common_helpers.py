@@ -13,19 +13,19 @@ def is_enum(parameter):
 def is_struct(parameter):
   return parameter["type"].startswith("struct")
 
-def has_input_param_of_type_struct(functions):
-  '''Returns True if atleast one function has input parameter of type Struct'''
+def has_input_param_of_type_struct(functions, custom_type):
+  '''Returns True if atleast one function has input parameter of custom type'''
   for function in functions:
     for parameter in functions[function]["parameters"]:
-      if is_struct(parameter) and is_input_parameter(parameter):
+      if get_underlying_type_name(parameter["type"]) == custom_type["name"] and is_input_parameter(parameter):
         return True
   return False
 
-def has_output_param_of_type_struct(functions):
-  '''Returns True if atleast one function has output parameter of type Struct'''
+def has_output_param_of_type_struct(functions, custom_type):
+  '''Returns True if atleast one function has output parameter of custom type'''
   for function in functions:
     for parameter in functions[function]["parameters"]:
-      if is_struct(parameter) and is_output_parameter(parameter):
+      if get_underlying_type_name(parameter["type"]) == custom_type["name"] and is_output_parameter(parameter):
         return True
   return False
 
@@ -34,7 +34,7 @@ def get_underlying_type_name(parameter_type):
   return parameter_type.replace("struct ","").replace('[]', '')
 
 def get_underlying_grpc_type_name(parameter_type):
-  '''Strip away information from type name like brackets for arrays, leading "struct ", etc. leaving just the underlying type name.'''
+  '''Strip away information from type name like repeated for arrays, leaving just the underlying type name.'''
   return parameter_type.replace("repeated ","")
 
 def has_unsupported_parameter(function):

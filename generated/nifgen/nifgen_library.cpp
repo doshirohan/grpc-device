@@ -159,6 +159,7 @@ NiFgenLibrary::NiFgenLibrary() : shared_library_(kLibraryName)
   function_pointers_.WaitUntilDone = reinterpret_cast<WaitUntilDonePtr>(shared_library_.get_function_pointer("niFgen_WaitUntilDone"));
   function_pointers_.WriteBinary16AnalogStaticValue = reinterpret_cast<WriteBinary16AnalogStaticValuePtr>(shared_library_.get_function_pointer("niFgen_WriteBinary16AnalogStaticValue"));
   function_pointers_.WriteBinary16Waveform = reinterpret_cast<WriteBinary16WaveformPtr>(shared_library_.get_function_pointer("niFgen_WriteBinary16Waveform"));
+  function_pointers_.WriteComplexBinary16Waveform = reinterpret_cast<WriteComplexBinary16WaveformPtr>(shared_library_.get_function_pointer("niFgen_WriteComplexBinary16Waveform"));
   function_pointers_.WriteNamedWaveformF64 = reinterpret_cast<WriteNamedWaveformF64Ptr>(shared_library_.get_function_pointer("niFgen_WriteNamedWaveformF64"));
   function_pointers_.WriteNamedWaveformI16 = reinterpret_cast<WriteNamedWaveformI16Ptr>(shared_library_.get_function_pointer("niFgen_WriteNamedWaveformI16"));
   function_pointers_.WriteScript = reinterpret_cast<WriteScriptPtr>(shared_library_.get_function_pointer("niFgen_WriteScript"));
@@ -1829,6 +1830,18 @@ ViStatus NiFgenLibrary::WriteBinary16Waveform(ViSession vi, ViConstString channe
   return niFgen_WriteBinary16Waveform(vi, channelName, waveformHandle, size, data);
 #else
   return function_pointers_.WriteBinary16Waveform(vi, channelName, waveformHandle, size, data);
+#endif
+}
+
+ViStatus NiFgenLibrary::WriteComplexBinary16Waveform(ViSession vi, ViConstString channelName, ViInt32 waveformHandle, ViInt32 size, NIComplexI16_struct data[])
+{
+  if (!function_pointers_.WriteComplexBinary16Waveform) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_WriteComplexBinary16Waveform.");
+  }
+#if defined(_MSC_VER)
+  return niFgen_WriteComplexBinary16Waveform(vi, channelName, waveformHandle, size, data);
+#else
+  return function_pointers_.WriteComplexBinary16Waveform(vi, channelName, waveformHandle, size, data);
 #endif
 }
 

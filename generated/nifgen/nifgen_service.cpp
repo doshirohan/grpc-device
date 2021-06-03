@@ -3211,6 +3211,36 @@ namespace nifgen_grpc {
 
   //---------------------------------------------------------------------
   //---------------------------------------------------------------------
+  ::grpc::Status NiFgenService::WriteComplexBinary16Waveform(::grpc::ServerContext* context, const WriteComplexBinary16WaveformRequest* request, WriteComplexBinary16WaveformResponse* response)
+  {
+    if (context->IsCancelled()) {
+      return ::grpc::Status::CANCELLED;
+    }
+    try {
+      auto vi_grpc_session = request->vi();
+      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
+      ViConstString channel_name = request->channel_name().c_str();
+      ViInt32 waveform_handle = request->waveform_handle();
+      ViInt32 size = request->data().size();
+      auto data_request = request->data();
+      std::vector<NIComplexI16_struct> data;
+      std::transform(
+        data_request.begin(),
+        data_request.end(),
+        std::back_inserter(data),
+        [&](nifgen_grpc::NIComplexInt32 x) { return get_custom_type_from_grpc_repeated_type(x); });
+
+      auto status = library_->WriteComplexBinary16Waveform(vi, channel_name, waveform_handle, size, data.data());
+      response->set_status(status);
+      return ::grpc::Status::OK;
+    }
+    catch (nidevice_grpc::LibraryLoadException& ex) {
+      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
+    }
+  }
+
+  //---------------------------------------------------------------------
+  //---------------------------------------------------------------------
   ::grpc::Status NiFgenService::WriteNamedWaveformF64(::grpc::ServerContext* context, const WriteNamedWaveformF64Request* request, WriteNamedWaveformF64Response* response)
   {
     if (context->IsCancelled()) {

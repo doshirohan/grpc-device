@@ -156,6 +156,7 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   ViStatus WaitUntilDone(ViSession vi, ViInt32 maxTime);
   ViStatus WriteBinary16AnalogStaticValue(ViSession vi, ViConstString channelName, ViInt16 value);
   ViStatus WriteBinary16Waveform(ViSession vi, ViConstString channelName, ViInt32 waveformHandle, ViInt32 size, ViInt16 data[]);
+  ViStatus WriteComplexBinary16Waveform(ViSession vi, ViConstString channelName, ViInt32 waveformHandle, ViInt32 size, NIComplexI16_struct data[]);
   ViStatus WriteNamedWaveformF64(ViSession vi, ViConstString channelName, ViConstString waveformName, ViInt32 size, ViReal64 data[]);
   ViStatus WriteNamedWaveformI16(ViSession vi, ViConstString channelName, ViConstString waveformName, ViInt32 size, ViInt16 data[]);
   ViStatus WriteScript(ViSession vi, ViConstString channelName, ViConstString script);
@@ -300,6 +301,7 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   using WaitUntilDonePtr = ViStatus (*)(ViSession vi, ViInt32 maxTime);
   using WriteBinary16AnalogStaticValuePtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViInt16 value);
   using WriteBinary16WaveformPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViInt32 waveformHandle, ViInt32 size, ViInt16 data[]);
+  using WriteComplexBinary16WaveformPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViInt32 waveformHandle, ViInt32 size, NIComplexI16_struct data[]);
   using WriteNamedWaveformF64Ptr = ViStatus (*)(ViSession vi, ViConstString channelName, ViConstString waveformName, ViInt32 size, ViReal64 data[]);
   using WriteNamedWaveformI16Ptr = ViStatus (*)(ViSession vi, ViConstString channelName, ViConstString waveformName, ViInt32 size, ViInt16 data[]);
   using WriteScriptPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViConstString script);
@@ -444,6 +446,7 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
     WaitUntilDonePtr WaitUntilDone;
     WriteBinary16AnalogStaticValuePtr WriteBinary16AnalogStaticValue;
     WriteBinary16WaveformPtr WriteBinary16Waveform;
+    WriteComplexBinary16WaveformPtr WriteComplexBinary16Waveform;
     WriteNamedWaveformF64Ptr WriteNamedWaveformF64;
     WriteNamedWaveformI16Ptr WriteNamedWaveformI16;
     WriteScriptPtr WriteScript;

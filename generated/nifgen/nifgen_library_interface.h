@@ -153,6 +153,7 @@ class NiFgenLibraryInterface {
   virtual ViStatus WaitUntilDone(ViSession vi, ViInt32 maxTime) = 0;
   virtual ViStatus WriteBinary16AnalogStaticValue(ViSession vi, ViConstString channelName, ViInt16 value) = 0;
   virtual ViStatus WriteBinary16Waveform(ViSession vi, ViConstString channelName, ViInt32 waveformHandle, ViInt32 size, ViInt16 data[]) = 0;
+  virtual ViStatus WriteComplexBinary16Waveform(ViSession vi, ViConstString channelName, ViInt32 waveformHandle, ViInt32 size, NIComplexI16_struct data[]) = 0;
   virtual ViStatus WriteNamedWaveformF64(ViSession vi, ViConstString channelName, ViConstString waveformName, ViInt32 size, ViReal64 data[]) = 0;
   virtual ViStatus WriteNamedWaveformI16(ViSession vi, ViConstString channelName, ViConstString waveformName, ViInt32 size, ViInt16 data[]) = 0;
   virtual ViStatus WriteScript(ViSession vi, ViConstString channelName, ViConstString script) = 0;

@@ -2905,6 +2905,41 @@ functions = {
         ],
         'returns':'ViStatus'
     },
+    'WriteComplexBinary16Waveform':{
+        'parameters':[
+            {
+                'name':'vi',
+                'direction':'in',
+                'type':'ViSession'
+            },
+            {
+                'name':'channelName',
+                'direction':'in',
+                'type':'ViConstString'
+            },
+            {
+                'name':'waveformHandle',
+                'direction':'in',
+                'type':'ViInt32'
+            },
+            {
+                'name':'size',
+                'direction':'in',
+                'type':'ViInt32'
+            },
+            {
+                'name':'data',
+                'direction':'in',
+                'type':'struct NIComplexI16_struct[]',
+                'grpc_type':'repeated NIComplexInt32',
+                'size':{
+                    'mechanism':'len',
+                    'value':'size'
+                }
+            }
+        ],
+        'returns':'ViStatus'
+    },
     'WriteNamedWaveformF64':{
         'parameters':[
             {

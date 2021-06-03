@@ -162,6 +162,7 @@ public:
   ::grpc::Status WaitUntilDone(::grpc::ServerContext* context, const WaitUntilDoneRequest* request, WaitUntilDoneResponse* response) override;
   ::grpc::Status WriteBinary16AnalogStaticValue(::grpc::ServerContext* context, const WriteBinary16AnalogStaticValueRequest* request, WriteBinary16AnalogStaticValueResponse* response) override;
   ::grpc::Status WriteBinary16Waveform(::grpc::ServerContext* context, const WriteBinary16WaveformRequest* request, WriteBinary16WaveformResponse* response) override;
+  ::grpc::Status WriteComplexBinary16Waveform(::grpc::ServerContext* context, const WriteComplexBinary16WaveformRequest* request, WriteComplexBinary16WaveformResponse* response) override;
   ::grpc::Status WriteNamedWaveformF64(::grpc::ServerContext* context, const WriteNamedWaveformF64Request* request, WriteNamedWaveformF64Response* response) override;
   ::grpc::Status WriteNamedWaveformI16(::grpc::ServerContext* context, const WriteNamedWaveformI16Request* request, WriteNamedWaveformI16Response* response) override;
   ::grpc::Status WriteScript(::grpc::ServerContext* context, const WriteScriptRequest* request, WriteScriptResponse* response) override;
