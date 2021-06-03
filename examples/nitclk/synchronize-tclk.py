@@ -3,7 +3,7 @@
 # The gRPC API is built from the C API. NI-FGEN documentation is installed with the driver at:
 # C:\Program Files (x86)\IVI Foundation\IVI\Drivers\niFgen\documentation\English\SigGenHelp.chm
 #
-# The gRPC API is built from the C API. NI-TClk documentation is installed with the driver at:
+# NI-TClk documentation is installed with the driver at:
 # C:\Program Files (x86)\IVI Foundation\IVI\Drivers\niTClk\documentation\English\nitclk.chm
 #
 # Getting Started:
@@ -26,15 +26,13 @@ import nifgen_pb2 as nifgen_types
 import nifgen_pb2_grpc as grpc_nifgen
 import nitclk_pb2 as nitclk_types
 import nitclk_pb2_grpc as grpc_nitclk
-import session_pb2 as session_types
-import session_pb2_grpc as grpc_session
 import matplotlib.pyplot as plt
 
-server_address = "localhost"
+server_address = "10.164.64.53"
 server_port = "31763"
 
-# Take resource name . This example doesn't work on simulation, so resource name is required.
-resources = input("Enter comma separated resource names (PXI1Slot2,PXI1Slot3): ").split(",")
+# Read FGEN resources to be configured
+resources = list(map(str.strip, input("Enter comma separated FGEN resource names (PXI1Slot2, PXI1Slot3): ").split(",")))
 
 # parameters
 sample_rate = 20000000.0
@@ -74,9 +72,9 @@ def ThrowOnError (service, vi, error_code):
         error_message_response = nifgen_service.ErrorMessage(error_message_request)
         raise Exception (error_message_request.error_message)
     else:
-        error_message_request = nitclk_types.GetExtendedErrorInfoRequest()
-        error_message_response = nitclk_service.GetExtendedErrorInfo(error_message_request)           
-        raise Exception (error_message_response.error_string)
+        error_info_request = nitclk_types.GetExtendedErrorInfoRequest()
+        error_info_response = nitclk_service.GetExtendedErrorInfo(error_info_request)           
+        raise Exception (error_info_response.error_string)
 
 try:
     # list of sessions
@@ -84,14 +82,14 @@ try:
     i = 0
     for resource in resources:
         # Initalize NI-FGEN session
-        init_with_channels_resp = nifgen_service.InitWithOptions(nifgen_types.InitWithOptionsRequest(
+        init_with_options_resp = nifgen_service.InitWithOptions(nifgen_types.InitWithOptionsRequest(
             session_name = "session" + str(i),
             resource_name = resource,
             option_string = ""
         ))
-        vi = init_with_channels_resp.vi
+        vi = init_with_options_resp.vi
         sessions.append(vi)
-        CheckForError(nifgen_service, vi, init_with_channels_resp.status)
+        CheckForError(nifgen_service, vi, init_with_options_resp.status)
 
         # Configure channels
         config_channels_resp = nifgen_service.ConfigureChannels(nifgen_types.ConfigureChannelsRequest(
@@ -159,9 +157,10 @@ except grpc.RpcError as rpc_error:
         error_message = "The operation is not implemented or is not supported/enabled in this service"
     print(f"{error_message}") 
 finally:
-    if 'vi' in vars() and vi.id != 0:
-        # Close NI-FGEN session
-        close_session_response = nifgen_service.Close(nifgen_types.CloseRequest(
-            vi = vi
-        ))
-        CheckForError(nifgen_service, vi, close_session_response.status)
+    for vi in sessions:
+        if vi.id != 0:
+            # Close NI-FGEN session
+            close_session_response = nifgen_service.Close(nifgen_types.CloseRequest(
+                vi = vi
+            ))
+            CheckForError(nifgen_service, vi, close_session_response.status)
