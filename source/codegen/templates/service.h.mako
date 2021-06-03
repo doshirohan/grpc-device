@@ -61,7 +61,7 @@ private:
   void Copy(const std::vector<${custom_type["name"]}>& input, google::protobuf::RepeatedPtrField<${namespace_prefix}${custom_type["grpc_name"]}>* output);
 	% endif
 	% if common_helpers.has_input_param_of_type_struct(functions):
-  ${custom_type["name"]} get_vector(const ${namespace_prefix}${custom_type["grpc_name"]}& input);
+  ${custom_type["name"]} get_custom_type_from_grpc_repeated_type(const ${namespace_prefix}${custom_type["grpc_name"]}& input);
 	%endif
 %   endfor
 % endif

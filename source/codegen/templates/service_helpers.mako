@@ -219,7 +219,7 @@ ${initialize_standard_input_param(function_name, parameter)}\
         ${parameter_name}_request.begin(),
         ${parameter_name}_request.end(),
         std::back_inserter(${parameter_name}),
-        [&](${namespace_prefix}${grpc_underlying_type} x) { return get_vector(x); });
+        [&](${namespace_prefix}${grpc_underlying_type} x) { return get_custom_type_from_grpc_repeated_type(x); });
 % elif 'enum' in parameter:
 <%
 PascalFieldName = common_helpers.snake_to_pascal(field_name)

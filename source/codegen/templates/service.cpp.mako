@@ -65,7 +65,7 @@ namespace ${config["namespace_component"]}_grpc {
   }
 % endif
 % if common_helpers.has_input_param_of_type_struct(functions):
-   ${custom_type["name"]} ${service_class_prefix}Service::get_vector(const ${namespace_prefix}${custom_type["grpc_name"]}& input) 
+   ${custom_type["name"]} ${service_class_prefix}Service::get_custom_type_from_grpc_repeated_type(const ${namespace_prefix}${custom_type["grpc_name"]}& input) 
   {
     ${custom_type["name"]}* output = new ${custom_type["name"]}();  
 %     for field in custom_type["fields"]: 

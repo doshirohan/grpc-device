@@ -43,7 +43,7 @@ namespace nifake_grpc {
       output->AddAllocated(message);
     }
   }
-   CustomStruct NiFakeService::get_vector(const nifake_grpc::FakeCustomStruct& input) 
+   CustomStruct NiFakeService::get_custom_type_from_grpc_repeated_type(const nifake_grpc::FakeCustomStruct& input) 
   {
     CustomStruct* output = new CustomStruct();  
     output->structInt = input.struct_int();
@@ -1218,7 +1218,7 @@ namespace nifake_grpc {
         cs_request.begin(),
         cs_request.end(),
         std::back_inserter(cs),
-        [&](nifake_grpc::FakeCustomStruct x) { return get_vector(x); });
+        [&](nifake_grpc::FakeCustomStruct x) { return get_custom_type_from_grpc_repeated_type(x); });
 
       auto status = library_->SetCustomTypeArray(vi, number_of_elements, cs.data());
       response->set_status(status);
