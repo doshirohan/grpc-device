@@ -28,7 +28,7 @@ import nitclk_pb2 as nitclk_types
 import nitclk_pb2_grpc as grpc_nitclk
 import matplotlib.pyplot as plt
 
-server_address = "10.164.64.53"
+server_address = "localhost"
 server_port = "31763"
 
 # Read FGEN resources to be configured
@@ -39,9 +39,10 @@ sample_rate = 20000000.0
 waveform_size = 16
 # Create waveform data
 waveform_data = []
-for i in range(waveform_size):
+for i in range(waveform_size//2):
     waveform_data.append(0.0)
-waveform_data[0] = 1.0
+for i in range(waveform_size//2, waveform_size):
+    waveform_data.append(1.0)
 
 # Read in cmd args
 if len(sys.argv) >= 2:
@@ -103,7 +104,7 @@ try:
             vi = vi,
             output_mode = 1
         ))
-
+        
         # Configure sample rate
         config_sample_rate_resp = nifgen_service.ConfigureSampleRate(nifgen_types.ConfigureSampleRateRequest(
             vi = vi,
