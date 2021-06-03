@@ -2288,6 +2288,7 @@ functions = {
         'returns': 'ViStatus'
     },
     'SetCustomTypeArray': {
+        'codegen_method': 'no',
         'documentation': {
             'description': 'This function takes an array of custom types.'
         },
@@ -2318,8 +2319,7 @@ functions = {
                     'mechanism': 'len',
                     'value': 'numberOfElements'
                 },
-                'type': 'struct CustomStruct[]',
-                'grpc_type': 'repeated FakeCustomStruct'
+                'type': 'struct CustomStruct[]'
             }
         ],
         'returns': 'ViStatus'

@@ -43,7 +43,7 @@ namespace nifake_grpc {
       output->AddAllocated(message);
     }
   }
-   CustomStruct NiFakeService::get_custom_type_from_grpc_repeated_type(const nifake_grpc::FakeCustomStruct& input) 
+   CustomStruct NiFakeService::GetStructFromGrpcType(const nifake_grpc::FakeCustomStruct& input) 
   {
     CustomStruct* output = new CustomStruct();  
     output->structInt = input.struct_int();
@@ -1194,34 +1194,6 @@ namespace nifake_grpc {
         response->set_a_float_enum_raw(a_float_enum);
         response->set_a_string(a_string);
       }
-      return ::grpc::Status::OK;
-    }
-    catch (nidevice_grpc::LibraryLoadException& ex) {
-      return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-    }
-  }
-
-  //---------------------------------------------------------------------
-  //---------------------------------------------------------------------
-  ::grpc::Status NiFakeService::SetCustomTypeArray(::grpc::ServerContext* context, const SetCustomTypeArrayRequest* request, SetCustomTypeArrayResponse* response)
-  {
-    if (context->IsCancelled()) {
-      return ::grpc::Status::CANCELLED;
-    }
-    try {
-      auto vi_grpc_session = request->vi();
-      ViSession vi = session_repository_->access_session(vi_grpc_session.id(), vi_grpc_session.name());
-      ViInt32 number_of_elements = request->cs().size();
-      auto cs_request = request->cs();
-      std::vector<CustomStruct> cs;
-      std::transform(
-        cs_request.begin(),
-        cs_request.end(),
-        std::back_inserter(cs),
-        [&](nifake_grpc::FakeCustomStruct x) { return get_custom_type_from_grpc_repeated_type(x); });
-
-      auto status = library_->SetCustomTypeArray(vi, number_of_elements, cs.data());
-      response->set_status(status);
       return ::grpc::Status::OK;
     }
     catch (nidevice_grpc::LibraryLoadException& ex) {

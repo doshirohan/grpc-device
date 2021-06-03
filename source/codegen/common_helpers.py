@@ -13,21 +13,17 @@ def is_enum(parameter):
 def is_struct(parameter):
   return parameter["type"].startswith("struct")
 
-def has_input_param_of_type_struct(functions, custom_type):
-  '''Returns True if atleast one function has input parameter of custom type'''
+def get_input_and_output_custom_types(functions):
+  '''Returns a set of custom types used by input and output parameters separately.'''
+  input_custom_types = set()
+  output_custom_types = set()
   for function in functions:
     for parameter in functions[function]["parameters"]:
-      if get_underlying_type_name(parameter["type"]) == custom_type["name"] and is_input_parameter(parameter):
-        return True
-  return False
-
-def has_output_param_of_type_struct(functions, custom_type):
-  '''Returns True if atleast one function has output parameter of custom type'''
-  for function in functions:
-    for parameter in functions[function]["parameters"]:
-      if get_underlying_type_name(parameter["type"]) == custom_type["name"] and is_output_parameter(parameter):
-        return True
-  return False
+        if is_struct(parameter) and is_input_parameter(parameter) and is_array(parameter["type"]):
+            input_custom_types.add(get_underlying_type_name(parameter["type"]))
+        if is_struct(parameter) and is_output_parameter(parameter) and is_array(parameter["type"]):
+            output_custom_types.add(get_underlying_type_name(parameter["type"]))
+  return (input_custom_types, output_custom_types)
 
 def get_underlying_type_name(parameter_type):
   '''Strip away information from type name like brackets for arrays, leading "struct ", etc. leaving just the underlying type name.'''

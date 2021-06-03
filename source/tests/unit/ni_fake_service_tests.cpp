@@ -19,7 +19,6 @@ using ::testing::AllOf;
 using ::testing::Args;
 using ::testing::DoAll;
 using ::testing::ElementsAreArray;
-using ::testing::FieldsAre;
 using ::testing::Pointee;
 using ::testing::Return;
 using ::testing::SetArgPointee;
@@ -1414,36 +1413,6 @@ TEST(NiFakeServiceTests, NiFakeService_GetAnIviDanceWithATwistArray_CallsGetAnIv
     EXPECT_EQ(kDriverSuccess, response.status());
     EXPECT_THAT(response.array_out(), ElementsAreArray(array_out, expected_size));
     EXPECT_EQ(response.actual_size(), expected_size);
-}
-
-TEST(NiFakeServiceTests, NiFakeService_SetCustomTypeArray_CallsSetCustomTypeArray)
-{
-    nidevice_grpc::SessionRepository session_repository;
-    std::uint32_t session_id = create_session(session_repository, kTestViSession);
-    NiFakeMockLibrary library;
-    nifake_grpc::NiFakeService service(&library, &session_repository);
-    ViInt32 number_of_elements = 2;
-    CustomStruct cs_array[] = { { 5, 8.0 },{ 15 , 19.7 } };
-
-    EXPECT_CALL(library, SetCustomTypeArray(kTestViSession, number_of_elements, _))
-        .With(Args<2, 1>(ElementsAreArray({FieldsAre(cs_array[0].structInt, cs_array[0].structDouble),
-            FieldsAre(cs_array[1].structInt, cs_array[1].structDouble)})))
-        .WillOnce(Return(kDriverSuccess));
-
-    ::grpc::ServerContext context;
-    nifake_grpc::SetCustomTypeArrayRequest request;
-    request.mutable_vi()->set_id(session_id);
-    for (int i = 0; i < number_of_elements; i++)
-    {
-        request.add_cs();
-        request.mutable_cs(i)->set_struct_int(cs_array[i].structInt);
-        request.mutable_cs(i)->set_struct_double(cs_array[i].structDouble);
-    }
-    nifake_grpc::SetCustomTypeArrayResponse response;
-    ::grpc::Status status = service.SetCustomTypeArray(&context, &request, &response);
-
-    EXPECT_TRUE(status.ok());
-    EXPECT_EQ(kDriverSuccess, response.status());
 }
 
 }  // namespace unit

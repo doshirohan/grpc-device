@@ -167,8 +167,8 @@ public:
 private:
   NiFgenLibraryInterface* library_;
   nidevice_grpc::SessionRepository* session_repository_;
-  NIComplexNumber_struct get_custom_type_from_grpc_repeated_type(const nifgen_grpc::NIComplexNumber& input);
-  NIComplexI16_struct get_custom_type_from_grpc_repeated_type(const nifgen_grpc::NIComplexInt32& input);
+  NIComplexNumber_struct GetStructFromGrpcType(const nifgen_grpc::NIComplexNumber& input);
+  NIComplexI16_struct GetStructFromGrpcType(const nifgen_grpc::NIComplexInt32& input);
 };
 
 } // namespace nifgen_grpc

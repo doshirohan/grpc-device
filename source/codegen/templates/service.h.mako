@@ -14,6 +14,7 @@ include_guard_name = service_helpers.get_include_guard_name(config, "_SERVICE_H"
 namespace_prefix = config["namespace_component"] + "_grpc::"
 if len(config["custom_types"]) > 0:
   custom_types = config["custom_types"]
+(input_custom_types, output_custom_types) = common_helpers.get_input_and_output_custom_types(functions)
 %>\
 
 //---------------------------------------------------------------------
@@ -56,12 +57,12 @@ private:
 % endif
 % if 'custom_types' in locals():
 %   for custom_type in custom_types:
-	% if common_helpers.has_output_param_of_type_struct(functions, custom_type):
+	% if custom_type["name"] in output_custom_types:
   void Copy(const ${custom_type["name"]}& input, ${namespace_prefix}${custom_type["grpc_name"]}* output);
   void Copy(const std::vector<${custom_type["name"]}>& input, google::protobuf::RepeatedPtrField<${namespace_prefix}${custom_type["grpc_name"]}>* output);
 	% endif
-	% if common_helpers.has_input_param_of_type_struct(functions, custom_type):
-  ${custom_type["name"]} get_custom_type_from_grpc_repeated_type(const ${namespace_prefix}${custom_type["grpc_name"]}& input);
+	% if custom_type["name"] in input_custom_types:
+  ${custom_type["name"]} GetStructFromGrpcType(const ${namespace_prefix}${custom_type["grpc_name"]}& input);
 	%endif
 %   endfor
 % endif

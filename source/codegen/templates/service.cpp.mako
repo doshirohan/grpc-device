@@ -10,6 +10,7 @@ namespace_prefix = config["namespace_component"] + "_grpc::"
 module_name = config["module_name"]
 if len(config["custom_types"]) > 0:
   custom_types = config["custom_types"]
+(input_custom_types, output_custom_types) = common_helpers.get_input_and_output_custom_types(functions)
 %>\
 <%namespace name="mako_helper" file="/service_helpers.mako"/>\
 
@@ -47,7 +48,7 @@ namespace ${config["namespace_component"]}_grpc {
 % endif
 % if 'custom_types' in locals():
 %   for custom_type in custom_types:
-% if common_helpers.has_output_param_of_type_struct(functions, custom_type):
+% if custom_type["name"] in output_custom_types:
   void ${service_class_prefix}Service::Copy(const ${custom_type["name"]}& input, ${namespace_prefix}${custom_type["grpc_name"]}* output) 
   {
 %     for field in custom_type["fields"]: 
@@ -64,8 +65,8 @@ namespace ${config["namespace_component"]}_grpc {
     }
   }
 % endif
-% if common_helpers.has_input_param_of_type_struct(functions, custom_type):
-   ${custom_type["name"]} ${service_class_prefix}Service::get_custom_type_from_grpc_repeated_type(const ${namespace_prefix}${custom_type["grpc_name"]}& input) 
+% if custom_type["name"] in input_custom_types:
+   ${custom_type["name"]} ${service_class_prefix}Service::GetStructFromGrpcType(const ${namespace_prefix}${custom_type["grpc_name"]}& input) 
   {
     ${custom_type["name"]}* output = new ${custom_type["name"]}();  
 %     for field in custom_type["fields"]: 
