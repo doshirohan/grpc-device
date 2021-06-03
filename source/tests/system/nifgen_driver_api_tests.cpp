@@ -272,7 +272,7 @@ TEST_F(nifgenDriverApiTest, PerformReset_CompletesSuccessfuly)
   EXPECT_EQ(kfgenDriverApiSuccess, response.status());
 }
 
-TEST_F(nifgenDriverApiTest, SetAttributeViInt32_GetAttributeViInt32ReturnsSameValue)
+TEST_F(nifgenDriverApiTest, SetAttributeViInt32_GetAttributeViInt32_ValueMatches)
 {
   const char* channel_name = "";
   const fgen::NiFgenAttributes attribute_to_set = fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_OUTPUT_MODE;
@@ -285,14 +285,15 @@ TEST_F(nifgenDriverApiTest, SetAttributeViInt32_GetAttributeViInt32ReturnsSameVa
   request.set_attribute_value(expected_value);
   fgen::SetAttributeViInt32Response response;
   ::grpc::Status status = GetStub()->SetAttributeViInt32(&context, request, &response);
-
   EXPECT_TRUE(status.ok());
   EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+
   ViInt32 get_attribute_value = get_int32_attribute(channel_name, attribute_to_set);
+
   EXPECT_EQ(expected_value, get_attribute_value);
 }
 
-TEST_F(nifgenDriverApiTest, SetAttributeViReal64_GetAttributeViReal64ReturnsSameValue)
+TEST_F(nifgenDriverApiTest, SetAttributeViReal64_GetAttributeViReal64_ValueMatches)
 {
   const char* channel_name = "";
   const fgen::NiFgenAttributes attribute_to_set = fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_DIGITAL_GAIN;
@@ -305,15 +306,15 @@ TEST_F(nifgenDriverApiTest, SetAttributeViReal64_GetAttributeViReal64ReturnsSame
   request.set_attribute_value(expected_value);
   fgen::SetAttributeViReal64Response response;
   ::grpc::Status status = GetStub()->SetAttributeViReal64(&context, request, &response);
-
-  EXPECT_EQ("", status.error_message());
   EXPECT_TRUE(status.ok());
   EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+
   ViReal64 get_attribute_value_sourcedelay = get_real64_attribute(channel_name, attribute_to_set);
+
   EXPECT_EQ(expected_value, get_attribute_value_sourcedelay);
 }
 
-TEST_F(nifgenDriverApiTest, SetAttributeViBoolean_GetAttributeViBooleanReturnsSameValue)
+TEST_F(nifgenDriverApiTest, SetAttributeViBoolean_GetAttributeViBoolean_ValueMatches)
 {
   const char* channel_name = "0";
   const fgen::NiFgenAttributes attribute_to_set = fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_OUTPUT_ENABLED;
@@ -326,14 +327,15 @@ TEST_F(nifgenDriverApiTest, SetAttributeViBoolean_GetAttributeViBooleanReturnsSa
   request.set_attribute_value(expected_value);
   fgen::SetAttributeViBooleanResponse response;
   ::grpc::Status status = GetStub()->SetAttributeViBoolean(&context, request, &response);
-
   EXPECT_TRUE(status.ok());
   EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+
   ViBoolean get_attribute_value = get_bool_attribute(channel_name, attribute_to_set);
+
   EXPECT_EQ(expected_value, get_attribute_value);
 }
 
-TEST_F(nifgenDriverApiTest, SetAttributeViString_GetAttributeViStringReturnsSameValue)
+TEST_F(nifgenDriverApiTest, SetAttributeViString_GetAttributeViString_ValueMatches)
 {
   const char* channel_name = "";
   const fgen::NiFgenAttributes attribute_to_set = fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_MARKER_EVENT_OUTPUT_TERMINAL;
@@ -346,10 +348,11 @@ TEST_F(nifgenDriverApiTest, SetAttributeViString_GetAttributeViStringReturnsSame
   request.set_attribute_value(expected_value);
   fgen::SetAttributeViStringResponse response;
   ::grpc::Status status = GetStub()->SetAttributeViString(&context, request, &response);
-
   EXPECT_TRUE(status.ok());
   EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+
   std::string get_attribute_value = get_string_attribute(channel_name, attribute_to_set);
+
   EXPECT_STREQ(expected_value, get_attribute_value.c_str());
 }
 
