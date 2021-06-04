@@ -4,6 +4,8 @@
 
 namespace nifgen_grpc {
 
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
 ::grpc::Status NiFgenService::CreateAdvancedArbSequence(::grpc::ServerContext* context, const CreateAdvancedArbSequenceRequest* request, CreateAdvancedArbSequenceResponse* response)
 {
   if (context->IsCancelled()) {
