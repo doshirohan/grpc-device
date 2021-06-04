@@ -17,8 +17,8 @@
 # Running from command line:
 #
 # Server machine's IP address, port number, and multiple comma separated resource names can be passed as separate command line arguments.
-#   > python synchronize-tclk.py <server_address> <port_number> <resource_name>
-# This example doesn't work on simulation, so these arguments are mandatory, not optional
+#   > python synchronize-tclk.py <server_address> <port_number> <resource_name1,resource_name2>
+# This example is not supported in simulation mode, hence these arguments are mandatory
 
 import grpc
 import sys
@@ -40,8 +40,8 @@ for i in range(waveform_size//2, waveform_size):
 
 # Read in cmd args
 if len(sys.argv) < 4:
-    print("This example doesn't work on simulation, please provide server address, server port and resource name as follows:")
-    sys.exit("python synchronize-tclk.py <server_address> <port_number> <resource_name>")
+    print("This example is not supported in simulation mode. Please provide server address, server port and resource name as follows:")
+    sys.exit("python synchronize-tclk.py <server_address> <port_number> <resource_name1,resource_name2>")
 else:
     server_address = sys.argv[1]
     server_port = sys.argv[2]
