@@ -155,7 +155,7 @@ try:
         fig = plt.gcf()
         fig.canvas.manager.set_window_title('Sample Waveform')
         plt.plot(sine)
-        plt.suptitle("Close the window to stop generation", fontsize=10)
+        plt.suptitle("Close the window to stop generation", fontsize = 10)
         plt.xlabel("Samples")
         plt.ylabel("Amplitude")
         plt.show()
