@@ -33,9 +33,9 @@ sample_rate = 20000000.0
 waveform_size = 16
 # Create waveform data
 waveform_data = []
-for i in range(waveform_size//2):
+for i in range(waveform_size // 2):
     waveform_data.append(0.0)
-for i in range(waveform_size//2, waveform_size):
+for i in range(waveform_size // 2, waveform_size):
     waveform_data.append(1.0)
 
 # Read in cmd args
@@ -143,7 +143,7 @@ try:
         fig = plt.gcf()
         fig.canvas.manager.set_window_title('Sample Waveform')
         plt.plot(waveform_data)
-        plt.suptitle("Close the window to stop generation", fontsize=10)
+        plt.suptitle("Close the window to stop generation", fontsize = 10)
         plt.xlabel("Samples")
         plt.ylabel("Amplitude")
         plt.show()
@@ -157,7 +157,7 @@ except grpc.RpcError as rpc_error:
         error_message = f"Failed to connect to server on {server_address}"
     elif rpc_error.code() == grpc.StatusCode.UNIMPLEMENTED:
         error_message = "The operation is not implemented or is not supported/enabled in this service"
-    print(f"{error_message}") 
+    print(error_message) 
 finally:
     for vi in sessions:
         if vi.id != 0:
