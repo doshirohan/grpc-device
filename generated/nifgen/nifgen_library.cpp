@@ -74,6 +74,7 @@ NiFgenLibrary::NiFgenLibrary() : shared_library_(kLibraryName)
   function_pointers_.ConfigureTriggerMode = reinterpret_cast<ConfigureTriggerModePtr>(shared_library_.get_function_pointer("niFgen_ConfigureTriggerMode"));
   function_pointers_.ConfigureTriggerSource = reinterpret_cast<ConfigureTriggerSourcePtr>(shared_library_.get_function_pointer("niFgen_ConfigureTriggerSource"));
   function_pointers_.ConfigureUpdateClockSource = reinterpret_cast<ConfigureUpdateClockSourcePtr>(shared_library_.get_function_pointer("niFgen_ConfigureUpdateClockSource"));
+  function_pointers_.CreateAdvancedArbSequence = reinterpret_cast<CreateAdvancedArbSequencePtr>(shared_library_.get_function_pointer("niFgen_CreateAdvancedArbSequence"));
   function_pointers_.CreateArbSequence = reinterpret_cast<CreateArbSequencePtr>(shared_library_.get_function_pointer("niFgen_CreateArbSequence"));
   function_pointers_.CreateFreqList = reinterpret_cast<CreateFreqListPtr>(shared_library_.get_function_pointer("niFgen_CreateFreqList"));
   function_pointers_.CreateWaveformF64 = reinterpret_cast<CreateWaveformF64Ptr>(shared_library_.get_function_pointer("niFgen_CreateWaveformF64"));
@@ -92,6 +93,7 @@ NiFgenLibrary::NiFgenLibrary() : shared_library_(kLibraryName)
   function_pointers_.EnableAnalogFilter = reinterpret_cast<EnableAnalogFilterPtr>(shared_library_.get_function_pointer("niFgen_EnableAnalogFilter"));
   function_pointers_.EnableDigitalFilter = reinterpret_cast<EnableDigitalFilterPtr>(shared_library_.get_function_pointer("niFgen_EnableDigitalFilter"));
   function_pointers_.EnableDigitalPatterning = reinterpret_cast<EnableDigitalPatterningPtr>(shared_library_.get_function_pointer("niFgen_EnableDigitalPatterning"));
+  function_pointers_.ErrorHandler = reinterpret_cast<ErrorHandlerPtr>(shared_library_.get_function_pointer("niFgen_ErrorHandler"));
   function_pointers_.ErrorMessage = reinterpret_cast<ErrorMessagePtr>(shared_library_.get_function_pointer("niFgen_error_message"));
   function_pointers_.ExportAttributeConfigurationBuffer = reinterpret_cast<ExportAttributeConfigurationBufferPtr>(shared_library_.get_function_pointer("niFgen_ExportAttributeConfigurationBuffer"));
   function_pointers_.ExportAttributeConfigurationFile = reinterpret_cast<ExportAttributeConfigurationFilePtr>(shared_library_.get_function_pointer("niFgen_ExportAttributeConfigurationFile"));
@@ -808,6 +810,18 @@ ViStatus NiFgenLibrary::ConfigureUpdateClockSource(ViSession vi, ViInt32 updateC
 #endif
 }
 
+ViStatus NiFgenLibrary::CreateAdvancedArbSequence(ViSession vi, ViInt32 sequenceLength, ViInt32 waveformHandlesArray[], ViInt32 loopCountsArray[], ViInt32 sampleCountsArray[], ViInt32 markerLocationArray[], ViInt32 coercedMarkersArray[], ViInt32* sequenceHandle)
+{
+  if (!function_pointers_.CreateAdvancedArbSequence) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_CreateAdvancedArbSequence.");
+  }
+#if defined(_MSC_VER)
+  return niFgen_CreateAdvancedArbSequence(vi, sequenceLength, waveformHandlesArray, loopCountsArray, sampleCountsArray, markerLocationArray, coercedMarkersArray, sequenceHandle);
+#else
+  return function_pointers_.CreateAdvancedArbSequence(vi, sequenceLength, waveformHandlesArray, loopCountsArray, sampleCountsArray, markerLocationArray, coercedMarkersArray, sequenceHandle);
+#endif
+}
+
 ViStatus NiFgenLibrary::CreateArbSequence(ViSession vi, ViInt32 sequenceLength, ViInt32 waveformHandlesArray[], ViInt32 loopCountsArray[], ViInt32* sequenceHandle)
 {
   if (!function_pointers_.CreateArbSequence) {
@@ -1021,6 +1035,18 @@ ViStatus NiFgenLibrary::EnableDigitalPatterning(ViSession vi, ViConstString chan
   return niFgen_EnableDigitalPatterning(vi, channelName);
 #else
   return function_pointers_.EnableDigitalPatterning(vi, channelName);
+#endif
+}
+
+ViStatus NiFgenLibrary::ErrorHandler(ViSession vi, ViStatus errorCode, ViChar errorMessage[256])
+{
+  if (!function_pointers_.ErrorHandler) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_ErrorHandler.");
+  }
+#if defined(_MSC_VER)
+  return niFgen_ErrorHandler(vi, errorCode, errorMessage);
+#else
+  return function_pointers_.ErrorHandler(vi, errorCode, errorMessage);
 #endif
 }
 

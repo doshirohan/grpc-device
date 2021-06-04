@@ -77,6 +77,7 @@ public:
   ::grpc::Status ConfigureTriggerMode(::grpc::ServerContext* context, const ConfigureTriggerModeRequest* request, ConfigureTriggerModeResponse* response) override;
   ::grpc::Status ConfigureTriggerSource(::grpc::ServerContext* context, const ConfigureTriggerSourceRequest* request, ConfigureTriggerSourceResponse* response) override;
   ::grpc::Status ConfigureUpdateClockSource(::grpc::ServerContext* context, const ConfigureUpdateClockSourceRequest* request, ConfigureUpdateClockSourceResponse* response) override;
+  ::grpc::Status CreateAdvancedArbSequence(::grpc::ServerContext* context, const CreateAdvancedArbSequenceRequest* request, CreateAdvancedArbSequenceResponse* response) override;
   ::grpc::Status CreateArbSequence(::grpc::ServerContext* context, const CreateArbSequenceRequest* request, CreateArbSequenceResponse* response) override;
   ::grpc::Status CreateFreqList(::grpc::ServerContext* context, const CreateFreqListRequest* request, CreateFreqListResponse* response) override;
   ::grpc::Status CreateWaveformF64(::grpc::ServerContext* context, const CreateWaveformF64Request* request, CreateWaveformF64Response* response) override;
@@ -95,6 +96,7 @@ public:
   ::grpc::Status EnableAnalogFilter(::grpc::ServerContext* context, const EnableAnalogFilterRequest* request, EnableAnalogFilterResponse* response) override;
   ::grpc::Status EnableDigitalFilter(::grpc::ServerContext* context, const EnableDigitalFilterRequest* request, EnableDigitalFilterResponse* response) override;
   ::grpc::Status EnableDigitalPatterning(::grpc::ServerContext* context, const EnableDigitalPatterningRequest* request, EnableDigitalPatterningResponse* response) override;
+  ::grpc::Status ErrorHandler(::grpc::ServerContext* context, const ErrorHandlerRequest* request, ErrorHandlerResponse* response) override;
   ::grpc::Status ErrorMessage(::grpc::ServerContext* context, const ErrorMessageRequest* request, ErrorMessageResponse* response) override;
   ::grpc::Status ExportAttributeConfigurationBuffer(::grpc::ServerContext* context, const ExportAttributeConfigurationBufferRequest* request, ExportAttributeConfigurationBufferResponse* response) override;
   ::grpc::Status ExportAttributeConfigurationFile(::grpc::ServerContext* context, const ExportAttributeConfigurationFileRequest* request, ExportAttributeConfigurationFileResponse* response) override;

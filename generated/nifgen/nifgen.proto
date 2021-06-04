@@ -69,6 +69,7 @@ service NiFgen {
   rpc ConfigureTriggerMode(ConfigureTriggerModeRequest) returns (ConfigureTriggerModeResponse);
   rpc ConfigureTriggerSource(ConfigureTriggerSourceRequest) returns (ConfigureTriggerSourceResponse);
   rpc ConfigureUpdateClockSource(ConfigureUpdateClockSourceRequest) returns (ConfigureUpdateClockSourceResponse);
+  rpc CreateAdvancedArbSequence(CreateAdvancedArbSequenceRequest) returns (CreateAdvancedArbSequenceResponse);
   rpc CreateArbSequence(CreateArbSequenceRequest) returns (CreateArbSequenceResponse);
   rpc CreateFreqList(CreateFreqListRequest) returns (CreateFreqListResponse);
   rpc CreateWaveformF64(CreateWaveformF64Request) returns (CreateWaveformF64Response);
@@ -87,6 +88,7 @@ service NiFgen {
   rpc EnableAnalogFilter(EnableAnalogFilterRequest) returns (EnableAnalogFilterResponse);
   rpc EnableDigitalFilter(EnableDigitalFilterRequest) returns (EnableDigitalFilterResponse);
   rpc EnableDigitalPatterning(EnableDigitalPatterningRequest) returns (EnableDigitalPatterningResponse);
+  rpc ErrorHandler(ErrorHandlerRequest) returns (ErrorHandlerResponse);
   rpc ErrorMessage(ErrorMessageRequest) returns (ErrorMessageResponse);
   rpc ExportAttributeConfigurationBuffer(ExportAttributeConfigurationBufferRequest) returns (ExportAttributeConfigurationBufferResponse);
   rpc ExportAttributeConfigurationFile(ExportAttributeConfigurationFileRequest) returns (ExportAttributeConfigurationFileResponse);
@@ -944,6 +946,20 @@ message ConfigureUpdateClockSourceResponse {
   int32 status = 1;
 }
 
+message CreateAdvancedArbSequenceRequest {
+  nidevice_grpc.Session vi = 1;
+  repeated sint32 waveform_handles_array = 2;
+  repeated sint32 loop_counts_array = 3;
+  repeated sint32 sample_counts_array = 4;
+  repeated sint32 marker_location_array = 5;
+}
+
+message CreateAdvancedArbSequenceResponse {
+  int32 status = 1;
+  repeated sint32 coerced_markers_array = 2;
+  sint32 sequence_handle = 3;
+}
+
 message CreateArbSequenceRequest {
   nidevice_grpc.Session vi = 1;
   repeated sint32 waveform_handles_array = 2;
@@ -1132,6 +1148,16 @@ message EnableDigitalPatterningRequest {
 
 message EnableDigitalPatterningResponse {
   int32 status = 1;
+}
+
+message ErrorHandlerRequest {
+  nidevice_grpc.Session vi = 1;
+  sint32 error_code = 2;
+}
+
+message ErrorHandlerResponse {
+  int32 status = 1;
+  string error_message = 2;
 }
 
 message ErrorMessageRequest {
