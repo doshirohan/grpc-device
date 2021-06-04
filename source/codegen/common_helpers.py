@@ -21,7 +21,7 @@ def get_input_and_output_custom_types(functions):
     for parameter in functions[function]["parameters"]:
         if is_struct(parameter) and is_input_parameter(parameter) and is_array(parameter["type"]):
             input_custom_types.add(get_underlying_type_name(parameter["type"]))
-        if is_struct(parameter) and is_output_parameter(parameter) and is_array(parameter["type"]):
+        elif is_struct(parameter) and is_output_parameter(parameter) and is_array(parameter["type"]):
             output_custom_types.add(get_underlying_type_name(parameter["type"]))
   return (input_custom_types, output_custom_types)
 

@@ -30,3 +30,7 @@ The following functions were tagged with their corresponding CNAME tag
 - SelfTest
 
 Added value_twist attribute to the coefficientsArray parameter of GetFirFilterCoefficients function.
+
+Added 'grpc_type' tag to these APIs since they use custom types : 
+- CreateWaveformComplexF64
+- WriteComplexBinary16Waveform

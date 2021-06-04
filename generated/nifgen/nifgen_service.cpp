@@ -1251,8 +1251,7 @@ namespace nifgen_grpc {
         waveform_data_array_request.begin(),
         waveform_data_array_request.end(),
         std::back_inserter(waveform_data_array),
-        [&](nifgen_grpc::NIComplexNumber x) { return GetStructFromGrpcType(x); });
-
+        [&](nifgen_grpc::NIComplexNumber x) { return GetStructFromGrpcType(x); }); 
       ViInt32 waveform_handle {};
       auto status = library_->CreateWaveformComplexF64(vi, channel_name, number_of_samples, waveform_data_array.data(), &waveform_handle);
       response->set_status(status);
@@ -3198,8 +3197,7 @@ namespace nifgen_grpc {
         data_request.begin(),
         data_request.end(),
         std::back_inserter(data),
-        [&](nifgen_grpc::NIComplexInt32 x) { return GetStructFromGrpcType(x); });
-
+        [&](nifgen_grpc::NIComplexInt32 x) { return GetStructFromGrpcType(x); }); 
       auto status = library_->WriteComplexBinary16Waveform(vi, channel_name, waveform_handle, size, data.data());
       response->set_status(status);
       return ::grpc::Status::OK;
