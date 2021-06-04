@@ -1429,7 +1429,6 @@ TEST(NiFakeServiceTests, NiFakeService_SetCustomTypeArray_CallsSetCustomTypeArra
     nifake_grpc::NiFakeService service(&library, &session_repository);
     ViInt32 number_of_elements = 2;
     CustomStruct cs_array[] = { { 5, 8.0 },{ 15 , 19.7 } };
-
     EXPECT_CALL(library, SetCustomTypeArray(kTestViSession, number_of_elements, _))
         .With(Args<2, 1>(ElementsAreArray(cs_array)))
         .WillOnce(Return(kDriverSuccess));
