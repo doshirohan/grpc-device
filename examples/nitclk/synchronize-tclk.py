@@ -136,15 +136,19 @@ try:
     CheckForError(nitclk_service, None, initiate_resp.status)
 
     print(f"Generating square wave with sample rate {sample_rate} on {resources}...")
+    print("Press Ctrl+C to stop generation")
 
-    # Plot waveform
-    fig = plt.gcf()
-    fig.canvas.manager.set_window_title('Sample Waveform')
-    plt.plot(waveform_data)
-    plt.suptitle("Close the window to stop generation", fontsize=10)
-    plt.xlabel("Samples")
-    plt.ylabel("Amplitude")
-    plt.show()
+    try:
+        # Plot waveform
+        fig = plt.gcf()
+        fig.canvas.manager.set_window_title('Sample Waveform')
+        plt.plot(waveform_data)
+        plt.suptitle("Close the window to stop generation", fontsize=10)
+        plt.xlabel("Samples")
+        plt.ylabel("Amplitude")
+        plt.show()
+    except KeyboardInterrupt:
+        pass
 
 # If NI-FGEN API throws an exception, print the error message  
 except grpc.RpcError as rpc_error:
