@@ -1219,8 +1219,7 @@ namespace nifake_grpc {
         cs_request.begin(),
         cs_request.end(),
         std::back_inserter(cs),
-        [&](nifake_grpc::FakeCustomStruct x) { return GetStructFromGrpcType(x); });
-
+        [&](nifake_grpc::FakeCustomStruct x) { return GetStructFromGrpcType(x); }); 
       auto status = library_->SetCustomTypeArray(vi, number_of_elements, cs.data());
       response->set_status(status);
       return ::grpc::Status::OK;

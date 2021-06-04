@@ -10,6 +10,12 @@
 // fixes seg faults caused by https://github.com/grpc/grpc/issues/14633
 static grpc::internal::GrpcLibraryInitializer g_gli_initializer;
 
+//Adding operator for matching Custom Structs
+bool operator==(const CustomStruct& first, const CustomStruct& second)
+{
+    return first.structInt == second.structInt && first.structDouble == second.structDouble;
+}
+
 namespace ni {
 namespace tests {
 namespace unit {
@@ -19,7 +25,6 @@ using ::testing::AllOf;
 using ::testing::Args;
 using ::testing::DoAll;
 using ::testing::ElementsAreArray;
-using ::testing::FieldsAre;
 using ::testing::Pointee;
 using ::testing::Return;
 using ::testing::SetArgPointee;
@@ -1426,8 +1431,7 @@ TEST(NiFakeServiceTests, NiFakeService_SetCustomTypeArray_CallsSetCustomTypeArra
     CustomStruct cs_array[] = { { 5, 8.0 },{ 15 , 19.7 } };
 
     EXPECT_CALL(library, SetCustomTypeArray(kTestViSession, number_of_elements, _))
-        .With(Args<2, 1>(ElementsAreArray({ FieldsAre(cs_array[0].structInt, cs_array[0].structDouble),
-            FieldsAre(cs_array[1].structInt, cs_array[1].structDouble) })))
+        .With(Args<2, 1>(ElementsAreArray(cs_array)))
         .WillOnce(Return(kDriverSuccess));
 
     ::grpc::ServerContext context;
