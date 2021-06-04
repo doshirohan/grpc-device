@@ -18,10 +18,11 @@ def get_input_and_output_custom_types(functions):
   input_custom_types = set()
   output_custom_types = set()
   for function in functions:
-    for parameter in functions[function]["parameters"]:
-        if is_struct(parameter) and is_input_parameter(parameter) and is_array(parameter["type"]):
+    struct_array_params = [p for p in functions[function]["parameters"] if is_struct(p) and is_array(p["type"])]
+    for parameter in struct_array_params:
+        if is_input_parameter(parameter):
             input_custom_types.add(get_underlying_type_name(parameter["type"]))
-        elif is_struct(parameter) and is_output_parameter(parameter) and is_array(parameter["type"]):
+        elif is_output_parameter(parameter):
             output_custom_types.add(get_underlying_type_name(parameter["type"]))
   return (input_custom_types, output_custom_types)
 
