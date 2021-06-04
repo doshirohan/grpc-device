@@ -4,27 +4,6 @@
 
 namespace nifgen_grpc {
 
-class DriverErrorException : public std::runtime_error{
- private:
-   int status_ = 0;
-
- public:
-   DriverErrorException(int status) : std::runtime_error(""), status_(status) { }
-   int status() const
-   {
-     return status_;
-   }
-};
-
-static void CheckStatus(int status)
-{
-  if (status != 0) {
-    throw DriverErrorException(status);
-  }
-}
-
-//---------------------------------------------------------------------
-//---------------------------------------------------------------------
 ::grpc::Status NiFgenService::CreateAdvancedArbSequence(::grpc::ServerContext* context, const CreateAdvancedArbSequenceRequest* request, CreateAdvancedArbSequenceResponse* response)
 {
   if (context->IsCancelled()) {
@@ -39,8 +18,7 @@ static void CheckStatus(int status)
     auto sample_counts_array = const_cast<ViInt32*>(reinterpret_cast<const ViInt32*>(request->sample_counts_array().data()));
     auto marker_location_array = const_cast<ViInt32*>(reinterpret_cast<const ViInt32*>(request->marker_location_array().data()));
 
-    if (marker_location_array != NULL)
-    {
+    if (marker_location_array != NULL) {
       response->mutable_coerced_markers_array()->Resize(sequence_length, 0);
     }
     ViInt32* coerced_markers_array = reinterpret_cast<ViInt32*>(response->mutable_coerced_markers_array()->mutable_data());
@@ -48,16 +26,12 @@ static void CheckStatus(int status)
     auto status = library_->CreateAdvancedArbSequence(vi, sequence_length, waveform_handles_array, loop_counts_array, sample_counts_array, marker_location_array, coerced_markers_array, &sequence_handle);
     response->set_status(status);
     if (status == 0) {
-        response->set_sequence_handle(sequence_handle);
+      response->set_sequence_handle(sequence_handle);
     }
     return ::grpc::Status::OK;
   }
   catch (nidevice_grpc::LibraryLoadException& ex) {
     return ::grpc::Status(::grpc::NOT_FOUND, ex.what());
-  }
-  catch (const DriverErrorException& ex) {
-    response->set_status(ex.status());
-    return ::grpc::Status::OK;
   }
 }
 
