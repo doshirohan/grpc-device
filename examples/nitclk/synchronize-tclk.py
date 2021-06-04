@@ -16,9 +16,9 @@
 #
 # Running from command line:
 #
-# Server machine's IP address and port number can be passed as separate command line arguments.
-#   > python synchronize-tclk.py <server_address> <port_number>
-# If they are not passed in as command line arguments, then by default the server address will be "localhost:31763"
+# Server machine's IP address, port number, and multiple comma separated resource names can be passed as separate command line arguments.
+#   > python synchronize-tclk.py <server_address> <port_number> <resource_name>
+# This example doesn't work on simulation, so these arguments are mandatory, not optional
 
 import grpc
 import sys
@@ -27,12 +27,6 @@ import nifgen_pb2_grpc as grpc_nifgen
 import nitclk_pb2 as nitclk_types
 import nitclk_pb2_grpc as grpc_nitclk
 import matplotlib.pyplot as plt
-
-server_address = "localhost"
-server_port = "31763"
-
-# Read FGEN resources to be configured
-resources = list(map(str.strip, input("Enter comma separated FGEN resource names (PXI1Slot2, PXI1Slot3): ").split(",")))
 
 # parameters
 sample_rate = 20000000.0
@@ -45,10 +39,13 @@ for i in range(waveform_size//2, waveform_size):
     waveform_data.append(1.0)
 
 # Read in cmd args
-if len(sys.argv) >= 2:
+if len(sys.argv) < 4:
+    print("This example doesn't work on simulation, please provide server address, server port and resource name as follows:")
+    sys.exit("python synchronize-tclk.py <server_address> <port_number> <resource_name>")
+else:
     server_address = sys.argv[1]
-if len(sys.argv) >= 3:
     server_port = sys.argv[2]
+    resources = list(map(str.strip, sys.argv[3].split(',')))
 
 # Create the communication channel for the remote host and create connections to the NI-FGEN and session services.
 channel = grpc.insecure_channel(f"{server_address}:{server_port}")
@@ -71,7 +68,7 @@ def ThrowOnError (service, vi, error_code):
             error_code = error_code
         )
         error_message_response = nifgen_service.ErrorMessage(error_message_request)
-        raise Exception (error_message_request.error_message)
+        raise Exception (error_message_response.error_message)
     else:
         error_info_request = nitclk_types.GetExtendedErrorInfoRequest()
         error_info_response = nitclk_service.GetExtendedErrorInfo(error_info_request)           
