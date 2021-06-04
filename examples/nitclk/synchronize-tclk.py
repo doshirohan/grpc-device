@@ -136,7 +136,7 @@ try:
     CheckForError(nitclk_service, None, initiate_resp.status)
 
     print(f"Generating square wave with sample rate {sample_rate} on {resources}...")
-    print("Press Ctrl+C to stop generation")
+    print("Close the graph or press Ctrl+C to stop generation")
 
     try:
         # Plot waveform
