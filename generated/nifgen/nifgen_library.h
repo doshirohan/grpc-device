@@ -154,6 +154,7 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   ViStatus WaitUntilDone(ViSession vi, ViInt32 maxTime);
   ViStatus WriteBinary16AnalogStaticValue(ViSession vi, ViConstString channelName, ViInt16 value);
   ViStatus WriteNamedWaveformF64(ViSession vi, ViConstString channelName, ViConstString waveformName, ViInt32 size, ViReal64 data[]);
+  ViStatus WriteP2PEndpointI16(ViSession vi, ViConstString endpointName, ViInt32 numberOfSamples, ViInt16 endpointData[]);
   ViStatus WriteScript(ViSession vi, ViConstString channelName, ViConstString script);
   ViStatus WriteWaveform(ViSession vi, ViConstString channelName, ViInt32 waveformHandle, ViInt32 size, ViReal64 data[]);
 
@@ -294,6 +295,7 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   using WaitUntilDonePtr = ViStatus (*)(ViSession vi, ViInt32 maxTime);
   using WriteBinary16AnalogStaticValuePtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViInt16 value);
   using WriteNamedWaveformF64Ptr = ViStatus (*)(ViSession vi, ViConstString channelName, ViConstString waveformName, ViInt32 size, ViReal64 data[]);
+  using WriteP2PEndpointI16Ptr = ViStatus (*)(ViSession vi, ViConstString endpointName, ViInt32 numberOfSamples, ViInt16 endpointData[]);
   using WriteScriptPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViConstString script);
   using WriteWaveformPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViInt32 waveformHandle, ViInt32 size, ViReal64 data[]);
 
@@ -434,6 +436,7 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
     WaitUntilDonePtr WaitUntilDone;
     WriteBinary16AnalogStaticValuePtr WriteBinary16AnalogStaticValue;
     WriteNamedWaveformF64Ptr WriteNamedWaveformF64;
+    WriteP2PEndpointI16Ptr WriteP2PEndpointI16;
     WriteScriptPtr WriteScript;
     WriteWaveformPtr WriteWaveform;
   } FunctionLoadStatus;

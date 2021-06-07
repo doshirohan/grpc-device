@@ -157,6 +157,7 @@ NiFgenLibrary::NiFgenLibrary() : shared_library_(kLibraryName)
   function_pointers_.WaitUntilDone = reinterpret_cast<WaitUntilDonePtr>(shared_library_.get_function_pointer("niFgen_WaitUntilDone"));
   function_pointers_.WriteBinary16AnalogStaticValue = reinterpret_cast<WriteBinary16AnalogStaticValuePtr>(shared_library_.get_function_pointer("niFgen_WriteBinary16AnalogStaticValue"));
   function_pointers_.WriteNamedWaveformF64 = reinterpret_cast<WriteNamedWaveformF64Ptr>(shared_library_.get_function_pointer("niFgen_WriteNamedWaveformF64"));
+  function_pointers_.WriteP2PEndpointI16 = reinterpret_cast<WriteP2PEndpointI16Ptr>(shared_library_.get_function_pointer("niFgen_WriteP2PEndpointI16"));
   function_pointers_.WriteScript = reinterpret_cast<WriteScriptPtr>(shared_library_.get_function_pointer("niFgen_WriteScript"));
   function_pointers_.WriteWaveform = reinterpret_cast<WriteWaveformPtr>(shared_library_.get_function_pointer("niFgen_WriteWaveform"));
 }
@@ -1801,6 +1802,18 @@ ViStatus NiFgenLibrary::WriteNamedWaveformF64(ViSession vi, ViConstString channe
   return niFgen_WriteNamedWaveformF64(vi, channelName, waveformName, size, data);
 #else
   return function_pointers_.WriteNamedWaveformF64(vi, channelName, waveformName, size, data);
+#endif
+}
+
+ViStatus NiFgenLibrary::WriteP2PEndpointI16(ViSession vi, ViConstString endpointName, ViInt32 numberOfSamples, ViInt16 endpointData[])
+{
+  if (!function_pointers_.WriteP2PEndpointI16) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_WriteP2PEndpointI16.");
+  }
+#if defined(_MSC_VER)
+  return niFgen_WriteP2PEndpointI16(vi, endpointName, numberOfSamples, endpointData);
+#else
+  return function_pointers_.WriteP2PEndpointI16(vi, endpointName, numberOfSamples, endpointData);
 #endif
 }
 

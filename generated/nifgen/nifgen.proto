@@ -152,6 +152,7 @@ service NiFgen {
   rpc WaitUntilDone(WaitUntilDoneRequest) returns (WaitUntilDoneResponse);
   rpc WriteBinary16AnalogStaticValue(WriteBinary16AnalogStaticValueRequest) returns (WriteBinary16AnalogStaticValueResponse);
   rpc WriteNamedWaveformF64(WriteNamedWaveformF64Request) returns (WriteNamedWaveformF64Response);
+  rpc WriteP2PEndpointI16(WriteP2PEndpointI16Request) returns (WriteP2PEndpointI16Response);
   rpc WriteScript(WriteScriptRequest) returns (WriteScriptResponse);
   rpc WriteWaveform(WriteWaveformRequest) returns (WriteWaveformResponse);
 }
@@ -1786,6 +1787,16 @@ message WriteNamedWaveformF64Request {
 }
 
 message WriteNamedWaveformF64Response {
+  int32 status = 1;
+}
+
+message WriteP2PEndpointI16Request {
+  nidevice_grpc.Session vi = 1;
+  string endpoint_name = 2;
+  repeated sint32 endpoint_data = 3;
+}
+
+message WriteP2PEndpointI16Response {
   int32 status = 1;
 }
 

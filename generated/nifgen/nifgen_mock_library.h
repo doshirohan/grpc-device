@@ -153,6 +153,7 @@ class NiFgenMockLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   MOCK_METHOD(ViStatus, WaitUntilDone, (ViSession vi, ViInt32 maxTime), (override));
   MOCK_METHOD(ViStatus, WriteBinary16AnalogStaticValue, (ViSession vi, ViConstString channelName, ViInt16 value), (override));
   MOCK_METHOD(ViStatus, WriteNamedWaveformF64, (ViSession vi, ViConstString channelName, ViConstString waveformName, ViInt32 size, ViReal64 data[]), (override));
+  MOCK_METHOD(ViStatus, WriteP2PEndpointI16, (ViSession vi, ViConstString endpointName, ViInt32 numberOfSamples, ViInt16 endpointData[]), (override));
   MOCK_METHOD(ViStatus, WriteScript, (ViSession vi, ViConstString channelName, ViConstString script), (override));
   MOCK_METHOD(ViStatus, WriteWaveform, (ViSession vi, ViConstString channelName, ViInt32 waveformHandle, ViInt32 size, ViReal64 data[]), (override));
 };

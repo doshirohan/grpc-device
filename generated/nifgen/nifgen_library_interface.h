@@ -151,6 +151,7 @@ class NiFgenLibraryInterface {
   virtual ViStatus WaitUntilDone(ViSession vi, ViInt32 maxTime) = 0;
   virtual ViStatus WriteBinary16AnalogStaticValue(ViSession vi, ViConstString channelName, ViInt16 value) = 0;
   virtual ViStatus WriteNamedWaveformF64(ViSession vi, ViConstString channelName, ViConstString waveformName, ViInt32 size, ViReal64 data[]) = 0;
+  virtual ViStatus WriteP2PEndpointI16(ViSession vi, ViConstString endpointName, ViInt32 numberOfSamples, ViInt16 endpointData[]) = 0;
   virtual ViStatus WriteScript(ViSession vi, ViConstString channelName, ViConstString script) = 0;
   virtual ViStatus WriteWaveform(ViSession vi, ViConstString channelName, ViInt32 waveformHandle, ViInt32 size, ViReal64 data[]) = 0;
 };

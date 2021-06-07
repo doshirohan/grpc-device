@@ -2836,6 +2836,35 @@ functions = {
         ],
         'returns':'ViStatus'
     },
+    'WriteP2PEndpointI16':{
+        'parameters':[
+            {
+                'name':'vi',
+                'direction':'in',
+                'type':'ViSession'
+            },
+            {
+                'name':'endpointName',
+                'direction':'in',
+                'type':'ViConstString'
+            },
+            {
+                'name':'numberOfSamples',
+                'direction':'in',
+                'type':'ViInt32'
+            },
+            {
+                'name':'endpointData',
+                'direction':'in',
+                'type':'ViInt16[]',
+                'size': {
+                    'mechanism': 'len',
+                    'value': 'numberOfSamples'
+                }
+            }
+        ],
+        'returns':'ViStatus'
+    },
     'WriteScript':{
         'parameters':[
             {
