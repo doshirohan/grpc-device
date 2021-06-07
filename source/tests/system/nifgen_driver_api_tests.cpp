@@ -1,3 +1,6 @@
+#define _USE_MATH_DEFINES
+
+#include <cmath>
 #include <gtest/gtest.h>
 
 #include "nifgen/nifgen_library.h"
@@ -11,9 +14,9 @@ namespace fgen = nifgen_grpc;
 
 const int kfgenDriverApiSuccess = 0;
 
-class nifgenDriverApiTest : public ::testing::Test {
+class NiFgenDriverApiTest : public ::testing::Test {
  protected:
-  nifgenDriverApiTest()
+  NiFgenDriverApiTest()
   {
     ::grpc::ServerBuilder builder;
     session_repository_ = std::make_unique<nidevice_grpc::SessionRepository>();
@@ -25,7 +28,7 @@ class nifgenDriverApiTest : public ::testing::Test {
     ResetStub();
   }
 
-  virtual ~nifgenDriverApiTest() {}
+  virtual ~NiFgenDriverApiTest() {}
 
   void SetUp() override
   {
@@ -192,13 +195,13 @@ class nifgenDriverApiTest : public ::testing::Test {
      EXPECT_EQ(kfgenDriverApiSuccess, response.status());
   }
 
-  void configure_trigger_mode(const char* channel_name, fgen::TriggerMode triggerMode)
+  void configure_trigger_mode(const char* channel_name, fgen::TriggerMode trigger_mode)
   {
     ::grpc::ClientContext context;
     fgen::ConfigureTriggerModeRequest request;
     request.mutable_vi()->set_id(GetSessionId());
     request.set_channel_name(channel_name);
-    request.set_trigger_mode(triggerMode);
+    request.set_trigger_mode(trigger_mode);
     fgen::ConfigureTriggerModeResponse response;
 
     ::grpc::Status status = GetStub()->ConfigureTriggerMode(&context, request, &response);
@@ -236,6 +239,74 @@ class nifgenDriverApiTest : public ::testing::Test {
     EXPECT_EQ(kfgenDriverApiSuccess, import_response.status());
   }
 
+  void configure_output_mode(const char* channel_name, fgen::OutputMode output_mode)
+  {
+    ::grpc::ClientContext context;
+    fgen::ConfigureOutputModeRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_output_mode(output_mode);
+    fgen::ConfigureOutputModeResponse response;
+
+    ::grpc::Status status = GetStub()->ConfigureOutputMode(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+  }
+
+  ViInt32 create_waveform_f64(const char* channel_name, ViInt32 waveform_size, ViReal64 waveform_data_array[])
+  {
+    ::grpc::ClientContext context;
+    fgen::CreateWaveformF64Request request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_channel_name(channel_name);
+    for (int i = 0; i < waveform_size; i++) {
+      request.add_waveform_data_array(waveform_data_array[i]);
+    }
+    fgen::CreateWaveformF64Response response;
+
+    ::grpc::Status status = GetStub()->CreateWaveformF64(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+    return response.waveform_handle();
+  }
+
+  ViInt32 create_sine_waveform(const char* channel_name)
+  {
+    ViInt32 waveform_size = 64;
+    ViReal64 waveform_data_array[64];
+    double x;
+    for (int i = 0; i < waveform_size; i++) {
+      x = ((double)i / waveform_size) * 2 * M_PI;
+      waveform_data_array[i] = std::sin(x);
+    }
+    ViInt32 waveform_handle = create_waveform_f64(channel_name, waveform_size, waveform_data_array);
+
+    return waveform_handle;
+  }
+
+  int create_advanced_arb_sequence(ViInt32 sequence_length, ViInt32 waveform_handles_array[], ViInt32 loop_counts_array[], ViInt32 marker_location_array[])
+  {
+    ::grpc::ClientContext context;
+    fgen::CreateAdvancedArbSequenceRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    for (int i = 0; i < sequence_length; i++) {
+      request.add_waveform_handles_array(waveform_handles_array[i]);
+    }
+    for (int i = 0; i < sequence_length; i++) {
+      request.add_loop_counts_array(loop_counts_array[i]);
+    }
+    for (int i = 0; i < sequence_length; i++) {
+      request.add_marker_location_array(marker_location_array[i]);
+    }
+    fgen::CreateAdvancedArbSequenceResponse response;
+
+    ::grpc::Status status = GetStub()->CreateAdvancedArbSequence(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    return response.status();
+  }
+
  private:
   std::shared_ptr<::grpc::Channel> channel_;
   std::unique_ptr<::nidevice_grpc::Session> driver_session_;
@@ -246,7 +317,7 @@ class nifgenDriverApiTest : public ::testing::Test {
   std::unique_ptr<::grpc::Server> server_;
 };
 
-TEST_F(nifgenDriverApiTest, PerformSelfTest_CompletesSuccessfuly)
+TEST_F(NiFgenDriverApiTest, PerformSelfTest_CompletesSuccessfuly)
 {
   ::grpc::ClientContext context;
   fgen::SelfTestRequest request;
@@ -260,7 +331,7 @@ TEST_F(nifgenDriverApiTest, PerformSelfTest_CompletesSuccessfuly)
   EXPECT_LT(0, response.self_test_message().size());
 }
 
-TEST_F(nifgenDriverApiTest, PerformReset_CompletesSuccessfuly)
+TEST_F(NiFgenDriverApiTest, PerformReset_CompletesSuccessfuly)
 {
   ::grpc::ClientContext context;
   fgen::ResetRequest request;
@@ -272,7 +343,7 @@ TEST_F(nifgenDriverApiTest, PerformReset_CompletesSuccessfuly)
   EXPECT_EQ(kfgenDriverApiSuccess, response.status());
 }
 
-TEST_F(nifgenDriverApiTest, SetAttributeViInt32_GetAttributeViInt32_ValueMatches)
+TEST_F(NiFgenDriverApiTest, SetAttributeViInt32_GetAttributeViInt32_ValueMatches)
 {
   const char* channel_name = "";
   const fgen::NiFgenAttributes attribute_to_set = fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_OUTPUT_MODE;
@@ -293,7 +364,7 @@ TEST_F(nifgenDriverApiTest, SetAttributeViInt32_GetAttributeViInt32_ValueMatches
   EXPECT_EQ(expected_value, get_attribute_value);
 }
 
-TEST_F(nifgenDriverApiTest, SetAttributeViReal64_GetAttributeViReal64_ValueMatches)
+TEST_F(NiFgenDriverApiTest, SetAttributeViReal64_GetAttributeViReal64_ValueMatches)
 {
   const char* channel_name = "";
   const fgen::NiFgenAttributes attribute_to_set = fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_DIGITAL_GAIN;
@@ -314,7 +385,7 @@ TEST_F(nifgenDriverApiTest, SetAttributeViReal64_GetAttributeViReal64_ValueMatch
   EXPECT_EQ(expected_value, get_attribute_value_sourcedelay);
 }
 
-TEST_F(nifgenDriverApiTest, SetAttributeViBoolean_GetAttributeViBoolean_ValueMatches)
+TEST_F(NiFgenDriverApiTest, SetAttributeViBoolean_GetAttributeViBoolean_ValueMatches)
 {
   const char* channel_name = "0";
   const fgen::NiFgenAttributes attribute_to_set = fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_OUTPUT_ENABLED;
@@ -335,7 +406,7 @@ TEST_F(nifgenDriverApiTest, SetAttributeViBoolean_GetAttributeViBoolean_ValueMat
   EXPECT_EQ(expected_value, get_attribute_value);
 }
 
-TEST_F(nifgenDriverApiTest, SetAttributeViString_GetAttributeViString_ValueMatches)
+TEST_F(NiFgenDriverApiTest, SetAttributeViString_GetAttributeViString_ValueMatches)
 {
   const char* channel_name = "";
   const fgen::NiFgenAttributes attribute_to_set = fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_MARKER_EVENT_OUTPUT_TERMINAL;
@@ -356,7 +427,7 @@ TEST_F(nifgenDriverApiTest, SetAttributeViString_GetAttributeViString_ValueMatch
   EXPECT_STREQ(expected_value, get_attribute_value.c_str());
 }
 
-TEST_F(nifgenDriverApiTest, ConfigureTriggerMode_ConfiguresSuccessfully)
+TEST_F(NiFgenDriverApiTest, ConfigureTriggerMode_ConfiguresSuccessfully)
 {
   const char* channel_name = "0";
   fgen::TriggerMode expected_value = fgen::TriggerMode::TRIGGER_MODE_NIFGEN_VAL_CONTINUOUS;
@@ -366,7 +437,7 @@ TEST_F(nifgenDriverApiTest, ConfigureTriggerMode_ConfiguresSuccessfully)
   EXPECT_EQ(expected_value, actual_trigger_mode);
 }
 
-TEST_F(nifgenDriverApiTest, ResetInterchangeCheck_ResetsSuccessfully)
+TEST_F(NiFgenDriverApiTest, ResetInterchangeCheck_ResetsSuccessfully)
 {
   const char* channel_name = "0";
   ViReal64 expected_current_level = 3.0;
@@ -378,6 +449,21 @@ TEST_F(nifgenDriverApiTest, ResetInterchangeCheck_ResetsSuccessfully)
 
   EXPECT_TRUE(status.ok());
   EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+}
+
+TEST_F(NiFgenDriverApiTest, OutputModeConfiguredToSeq_CreateAdvancedArbSequenceForSineWaveform_CreatesSuccessfully)
+{
+  const char* channel_name = "0";
+  ViInt32 sequence_length = 1;
+  ViInt32 waveform_handles_array[1];
+  ViInt32 loop_counts_array[] = { 1 };
+  ViInt32 marker_location_aray[] = { -1 };
+  configure_output_mode(channel_name, fgen::OutputMode::OUTPUT_MODE_NIFGEN_VAL_OUTPUT_SEQ);
+
+  waveform_handles_array[0] = create_sine_waveform(channel_name);
+  int status = create_advanced_arb_sequence(sequence_length, waveform_handles_array, loop_counts_array, marker_location_aray);
+
+  EXPECT_EQ(kfgenDriverApiSuccess, status);
 }
 
 }  // namespace system
