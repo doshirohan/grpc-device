@@ -35,6 +35,18 @@ Added 'grpc_type' tag to these APIs since they use custom types :
 - CreateWaveformComplexF64
 - WriteComplexBinary16Waveform
 
+The following function was tagged as 'codegen_method':'CustomCode':
+- CreateAdvancedArbSequence
+
+For the `coercedMarkersArray` parameter of `CreateAdvancedArbSequence` function, 
+  - 'mechanism' for `size` was changed to 'custom-code'
+  - 'value' for `size` was changed to 'sequenceLength'
+
+For the `errorMessage` parameter of `ErrorHandler` function,
+  - 'type' was changed to 'ViChar[]'
+  - 'mechanism' for `size` was changed to 'fixed'
+  - 'value' for `size` was changed to '256'
+
 The following functions removed as they are obsolete:
 - ConfigureGain
 - ConfigureRefClockFrequency
