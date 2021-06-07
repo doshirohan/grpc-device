@@ -62,7 +62,8 @@ private:
   void Copy(const std::vector<${custom_type["name"]}>& input, google::protobuf::RepeatedPtrField<${namespace_prefix}${custom_type["grpc_name"]}>* output);
 	% endif
 	% if custom_type["name"] in input_custom_types:
-  ${custom_type["name"]} GetStructFromGrpcType(const ${namespace_prefix}${custom_type["grpc_name"]}& input);
+  ${custom_type["name"]} ConvertMessage(const ${namespace_prefix}${custom_type["grpc_name"]}& input);
+  void Copy(const google::protobuf::RepeatedPtrField<${namespace_prefix}${custom_type["grpc_name"]}>& input, std::vector<${custom_type["name"]}>* output);
 	%endif
 %   endfor
 % endif

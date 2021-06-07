@@ -34,3 +34,11 @@ Added value_twist attribute to the coefficientsArray parameter of GetFirFilterCo
 Added 'grpc_type' tag to these APIs since they use custom types : 
 - CreateWaveformComplexF64
 - WriteComplexBinary16Waveform
+
+The following functions removed as they are obsolete:
+- ConfigureGain
+- ConfigureRefClockFrequency
+- ConfigureRefClockSource
+- ConfigureTriggerSource
+- ConfigureUpdateClockSource
+- SendSoftwareTrigger
