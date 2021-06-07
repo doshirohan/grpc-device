@@ -57,7 +57,7 @@ namespace nifake_grpc {
       std::transform(
             input.begin(),
             input.end(),
-            std::back_inserter(output),
+            std::back_inserter(*output),
             [&](nifake_grpc::FakeCustomStruct x) { return ConvertMessage(x); });   }
 
   //---------------------------------------------------------------------

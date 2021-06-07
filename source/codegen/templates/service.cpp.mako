@@ -81,7 +81,7 @@ namespace ${config["namespace_component"]}_grpc {
       std::transform(
             input.begin(),
             input.end(),
-            std::back_inserter(output),
+            std::back_inserter(*output),
             [&](${namespace_prefix}${custom_type["grpc_name"]} x) { return ConvertMessage(x); }); \
   }
 

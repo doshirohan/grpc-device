@@ -36,7 +36,7 @@ namespace nifgen_grpc {
       std::transform(
             input.begin(),
             input.end(),
-            std::back_inserter(output),
+            std::back_inserter(*output),
             [&](nifgen_grpc::NIComplexNumber x) { return ConvertMessage(x); });   }
 
    NIComplexI16_struct NiFgenService::ConvertMessage(const nifgen_grpc::NIComplexInt32& input) 
@@ -52,7 +52,7 @@ namespace nifgen_grpc {
       std::transform(
             input.begin(),
             input.end(),
-            std::back_inserter(output),
+            std::back_inserter(*output),
             [&](nifgen_grpc::NIComplexInt32 x) { return ConvertMessage(x); });   }
 
   //---------------------------------------------------------------------
