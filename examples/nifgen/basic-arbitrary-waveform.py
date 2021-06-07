@@ -69,22 +69,22 @@ def CheckForError (vi, status) :
 
 # Converts an error code returned by NI-FGEN into a user-readable string.
 def ThrowOnError (vi, error_code):
-    error_message_request = nifgen_types.ErrorMessageRequest(
+    error_handler_request = nifgen_types.ErrorHandlerRequest(
         vi = vi,
         error_code = error_code
     )
-    error_message_response = nifgen_service.ErrorMessage(error_message_request)
-    raise Exception (error_message_response.error_message)
+    error_handler_response = nifgen_service.ErrorHandler(error_handler_request)
+    raise Exception (error_handler_response.error_message)
 
 try:
     # Initalize NI-FGEN session
-    init_with_channels_resp = nifgen_service.InitWithOptions(nifgen_types.InitWithOptionsRequest(
+    init_with_options_resp = nifgen_service.InitWithOptions(nifgen_types.InitWithOptionsRequest(
         session_name = session_name,
         resource_name = resource,
         option_string = options
     ))
-    vi = init_with_channels_resp.vi
-    CheckForError(vi, init_with_channels_resp.status)
+    vi = init_with_options_resp.vi
+    CheckForError(vi, init_with_options_resp.status)
 
     # Configure channels
     config_channels_resp = nifgen_service.ConfigureChannels(nifgen_types.ConfigureChannelsRequest(
@@ -148,16 +148,19 @@ try:
     CheckForError(vi, init_gen_resp.status)
 
     print(f"Generating sine wave at {sample_rate} Hz...")
-    print('Close the window to stop generation')
+    print('Close the window or press Ctrl+C to stop generation')
 
-    # Plot the sine wave
-    fig = plt.gcf()
-    fig.canvas.manager.set_window_title('Sample Waveform')
-    plt.plot(sine)
-    plt.suptitle("Close the window to stop generation", fontsize=10)
-    plt.xlabel("Samples")
-    plt.ylabel("Amplitude")
-    plt.show()
+    try:
+        # Plot the sine wave
+        fig = plt.gcf()
+        fig.canvas.manager.set_window_title('Sample Waveform')
+        plt.plot(sine)
+        plt.suptitle("Close the window to stop generation", fontsize = 10)
+        plt.xlabel("Samples")
+        plt.ylabel("Amplitude")
+        plt.show()
+    except KeyboardInterrupt:
+        pass
 
 # If NI-FGEN API throws an exception, print the error message  
 except grpc.RpcError as rpc_error:
