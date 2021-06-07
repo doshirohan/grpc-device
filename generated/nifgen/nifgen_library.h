@@ -53,14 +53,11 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   ViStatus ConfigureDigitalLevelScriptTrigger(ViSession vi, ViConstString triggerId, ViConstString source, ViInt32 triggerWhen);
   ViStatus ConfigureFreqList(ViSession vi, ViConstString channelName, ViInt32 frequencyListHandle, ViReal64 amplitude, ViReal64 dcOffset, ViReal64 startPhase);
   ViStatus ConfigureFrequency(ViSession vi, ViConstString channelName, ViReal64 frequency);
-  ViStatus ConfigureGain(ViSession vi, ViConstString channelName, ViReal64 gain);
   ViStatus ConfigureOperationMode(ViSession vi, ViConstString channelName, ViInt32 operationMode);
   ViStatus ConfigureOutputEnabled(ViSession vi, ViConstString channelName, ViBoolean enabled);
   ViStatus ConfigureOutputImpedance(ViSession vi, ViConstString channelName, ViReal64 impedance);
   ViStatus ConfigureOutputMode(ViSession vi, ViInt32 outputMode);
   ViStatus ConfigureP2pEndpointFullnessStartTrigger(ViSession vi, ViInt32 p2pEndpointFullnessLevel);
-  ViStatus ConfigureRefClockFrequency(ViSession vi, ViReal64 referenceClockFrequency);
-  ViStatus ConfigureRefClockSource(ViSession vi, ViInt32 referenceClockSource);
   ViStatus ConfigureReferenceClock(ViSession vi, ViConstString referenceClockSource, ViReal64 referenceClockFrequency);
   ViStatus ConfigureSampleClockSource(ViSession vi, ViConstString sampleClockSource);
   ViStatus ConfigureSampleRate(ViSession vi, ViReal64 sampleRate);
@@ -69,9 +66,6 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   ViStatus ConfigureStandardWaveform(ViSession vi, ViConstString channelName, ViInt32 waveform, ViReal64 amplitude, ViReal64 dcOffset, ViReal64 frequency, ViReal64 startPhase);
   ViStatus ConfigureSynchronization(ViSession vi, ViConstString channelName, ViInt32 synchronizationSource);
   ViStatus ConfigureTriggerMode(ViSession vi, ViConstString channelName, ViInt32 triggerMode);
-  ViStatus ConfigureTriggerSource(ViSession vi, ViConstString channelName, ViInt32 triggerSource);
-  ViStatus ConfigureUpdateClockSource(ViSession vi, ViInt32 updateClockSource);
-  ViStatus CreateAdvancedArbSequence(ViSession vi, ViInt32 sequenceLength, ViInt32 waveformHandlesArray[], ViInt32 loopCountsArray[], ViInt32 sampleCountsArray[], ViInt32 markerLocationArray[], ViInt32 coercedMarkersArray[], ViInt32* sequenceHandle);
   ViStatus CreateArbSequence(ViSession vi, ViInt32 sequenceLength, ViInt32 waveformHandlesArray[], ViInt32 loopCountsArray[], ViInt32* sequenceHandle);
   ViStatus CreateFreqList(ViSession vi, ViInt32 waveform, ViInt32 frequencyListLength, ViReal64 frequencyArray[], ViReal64 durationArray[], ViInt32* frequencyListHandle);
   ViStatus CreateWaveformF64(ViSession vi, ViConstString channelName, ViInt32 waveformSize, ViReal64 waveformDataArray[], ViInt32* waveformHandle);
@@ -90,7 +84,6 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   ViStatus EnableAnalogFilter(ViSession vi, ViConstString channelName, ViReal64 filterCorrectionFrequency);
   ViStatus EnableDigitalFilter(ViSession vi, ViConstString channelName);
   ViStatus EnableDigitalPatterning(ViSession vi, ViConstString channelName);
-  ViStatus ErrorHandler(ViSession vi, ViStatus errorCode, ViChar errorMessage[256]);
   ViStatus ErrorMessage(ViSession vi, ViStatus errorCode, ViChar errorMessage[256]);
   ViStatus ExportAttributeConfigurationBuffer(ViSession vi, ViInt32 sizeInBytes, ViAddr configuration[]);
   ViStatus ExportAttributeConfigurationFile(ViSession vi, ViConstString filePath);
@@ -142,7 +135,6 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   ViStatus RouteSignalOut(ViSession vi, ViConstString channelName, ViInt32 routeSignalFrom, ViInt32 routeSignalTo);
   ViStatus SelfCal(ViSession vi);
   ViStatus SelfTest(ViSession vi, ViInt16* selfTestResult, ViChar selfTestMessage[256]);
-  ViStatus SendSoftwareTrigger(ViSession vi);
   ViStatus SetAttributeViBoolean(ViSession vi, ViConstString channelName, ViAttr attributeId, ViBoolean attributeValue);
   ViStatus SetAttributeViInt32(ViSession vi, ViConstString channelName, ViAttr attributeId, ViInt32 attributeValue);
   ViStatus SetAttributeViInt64(ViSession vi, ViConstString channelName, ViAttr attributeId, ViInt64 attributeValue);
@@ -195,14 +187,11 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   using ConfigureDigitalLevelScriptTriggerPtr = ViStatus (*)(ViSession vi, ViConstString triggerId, ViConstString source, ViInt32 triggerWhen);
   using ConfigureFreqListPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViInt32 frequencyListHandle, ViReal64 amplitude, ViReal64 dcOffset, ViReal64 startPhase);
   using ConfigureFrequencyPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViReal64 frequency);
-  using ConfigureGainPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViReal64 gain);
   using ConfigureOperationModePtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViInt32 operationMode);
   using ConfigureOutputEnabledPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViBoolean enabled);
   using ConfigureOutputImpedancePtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViReal64 impedance);
   using ConfigureOutputModePtr = ViStatus (*)(ViSession vi, ViInt32 outputMode);
   using ConfigureP2pEndpointFullnessStartTriggerPtr = ViStatus (*)(ViSession vi, ViInt32 p2pEndpointFullnessLevel);
-  using ConfigureRefClockFrequencyPtr = ViStatus (*)(ViSession vi, ViReal64 referenceClockFrequency);
-  using ConfigureRefClockSourcePtr = ViStatus (*)(ViSession vi, ViInt32 referenceClockSource);
   using ConfigureReferenceClockPtr = ViStatus (*)(ViSession vi, ViConstString referenceClockSource, ViReal64 referenceClockFrequency);
   using ConfigureSampleClockSourcePtr = ViStatus (*)(ViSession vi, ViConstString sampleClockSource);
   using ConfigureSampleRatePtr = ViStatus (*)(ViSession vi, ViReal64 sampleRate);
@@ -211,9 +200,6 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   using ConfigureStandardWaveformPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViInt32 waveform, ViReal64 amplitude, ViReal64 dcOffset, ViReal64 frequency, ViReal64 startPhase);
   using ConfigureSynchronizationPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViInt32 synchronizationSource);
   using ConfigureTriggerModePtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViInt32 triggerMode);
-  using ConfigureTriggerSourcePtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViInt32 triggerSource);
-  using ConfigureUpdateClockSourcePtr = ViStatus (*)(ViSession vi, ViInt32 updateClockSource);
-  using CreateAdvancedArbSequencePtr = ViStatus (*)(ViSession vi, ViInt32 sequenceLength, ViInt32 waveformHandlesArray[], ViInt32 loopCountsArray[], ViInt32 sampleCountsArray[], ViInt32 markerLocationArray[], ViInt32 coercedMarkersArray[], ViInt32* sequenceHandle);
   using CreateArbSequencePtr = ViStatus (*)(ViSession vi, ViInt32 sequenceLength, ViInt32 waveformHandlesArray[], ViInt32 loopCountsArray[], ViInt32* sequenceHandle);
   using CreateFreqListPtr = ViStatus (*)(ViSession vi, ViInt32 waveform, ViInt32 frequencyListLength, ViReal64 frequencyArray[], ViReal64 durationArray[], ViInt32* frequencyListHandle);
   using CreateWaveformF64Ptr = ViStatus (*)(ViSession vi, ViConstString channelName, ViInt32 waveformSize, ViReal64 waveformDataArray[], ViInt32* waveformHandle);
@@ -232,7 +218,6 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   using EnableAnalogFilterPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViReal64 filterCorrectionFrequency);
   using EnableDigitalFilterPtr = ViStatus (*)(ViSession vi, ViConstString channelName);
   using EnableDigitalPatterningPtr = ViStatus (*)(ViSession vi, ViConstString channelName);
-  using ErrorHandlerPtr = ViStatus (*)(ViSession vi, ViStatus errorCode, ViChar errorMessage[256]);
   using ErrorMessagePtr = ViStatus (*)(ViSession vi, ViStatus errorCode, ViChar errorMessage[256]);
   using ExportAttributeConfigurationBufferPtr = ViStatus (*)(ViSession vi, ViInt32 sizeInBytes, ViAddr configuration[]);
   using ExportAttributeConfigurationFilePtr = ViStatus (*)(ViSession vi, ViConstString filePath);
@@ -284,7 +269,6 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   using RouteSignalOutPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViInt32 routeSignalFrom, ViInt32 routeSignalTo);
   using SelfCalPtr = ViStatus (*)(ViSession vi);
   using SelfTestPtr = ViStatus (*)(ViSession vi, ViInt16* selfTestResult, ViChar selfTestMessage[256]);
-  using SendSoftwareTriggerPtr = ViStatus (*)(ViSession vi);
   using SetAttributeViBooleanPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViAttr attributeId, ViBoolean attributeValue);
   using SetAttributeViInt32Ptr = ViStatus (*)(ViSession vi, ViConstString channelName, ViAttr attributeId, ViInt32 attributeValue);
   using SetAttributeViInt64Ptr = ViStatus (*)(ViSession vi, ViConstString channelName, ViAttr attributeId, ViInt64 attributeValue);
@@ -337,14 +321,11 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
     ConfigureDigitalLevelScriptTriggerPtr ConfigureDigitalLevelScriptTrigger;
     ConfigureFreqListPtr ConfigureFreqList;
     ConfigureFrequencyPtr ConfigureFrequency;
-    ConfigureGainPtr ConfigureGain;
     ConfigureOperationModePtr ConfigureOperationMode;
     ConfigureOutputEnabledPtr ConfigureOutputEnabled;
     ConfigureOutputImpedancePtr ConfigureOutputImpedance;
     ConfigureOutputModePtr ConfigureOutputMode;
     ConfigureP2pEndpointFullnessStartTriggerPtr ConfigureP2pEndpointFullnessStartTrigger;
-    ConfigureRefClockFrequencyPtr ConfigureRefClockFrequency;
-    ConfigureRefClockSourcePtr ConfigureRefClockSource;
     ConfigureReferenceClockPtr ConfigureReferenceClock;
     ConfigureSampleClockSourcePtr ConfigureSampleClockSource;
     ConfigureSampleRatePtr ConfigureSampleRate;
@@ -353,9 +334,6 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
     ConfigureStandardWaveformPtr ConfigureStandardWaveform;
     ConfigureSynchronizationPtr ConfigureSynchronization;
     ConfigureTriggerModePtr ConfigureTriggerMode;
-    ConfigureTriggerSourcePtr ConfigureTriggerSource;
-    ConfigureUpdateClockSourcePtr ConfigureUpdateClockSource;
-    CreateAdvancedArbSequencePtr CreateAdvancedArbSequence;
     CreateArbSequencePtr CreateArbSequence;
     CreateFreqListPtr CreateFreqList;
     CreateWaveformF64Ptr CreateWaveformF64;
@@ -374,7 +352,6 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
     EnableAnalogFilterPtr EnableAnalogFilter;
     EnableDigitalFilterPtr EnableDigitalFilter;
     EnableDigitalPatterningPtr EnableDigitalPatterning;
-    ErrorHandlerPtr ErrorHandler;
     ErrorMessagePtr ErrorMessage;
     ExportAttributeConfigurationBufferPtr ExportAttributeConfigurationBuffer;
     ExportAttributeConfigurationFilePtr ExportAttributeConfigurationFile;
@@ -426,7 +403,6 @@ class NiFgenLibrary : public nifgen_grpc::NiFgenLibraryInterface {
     RouteSignalOutPtr RouteSignalOut;
     SelfCalPtr SelfCal;
     SelfTestPtr SelfTest;
-    SendSoftwareTriggerPtr SendSoftwareTrigger;
     SetAttributeViBooleanPtr SetAttributeViBoolean;
     SetAttributeViInt32Ptr SetAttributeViInt32;
     SetAttributeViInt64Ptr SetAttributeViInt64;
