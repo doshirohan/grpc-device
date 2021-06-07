@@ -973,41 +973,6 @@ functions = {
         ],
         'returns':'ViStatus'
     },
-    'ConfigureTriggerSource':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            },
-            {
-                'name':'channelName',
-                'direction':'in',
-                'type':'ViConstString'
-            },
-            {
-                'name':'triggerSource',
-                'direction':'in',
-                'type':'ViInt32'
-            }
-        ],
-        'returns':'ViStatus'
-    },
-    'ConfigureUpdateClockSource':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            },
-            {
-                'name':'updateClockSource',
-                'direction':'in',
-                'type':'ViInt32'
-            }
-        ],
-        'returns':'ViStatus'
-    },
     'CreateAdvancedArbSequence':{
         'codegen_method': 'CustomCode',
         'parameters':[
@@ -1150,6 +1115,41 @@ functions = {
             },
             {
                 'name':'frequencyListHandle',
+                'direction':'out',
+                'type':'ViInt32'
+            }
+        ],
+        'returns':'ViStatus'
+    },
+    'CreateWaveformComplexF64':{
+        'parameters':[
+            {
+                'name':'vi',
+                'direction':'in',
+                'type':'ViSession'
+            },
+            {
+                'name':'channelName',
+                'direction':'in',
+                'type':'ViConstString'
+            },
+            {
+                'name':'numberOfSamples',
+                'direction':'in',
+                'type':'ViInt32'
+            },
+            {
+                'name':'waveformDataArray',
+                'direction':'in',
+                'type': 'struct NIComplexNumber_struct[]',
+                'grpc_type': 'repeated NIComplexNumber',
+                'size': {
+                    'mechanism': 'len',
+                    'value': 'numberOfSamples'
+                }
+            },
+            {
+                'name':'waveformHandle',
                 'direction':'out',
                 'type':'ViInt32'
             }
@@ -2828,6 +2828,41 @@ functions = {
                 'name':'value',
                 'direction':'in',
                 'type':'ViInt16'
+            }
+        ],
+        'returns':'ViStatus'
+    },
+    'WriteComplexBinary16Waveform':{
+        'parameters':[
+            {
+                'name':'vi',
+                'direction':'in',
+                'type':'ViSession'
+            },
+            {
+                'name':'channelName',
+                'direction':'in',
+                'type':'ViConstString'
+            },
+            {
+                'name':'waveformHandle',
+                'direction':'in',
+                'type':'ViInt32'
+            },
+            {
+                'name':'size',
+                'direction':'in',
+                'type':'ViInt32'
+            },
+            {
+                'name':'data',
+                'direction':'in',
+                'type':'struct NIComplexI16_struct[]',
+                'grpc_type':'repeated NIComplexInt32',
+                'size':{
+                    'mechanism':'len',
+                    'value':'size'
+                }
             }
         ],
         'returns':'ViStatus'
