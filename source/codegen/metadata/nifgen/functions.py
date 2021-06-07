@@ -1241,6 +1241,42 @@ functions = {
         ],
         'returns':'ViStatus'
     },
+    'CreateWaveformI16': {
+        'codegen_method': 'public',
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'vi',
+                'type': 'ViSession'
+            },
+            {
+                'direction': 'in',
+                'name': 'channelName',
+                'type': 'ViConstString'
+            },
+            {
+                'direction': 'in',
+                'name': 'waveformSize',
+                'type': 'ViInt32'
+            },
+            {
+                'direction': 'in',
+                'name': 'waveformDataArray',
+                'size': {
+                    'mechanism': 'len',
+                    'value': 'waveformSize'
+                },
+                'type': 'ViInt16[]',
+                'use_array': True
+            },
+            {
+                'direction': 'out',
+                'name': 'waveformHandle',
+                'type': 'ViInt32'
+            }
+        ],
+        'returns': 'ViStatus'
+    },
     'CreateWaveformFromFileI16':{
         'parameters':[
             {
@@ -2802,6 +2838,42 @@ functions = {
         ],
         'returns':'ViStatus'
     },
+    'WriteBinary16Waveform': {
+        'codegen_method': 'public',
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'vi',
+                'type': 'ViSession'
+            },
+            {
+                'direction': 'in',
+                'name': 'channelName',
+                'type': 'ViConstString'
+            },
+            {
+                'direction': 'in',
+                'name': 'waveformHandle',
+                'type': 'ViInt32'
+            },
+            {
+                'direction': 'in',
+                'name': 'size',
+                'type': 'ViInt32'
+            },
+            {
+                'direction': 'in',
+                'name': 'data',
+                'size': {
+                    'mechanism': 'len',
+                    'value': 'size'
+                },
+                'type': 'ViInt16[]',
+                'use_array': True
+            }
+        ],
+        'returns': 'ViStatus'
+    },
     'WriteNamedWaveformF64':{
         'parameters':[
             {
@@ -2835,6 +2907,42 @@ functions = {
             }
         ],
         'returns':'ViStatus'
+    },
+    'WriteNamedWaveformI16': {
+        'codegen_method': 'public',
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'vi',
+                'type': 'ViSession'
+            },
+            {
+                'direction': 'in',
+                'name': 'channelName',
+                'type': 'ViConstString'
+            },
+            {
+                'direction': 'in',
+                'name': 'waveformName',
+                'type': 'ViConstString'
+            },
+            {
+                'direction': 'in',
+                'name': 'size',
+                'type': 'ViInt32'
+            },
+            {
+                'direction': 'in',
+                'name': 'data',
+                'size': {
+                    'mechanism': 'len',
+                    'value': 'size'
+                },
+                'type': 'ViInt16[]',
+                'use_array': True
+            }
+        ],
+        'returns': 'ViStatus'
     },
     'WriteP2PEndpointI16':{
         'parameters':[
