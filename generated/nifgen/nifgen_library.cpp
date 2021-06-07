@@ -56,14 +56,11 @@ NiFgenLibrary::NiFgenLibrary() : shared_library_(kLibraryName)
   function_pointers_.ConfigureDigitalLevelScriptTrigger = reinterpret_cast<ConfigureDigitalLevelScriptTriggerPtr>(shared_library_.get_function_pointer("niFgen_ConfigureDigitalLevelScriptTrigger"));
   function_pointers_.ConfigureFreqList = reinterpret_cast<ConfigureFreqListPtr>(shared_library_.get_function_pointer("niFgen_ConfigureFreqList"));
   function_pointers_.ConfigureFrequency = reinterpret_cast<ConfigureFrequencyPtr>(shared_library_.get_function_pointer("niFgen_ConfigureFrequency"));
-  function_pointers_.ConfigureGain = reinterpret_cast<ConfigureGainPtr>(shared_library_.get_function_pointer("niFgen_ConfigureGain"));
   function_pointers_.ConfigureOperationMode = reinterpret_cast<ConfigureOperationModePtr>(shared_library_.get_function_pointer("niFgen_ConfigureOperationMode"));
   function_pointers_.ConfigureOutputEnabled = reinterpret_cast<ConfigureOutputEnabledPtr>(shared_library_.get_function_pointer("niFgen_ConfigureOutputEnabled"));
   function_pointers_.ConfigureOutputImpedance = reinterpret_cast<ConfigureOutputImpedancePtr>(shared_library_.get_function_pointer("niFgen_ConfigureOutputImpedance"));
   function_pointers_.ConfigureOutputMode = reinterpret_cast<ConfigureOutputModePtr>(shared_library_.get_function_pointer("niFgen_ConfigureOutputMode"));
   function_pointers_.ConfigureP2pEndpointFullnessStartTrigger = reinterpret_cast<ConfigureP2pEndpointFullnessStartTriggerPtr>(shared_library_.get_function_pointer("niFgen_ConfigureP2PEndpointFullnessStartTrigger"));
-  function_pointers_.ConfigureRefClockFrequency = reinterpret_cast<ConfigureRefClockFrequencyPtr>(shared_library_.get_function_pointer("niFgen_ConfigureRefClockFrequency"));
-  function_pointers_.ConfigureRefClockSource = reinterpret_cast<ConfigureRefClockSourcePtr>(shared_library_.get_function_pointer("niFgen_ConfigureRefClockSource"));
   function_pointers_.ConfigureReferenceClock = reinterpret_cast<ConfigureReferenceClockPtr>(shared_library_.get_function_pointer("niFgen_ConfigureReferenceClock"));
   function_pointers_.ConfigureSampleClockSource = reinterpret_cast<ConfigureSampleClockSourcePtr>(shared_library_.get_function_pointer("niFgen_ConfigureSampleClockSource"));
   function_pointers_.ConfigureSampleRate = reinterpret_cast<ConfigureSampleRatePtr>(shared_library_.get_function_pointer("niFgen_ConfigureSampleRate"));
@@ -72,10 +69,10 @@ NiFgenLibrary::NiFgenLibrary() : shared_library_(kLibraryName)
   function_pointers_.ConfigureStandardWaveform = reinterpret_cast<ConfigureStandardWaveformPtr>(shared_library_.get_function_pointer("niFgen_ConfigureStandardWaveform"));
   function_pointers_.ConfigureSynchronization = reinterpret_cast<ConfigureSynchronizationPtr>(shared_library_.get_function_pointer("niFgen_ConfigureSynchronization"));
   function_pointers_.ConfigureTriggerMode = reinterpret_cast<ConfigureTriggerModePtr>(shared_library_.get_function_pointer("niFgen_ConfigureTriggerMode"));
-  function_pointers_.ConfigureTriggerSource = reinterpret_cast<ConfigureTriggerSourcePtr>(shared_library_.get_function_pointer("niFgen_ConfigureTriggerSource"));
-  function_pointers_.ConfigureUpdateClockSource = reinterpret_cast<ConfigureUpdateClockSourcePtr>(shared_library_.get_function_pointer("niFgen_ConfigureUpdateClockSource"));
+  function_pointers_.CreateAdvancedArbSequence = reinterpret_cast<CreateAdvancedArbSequencePtr>(shared_library_.get_function_pointer("niFgen_CreateAdvancedArbSequence"));
   function_pointers_.CreateArbSequence = reinterpret_cast<CreateArbSequencePtr>(shared_library_.get_function_pointer("niFgen_CreateArbSequence"));
   function_pointers_.CreateFreqList = reinterpret_cast<CreateFreqListPtr>(shared_library_.get_function_pointer("niFgen_CreateFreqList"));
+  function_pointers_.CreateWaveformComplexF64 = reinterpret_cast<CreateWaveformComplexF64Ptr>(shared_library_.get_function_pointer("niFgen_CreateWaveformComplexF64"));
   function_pointers_.CreateWaveformF64 = reinterpret_cast<CreateWaveformF64Ptr>(shared_library_.get_function_pointer("niFgen_CreateWaveformF64"));
   function_pointers_.CreateWaveformFromFileF64 = reinterpret_cast<CreateWaveformFromFileF64Ptr>(shared_library_.get_function_pointer("niFgen_CreateWaveformFromFileF64"));
   function_pointers_.CreateWaveformFromFileHws = reinterpret_cast<CreateWaveformFromFileHwsPtr>(shared_library_.get_function_pointer("niFgen_CreateWaveformFromFileHWS"));
@@ -93,6 +90,7 @@ NiFgenLibrary::NiFgenLibrary() : shared_library_(kLibraryName)
   function_pointers_.EnableAnalogFilter = reinterpret_cast<EnableAnalogFilterPtr>(shared_library_.get_function_pointer("niFgen_EnableAnalogFilter"));
   function_pointers_.EnableDigitalFilter = reinterpret_cast<EnableDigitalFilterPtr>(shared_library_.get_function_pointer("niFgen_EnableDigitalFilter"));
   function_pointers_.EnableDigitalPatterning = reinterpret_cast<EnableDigitalPatterningPtr>(shared_library_.get_function_pointer("niFgen_EnableDigitalPatterning"));
+  function_pointers_.ErrorHandler = reinterpret_cast<ErrorHandlerPtr>(shared_library_.get_function_pointer("niFgen_ErrorHandler"));
   function_pointers_.ErrorMessage = reinterpret_cast<ErrorMessagePtr>(shared_library_.get_function_pointer("niFgen_error_message"));
   function_pointers_.ExportAttributeConfigurationBuffer = reinterpret_cast<ExportAttributeConfigurationBufferPtr>(shared_library_.get_function_pointer("niFgen_ExportAttributeConfigurationBuffer"));
   function_pointers_.ExportAttributeConfigurationFile = reinterpret_cast<ExportAttributeConfigurationFilePtr>(shared_library_.get_function_pointer("niFgen_ExportAttributeConfigurationFile"));
@@ -144,7 +142,6 @@ NiFgenLibrary::NiFgenLibrary() : shared_library_(kLibraryName)
   function_pointers_.RouteSignalOut = reinterpret_cast<RouteSignalOutPtr>(shared_library_.get_function_pointer("niFgen_RouteSignalOut"));
   function_pointers_.SelfCal = reinterpret_cast<SelfCalPtr>(shared_library_.get_function_pointer("niFgen_SelfCal"));
   function_pointers_.SelfTest = reinterpret_cast<SelfTestPtr>(shared_library_.get_function_pointer("niFgen_self_test"));
-  function_pointers_.SendSoftwareTrigger = reinterpret_cast<SendSoftwareTriggerPtr>(shared_library_.get_function_pointer("niFgen_SendSoftwareTrigger"));
   function_pointers_.SetAttributeViBoolean = reinterpret_cast<SetAttributeViBooleanPtr>(shared_library_.get_function_pointer("niFgen_SetAttributeViBoolean"));
   function_pointers_.SetAttributeViInt32 = reinterpret_cast<SetAttributeViInt32Ptr>(shared_library_.get_function_pointer("niFgen_SetAttributeViInt32"));
   function_pointers_.SetAttributeViInt64 = reinterpret_cast<SetAttributeViInt64Ptr>(shared_library_.get_function_pointer("niFgen_SetAttributeViInt64"));
@@ -158,6 +155,7 @@ NiFgenLibrary::NiFgenLibrary() : shared_library_(kLibraryName)
   function_pointers_.WaitUntilDone = reinterpret_cast<WaitUntilDonePtr>(shared_library_.get_function_pointer("niFgen_WaitUntilDone"));
   function_pointers_.WriteBinary16AnalogStaticValue = reinterpret_cast<WriteBinary16AnalogStaticValuePtr>(shared_library_.get_function_pointer("niFgen_WriteBinary16AnalogStaticValue"));
   function_pointers_.WriteBinary16Waveform = reinterpret_cast<WriteBinary16WaveformPtr>(shared_library_.get_function_pointer("niFgen_WriteBinary16Waveform"));
+  function_pointers_.WriteComplexBinary16Waveform = reinterpret_cast<WriteComplexBinary16WaveformPtr>(shared_library_.get_function_pointer("niFgen_WriteComplexBinary16Waveform"));
   function_pointers_.WriteNamedWaveformF64 = reinterpret_cast<WriteNamedWaveformF64Ptr>(shared_library_.get_function_pointer("niFgen_WriteNamedWaveformF64"));
   function_pointers_.WriteNamedWaveformI16 = reinterpret_cast<WriteNamedWaveformI16Ptr>(shared_library_.get_function_pointer("niFgen_WriteNamedWaveformI16"));
   function_pointers_.WriteP2PEndpointI16 = reinterpret_cast<WriteP2PEndpointI16Ptr>(shared_library_.get_function_pointer("niFgen_WriteP2PEndpointI16"));
@@ -596,18 +594,6 @@ ViStatus NiFgenLibrary::ConfigureFrequency(ViSession vi, ViConstString channelNa
 #endif
 }
 
-ViStatus NiFgenLibrary::ConfigureGain(ViSession vi, ViConstString channelName, ViReal64 gain)
-{
-  if (!function_pointers_.ConfigureGain) {
-    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_ConfigureGain.");
-  }
-#if defined(_MSC_VER)
-  return niFgen_ConfigureGain(vi, channelName, gain);
-#else
-  return function_pointers_.ConfigureGain(vi, channelName, gain);
-#endif
-}
-
 ViStatus NiFgenLibrary::ConfigureOperationMode(ViSession vi, ViConstString channelName, ViInt32 operationMode)
 {
   if (!function_pointers_.ConfigureOperationMode) {
@@ -665,30 +651,6 @@ ViStatus NiFgenLibrary::ConfigureP2pEndpointFullnessStartTrigger(ViSession vi, V
   return niFgen_ConfigureP2PEndpointFullnessStartTrigger(vi, p2pEndpointFullnessLevel);
 #else
   return function_pointers_.ConfigureP2pEndpointFullnessStartTrigger(vi, p2pEndpointFullnessLevel);
-#endif
-}
-
-ViStatus NiFgenLibrary::ConfigureRefClockFrequency(ViSession vi, ViReal64 referenceClockFrequency)
-{
-  if (!function_pointers_.ConfigureRefClockFrequency) {
-    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_ConfigureRefClockFrequency.");
-  }
-#if defined(_MSC_VER)
-  return niFgen_ConfigureRefClockFrequency(vi, referenceClockFrequency);
-#else
-  return function_pointers_.ConfigureRefClockFrequency(vi, referenceClockFrequency);
-#endif
-}
-
-ViStatus NiFgenLibrary::ConfigureRefClockSource(ViSession vi, ViInt32 referenceClockSource)
-{
-  if (!function_pointers_.ConfigureRefClockSource) {
-    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_ConfigureRefClockSource.");
-  }
-#if defined(_MSC_VER)
-  return niFgen_ConfigureRefClockSource(vi, referenceClockSource);
-#else
-  return function_pointers_.ConfigureRefClockSource(vi, referenceClockSource);
 #endif
 }
 
@@ -788,27 +750,15 @@ ViStatus NiFgenLibrary::ConfigureTriggerMode(ViSession vi, ViConstString channel
 #endif
 }
 
-ViStatus NiFgenLibrary::ConfigureTriggerSource(ViSession vi, ViConstString channelName, ViInt32 triggerSource)
+ViStatus NiFgenLibrary::CreateAdvancedArbSequence(ViSession vi, ViInt32 sequenceLength, ViInt32 waveformHandlesArray[], ViInt32 loopCountsArray[], ViInt32 sampleCountsArray[], ViInt32 markerLocationArray[], ViInt32 coercedMarkersArray[], ViInt32* sequenceHandle)
 {
-  if (!function_pointers_.ConfigureTriggerSource) {
-    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_ConfigureTriggerSource.");
+  if (!function_pointers_.CreateAdvancedArbSequence) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_CreateAdvancedArbSequence.");
   }
 #if defined(_MSC_VER)
-  return niFgen_ConfigureTriggerSource(vi, channelName, triggerSource);
+  return niFgen_CreateAdvancedArbSequence(vi, sequenceLength, waveformHandlesArray, loopCountsArray, sampleCountsArray, markerLocationArray, coercedMarkersArray, sequenceHandle);
 #else
-  return function_pointers_.ConfigureTriggerSource(vi, channelName, triggerSource);
-#endif
-}
-
-ViStatus NiFgenLibrary::ConfigureUpdateClockSource(ViSession vi, ViInt32 updateClockSource)
-{
-  if (!function_pointers_.ConfigureUpdateClockSource) {
-    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_ConfigureUpdateClockSource.");
-  }
-#if defined(_MSC_VER)
-  return niFgen_ConfigureUpdateClockSource(vi, updateClockSource);
-#else
-  return function_pointers_.ConfigureUpdateClockSource(vi, updateClockSource);
+  return function_pointers_.CreateAdvancedArbSequence(vi, sequenceLength, waveformHandlesArray, loopCountsArray, sampleCountsArray, markerLocationArray, coercedMarkersArray, sequenceHandle);
 #endif
 }
 
@@ -833,6 +783,18 @@ ViStatus NiFgenLibrary::CreateFreqList(ViSession vi, ViInt32 waveform, ViInt32 f
   return niFgen_CreateFreqList(vi, waveform, frequencyListLength, frequencyArray, durationArray, frequencyListHandle);
 #else
   return function_pointers_.CreateFreqList(vi, waveform, frequencyListLength, frequencyArray, durationArray, frequencyListHandle);
+#endif
+}
+
+ViStatus NiFgenLibrary::CreateWaveformComplexF64(ViSession vi, ViConstString channelName, ViInt32 numberOfSamples, NIComplexNumber_struct waveformDataArray[], ViInt32* waveformHandle)
+{
+  if (!function_pointers_.CreateWaveformComplexF64) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_CreateWaveformComplexF64.");
+  }
+#if defined(_MSC_VER)
+  return niFgen_CreateWaveformComplexF64(vi, channelName, numberOfSamples, waveformDataArray, waveformHandle);
+#else
+  return function_pointers_.CreateWaveformComplexF64(vi, channelName, numberOfSamples, waveformDataArray, waveformHandle);
 #endif
 }
 
@@ -1037,6 +999,18 @@ ViStatus NiFgenLibrary::EnableDigitalPatterning(ViSession vi, ViConstString chan
   return niFgen_EnableDigitalPatterning(vi, channelName);
 #else
   return function_pointers_.EnableDigitalPatterning(vi, channelName);
+#endif
+}
+
+ViStatus NiFgenLibrary::ErrorHandler(ViSession vi, ViStatus errorCode, ViChar errorMessage[256])
+{
+  if (!function_pointers_.ErrorHandler) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_ErrorHandler.");
+  }
+#if defined(_MSC_VER)
+  return niFgen_ErrorHandler(vi, errorCode, errorMessage);
+#else
+  return function_pointers_.ErrorHandler(vi, errorCode, errorMessage);
 #endif
 }
 
@@ -1652,18 +1626,6 @@ ViStatus NiFgenLibrary::SelfTest(ViSession vi, ViInt16* selfTestResult, ViChar s
 #endif
 }
 
-ViStatus NiFgenLibrary::SendSoftwareTrigger(ViSession vi)
-{
-  if (!function_pointers_.SendSoftwareTrigger) {
-    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_SendSoftwareTrigger.");
-  }
-#if defined(_MSC_VER)
-  return niFgen_SendSoftwareTrigger(vi);
-#else
-  return function_pointers_.SendSoftwareTrigger(vi);
-#endif
-}
-
 ViStatus NiFgenLibrary::SetAttributeViBoolean(ViSession vi, ViConstString channelName, ViAttr attributeId, ViBoolean attributeValue)
 {
   if (!function_pointers_.SetAttributeViBoolean) {
@@ -1817,6 +1779,18 @@ ViStatus NiFgenLibrary::WriteBinary16Waveform(ViSession vi, ViConstString channe
   return niFgen_WriteBinary16Waveform(vi, channelName, waveformHandle, size, data);
 #else
   return function_pointers_.WriteBinary16Waveform(vi, channelName, waveformHandle, size, data);
+#endif
+}
+
+ViStatus NiFgenLibrary::WriteComplexBinary16Waveform(ViSession vi, ViConstString channelName, ViInt32 waveformHandle, ViInt32 size, NIComplexI16_struct data[])
+{
+  if (!function_pointers_.WriteComplexBinary16Waveform) {
+    throw nidevice_grpc::LibraryLoadException("Could not find niFgen_WriteComplexBinary16Waveform.");
+  }
+#if defined(_MSC_VER)
+  return niFgen_WriteComplexBinary16Waveform(vi, channelName, waveformHandle, size, data);
+#else
+  return function_pointers_.WriteComplexBinary16Waveform(vi, channelName, waveformHandle, size, data);
 #endif
 }
 

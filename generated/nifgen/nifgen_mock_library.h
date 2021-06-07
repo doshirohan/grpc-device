@@ -52,14 +52,11 @@ class NiFgenMockLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   MOCK_METHOD(ViStatus, ConfigureDigitalLevelScriptTrigger, (ViSession vi, ViConstString triggerId, ViConstString source, ViInt32 triggerWhen), (override));
   MOCK_METHOD(ViStatus, ConfigureFreqList, (ViSession vi, ViConstString channelName, ViInt32 frequencyListHandle, ViReal64 amplitude, ViReal64 dcOffset, ViReal64 startPhase), (override));
   MOCK_METHOD(ViStatus, ConfigureFrequency, (ViSession vi, ViConstString channelName, ViReal64 frequency), (override));
-  MOCK_METHOD(ViStatus, ConfigureGain, (ViSession vi, ViConstString channelName, ViReal64 gain), (override));
   MOCK_METHOD(ViStatus, ConfigureOperationMode, (ViSession vi, ViConstString channelName, ViInt32 operationMode), (override));
   MOCK_METHOD(ViStatus, ConfigureOutputEnabled, (ViSession vi, ViConstString channelName, ViBoolean enabled), (override));
   MOCK_METHOD(ViStatus, ConfigureOutputImpedance, (ViSession vi, ViConstString channelName, ViReal64 impedance), (override));
   MOCK_METHOD(ViStatus, ConfigureOutputMode, (ViSession vi, ViInt32 outputMode), (override));
   MOCK_METHOD(ViStatus, ConfigureP2pEndpointFullnessStartTrigger, (ViSession vi, ViInt32 p2pEndpointFullnessLevel), (override));
-  MOCK_METHOD(ViStatus, ConfigureRefClockFrequency, (ViSession vi, ViReal64 referenceClockFrequency), (override));
-  MOCK_METHOD(ViStatus, ConfigureRefClockSource, (ViSession vi, ViInt32 referenceClockSource), (override));
   MOCK_METHOD(ViStatus, ConfigureReferenceClock, (ViSession vi, ViConstString referenceClockSource, ViReal64 referenceClockFrequency), (override));
   MOCK_METHOD(ViStatus, ConfigureSampleClockSource, (ViSession vi, ViConstString sampleClockSource), (override));
   MOCK_METHOD(ViStatus, ConfigureSampleRate, (ViSession vi, ViReal64 sampleRate), (override));
@@ -68,10 +65,10 @@ class NiFgenMockLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   MOCK_METHOD(ViStatus, ConfigureStandardWaveform, (ViSession vi, ViConstString channelName, ViInt32 waveform, ViReal64 amplitude, ViReal64 dcOffset, ViReal64 frequency, ViReal64 startPhase), (override));
   MOCK_METHOD(ViStatus, ConfigureSynchronization, (ViSession vi, ViConstString channelName, ViInt32 synchronizationSource), (override));
   MOCK_METHOD(ViStatus, ConfigureTriggerMode, (ViSession vi, ViConstString channelName, ViInt32 triggerMode), (override));
-  MOCK_METHOD(ViStatus, ConfigureTriggerSource, (ViSession vi, ViConstString channelName, ViInt32 triggerSource), (override));
-  MOCK_METHOD(ViStatus, ConfigureUpdateClockSource, (ViSession vi, ViInt32 updateClockSource), (override));
+  MOCK_METHOD(ViStatus, CreateAdvancedArbSequence, (ViSession vi, ViInt32 sequenceLength, ViInt32 waveformHandlesArray[], ViInt32 loopCountsArray[], ViInt32 sampleCountsArray[], ViInt32 markerLocationArray[], ViInt32 coercedMarkersArray[], ViInt32* sequenceHandle), (override));
   MOCK_METHOD(ViStatus, CreateArbSequence, (ViSession vi, ViInt32 sequenceLength, ViInt32 waveformHandlesArray[], ViInt32 loopCountsArray[], ViInt32* sequenceHandle), (override));
   MOCK_METHOD(ViStatus, CreateFreqList, (ViSession vi, ViInt32 waveform, ViInt32 frequencyListLength, ViReal64 frequencyArray[], ViReal64 durationArray[], ViInt32* frequencyListHandle), (override));
+  MOCK_METHOD(ViStatus, CreateWaveformComplexF64, (ViSession vi, ViConstString channelName, ViInt32 numberOfSamples, NIComplexNumber_struct waveformDataArray[], ViInt32* waveformHandle), (override));
   MOCK_METHOD(ViStatus, CreateWaveformF64, (ViSession vi, ViConstString channelName, ViInt32 waveformSize, ViReal64 waveformDataArray[], ViInt32* waveformHandle), (override));
   MOCK_METHOD(ViStatus, CreateWaveformFromFileF64, (ViSession vi, ViConstString channelName, ViConstString fileName, ViInt32 byteOrder, ViInt32* waveformHandle), (override));
   MOCK_METHOD(ViStatus, CreateWaveformFromFileHws, (ViSession vi, ViConstString channelName, ViConstString fileName, ViBoolean useRateFromWaveform, ViBoolean useGainAndOffsetFromWaveform, ViInt32* waveformHandle), (override));
@@ -89,6 +86,7 @@ class NiFgenMockLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   MOCK_METHOD(ViStatus, EnableAnalogFilter, (ViSession vi, ViConstString channelName, ViReal64 filterCorrectionFrequency), (override));
   MOCK_METHOD(ViStatus, EnableDigitalFilter, (ViSession vi, ViConstString channelName), (override));
   MOCK_METHOD(ViStatus, EnableDigitalPatterning, (ViSession vi, ViConstString channelName), (override));
+  MOCK_METHOD(ViStatus, ErrorHandler, (ViSession vi, ViStatus errorCode, ViChar errorMessage[256]), (override));
   MOCK_METHOD(ViStatus, ErrorMessage, (ViSession vi, ViStatus errorCode, ViChar errorMessage[256]), (override));
   MOCK_METHOD(ViStatus, ExportAttributeConfigurationBuffer, (ViSession vi, ViInt32 sizeInBytes, ViAddr configuration[]), (override));
   MOCK_METHOD(ViStatus, ExportAttributeConfigurationFile, (ViSession vi, ViConstString filePath), (override));
@@ -140,7 +138,6 @@ class NiFgenMockLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   MOCK_METHOD(ViStatus, RouteSignalOut, (ViSession vi, ViConstString channelName, ViInt32 routeSignalFrom, ViInt32 routeSignalTo), (override));
   MOCK_METHOD(ViStatus, SelfCal, (ViSession vi), (override));
   MOCK_METHOD(ViStatus, SelfTest, (ViSession vi, ViInt16* selfTestResult, ViChar selfTestMessage[256]), (override));
-  MOCK_METHOD(ViStatus, SendSoftwareTrigger, (ViSession vi), (override));
   MOCK_METHOD(ViStatus, SetAttributeViBoolean, (ViSession vi, ViConstString channelName, ViAttr attributeId, ViBoolean attributeValue), (override));
   MOCK_METHOD(ViStatus, SetAttributeViInt32, (ViSession vi, ViConstString channelName, ViAttr attributeId, ViInt32 attributeValue), (override));
   MOCK_METHOD(ViStatus, SetAttributeViInt64, (ViSession vi, ViConstString channelName, ViAttr attributeId, ViInt64 attributeValue), (override));
@@ -154,6 +151,7 @@ class NiFgenMockLibrary : public nifgen_grpc::NiFgenLibraryInterface {
   MOCK_METHOD(ViStatus, WaitUntilDone, (ViSession vi, ViInt32 maxTime), (override));
   MOCK_METHOD(ViStatus, WriteBinary16AnalogStaticValue, (ViSession vi, ViConstString channelName, ViInt16 value), (override));
   MOCK_METHOD(ViStatus, WriteBinary16Waveform, (ViSession vi, ViConstString channelName, ViInt32 waveformHandle, ViInt32 size, ViInt16 data[]), (override));
+  MOCK_METHOD(ViStatus, WriteComplexBinary16Waveform, (ViSession vi, ViConstString channelName, ViInt32 waveformHandle, ViInt32 size, NIComplexI16_struct data[]), (override));
   MOCK_METHOD(ViStatus, WriteNamedWaveformF64, (ViSession vi, ViConstString channelName, ViConstString waveformName, ViInt32 size, ViReal64 data[]), (override));
   MOCK_METHOD(ViStatus, WriteNamedWaveformI16, (ViSession vi, ViConstString channelName, ViConstString waveformName, ViInt32 size, ViInt16 data[]), (override));
   MOCK_METHOD(ViStatus, WriteP2PEndpointI16, (ViSession vi, ViConstString endpointName, ViInt32 numberOfSamples, ViInt16 endpointData[]), (override));

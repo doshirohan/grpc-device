@@ -726,26 +726,6 @@ functions = {
         ],
         'returns':'ViStatus'
     },
-    'ConfigureGain':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            },
-            {
-                'name':'channelName',
-                'direction':'in',
-                'type':'ViConstString'
-            },
-            {
-                'name':'gain',
-                'direction':'in',
-                'type':'ViReal64'
-            }
-        ],
-        'returns':'ViStatus'
-    },
     'ConfigureOperationMode':{
         'parameters':[
             {
@@ -831,36 +811,6 @@ functions = {
             },
             {
                 'name':'p2pEndpointFullnessLevel',
-                'direction':'in',
-                'type':'ViInt32'
-            }
-        ],
-        'returns':'ViStatus'
-    },
-    'ConfigureRefClockFrequency':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            },
-            {
-                'name':'referenceClockFrequency',
-                'direction':'in',
-                'type':'ViReal64'
-            }
-        ],
-        'returns':'ViStatus'
-    },
-    'ConfigureRefClockSource':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            },
-            {
-                'name':'referenceClockSource',
                 'direction':'in',
                 'type':'ViInt32'
             }
@@ -1023,7 +973,9 @@ functions = {
         ],
         'returns':'ViStatus'
     },
-    'ConfigureTriggerSource':{
+    
+    'CreateAdvancedArbSequence':{
+        'codegen_method': 'CustomCode',
         'parameters':[
             {
                 'name':'vi',
@@ -1031,28 +983,58 @@ functions = {
                 'type':'ViSession'
             },
             {
-                'name':'channelName',
-                'direction':'in',
-                'type':'ViConstString'
-            },
-            {
-                'name':'triggerSource',
+                'name':'sequenceLength',
                 'direction':'in',
                 'type':'ViInt32'
-            }
-        ],
-        'returns':'ViStatus'
-    },
-    'ConfigureUpdateClockSource':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
             },
             {
-                'name':'updateClockSource',
+                'name':'waveformHandlesArray',
                 'direction':'in',
+                'type':'ViInt32[]',
+                'size':{
+                    'mechanism':'len',
+                    'value':'sequenceLength'
+                }
+            },
+            {
+                'name':'loopCountsArray',
+                'direction':'in',
+                'type':'ViInt32[]',
+                'size':{
+                    'mechanism':'len',
+                    'value':'sequenceLength'
+                }
+            },
+            {
+                'name':'sampleCountsArray',
+                'direction':'in',
+                'type':'ViInt32[]',
+                'size':{
+                    'mechanism':'len',
+                    'value':'sequenceLength'
+                }
+            },
+            {
+                'name':'markerLocationArray',
+                'direction':'in',
+                'type':'ViInt32[]',
+                'size':{
+                    'mechanism':'len',
+                    'value':'sequenceLength'
+                }
+            },
+            {
+                'name':'coercedMarkersArray',
+                'direction':'out',
+                'type':'ViInt32[]',
+                'size':{
+                    'mechanism':'custom-code',
+                    'value':'sequenceLength'
+                }
+            },
+            {
+                'name':'sequenceHandle',
+                'direction':'out',
                 'type':'ViInt32'
             }
         ],
@@ -1134,6 +1116,41 @@ functions = {
             },
             {
                 'name':'frequencyListHandle',
+                'direction':'out',
+                'type':'ViInt32'
+            }
+        ],
+        'returns':'ViStatus'
+    },
+    'CreateWaveformComplexF64':{
+        'parameters':[
+            {
+                'name':'vi',
+                'direction':'in',
+                'type':'ViSession'
+            },
+            {
+                'name':'channelName',
+                'direction':'in',
+                'type':'ViConstString'
+            },
+            {
+                'name':'numberOfSamples',
+                'direction':'in',
+                'type':'ViInt32'
+            },
+            {
+                'name':'waveformDataArray',
+                'direction':'in',
+                'type': 'struct NIComplexNumber_struct[]',
+                'grpc_type': 'repeated NIComplexNumber',
+                'size': {
+                    'mechanism': 'len',
+                    'value': 'numberOfSamples'
+                }
+            },
+            {
+                'name':'waveformHandle',
                 'direction':'out',
                 'type':'ViInt32'
             }
@@ -1507,6 +1524,30 @@ functions = {
         ],
         'returns':'ViStatus'
     },
+    'ErrorHandler':{
+        'parameters':[
+            {
+                'name':'vi',
+                'direction':'in',
+                'type':'ViSession'
+            },
+            {
+                'name':'errorCode',
+                'direction':'in',
+                'type':'ViStatus'
+            },
+            {
+                'name':'errorMessage',
+                'direction':'out',
+                'type':'ViChar[]',
+                'size':{
+                    'mechanism':'fixed',
+                    'value':256
+                }
+            }
+        ],
+        'returns':'ViStatus'
+     },
     'ErrorMessage':{
         'cname' : 'niFgen_error_message',
         'parameters':[
@@ -2551,16 +2592,6 @@ functions = {
         ],
         'returns':'ViStatus'
     },
-    'SendSoftwareTrigger':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            }
-        ],
-        'returns':'ViStatus'
-    },
     'SetAttributeViBoolean':{
         'parameters':[
             {
@@ -2873,6 +2904,41 @@ functions = {
             }
         ],
         'returns': 'ViStatus'
+    },
+    'WriteComplexBinary16Waveform':{
+        'parameters':[
+            {
+                'name':'vi',
+                'direction':'in',
+                'type':'ViSession'
+            },
+            {
+                'name':'channelName',
+                'direction':'in',
+                'type':'ViConstString'
+            },
+            {
+                'name':'waveformHandle',
+                'direction':'in',
+                'type':'ViInt32'
+            },
+            {
+                'name':'size',
+                'direction':'in',
+                'type':'ViInt32'
+            },
+            {
+                'name':'data',
+                'direction':'in',
+                'type':'struct NIComplexI16_struct[]',
+                'grpc_type':'repeated NIComplexInt32',
+                'size':{
+                    'mechanism':'len',
+                    'value':'size'
+                }
+            }
+        ],
+        'returns':'ViStatus'
     },
     'WriteNamedWaveformF64':{
         'parameters':[
