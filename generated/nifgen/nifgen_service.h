@@ -162,9 +162,9 @@ private:
   NiFgenLibraryInterface* library_;
   nidevice_grpc::SessionRepository* session_repository_;
   NIComplexNumber_struct ConvertMessage(const nifgen_grpc::NIComplexNumber& input);
-  void Copy(const google::protobuf::RepeatedPtrField<nifgen_grpc::NIComplexNumber>& input, std::vector<NIComplexNumber_struct>* output);
+  void Copy(const google::protobuf::RepeatedPtrField<nifgen_grpc::NIComplexNumber>& input, std::vector<NIComplexNumber_struct> output);
   NIComplexI16_struct ConvertMessage(const nifgen_grpc::NIComplexInt32& input);
-  void Copy(const google::protobuf::RepeatedPtrField<nifgen_grpc::NIComplexInt32>& input, std::vector<NIComplexI16_struct>* output);
+  void Copy(const google::protobuf::RepeatedPtrField<nifgen_grpc::NIComplexInt32>& input, std::vector<NIComplexI16_struct> output);
 };
 
 } // namespace nifgen_grpc

@@ -76,12 +76,12 @@ namespace ${config["namespace_component"]}_grpc {
     return *output;
   }
 
-  void ${service_class_prefix}Service::Copy(const google::protobuf::RepeatedPtrField<${namespace_prefix}${custom_type["grpc_name"]}>& input, std::vector<${custom_type["name"]}>* output)
+  void ${service_class_prefix}Service::Copy(const google::protobuf::RepeatedPtrField<${namespace_prefix}${custom_type["grpc_name"]}>& input, std::vector<${custom_type["name"]}> output)
   {
     std::transform(
         input.begin(),
         input.end(),
-        std::back_inserter(*output),
+        std::back_inserter(output),
         [&](${namespace_prefix}${custom_type["grpc_name"]} x) { return ConvertMessage(x); });
   }
 
