@@ -31,11 +31,6 @@ The following functions were tagged with their corresponding CNAME tag
 
 Added value_twist attribute to the coefficientsArray parameter of GetFirFilterCoefficients function.
 
-The following function was tagged as 'codegen_method':'CustomCode' to allow the custom implementation of the API:
-- CreateAdvancedArbSequence
-  - The `mechanism` for the `size` field of `coercedMarkersArray` parameter was changed to 'mechanism':'custom-code'
-  - The `value` for the `size` field of `coercedMarkersArray` parameter was changed to 'value':'sequenceLength'
-
 The following functions removed as they are obsolete:
 - ConfigureGain
 - ConfigureRefClockFrequency
