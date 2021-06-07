@@ -1224,11 +1224,7 @@ namespace nifake_grpc {
       ViInt32 number_of_elements = request->cs().size();
       auto cs_request = request->cs();
       std::vector<CustomStruct> cs;
-      std::transform(
-        cs_request.begin(),
-        cs_request.end(),
-        std::back_inserter(cs),
-        [&](nifake_grpc::FakeCustomStruct x) { return GetStructFromGrpcType(x); }); 
+      Copy(cs_request, &cs);
       auto status = library_->SetCustomTypeArray(vi, number_of_elements, cs.data());
       response->set_status(status);
       return ::grpc::Status::OK;
