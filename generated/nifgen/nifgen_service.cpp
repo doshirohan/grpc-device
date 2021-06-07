@@ -31,12 +31,12 @@ namespace nifgen_grpc {
     return *output;
   }
 
-  void NiFgenService::Copy(const google::protobuf::RepeatedPtrField<nifgen_grpc::NIComplexNumber>& input, std::vector<NIComplexNumber_struct> output)
+  void NiFgenService::Copy(const google::protobuf::RepeatedPtrField<nifgen_grpc::NIComplexNumber>& input, std::vector<NIComplexNumber_struct>* output)
   {
     std::transform(
         input.begin(),
         input.end(),
-        std::back_inserter(output),
+        std::back_inserter(*output),
         [&](nifgen_grpc::NIComplexNumber x) { return ConvertMessage(x); });
   }
 
@@ -48,12 +48,12 @@ namespace nifgen_grpc {
     return *output;
   }
 
-  void NiFgenService::Copy(const google::protobuf::RepeatedPtrField<nifgen_grpc::NIComplexInt32>& input, std::vector<NIComplexI16_struct> output)
+  void NiFgenService::Copy(const google::protobuf::RepeatedPtrField<nifgen_grpc::NIComplexInt32>& input, std::vector<NIComplexI16_struct>* output)
   {
     std::transform(
         input.begin(),
         input.end(),
-        std::back_inserter(output),
+        std::back_inserter(*output),
         [&](nifgen_grpc::NIComplexInt32 x) { return ConvertMessage(x); });
   }
 
@@ -1163,7 +1163,7 @@ namespace nifgen_grpc {
       ViInt32 number_of_samples = request->waveform_data_array().size();
       auto waveform_data_array_request = request->waveform_data_array();
       std::vector<NIComplexNumber_struct> waveform_data_array;
-      Copy(waveform_data_array_request, waveform_data_array);
+      Copy(waveform_data_array_request, &waveform_data_array);
       ViInt32 waveform_handle {};
       auto status = library_->CreateWaveformComplexF64(vi, channel_name, number_of_samples, waveform_data_array.data(), &waveform_handle);
       response->set_status(status);
@@ -3086,7 +3086,7 @@ namespace nifgen_grpc {
       ViInt32 size = request->data().size();
       auto data_request = request->data();
       std::vector<NIComplexI16_struct> data;
-      Copy(data_request, data);
+      Copy(data_request, &data);
       auto status = library_->WriteComplexBinary16Waveform(vi, channel_name, waveform_handle, size, data.data());
       response->set_status(status);
       return ::grpc::Status::OK;

@@ -63,7 +63,7 @@ private:
 	% endif
 	% if custom_type["name"] in input_custom_types:
   ${custom_type["name"]} ConvertMessage(const ${namespace_prefix}${custom_type["grpc_name"]}& input);
-  void Copy(const google::protobuf::RepeatedPtrField<${namespace_prefix}${custom_type["grpc_name"]}>& input, std::vector<${custom_type["name"]}> output);
+  void Copy(const google::protobuf::RepeatedPtrField<${namespace_prefix}${custom_type["grpc_name"]}>& input, std::vector<${custom_type["name"]}>* output);
 	%endif
 %   endfor
 % endif
