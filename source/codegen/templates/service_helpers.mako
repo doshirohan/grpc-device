@@ -208,6 +208,10 @@ ${initialize_standard_input_param(function_name, parameter)}\
         ${parameter_name}_request.end(),
         std::back_inserter(${parameter_name}),
         [](auto x) { return x ? VI_TRUE : VI_FALSE; });
+ % elif common_helpers.is_struct(parameter) and common_helpers.is_array(c_type):
+      auto ${parameter_name}_request = ${request_snippet};
+      std::vector<${c_type_underlying_type}> ${parameter_name};
+      Copy(${parameter_name}_request, &${parameter_name});\
 % elif 'enum' in parameter:
 <%
 PascalFieldName = common_helpers.snake_to_pascal(field_name)
