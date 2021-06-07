@@ -185,8 +185,6 @@ ${initialize_standard_input_param(function_name, parameter)}\
   c_type = parameter['type']
   c_type_pointer = c_type.replace('[]','*')
   c_type_underlying_type = common_helpers.get_underlying_type_name(c_type)
-  if common_helpers.is_array(c_type) and common_helpers.is_struct(parameter):
-    grpc_underlying_type = common_helpers.get_underlying_grpc_type_name(parameter['grpc_type'])
 %>\
 % if c_type == 'ViConstString':
       ${c_type} ${parameter_name} = ${request_snippet}.c_str();\
@@ -213,11 +211,7 @@ ${initialize_standard_input_param(function_name, parameter)}\
  % elif common_helpers.is_struct(parameter) and common_helpers.is_array(c_type):
       auto ${parameter_name}_request = ${request_snippet};
       std::vector<${c_type_underlying_type}> ${parameter_name};
-      std::transform(
-        ${parameter_name}_request.begin(),
-        ${parameter_name}_request.end(),
-        std::back_inserter(${parameter_name}),
-        [&](${namespace_prefix}${grpc_underlying_type} x) { return GetStructFromGrpcType(x); }); \
+      Copy(${parameter_name}_request, &${parameter_name});
 % elif 'enum' in parameter:
 <%
 PascalFieldName = common_helpers.snake_to_pascal(field_name)

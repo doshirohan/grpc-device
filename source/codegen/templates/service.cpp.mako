@@ -67,13 +67,22 @@ namespace ${config["namespace_component"]}_grpc {
 
 % endif
 % if custom_type["name"] in input_custom_types:
-   ${custom_type["name"]} ${service_class_prefix}Service::GetStructFromGrpcType(const ${namespace_prefix}${custom_type["grpc_name"]}& input) 
+   ${custom_type["name"]} ${service_class_prefix}Service::ConvertMessage(const ${namespace_prefix}${custom_type["grpc_name"]}& input) 
   {
     ${custom_type["name"]}* output = new ${custom_type["name"]}();  
 %     for field in custom_type["fields"]: 
     output->${common_helpers.pascal_to_camel(common_helpers.snake_to_pascal(field["grpc_name"]))} = input.${common_helpers.camel_to_snake(field["name"])}();
 %     endfor
     return *output;
+  }
+
+  void ${service_class_prefix}Service::Copy(const google::protobuf::RepeatedPtrField<${namespace_prefix}${custom_type["grpc_name"]}>& input, std::vector<${custom_type["name"]}>* output)
+  {
+      std::transform(
+            input.begin(),
+            input.end(),
+            std::back_inserter(output),
+            [&](${namespace_prefix}${custom_type["grpc_name"]} x) { return ConvertMessage(x); }); \
   }
 
 % endif
