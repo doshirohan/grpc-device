@@ -1421,7 +1421,7 @@ TEST(NiFakeServiceTests, NiFakeService_AcceptViInt16Array_CallsAcceptViInt16Arra
   std::uint32_t session_id = create_session(session_repository, kTestViSession);
   NiFakeMockLibrary library;
   nifake_grpc::NiFakeService service(&library, &session_repository);
-  std::uint16_t int16_array[] = {0, 1, -32768, 32767};
+  std::uint16_t int16_array[] = {0, 1, -0x8000, 0x7FFF};
   std::int32_t array_len = 4;
   EXPECT_CALL(library, ViInt16ArrayInputFunction(kTestViSession, array_len, _))
       .With(Args<2, 1>(ElementsAreArray(int16_array)))
