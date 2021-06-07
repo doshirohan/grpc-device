@@ -52,12 +52,12 @@ namespace nifake_grpc {
     return *output;
   }
 
-  void NiFakeService::Copy(const google::protobuf::RepeatedPtrField<nifake_grpc::FakeCustomStruct>& input, std::vector<CustomStruct> output)
+  void NiFakeService::Copy(const google::protobuf::RepeatedPtrField<nifake_grpc::FakeCustomStruct>& input, std::vector<CustomStruct>* output)
   {
     std::transform(
         input.begin(),
         input.end(),
-        std::back_inserter(output),
+        std::back_inserter(*output),
         [&](nifake_grpc::FakeCustomStruct x) { return ConvertMessage(x); });
   }
 
