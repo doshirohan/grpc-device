@@ -1,11 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <cmath>
-
 #include "nifgen/nifgen_library.h"
 #include "nifgen/nifgen_service.h"
-
-#define PI 3.14159265358979323846
 
 namespace ni {
 namespace tests {
@@ -254,14 +250,15 @@ class NiFgenDriverApiTest : public ::testing::Test {
     EXPECT_EQ(kfgenDriverApiSuccess, response.status());
   }
 
-  ViInt32 create_waveform_f64(const char* channel_name, ViInt32 waveform_size, ViReal64 waveform_data_array[])
+  ViInt32 create_arb_waveform(const char* channel_name)
   {
     ::grpc::ClientContext context;
     fgen::CreateWaveformF64Request request;
+    const ViReal64 waveform_data_array[] = { 1, 0, 0, 1 };
     request.mutable_vi()->set_id(GetSessionId());
     request.set_channel_name(channel_name);
-    for (int i = 0; i < waveform_size; i++) {
-      request.add_waveform_data_array(waveform_data_array[i]);
+    for (ViReal64 waveform_data : waveform_data_array) {
+      request.add_waveform_data_array(waveform_data);
     }
     fgen::CreateWaveformF64Response response;
 
@@ -270,19 +267,6 @@ class NiFgenDriverApiTest : public ::testing::Test {
     EXPECT_TRUE(status.ok());
     EXPECT_EQ(kfgenDriverApiSuccess, response.status());
     return response.waveform_handle();
-  }
-
-  ViInt32 create_sine_waveform(const char* channel_name)
-  {
-    ViInt32 waveform_size = 64;
-    ViReal64 sine_waveform_data[64];
-    double x;
-    for (int i = 0; i < waveform_size; i++) {
-      x = ((double)i / waveform_size) * 2 * PI;
-      sine_waveform_data[i] = std::sin(x);
-    }
-    ViInt32 sine_waveform_handle = create_waveform_f64(channel_name, waveform_size, sine_waveform_data);
-    return sine_waveform_handle;
   }
 
   int create_advanced_arb_sequence(ViInt32 sequence_length, ViInt32 waveform_handles_array[], ViInt32 loop_counts_array[], ViInt32 marker_location_array[])
@@ -451,7 +435,7 @@ TEST_F(NiFgenDriverApiTest, ResetInterchangeCheck_ResetsSuccessfully)
   EXPECT_EQ(kfgenDriverApiSuccess, response.status());
 }
 
-TEST_F(NiFgenDriverApiTest, OutputModeConfiguredToSeq_CreateAdvancedArbSequenceForSineWaveform_CreatesSuccessfully)
+TEST_F(NiFgenDriverApiTest, OutputModeConfiguredToSeq_CreateAdvancedArbSequenceForArbitraryWaveform_CreatesSuccessfully)
 {
   const char* channel_name = "0";
   ViInt32 sequence_length = 1;
@@ -460,7 +444,7 @@ TEST_F(NiFgenDriverApiTest, OutputModeConfiguredToSeq_CreateAdvancedArbSequenceF
   ViInt32 marker_location_array[] = {-1};
   configure_output_mode(channel_name, fgen::OutputMode::OUTPUT_MODE_NIFGEN_VAL_OUTPUT_SEQ);
 
-  waveform_handles_array[0] = create_sine_waveform(channel_name);
+  waveform_handles_array[0] = create_arb_waveform(channel_name);
   int status = create_advanced_arb_sequence(sequence_length, waveform_handles_array, loop_counts_array, marker_location_array);
 
   EXPECT_EQ(kfgenDriverApiSuccess, status);
