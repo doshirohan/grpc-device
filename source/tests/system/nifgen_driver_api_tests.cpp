@@ -1,7 +1,6 @@
-#define _USE_MATH_DEFINES
-
 #include <gtest/gtest.h>
 
+#define _USE_MATH_DEFINES
 #include <cmath>
 
 #include "nifgen/nifgen_library.h"
