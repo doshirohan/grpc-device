@@ -274,14 +274,14 @@ class NiFgenDriverApiTest : public ::testing::Test {
   ViInt32 create_sine_waveform(const char* channel_name)
   {
     ViInt32 waveform_size = 64;
-    ViReal64 waveform_data_array[64];
+    ViReal64 sine_waveform_data[64];
     double x;
     for (int i = 0; i < waveform_size; i++) {
       x = ((double)i / waveform_size) * 2 * M_PI;
-      waveform_data_array[i] = std::sin(x);
+      sine_waveform_data[i] = std::sin(x);
     }
-    ViInt32 waveform_handle = create_waveform_f64(channel_name, waveform_size, waveform_data_array);
-    return waveform_handle;
+    ViInt32 sine_waveform_handle = create_waveform_f64(channel_name, waveform_size, sine_waveform_data);
+    return sine_waveform_handle;
   }
 
   int create_advanced_arb_sequence(ViInt32 sequence_length, ViInt32 waveform_handles_array[], ViInt32 loop_counts_array[], ViInt32 marker_location_array[])
