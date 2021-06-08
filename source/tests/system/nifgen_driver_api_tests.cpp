@@ -191,8 +191,8 @@ class NiFgenDriverApiTest : public ::testing::Test {
 
     ::grpc::Status status = GetStub()->SetAttributeViInt32(&context, request, &response);
 
-     EXPECT_TRUE(status.ok());
-     EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(kfgenDriverApiSuccess, response.status());
   }
 
   void configure_trigger_mode(const char* channel_name, fgen::TriggerMode trigger_mode)
@@ -455,8 +455,8 @@ TEST_F(NiFgenDriverApiTest, OutputModeConfiguredToSeq_CreateAdvancedArbSequenceF
   const char* channel_name = "0";
   ViInt32 sequence_length = 1;
   ViInt32 waveform_handles_array[1];
-  ViInt32 loop_counts_array[] = { 1 };
-  ViInt32 marker_location_aray[] = { -1 };
+  ViInt32 loop_counts_array[] = {1};
+  ViInt32 marker_location_aray[] = {-1};
   configure_output_mode(channel_name, fgen::OutputMode::OUTPUT_MODE_NIFGEN_VAL_OUTPUT_SEQ);
 
   waveform_handles_array[0] = create_sine_waveform(channel_name);
