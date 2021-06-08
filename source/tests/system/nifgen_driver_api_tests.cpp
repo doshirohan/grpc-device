@@ -1,10 +1,11 @@
 #include <gtest/gtest.h>
 
-#define _USE_MATH_DEFINES
 #include <cmath>
 
 #include "nifgen/nifgen_library.h"
 #include "nifgen/nifgen_service.h"
+
+#define PI 3.14159265358979323846
 
 namespace ni {
 namespace tests {
@@ -277,7 +278,7 @@ class NiFgenDriverApiTest : public ::testing::Test {
     ViReal64 sine_waveform_data[64];
     double x;
     for (int i = 0; i < waveform_size; i++) {
-      x = ((double)i / waveform_size) * 2 * M_PI;
+      x = ((double)i / waveform_size) * 2 * PI;
       sine_waveform_data[i] = std::sin(x);
     }
     ViInt32 sine_waveform_handle = create_waveform_f64(channel_name, waveform_size, sine_waveform_data);
@@ -456,11 +457,11 @@ TEST_F(NiFgenDriverApiTest, OutputModeConfiguredToSeq_CreateAdvancedArbSequenceF
   ViInt32 sequence_length = 1;
   ViInt32 waveform_handles_array[1];
   ViInt32 loop_counts_array[] = {1};
-  ViInt32 marker_location_aray[] = {-1};
+  ViInt32 marker_location_array[] = {-1};
   configure_output_mode(channel_name, fgen::OutputMode::OUTPUT_MODE_NIFGEN_VAL_OUTPUT_SEQ);
 
   waveform_handles_array[0] = create_sine_waveform(channel_name);
-  int status = create_advanced_arb_sequence(sequence_length, waveform_handles_array, loop_counts_array, marker_location_aray);
+  int status = create_advanced_arb_sequence(sequence_length, waveform_handles_array, loop_counts_array, marker_location_array);
 
   EXPECT_EQ(kfgenDriverApiSuccess, status);
 }
