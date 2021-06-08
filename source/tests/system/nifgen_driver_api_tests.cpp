@@ -1,7 +1,8 @@
 #define _USE_MATH_DEFINES
 
-#include <cmath>
 #include <gtest/gtest.h>
+
+#include <cmath>
 
 #include "nifgen/nifgen_library.h"
 #include "nifgen/nifgen_service.h"
@@ -191,8 +192,8 @@ class NiFgenDriverApiTest : public ::testing::Test {
 
     ::grpc::Status status = GetStub()->SetAttributeViInt32(&context, request, &response);
 
-     EXPECT_TRUE(status.ok());
-     EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(kfgenDriverApiSuccess, response.status());
   }
 
   void configure_trigger_mode(const char* channel_name, fgen::TriggerMode trigger_mode)
@@ -281,7 +282,6 @@ class NiFgenDriverApiTest : public ::testing::Test {
       waveform_data_array[i] = std::sin(x);
     }
     ViInt32 waveform_handle = create_waveform_f64(channel_name, waveform_size, waveform_data_array);
-
     return waveform_handle;
   }
 
@@ -456,8 +456,8 @@ TEST_F(NiFgenDriverApiTest, OutputModeConfiguredToSeq_CreateAdvancedArbSequenceF
   const char* channel_name = "0";
   ViInt32 sequence_length = 1;
   ViInt32 waveform_handles_array[1];
-  ViInt32 loop_counts_array[] = { 1 };
-  ViInt32 marker_location_aray[] = { -1 };
+  ViInt32 loop_counts_array[] = {1};
+  ViInt32 marker_location_aray[] = {-1};
   configure_output_mode(channel_name, fgen::OutputMode::OUTPUT_MODE_NIFGEN_VAL_OUTPUT_SEQ);
 
   waveform_handles_array[0] = create_sine_waveform(channel_name);

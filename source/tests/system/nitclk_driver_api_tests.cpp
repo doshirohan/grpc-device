@@ -58,7 +58,7 @@ class NiTClkDriverApiTest : public ::testing::Test {
 
   std::unique_ptr<tclk::NiTClk::Stub>& GetTClkStub()
   {
-      return nitclk_stub_;
+    return nitclk_stub_;
   }
 
   int GetScopeSessionId()
@@ -144,7 +144,7 @@ class NiTClkDriverApiTest : public ::testing::Test {
     EXPECT_EQ(kTClkDriverApiSuccess, response.status());
     return response.value();
   }
-  
+
   void set_real64_attribute(const char* channel_name, tclk::NiTClkAttributes attribute_id, const ViReal64 attribute_value)
   {
     ::grpc::ClientContext context;

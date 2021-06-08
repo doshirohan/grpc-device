@@ -160,7 +160,7 @@ class NiDigitalDriverApiTest : public ::testing::Test {
     request.set_attribute(attribute);
     request.set_value(value);
     digital::SetAttributeViStringResponse response;
-    
+
     ::grpc::Status status = GetStub()->SetAttributeViString(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
@@ -241,7 +241,7 @@ class NiDigitalDriverApiTest : public ::testing::Test {
     digital::FrequencyCounterConfigureMeasurementTimeResponse response;
 
     ::grpc::Status status = GetStub()->FrequencyCounterConfigureMeasurementTime(&context, request, &response);
-    
+
     EXPECT_TRUE(status.ok());
     expect_api_success(response.status());
   }
@@ -255,7 +255,7 @@ class NiDigitalDriverApiTest : public ::testing::Test {
     request.set_function(function_type);
     digital::SelectFunctionResponse response;
 
-    ::grpc::Status status = GetStub()->SelectFunction(&context, request, &response);    
+    ::grpc::Status status = GetStub()->SelectFunction(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
     expect_api_success(response.status());
@@ -283,7 +283,7 @@ TEST_F(NiDigitalDriverApiTest, PerformReadStatic_CompletesSuccessfully)
   ::grpc::Status status = GetStub()->ReadStatic(&context, request, &response);
 
   EXPECT_TRUE(status.ok());
-  expect_api_success(response.status()); 
+  expect_api_success(response.status());
 }
 
 TEST_F(NiDigitalDriverApiTest, PerformWriteStatic_CompletesSuccessfully)
@@ -316,7 +316,7 @@ TEST_F(NiDigitalDriverApiTest, PerformFrequencyCounterMeasureFrequency_Completes
   ::grpc::Status status = GetStub()->FrequencyCounterMeasureFrequency(&context, request, &response);
 
   EXPECT_TRUE(status.ok());
-  expect_api_success(response.status()); 
+  expect_api_success(response.status());
 }
 
 TEST_F(NiDigitalDriverApiTest, SelfTest_SelfTestCompletesSuccessfully)
@@ -447,7 +447,7 @@ TEST_F(NiDigitalDriverApiTest, ConfigureStartLabel_StartLabelConfigured)
   EXPECT_TRUE(status.ok());
   expect_api_success(response.status());
   std::string actual_start_label = get_string_attribute("", digital::NIDIGITAL_ATTRIBUTE_START_LABEL);
-  EXPECT_EQ(start_label, actual_start_label.substr(0, actual_start_label.size()-1));  // substring taken to remove the \0 at the end
+  EXPECT_EQ(start_label, actual_start_label.substr(0, actual_start_label.size() - 1));  // substring taken to remove the \0 at the end
 }
 
 }  // namespace system
