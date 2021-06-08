@@ -100,7 +100,7 @@ TEST_F(NiDigitalSessionTest, InitializedSession_CloseSession_ClosesDriverSession
 {
   digital::InitWithOptionsResponse init_response;
   call_init_with_options(kDigitalResourceName, kDigitalOptionsString, kDigitalSessionName, &init_response);
-
+  
   nidevice_grpc::Session session = init_response.vi();
   ::grpc::ClientContext context;
   digital::CloseRequest close_request;
