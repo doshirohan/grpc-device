@@ -227,15 +227,6 @@ class NiFgenDriverApiTest : public ::testing::Test {
     expect_api_success(response.status());
   }
 
-  // void configure_output_mode(const char* channel_name, fgen::OutputMode outputMode)
-  // {
-  //   ::grpc::ClientContext context;
-  //   fgen::ConfigureOutputModeRequest request;
-  //   request.mutable_vi()->set_id(GetSessionId());
-  //   request.set_output_mode()
-
-  // }
-
   fgen::ExportAttributeConfigurationBufferResponse export_attribute_configuration_buffer()
   {
     ::grpc::ClientContext context;
@@ -508,7 +499,6 @@ TEST_F(NiFgenDriverApiTest, AllocateWaveform_WriteWaveformF64_WaveformWrittenSuc
   EXPECT_TRUE(write_wfm_status.ok());
   expect_api_success(write_wfm_response.status());
 }
-
 }  // namespace system
 }  // namespace tests
 }  // namespace ni
