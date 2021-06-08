@@ -48,7 +48,7 @@ For the `errorMessage` parameter of `ErrorHandler` function:
   - 'value' for `size` was changed to '256'
 
 `enum` tag was added to parameters on following functions:
-- `outputMode` parameter in `ConfigureOutputMode`
+- `outputMode` parameter in `ConfigureOutputMode` function
 
 The following functions removed as they are obsolete:
 - ConfigureGain
