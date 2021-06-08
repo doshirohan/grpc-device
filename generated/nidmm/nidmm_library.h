@@ -69,6 +69,7 @@ class NiDmmLibrary : public nidmm_grpc::NiDmmLibraryInterface {
   ViStatus Fetch(ViSession vi, ViInt32 maximumTime, ViReal64* reading);
   ViStatus FetchMultiPoint(ViSession vi, ViInt32 maximumTime, ViInt32 arraySize, ViReal64 readingArray[], ViInt32* actualNumberOfPoints);
   ViStatus FetchWaveform(ViSession vi, ViInt32 maximumTime, ViInt32 arraySize, ViReal64 waveformArray[], ViInt32* actualNumberOfPoints);
+  ViStatus GetApertureTimeInfo(ViSession vi, ViReal64* apertureTime, ViInt32* apertureTimeUnits);
   ViStatus GetAttributeViBoolean(ViSession vi, ViConstString channelName, ViAttr attributeId, ViBoolean* attributeValue);
   ViStatus GetAttributeViInt32(ViSession vi, ViConstString channelName, ViAttr attributeId, ViInt32* attributeValue);
   ViStatus GetAttributeViReal64(ViSession vi, ViConstString channelName, ViAttr attributeId, ViReal64* attributeValue);
@@ -174,6 +175,7 @@ class NiDmmLibrary : public nidmm_grpc::NiDmmLibraryInterface {
   using FetchPtr = ViStatus (*)(ViSession vi, ViInt32 maximumTime, ViReal64* reading);
   using FetchMultiPointPtr = ViStatus (*)(ViSession vi, ViInt32 maximumTime, ViInt32 arraySize, ViReal64 readingArray[], ViInt32* actualNumberOfPoints);
   using FetchWaveformPtr = ViStatus (*)(ViSession vi, ViInt32 maximumTime, ViInt32 arraySize, ViReal64 waveformArray[], ViInt32* actualNumberOfPoints);
+  using GetApertureTimeInfoPtr = ViStatus (*)(ViSession vi, ViReal64* apertureTime, ViInt32* apertureTimeUnits);
   using GetAttributeViBooleanPtr = ViStatus (*)(ViSession vi, ViConstString channelName, ViAttr attributeId, ViBoolean* attributeValue);
   using GetAttributeViInt32Ptr = ViStatus (*)(ViSession vi, ViConstString channelName, ViAttr attributeId, ViInt32* attributeValue);
   using GetAttributeViReal64Ptr = ViStatus (*)(ViSession vi, ViConstString channelName, ViAttr attributeId, ViReal64* attributeValue);
@@ -279,6 +281,7 @@ class NiDmmLibrary : public nidmm_grpc::NiDmmLibraryInterface {
     FetchPtr Fetch;
     FetchMultiPointPtr FetchMultiPoint;
     FetchWaveformPtr FetchWaveform;
+    GetApertureTimeInfoPtr GetApertureTimeInfo;
     GetAttributeViBooleanPtr GetAttributeViBoolean;
     GetAttributeViInt32Ptr GetAttributeViInt32;
     GetAttributeViReal64Ptr GetAttributeViReal64;
