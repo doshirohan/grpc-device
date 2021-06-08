@@ -603,10 +603,10 @@ TEST(NiFakeServiceTests, NiFakeService_BoolArrayInputFunction_CallsBoolArrayInpu
   NiFakeMockLibrary library;
   nifake_grpc::NiFakeService service(&library, &session_repository);
   ViInt32 number_of_elements = 3;
-  ViBoolean expected_array[] = { VI_FALSE, VI_TRUE, VI_TRUE };
+  ViBoolean expected_array[] = {VI_FALSE, VI_TRUE, VI_TRUE};
   EXPECT_CALL(library, BoolArrayInputFunction(kTestViSession, number_of_elements, _))
-    .With(Args<2, 1>(ElementsAreArray(expected_array)))
-    .WillOnce(Return(kDriverSuccess));
+      .With(Args<2, 1>(ElementsAreArray(expected_array)))
+      .WillOnce(Return(kDriverSuccess));
 
   ::grpc::ServerContext context;
   nifake_grpc::BoolArrayInputFunctionRequest request;
@@ -1239,8 +1239,8 @@ TEST(NiFakeServiceTests, NiFakeService_ViUInt8ArrayInputFunction_CallsViUInt8Arr
   ViInt32 number_of_elements = 3;
   ViUInt8 expected_array[] = {0, 127, 0xFF};
   EXPECT_CALL(library, ViUInt8ArrayInputFunction(kTestViSession, number_of_elements, _))
-    .With(Args<2, 1>(ElementsAreArray(expected_array)))
-    .WillOnce(Return(kDriverSuccess));
+      .With(Args<2, 1>(ElementsAreArray(expected_array)))
+      .WillOnce(Return(kDriverSuccess));
 
   ::grpc::ServerContext context;
   nifake_grpc::ViUInt8ArrayInputFunctionRequest request;
@@ -1299,7 +1299,7 @@ TEST(NiFakeServiceTests, NiFakeService_AcceptViUInt32Array_CallsAcceptViUInt32Ar
   ::grpc::ServerContext context;
   nifake_grpc::AcceptViUInt32ArrayRequest request;
   request.mutable_vi()->set_id(session_id);
-  request.mutable_u_int32_array()->CopyFrom(google::protobuf::RepeatedField<google::protobuf::uint32>(uint32_array, uint32_array+5));
+  request.mutable_u_int32_array()->CopyFrom(google::protobuf::RepeatedField<google::protobuf::uint32>(uint32_array, uint32_array + 5));
   nifake_grpc::AcceptViUInt32ArrayResponse response;
   ::grpc::Status status = service.AcceptViUInt32Array(&context, &request, &response);
 
@@ -1383,36 +1383,36 @@ TEST(NiFakeServiceTests, NiFakeService_AcceptViSessionArray_CallsAcceptViSession
 //Test for ivi-dance-with-a-twist mechanism
 TEST(NiFakeServiceTests, NiFakeService_GetAnIviDanceWithATwistArray_CallsGetAnIviDanceWithATwistArray)
 {
-    nidevice_grpc::SessionRepository session_repository;
-    std::uint32_t session_id = create_session(session_repository, kTestViSession);
-    NiFakeMockLibrary library;
-    nifake_grpc::NiFakeService service(&library, &session_repository);
-    const char* a_string = "abc";
-    ViInt32 array_out[] = { 1, 2, 3 };
-    ViInt32 expected_size = 3;
-    // ivi-dance-with-a-twist call
-    EXPECT_CALL(library, GetAnIviDanceWithATwistArray(kTestViSession, Pointee(*a_string), 0, nullptr, _))
-        .WillOnce(DoAll(
-            SetArgPointee<4>(expected_size),
-            Return(kDriverSuccess)));          
-    // follow up call with size returned from ivi-dance-with-a-twist setup.
-    EXPECT_CALL(library, GetAnIviDanceWithATwistArray(kTestViSession, Pointee(*a_string) , expected_size, _, _))
-        .WillOnce(DoAll(
-            SetArrayArgument<3>(array_out, array_out + expected_size),
-            SetArgPointee<4>(expected_size),
-            Return(kDriverSuccess)));
+  nidevice_grpc::SessionRepository session_repository;
+  std::uint32_t session_id = create_session(session_repository, kTestViSession);
+  NiFakeMockLibrary library;
+  nifake_grpc::NiFakeService service(&library, &session_repository);
+  const char* a_string = "abc";
+  ViInt32 array_out[] = {1, 2, 3};
+  ViInt32 expected_size = 3;
+  // ivi-dance-with-a-twist call
+  EXPECT_CALL(library, GetAnIviDanceWithATwistArray(kTestViSession, Pointee(*a_string), 0, nullptr, _))
+      .WillOnce(DoAll(
+          SetArgPointee<4>(expected_size),
+          Return(kDriverSuccess)));
+  // follow up call with size returned from ivi-dance-with-a-twist setup.
+  EXPECT_CALL(library, GetAnIviDanceWithATwistArray(kTestViSession, Pointee(*a_string), expected_size, _, _))
+      .WillOnce(DoAll(
+          SetArrayArgument<3>(array_out, array_out + expected_size),
+          SetArgPointee<4>(expected_size),
+          Return(kDriverSuccess)));
 
-    ::grpc::ServerContext context;
-    nifake_grpc::GetAnIviDanceWithATwistArrayRequest request;
-    request.mutable_vi()->set_id(session_id);
-    request.set_a_string(a_string);
-    nifake_grpc::GetAnIviDanceWithATwistArrayResponse response;
-    ::grpc::Status status = service.GetAnIviDanceWithATwistArray(&context, &request, &response);
+  ::grpc::ServerContext context;
+  nifake_grpc::GetAnIviDanceWithATwistArrayRequest request;
+  request.mutable_vi()->set_id(session_id);
+  request.set_a_string(a_string);
+  nifake_grpc::GetAnIviDanceWithATwistArrayResponse response;
+  ::grpc::Status status = service.GetAnIviDanceWithATwistArray(&context, &request, &response);
 
-    EXPECT_TRUE(status.ok());
-    EXPECT_EQ(kDriverSuccess, response.status());
-    EXPECT_THAT(response.array_out(), ElementsAreArray(array_out, expected_size));
-    EXPECT_EQ(response.actual_size(), expected_size);
+  EXPECT_TRUE(status.ok());
+  EXPECT_EQ(kDriverSuccess, response.status());
+  EXPECT_THAT(response.array_out(), ElementsAreArray(array_out, expected_size));
+  EXPECT_EQ(response.actual_size(), expected_size);
 }
 
 }  // namespace unit
