@@ -396,6 +396,23 @@ enum AnalogPath {
   ANALOG_PATH_NIFGEN_VAL_FIXED_HIGH_GAIN_ANALOG_PATH = 3;
 }
 
+enum FrequencyListHandle {
+  FREQUENCY_LIST_HANDLE_UNSPECIFIED = 0;
+  FREQUENCY_LIST_HANDLE_NIFGEN_VAL_FIRST_FREQ_LIST_HANDLE = 200000;
+  FREQUENCY_LIST_HANDLE_NIFGEN_VAL_LAST_FREQ_LIST_HANDLE = 209999;
+  FREQUENCY_LIST_HANDLE_NIFGEN_VAL_NO_FREQ_LIST = -1;
+}
+
+enum SequenceHandle {
+  SEQUENCE_HANDLE_UNSPECIFIED = 0;
+  SEQUENCE_HANDLE_NIFGEN_VAL_ALL_SEQUENCES = -1;
+}
+
+enum WaveformHandle {
+  WAVEFORM_HANDLE_UNSPECIFIED = 0;
+  WAVEFORM_HANDLE_NIFGEN_VAL_ALL_WAVEFORMS = -1;
+}
+
 enum BusType {
   option allow_alias = true;
   BUS_TYPE_UNSPECIFIED = 0;
@@ -578,6 +595,36 @@ enum ScriptTriggerType {
   SCRIPT_TRIGGER_TYPE_NIFGEN_VAL_DIGITAL_EDGE = 102;
   SCRIPT_TRIGGER_TYPE_NIFGEN_VAL_DIGITAL_LEVEL = 103;
   SCRIPT_TRIGGER_TYPE_NIFGEN_VAL_SOFTWARE_EDGE = 104;
+  SCRIPT_TRIGGER_TYPE_NIFGEN_VAL_SOFTWARE_LEVEL = 105;
+}
+
+enum Signal {
+  SIGNAL_UNSPECIFIED = 0;
+  SIGNAL_NIFGEN_VAL_ONBOARD_REFERENCE_CLOCK = 1019;
+  SIGNAL_NIFGEN_VAL_SYNC_OUT = 1002;
+  SIGNAL_NIFGEN_VAL_START_TRIGGER = 1004;
+  SIGNAL_NIFGEN_VAL_MARKER_EVENT = 1001;
+  SIGNAL_NIFGEN_VAL_SAMPLE_CLOCK_TIMEBASE = 1006;
+  SIGNAL_NIFGEN_VAL_SYNCHRONIZATION = 1007;
+  SIGNAL_NIFGEN_VAL_SAMPLE_CLOCK = 101;
+  SIGNAL_NIFGEN_VAL_REFERENCE_CLOCK = 102;
+  SIGNAL_NIFGEN_VAL_SCRIPT_TRIGGER = 103;
+  SIGNAL_NIFGEN_VAL_READY_FOR_START_EVENT = 105;
+  SIGNAL_NIFGEN_VAL_STARTED_EVENT = 106;
+  SIGNAL_NIFGEN_VAL_DONE_EVENT = 107;
+  SIGNAL_NIFGEN_VAL_DATA_MARKER_EVENT = 108;
+}
+
+enum SignalRouting {
+  SIGNAL_ROUTING_UNSPECIFIED = 0;
+  SIGNAL_ROUTING_NIFGEN_VAL_MARKER = 1001;
+  SIGNAL_ROUTING_NIFGEN_VAL_SYNC_OUT = 1002;
+  SIGNAL_ROUTING_NIFGEN_VAL_OUT_START_TRIGGER = 1004;
+  SIGNAL_ROUTING_NIFGEN_VAL_BOARD_CLOCK = 1006;
+  SIGNAL_ROUTING_NIFGEN_VAL_SYNCHRONIZATION = 1007;
+  SIGNAL_ROUTING_NIFGEN_VAL_REF_OUT = 1008;
+  SIGNAL_ROUTING_NIFGEN_VAL_CLOCK_OUT = 1009;
+  SIGNAL_ROUTING_NIFGEN_VAL_RTSI_7 = 1010;
 }
 
 enum StartTriggerDigitalEdgeEdge {
@@ -893,7 +940,10 @@ message ClearArbMemoryResponse {
 
 message ClearArbSequenceRequest {
   nidevice_grpc.Session vi = 1;
-  sint32 sequence_handle = 2;
+  oneof sequence_handle_enum {
+    SequenceHandle sequence_handle = 2;
+    sint32 sequence_handle_raw = 3;
+  }
 }
 
 message ClearArbSequenceResponse {
@@ -902,7 +952,10 @@ message ClearArbSequenceResponse {
 
 message ClearArbWaveformRequest {
   nidevice_grpc.Session vi = 1;
-  sint32 waveform_handle = 2;
+  oneof waveform_handle_enum {
+    WaveformHandle waveform_handle = 2;
+    sint32 waveform_handle_raw = 3;
+  }
 }
 
 message ClearArbWaveformResponse {
@@ -919,7 +972,10 @@ message ClearErrorResponse {
 
 message ClearFreqListRequest {
   nidevice_grpc.Session vi = 1;
-  sint32 frequency_list_handle = 2;
+  oneof frequency_list_handle_enum {
+    FrequencyListHandle frequency_list_handle = 2;
+    sint32 frequency_list_handle_raw = 3;
+  }
 }
 
 message ClearFreqListResponse {
@@ -1480,9 +1536,12 @@ message ExportAttributeConfigurationFileResponse {
 
 message ExportSignalRequest {
   nidevice_grpc.Session vi = 1;
-  sint32 signal = 2;
-  string signal_identifier = 3;
-  string output_terminal = 4;
+  oneof signal_enum {
+    Signal signal = 2;
+    sint32 signal_raw = 3;
+  }
+  string signal_identifier = 4;
+  string output_terminal = 5;
 }
 
 message ExportSignalResponse {
@@ -1967,8 +2026,11 @@ message RevisionQueryResponse {
 message RouteSignalOutRequest {
   nidevice_grpc.Session vi = 1;
   string channel_name = 2;
-  sint32 route_signal_from = 3;
-  sint32 route_signal_to = 4;
+  oneof route_signal_from_enum {
+    SignalRouting route_signal_from = 3;
+    sint32 route_signal_from_raw = 4;
+  }
+  sint32 route_signal_to = 5;
 }
 
 message RouteSignalOutResponse {
