@@ -1286,8 +1286,7 @@ namespace nifgen_grpc {
         waveform_data_array_request.begin(),
         waveform_data_array_request.end(),
         std::back_inserter(waveform_data_array),
-        [](auto x) { return (ViInt16)x; });
-
+        [](auto x) { return (ViInt16)x; }); 
       ViInt32 waveform_handle {};
       auto status = library_->CreateWaveformI16(vi, channel_name, waveform_size, waveform_data_array.data(), &waveform_handle);
       response->set_status(status);
@@ -3147,8 +3146,7 @@ namespace nifgen_grpc {
         data_request.begin(),
         data_request.end(),
         std::back_inserter(data),
-        [](auto x) { return (ViInt16)x; });
-
+        [](auto x) { return (ViInt16)x; }); 
       auto status = library_->WriteBinary16Waveform(vi, channel_name, waveform_handle, size, data.data());
       response->set_status(status);
       return ::grpc::Status::OK;
@@ -3225,8 +3223,7 @@ namespace nifgen_grpc {
         data_request.begin(),
         data_request.end(),
         std::back_inserter(data),
-        [](auto x) { return (ViInt16)x; });
-
+        [](auto x) { return (ViInt16)x; }); 
       auto status = library_->WriteNamedWaveformI16(vi, channel_name, waveform_name, size, data.data());
       response->set_status(status);
       return ::grpc::Status::OK;
@@ -3254,8 +3251,7 @@ namespace nifgen_grpc {
         endpoint_data_request.begin(),
         endpoint_data_request.end(),
         std::back_inserter(endpoint_data),
-        [](auto x) { return (ViInt16)x; });
-
+        [](auto x) { return (ViInt16)x; }); 
       auto status = library_->WriteP2PEndpointI16(vi, endpoint_name, number_of_samples, endpoint_data.data());
       response->set_status(status);
       return ::grpc::Status::OK;

@@ -922,8 +922,7 @@ namespace nifake_grpc {
         input_array_of_integers_request.begin(),
         input_array_of_integers_request.end(),
         std::back_inserter(input_array_of_integers),
-        [](auto x) { return (ViInt16)x; });
-
+        [](auto x) { return (ViInt16)x; }); 
       response->mutable_output_array()->Resize(output_array_size, 0);
       ViReal64* output_array = response->mutable_output_array()->mutable_data();
       response->mutable_output_array_of_fixed_length()->Resize(3, 0);
@@ -1440,8 +1439,7 @@ namespace nifake_grpc {
         an_array_request.begin(),
         an_array_request.end(),
         std::back_inserter(an_array),
-        [](auto x) { return (ViInt16)x; });
-
+        [](auto x) { return (ViInt16)x; }); 
       auto status = library_->ViInt16ArrayInputFunction(vi, number_of_elements, an_array.data());
       response->set_status(status);
       return ::grpc::Status::OK;

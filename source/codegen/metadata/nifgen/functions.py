@@ -1259,7 +1259,6 @@ functions = {
         'returns':'ViStatus'
     },
     'CreateWaveformI16': {
-        'codegen_method': 'public',
         'parameters': [
             {
                 'direction': 'in',
@@ -2870,7 +2869,6 @@ functions = {
         'returns':'ViStatus'
     },
     'WriteBinary16Waveform': {
-        'codegen_method': 'public',
         'parameters': [
             {
                 'direction': 'in',
@@ -2975,7 +2973,6 @@ functions = {
         'returns':'ViStatus'
     },
     'WriteNamedWaveformI16': {
-        'codegen_method': 'public',
         'parameters': [
             {
                 'direction': 'in',

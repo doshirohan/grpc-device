@@ -45,9 +45,7 @@ def is_unsupported_size_mechanism(parameter):
   return not get_size_mechanism(parameter) in {'fixed', 'len', 'ivi-dance', 'passed-in', 'ivi-dance-with-a-twist', None}
 
 def is_unsupported_scalar_array(parameter):
-  if not is_array(parameter['type']):
-    return False
-  return is_enum(parameter)
+  return is_array(parameter['type']) and is_enum(parameter)
 
 def camel_to_snake(camelString):
   '''Returns a snake_string for a given camelString.'''
