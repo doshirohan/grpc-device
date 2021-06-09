@@ -269,20 +269,14 @@ class NiFgenDriverApiTest : public ::testing::Test {
     return response.waveform_handle();
   }
 
-  int create_advanced_arb_sequence(ViInt32 sequence_length, ViInt32 waveform_handles_array[], ViInt32 loop_counts_array[], ViInt32 marker_location_array[])
+  int create_advanced_arb_sequence(ViInt32 sequence_length, ViInt32* waveform_handles_array, ViInt32* loop_counts_array, ViInt32* marker_location_array)
   {
     ::grpc::ClientContext context;
     fgen::CreateAdvancedArbSequenceRequest request;
     request.mutable_vi()->set_id(GetSessionId());
-    for (int i = 0; i < sequence_length; i++) {
-      request.add_waveform_handles_array(waveform_handles_array[i]);
-    }
-    for (int i = 0; i < sequence_length; i++) {
-      request.add_loop_counts_array(loop_counts_array[i]);
-    }
-    for (int i = 0; i < sequence_length; i++) {
-      request.add_marker_location_array(marker_location_array[i]);
-    }
+    request.mutable_waveform_handles_array()->Add(waveform_handles_array, waveform_handles_array + sequence_length);
+    request.mutable_loop_counts_array()->Add(loop_counts_array, loop_counts_array + sequence_length);
+    request.mutable_marker_location_array()->Add(marker_location_array, marker_location_array + sequence_length);
     fgen::CreateAdvancedArbSequenceResponse response;
 
     ::grpc::Status status = GetStub()->CreateAdvancedArbSequence(&context, request, &response);
