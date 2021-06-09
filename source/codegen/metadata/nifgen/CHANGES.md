@@ -40,3 +40,8 @@ The following functions removed as they are obsolete:
 Following attributes missing in attributes.hapigen, taken from constants.hapigen:
 - BURST_COUNT
 - CHANNEL_COUNT
+
+Following enum values removed because the enums of string type are not supported in grpc:
+- `SampleClockSource` from `SAMPLE_CLOCK_SOURCE`
+- `ReferenceClockSource` from `REFERENCE_CLOCK_SOURCE`
+- `SampleClockTimebaseSource` from `SAMPLE_CLOCK_TIMEBASE_SOURCE`
