@@ -482,6 +482,7 @@ TEST_F(NiFgenDriverApiTest, AllocateWaveform_WriteWaveformComplexF64_WaveformWri
 {
   std::string channel_name = "0";
   int waveform_size = 1;
+   set_int32_attribute("", fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_OUTPUT_MODE, fgen::OutputMode::OUTPUT_MODE_NIFGEN_VAL_OUTPUT_SEQ);
   ::grpc::ClientContext alloc_wfm_context;
   fgen::AllocateWaveformRequest alloc_wfm_request;
   alloc_wfm_request.mutable_vi()->set_id(GetSessionId());
@@ -494,7 +495,6 @@ TEST_F(NiFgenDriverApiTest, AllocateWaveform_WriteWaveformComplexF64_WaveformWri
 
   int waveform_handle = alloc_wfm_response.waveform_handle();
   NIComplexNumber wave_array[] = {{1.55, 2.3}, {40.4, -20.4}, {21.6, 112.4}, {0.7, -100.3}, 15.89};
-  set_int32_attribute("", fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_OUTPUT_MODE, fgen::OutputMode::OUTPUT_MODE_NIFGEN_VAL_OUTPUT_SCRIPT);
   set_bool_attribute(channel_name.c_str(), fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_OSP_ENABLED, true);
   set_int32_attribute(channel_name.c_str(), fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_OSP_DATA_PROCESSING_MODE, fgen::DataProcessingMode::DATA_PROCESSING_MODE_NIFGEN_VAL_OSP_COMPLEX);
   ::grpc::ClientContext write_wfm_context;

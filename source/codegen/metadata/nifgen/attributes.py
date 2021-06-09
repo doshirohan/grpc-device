@@ -339,6 +339,19 @@ attributes = {
         'resettable': False,
         'type': 'ViString'
     },
+    1150246: {
+        'access': 'read-write',
+        'name': 'OSP_ENABLED',
+        'resettable': False,
+        'type': 'ViBoolean',
+    },
+    1150247: {
+        'access': 'read-write',
+        'enum': 'DataProcessingMode',
+        'name': 'OSP_DATA_PROCESSING_MODE',
+        'resettable': True,
+        'type': 'ViInt32',
+    },
     1150254: {
         'access': 'read-write',
         'channel_based': False,
@@ -867,4 +880,3 @@ attributes = {
         'type': 'ViInt32'
     }
 }
-
