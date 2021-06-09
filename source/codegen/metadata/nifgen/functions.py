@@ -971,7 +971,6 @@ functions = {
         ],
         'returns':'ViStatus'
     },
-    
     'CreateAdvancedArbSequence':{
         'codegen_method': 'CustomCode',
         'parameters':[
