@@ -2,25 +2,6 @@
 #include <stdexcept>
 
 namespace nitclk_grpc {
-    
-class DriverErrorException : public std::runtime_error{
-  private:
-    int status_ = 0;
-
-  public:
-    DriverErrorException(int status) : std::runtime_error(""), status_(status) { }
-    int status() const
-    {
-      return status_;
-    }
-};
-
-static void CheckStatus(int status)
-{
-  if (status != 0) {
-    throw DriverErrorException(status);
-  }
-}
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
@@ -42,10 +23,7 @@ static void CheckStatus(int status)
       }
       ViInt32 buffer_size = status;
 
-      std::string value;
-      if (buffer_size > 0) {
-          value.resize(buffer_size);
-      }
+      std::string value(buffer_size, '\0');
       status = library_->GetAttributeViString(session, channel_name, attribute_id, buffer_size, (ViChar*)value.data());
       response->set_status(status);
       if (status == 0) {

@@ -140,7 +140,10 @@ namespace nitclk_grpc {
       }
       ViUInt32 error_string_size = status;
 
-      std::string error_string(error_string_size, '\0');
+      std::string error_string;
+      if (error_string_size > 0) {
+          error_string.resize(error_string_size-1);
+      }
       status = library_->GetExtendedErrorInfo((ViChar*)error_string.data(), error_string_size);
       response->set_status(status);
       if (status == 0) {
