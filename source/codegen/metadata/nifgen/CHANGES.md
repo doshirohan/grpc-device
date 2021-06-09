@@ -8,10 +8,6 @@ The following metadata was added:
 - 'java_package': 'com.ni.grpc.fgen'
 - 'csharp_namespace': 'NationalInstruments.Grpc.Fgen'
 
-## attributes.py
-
-The documentation and lv_property values were removed from all the attributes.
-
 # Changes in metadata from the base metadata
 
 ## functions.py
@@ -38,3 +34,9 @@ The following functions removed as they are obsolete:
 - ConfigureTriggerSource
 - ConfigureUpdateClockSource
 - SendSoftwareTrigger
+
+## attributes.py
+
+Following attributes missing in attributes.hapigen, taken from constants.hapigen:
+- BURST_COUNT
+- CHANNEL_COUNT
