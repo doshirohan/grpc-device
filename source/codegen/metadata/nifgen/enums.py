@@ -19,26 +19,6 @@ enums = {
             }
         ]
     },
-	'ArbitrarySequenceCreation': {
-        'values': [
-            {
-                'name': 'NIFGEN_VAL_INFINITE_LOOP',
-                'value': 0
-            },
-            {
-                'name': 'NIFGEN_VAL_WHOLE_BUFFER',
-                'value': 0
-            },
-            {
-                'name': 'NIFGEN_VAL_NO_MARKER',
-                'value': -1
-            },
-            {
-                'name': 'NIFGEN_VAL_MARKER_QUANTUM',
-                'value': 8
-            }
-		]
-	},
     'FrequencyListHandleParameter': {
         'values': [
             {
