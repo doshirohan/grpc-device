@@ -202,6 +202,7 @@ attributes = {
     1150208: {
         'access': 'read-write',
         'name': 'FREQ_LIST_HANDLE',
+        'enum': 'NIFGEN_VAL_FIRST_FREQ_LIST_HANDLE',
         'resettable': False,
         'type': 'ViInt32'
     },
@@ -558,7 +559,8 @@ attributes = {
         'access': 'read-write',
         'name': 'OSP_OVERFLOW_STATUS',
         'resettable': True,
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'OspOverflowStatus'
     },
     1150270: {
         'access': 'read-write',
@@ -1116,7 +1118,7 @@ attributes = {
     },
     1150399: {
         'access': 'read-write',
-        'enum': 'P2pAddressType',
+        'enum': 'P2PAddressType',
         'name': 'P2P_DATA_TRANSFER_PERMISSION_ADDRESS_TYPE',
         'resettable': False,
         'type': 'ViInt32'
@@ -1135,7 +1137,7 @@ attributes = {
     },
     1150402: {
         'access': 'read-write',
-        'enum': 'P2pAddressType',
+        'enum': 'P2PAddressType',
         'name': 'P2P_ENDPOINT_WINDOW_ADDRESS_TYPE',
         'resettable': False,
         'type': 'ViInt32'
@@ -1154,7 +1156,7 @@ attributes = {
     },
     1150406: {
         'access': 'read-write',
-        'enum': 'P2pAddressType',
+        'enum': 'P2PAddressType',
         'name': 'P2P_DONE_NOTIFICATION_ADDRESS_TYPE',
         'resettable': False,
         'type': 'ViInt32'
@@ -1260,6 +1262,7 @@ attributes = {
     1250201: {
         'access': 'read-write',
         'name': 'ARB_WAVEFORM_HANDLE',
+        'enum': 'ArbitraryWaveformHandle',
         'resettable': False,
         'type': 'ViInt32'
     },
@@ -1308,6 +1311,7 @@ attributes = {
     1250211: {
         'access': 'read-write',
         'name': 'ARB_SEQUENCE_HANDLE',
+        'enum': 'ArbitrarySequenceHandle',
         'resettable': False,
         'type': 'ViInt32'
     },
@@ -1344,6 +1348,7 @@ attributes = {
     },
     1250350: {
         'name': 'BURST_COUNT',
-        'type': 'ViInt32'
+        'type': 'ViInt32',
+        'enum': 'BurstCount'
     }
 }
