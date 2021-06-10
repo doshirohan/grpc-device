@@ -278,6 +278,7 @@ class NiFgenDriverApiTest : public ::testing::Test {
     fgen::ResetRequest request;
     request.mutable_vi()->set_id(GetSessionId());
     fgen::ResetResponse response;
+
     ::grpc::Status status = GetStub()->Reset(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
@@ -295,7 +296,7 @@ class NiFgenDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->ConfigureOutputMode(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
-    EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+    expect_api_success(response.status());
   }
 
   ViInt32 create_arb_waveform(const char* channel_name)
@@ -313,7 +314,7 @@ class NiFgenDriverApiTest : public ::testing::Test {
     ::grpc::Status status = GetStub()->CreateWaveformF64(&context, request, &response);
 
     EXPECT_TRUE(status.ok());
-    EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+    expect_api_success(response.status());
     return response.waveform_handle();
   }
 
@@ -331,6 +332,80 @@ class NiFgenDriverApiTest : public ::testing::Test {
 
     EXPECT_TRUE(status.ok());
     return response.status();
+  }
+
+  void allocate_named_waveform(std::string channel_name, std::string waveform_name, int waveform_size)
+  {
+    configure_output_mode(channel_name.c_str(), fgen::OutputMode::OUTPUT_MODE_NIFGEN_VAL_OUTPUT_SCRIPT);
+    ::grpc::ClientContext context;
+    fgen::AllocateNamedWaveformRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_channel_name(channel_name);
+    request.set_waveform_name(waveform_name);
+    request.set_waveform_size(waveform_size);
+    fgen::AllocateNamedWaveformResponse response;
+
+    ::grpc::Status status = GetStub()->AllocateNamedWaveform(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    expect_api_success(response.status());
+  }
+
+  void write_named_waveform_f64(std::string channel_name, std::string waveform_name, int waveform_size, double waveform[])
+  {
+    ::grpc::ClientContext context;
+    fgen::WriteNamedWaveformF64Request request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_channel_name(channel_name);
+    request.set_waveform_name(waveform_name);
+    request.mutable_data()->CopyFrom(google::protobuf::RepeatedField<double>(waveform, waveform + waveform_size));
+    fgen::WriteNamedWaveformF64Response response;
+
+    ::grpc::Status status = GetStub()->WriteNamedWaveformF64(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    expect_api_success(response.status());
+  }
+
+  ViInt32 allocate_waveform(std::string channel_name, int waveform_size)
+  {
+    configure_output_mode(channel_name.c_str(), fgen::OutputMode::OUTPUT_MODE_NIFGEN_VAL_OUTPUT_SEQ);
+    ::grpc::ClientContext context;
+    fgen::AllocateWaveformRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_channel_name(channel_name);
+    request.set_waveform_size(waveform_size);
+    fgen::AllocateWaveformResponse response;
+
+    ::grpc::Status status = GetStub()->AllocateWaveform(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    expect_api_success(response.status());
+
+    return response.waveform_handle();
+  }
+
+  void write_waveform_complexf64(std::string channel_name, int waveform_size, int waveform_handle, NIComplexNumber waveform[])
+  {
+    set_bool_attribute(channel_name.c_str(), fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_OSP_ENABLED, true);
+    set_int32_attribute(channel_name.c_str(), fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_OSP_DATA_PROCESSING_MODE, fgen::DataProcessingMode::DATA_PROCESSING_MODE_NIFGEN_VAL_OSP_COMPLEX);
+    ::grpc::ClientContext context;
+    fgen::WriteWaveformComplexF64Request request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_channel_name(channel_name);
+    request.set_waveform_handle(waveform_handle);
+    for (int i = 0; i < waveform_size; i++)
+    {
+      request.mutable_data()->Add();
+      request.mutable_data(i)->set_imaginary(waveform[i].imaginary);
+      request.mutable_data(i)->set_real(waveform[i].real);
+    }
+    fgen::WriteWaveformComplexF64Response response;
+
+    ::grpc::Status status = GetStub()->WriteWaveformComplexF64(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    expect_api_success(response.status());
   }
 
  private:
@@ -487,82 +562,36 @@ TEST_F(NiFgenDriverApiTest, AllocateNamedWaveform_WriteNamedWaveformF64_Waveform
   std::string channel_name = "0";
   std::string waveform_name = "TestWaveform";
   int waveform_size = 5;
-  set_int32_attribute("", fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_OUTPUT_MODE, fgen::OutputMode::OUTPUT_MODE_NIFGEN_VAL_OUTPUT_SCRIPT);
-  ::grpc::ClientContext alloc_wfm_context;
-  fgen::AllocateNamedWaveformRequest alloc_wfm_request;
-  alloc_wfm_request.mutable_vi()->set_id(GetSessionId());
-  alloc_wfm_request.set_channel_name(channel_name);
-  alloc_wfm_request.set_waveform_name(waveform_name);
-  alloc_wfm_request.set_waveform_size(waveform_size);
-  fgen::AllocateNamedWaveformResponse alloc_wfm_response;
-  ::grpc::Status alloc_wfm_status = GetStub()->AllocateNamedWaveform(&alloc_wfm_context, alloc_wfm_request, &alloc_wfm_response);
-  EXPECT_TRUE(alloc_wfm_status.ok());
-  expect_api_success(alloc_wfm_response.status());
+  allocate_named_waveform(channel_name, waveform_name, waveform_size);  
   
   double waveform[] = {1.55, 40.4, 21.6, 0.7, 15.89};
-  ::grpc::ClientContext write_wfm_context;
-  fgen::WriteNamedWaveformF64Request write_wfm_request;
-  write_wfm_request.mutable_vi()->set_id(GetSessionId());
-  write_wfm_request.set_channel_name(channel_name);
-  write_wfm_request.set_waveform_name(waveform_name);
-  write_wfm_request.mutable_data()->CopyFrom(google::protobuf::RepeatedField<double>(waveform, waveform + waveform_size));
-  fgen::WriteNamedWaveformF64Response write_wfm_response;
-  ::grpc::Status write_wfm_status = GetStub()->WriteNamedWaveformF64(&write_wfm_context, write_wfm_request, &write_wfm_response);
-
-  EXPECT_TRUE(write_wfm_status.ok());
-  expect_api_success(write_wfm_response.status());
+  write_named_waveform_f64(channel_name, waveform_name, waveform_size, waveform);
 }
 
 TEST_F(NiFgenDriverApiTest, ExportTriggerMode_ResetAndImportConfiguration_TriggerModeConfigurationIsImported)
 {
   const char* channel_name = "0";
-  fgen::TriggerMode expected_value = fgen::TriggerMode::TRIGGER_MODE_NIFGEN_VAL_SINGLE;
-  configure_trigger_mode(channel_name, expected_value);
+  fgen::TriggerMode expected_trigger_mode  = fgen::TriggerMode::TRIGGER_MODE_NIFGEN_VAL_SINGLE;
+  configure_trigger_mode(channel_name, expected_trigger_mode );
   auto exported_configuration_response = export_attribute_configuration_buffer();
 
   reset();
   import_attribute_configuration_buffer(exported_configuration_response);
 
-  double set_value = get_int32_attribute("0", fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_TRIGGER_MODE);
-  EXPECT_EQ(expected_value, set_value);
+  double set_trigger_mode = get_int32_attribute(channel_name, fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_TRIGGER_MODE);
+  EXPECT_EQ(expected_trigger_mode, set_trigger_mode);
 }
 
 TEST_F(NiFgenDriverApiTest, AllocateWaveform_WriteWaveformComplexF64_WaveformWrittenSuccessfully)
 {
   std::string channel_name = "0";
   int waveform_size = 1;
-   set_int32_attribute("", fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_OUTPUT_MODE, fgen::OutputMode::OUTPUT_MODE_NIFGEN_VAL_OUTPUT_SEQ);
-  ::grpc::ClientContext alloc_wfm_context;
-  fgen::AllocateWaveformRequest alloc_wfm_request;
-  alloc_wfm_request.mutable_vi()->set_id(GetSessionId());
-  alloc_wfm_request.set_channel_name(channel_name);
-  alloc_wfm_request.set_waveform_size(waveform_size);
-  fgen::AllocateWaveformResponse alloc_wfm_response;
-  ::grpc::Status alloc_wfm_status = GetStub()->AllocateWaveform(&alloc_wfm_context, alloc_wfm_request, &alloc_wfm_response);
-  EXPECT_TRUE(alloc_wfm_status.ok());
-  expect_api_success(alloc_wfm_response.status());
+  int waveform_handle = allocate_waveform(channel_name, waveform_size);  
 
-  int waveform_handle = alloc_wfm_response.waveform_handle();
-  NIComplexNumber wave_array[] = {{1.55, 2.3}, {40.4, -20.4}, {21.6, 112.4}, {0.7, -100.3}, 15.89};
-  set_bool_attribute(channel_name.c_str(), fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_OSP_ENABLED, true);
-  set_int32_attribute(channel_name.c_str(), fgen::NiFgenAttributes::NIFGEN_ATTRIBUTE_OSP_DATA_PROCESSING_MODE, fgen::DataProcessingMode::DATA_PROCESSING_MODE_NIFGEN_VAL_OSP_COMPLEX);
-  ::grpc::ClientContext write_wfm_context;
-  fgen::WriteWaveformComplexF64Request write_wfm_request;
-  write_wfm_request.mutable_vi()->set_id(GetSessionId());
-  write_wfm_request.set_channel_name(channel_name);
-  write_wfm_request.set_waveform_handle(waveform_handle);
-  for (int i = 0; i < waveform_size; i++)
-  {
-    write_wfm_request.mutable_data()->Add();
-    write_wfm_request.mutable_data(i)->set_imaginary(wave_array[i].imaginary);
-    write_wfm_request.mutable_data(i)->set_real(wave_array[i].real);
-  }
-  fgen::WriteWaveformComplexF64Response write_wfm_response;
-  ::grpc::Status write_wfm_status = GetStub()->WriteWaveformComplexF64(&write_wfm_context, write_wfm_request, &write_wfm_response);
-
-  EXPECT_TRUE(write_wfm_status.ok());
-  expect_api_success(write_wfm_response.status());
+  NIComplexNumber waveform[] = {{1.55, 2.3}, {40.4, -20.4}, {21.6, 112.4}, {0.7, -100.3}, 15.89};
+  write_waveform_complexf64(channel_name, waveform_size, waveform_handle, waveform);
 }
+
 TEST_F(NiFgenDriverApiTest, OutputModeConfiguredToSeq_CreateAdvancedArbSequenceForArbitraryWaveform_CreatesSuccessfully)
 {
   const char* channel_name = "0";
