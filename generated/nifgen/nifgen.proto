@@ -717,7 +717,10 @@ message ConfigureChannelsResponse {
 
 message ConfigureClockModeRequest {
   nidevice_grpc.Session vi = 1;
-  sint32 clock_mode = 2;
+  oneof clock_mode_enum {
+    ClockMode clock_mode = 2;
+    sint32 clock_mode_raw = 3;
+  }
 }
 
 message ConfigureClockModeResponse {
@@ -821,7 +824,10 @@ message ConfigureOutputImpedanceResponse {
 
 message ConfigureOutputModeRequest {
   nidevice_grpc.Session vi = 1;
-  sint32 output_mode = 2;
+  oneof output_mode_enum {
+    OutputMode output_mode = 2;
+    sint32 output_mode_raw = 3;
+  }
 }
 
 message ConfigureOutputModeResponse {
