@@ -228,13 +228,13 @@ class NiFgenDriverApiTest : public ::testing::Test {
     expect_api_success(response.status());
   }
 
-  void configure_trigger_mode(const char* channel_name, fgen::TriggerMode triggerMode)
+  void configure_trigger_mode(const char* channel_name, fgen::TriggerMode trigger_mode)
   {
     ::grpc::ClientContext context;
     fgen::ConfigureTriggerModeRequest request;
     request.mutable_vi()->set_id(GetSessionId());
     request.set_channel_name(channel_name);
-    request.set_trigger_mode(triggerMode);
+    request.set_trigger_mode(trigger_mode);
     fgen::ConfigureTriggerModeResponse response;
 
     ::grpc::Status status = GetStub()->ConfigureTriggerMode(&context, request, &response);
@@ -282,6 +282,55 @@ class NiFgenDriverApiTest : public ::testing::Test {
 
     EXPECT_TRUE(status.ok());
     expect_api_success(response.status());
+  }
+
+  void configure_output_mode(const char* channel_name, fgen::OutputMode output_mode)
+  {
+    ::grpc::ClientContext context;
+    fgen::ConfigureOutputModeRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_output_mode(output_mode);
+    fgen::ConfigureOutputModeResponse response;
+
+    ::grpc::Status status = GetStub()->ConfigureOutputMode(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+  }
+
+  ViInt32 create_arb_waveform(const char* channel_name)
+  {
+    ::grpc::ClientContext context;
+    fgen::CreateWaveformF64Request request;
+    const ViReal64 waveform_data_array[] = { 1, 0, 0, 1 };
+    request.mutable_vi()->set_id(GetSessionId());
+    request.set_channel_name(channel_name);
+    for (ViReal64 waveform_data : waveform_data_array) {
+      request.add_waveform_data_array(waveform_data);
+    }
+    fgen::CreateWaveformF64Response response;
+
+    ::grpc::Status status = GetStub()->CreateWaveformF64(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    EXPECT_EQ(kfgenDriverApiSuccess, response.status());
+    return response.waveform_handle();
+  }
+
+  int create_advanced_arb_sequence(ViInt32 sequence_length, ViInt32* waveform_handles_array, ViInt32* loop_counts_array, ViInt32* marker_location_array)
+  {
+    ::grpc::ClientContext context;
+    fgen::CreateAdvancedArbSequenceRequest request;
+    request.mutable_vi()->set_id(GetSessionId());
+    request.mutable_waveform_handles_array()->Add(waveform_handles_array, waveform_handles_array + sequence_length);
+    request.mutable_loop_counts_array()->Add(loop_counts_array, loop_counts_array + sequence_length);
+    request.mutable_marker_location_array()->Add(marker_location_array, marker_location_array + sequence_length);
+    fgen::CreateAdvancedArbSequenceResponse response;
+
+    ::grpc::Status status = GetStub()->CreateAdvancedArbSequence(&context, request, &response);
+
+    EXPECT_TRUE(status.ok());
+    return response.status();
   }
 
  private:
@@ -514,6 +563,21 @@ TEST_F(NiFgenDriverApiTest, AllocateWaveform_WriteWaveformComplexF64_WaveformWri
   EXPECT_TRUE(write_wfm_status.ok());
   expect_api_success(write_wfm_response.status());
 }
+TEST_F(NiFgenDriverApiTest, OutputModeConfiguredToSeq_CreateAdvancedArbSequenceForArbitraryWaveform_CreatesSuccessfully)
+{
+  const char* channel_name = "0";
+  ViInt32 sequence_length = 1;
+  ViInt32 waveform_handles_array[1];
+  ViInt32 loop_counts_array[] = {1};
+  ViInt32 marker_location_array[] = {-1};
+  configure_output_mode(channel_name, fgen::OutputMode::OUTPUT_MODE_NIFGEN_VAL_OUTPUT_SEQ);
+
+  waveform_handles_array[0] = create_arb_waveform(channel_name);
+  int status = create_advanced_arb_sequence(sequence_length, waveform_handles_array, loop_counts_array, marker_location_array);
+
+  expect_api_success(status);
+}
+
 }  // namespace system
 }  // namespace tests
 }  // namespace ni
