@@ -66,7 +66,7 @@ service NiFgen {
   rpc CreateWaveformComplexF64(CreateWaveformComplexF64Request) returns (CreateWaveformComplexF64Response);
   rpc CreateWaveformF64(CreateWaveformF64Request) returns (CreateWaveformF64Response);
   rpc CreateWaveformFromFileF64(CreateWaveformFromFileF64Request) returns (CreateWaveformFromFileF64Response);
-  rpc CreateWaveformFromFileHWS(CreateWaveformFromFileHWSRequest) returns (CreateWaveformFromFileHWSResponse);
+  rpc CreateWaveformFromFileHws(CreateWaveformFromFileHwsRequest) returns (CreateWaveformFromFileHwsResponse);
   rpc CreateWaveformI16(CreateWaveformI16Request) returns (CreateWaveformI16Response);
   rpc CreateWaveformFromFileI16(CreateWaveformFromFileI16Request) returns (CreateWaveformFromFileI16Response);
   rpc DefineUserStandardWaveform(DefineUserStandardWaveformRequest) returns (DefineUserStandardWaveformResponse);
@@ -1241,7 +1241,7 @@ message CreateWaveformFromFileF64Response {
   sint32 waveform_handle = 2;
 }
 
-message CreateWaveformFromFileHWSRequest {
+message CreateWaveformFromFileHwsRequest {
   nidevice_grpc.Session vi = 1;
   string channel_name = 2;
   string file_name = 3;
@@ -1249,7 +1249,7 @@ message CreateWaveformFromFileHWSRequest {
   bool use_gain_and_offset_from_waveform = 5;
 }
 
-message CreateWaveformFromFileHWSResponse {
+message CreateWaveformFromFileHwsResponse {
   int32 status = 1;
   sint32 waveform_handle = 2;
 }
