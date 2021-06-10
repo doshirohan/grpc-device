@@ -96,7 +96,7 @@ try:
     # Configure output mode
     config_out_resp = nifgen_service.ConfigureOutputMode(nifgen_types.ConfigureOutputModeRequest(
         vi = vi,
-        output_mode_raw = nifgen_types.OutputMode.OUTPUT_MODE_NIFGEN_VAL_OUTPUT_ARB
+        output_mode = nifgen_types.OutputMode.OUTPUT_MODE_NIFGEN_VAL_OUTPUT_ARB
     ))
     CheckForError(vi, config_out_resp.status)
 
