@@ -143,18 +143,6 @@ enums = {
             }
         ]
     },
-	'CloseExtCal': {
-        'values': [
-			{
-                'name': 'NIFGEN_VAL_EXT_CAL_ABORT',
-                'value': 0
-            },
-            {
-                'name': 'NIFGEN_VAL_EXT_CAL_COMMIT',
-                'value': 1
-            }
-		]
-	},
     'DataMarkerEventLevelPolarity': {
         'values': [
             {
@@ -1180,34 +1168,6 @@ enums = {
             {
                 'name': 'NIFGEN_VAL_WFM_USER',
                 'value': 102
-            }
-        ]
-    },
-    'CalAdcInput': {
-        'values': [
-            {
-                'name': 'NIFGEN_VAL_ANALOG_OUTPUT',
-                'value': 0
-            },
-            {
-                'name': 'NIFGEN_VAL_INTERNAL_VOLTAGE_REFERENCE',
-                'value': 1
-            },
-            {
-                'name': 'NIFGEN_VAL_GROUND',
-                'value': 2
-            },
-            {
-                'name': 'NIFGEN_VAL_ANALOG_OUTPUT_DIFFERENTIAL',
-                'value': 3
-            },
-            {
-                'name': 'NIFGEN_VAL_ANALOG_OUTPUT_PLUS',
-                'value': 4
-            },
-            {
-                'name': 'NIFGEN_VAL_ANALOG_OUTPUT_MINUS',
-                'value': 5
             }
         ]
     }
