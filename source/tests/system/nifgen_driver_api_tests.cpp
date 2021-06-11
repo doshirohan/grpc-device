@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <climits>
 
 #include "nifgen/nifgen_library.h"
 #include "nifgen/nifgen_service.h"
@@ -608,6 +609,26 @@ TEST_F(NiFgenDriverApiTest, OutputModeConfiguredToSeq_CreateAdvancedArbSequenceF
   int status = create_advanced_arb_sequence(sequence_length, waveform_handles_array, loop_counts_array, marker_location_array);
 
   expect_api_success(status);
+}
+
+TEST_F(NiFgenDriverApiTest, OutputModeConfiguredToArb_CreateWaveformI16_CreatesSuccessfully)
+{
+  const char* channel_name = "0";
+  const ViInt16 waveform_data_array[] = {0, 1, SHRT_MIN, SHRT_MAX};
+  configure_output_mode(channel_name, fgen::OutputMode::OUTPUT_MODE_NIFGEN_VAL_OUTPUT_ARB);
+
+  ::grpc::ClientContext context;
+  fgen::CreateWaveformI16Request request;
+  request.mutable_vi()->set_id(GetSessionId());
+  request.set_channel_name(channel_name);
+  for(auto waveform_data : waveform_data_array){
+    request.add_waveform_data_array(waveform_data);
+  }
+  fgen::CreateWaveformI16Response response;
+  ::grpc::Status status = GetStub()->CreateWaveformI16(&context, request, &response);
+
+  EXPECT_TRUE(status.ok());
+  expect_api_success(response.status());  
 }
 
 }  // namespace system
