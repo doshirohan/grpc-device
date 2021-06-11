@@ -74,96 +74,6 @@ functions = {
         ],
         'returns':'ViStatus'
     },
-    'CalAdjustDirectPathOutputImpedance':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            },
-            {
-                'name':'channelName',
-                'direction':'in',
-                'type':'ViConstString'
-            },
-            {
-                'name':'configuration',
-                'direction':'in',
-                'type':'ViInt32'
-            },
-            {
-                'name':'loadImpedance',
-                'direction':'in',
-                'type':'ViReal64'
-            },
-            {
-                'name':'measuredSourceVoltage',
-                'direction':'in',
-                'type':'ViReal64'
-            },
-            {
-                'name':'measuredVoltageAcrossLoad',
-                'direction':'in',
-                'type':'ViReal64'
-            }
-        ],
-        'returns':'ViStatus'
-    },
-    'CalAdjustMainPathOutputImpedance':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            },
-            {
-                'name':'channelName',
-                'direction':'in',
-                'type':'ViConstString'
-            },
-            {
-                'name':'configuration',
-                'direction':'in',
-                'type':'ViInt32'
-            },
-            {
-                'name':'loadImpedance',
-                'direction':'in',
-                'type':'ViReal64'
-            },
-            {
-                'name':'measuredSourceVoltage',
-                'direction':'in',
-                'type':'ViReal64'
-            },
-            {
-                'name':'measuredVoltageAcrossLoad',
-                'direction':'in',
-                'type':'ViReal64'
-            }
-        ],
-        'returns':'ViStatus'
-    },
-    'CalAdjustOscillatorFrequency':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            },
-            {
-                'name':'desiredFrequency',
-                'direction':'in',
-                'type':'ViReal64'
-            },
-            {
-                'name':'measuredFrequency',
-                'direction':'in',
-                'type':'ViReal64'
-            }
-        ],
-        'returns':'ViStatus'
-    },
     'ChangeExtCalPassword':{
         'parameters':[
             {
@@ -438,22 +348,6 @@ functions = {
         ],
         'returns':'ViStatus'
     },
-    'CloseExtCal':{
-        'custom_close_method': True,
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            },
-            {
-                'name':'action',
-                'direction':'in',
-                'type':'ViInt32'
-            }
-        ],
-        'returns':'ViStatus'
-    },
     'Commit':{
         'parameters':[
             {
@@ -569,7 +463,8 @@ functions = {
             {
                 'name':'clockMode',
                 'direction':'in',
-                'type':'ViInt32'
+                'type':'ViInt32',
+                'enum':'ClockMode'
             }
         ],
         'returns':'ViStatus'
@@ -798,7 +693,8 @@ functions = {
             {
                 'name':'outputMode',
                 'direction':'in',
-                'type':'ViInt32'
+                'type':'ViInt32',
+                'enum':'OutputMode'
             }
         ],
         'returns':'ViStatus'
@@ -1256,6 +1152,41 @@ functions = {
             }
         ],
         'returns':'ViStatus'
+    },
+    'CreateWaveformI16': {
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'vi',
+                'type': 'ViSession'
+            },
+            {
+                'direction': 'in',
+                'name': 'channelName',
+                'type': 'ViConstString'
+            },
+            {
+                'direction': 'in',
+                'name': 'waveformSize',
+                'type': 'ViInt32'
+            },
+            {
+                'direction': 'in',
+                'name': 'waveformDataArray',
+                'size': {
+                    'mechanism': 'len',
+                    'value': 'waveformSize'
+                },
+                'type': 'ViInt16[]',
+                'use_array': True
+            },
+            {
+                'direction': 'out',
+                'name': 'waveformHandle',
+                'type': 'ViInt32'
+            }
+        ],
+        'returns': 'ViStatus'
     },
     'CreateWaveformFromFileI16':{
         'parameters':[
@@ -2192,28 +2123,6 @@ functions = {
         ],
         'returns': 'ViStatus',
     },
-    'InitExtCal':{
-        'init_method' : True,
-        'custom_close': 'CloseExtCal(id, NIFGEN_VAL_EXT_CAL_ABORT)',
-        'parameters':[
-            {
-                'name':'resourceName',
-                'direction':'in',
-                'type':'ViRsrc'
-            },
-            {
-                'name':'password',
-                'direction':'in',
-                'type':'ViConstString'
-            },
-            {
-                'name':'vi',
-                'direction':'out',
-                'type':'ViSession'
-            }
-        ],
-        'returns':'ViStatus'
-    },
     'InitWithOptions':{
         'init_method' : True,
         'parameters':[
@@ -2271,46 +2180,6 @@ functions = {
             {
                 'name':'vi',
                 'direction':'out',
-                'type':'ViSession'
-            }
-        ],
-        'returns':'ViStatus'
-    },
-    'InitializeAnalogOutputCalibration':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            }
-        ],
-        'returns':'ViStatus'
-    },
-    'InitializeCalADCCalibration':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            }
-        ],
-        'returns':'ViStatus'
-    },
-    'InitializeFlatnessCalibration':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            }
-        ],
-        'returns':'ViStatus'
-    },
-    'InitializeOscillatorFrequencyCalibration':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
                 'type':'ViSession'
             }
         ],
@@ -2475,31 +2344,6 @@ functions = {
             },
             {
                 'name':'frequencyListDurationQuantum',
-                'direction':'out',
-                'type':'ViReal64'
-            }
-        ],
-        'returns':'ViStatus'
-    },
-    'ReadCalADC':{
-        'parameters':[
-            {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
-            },
-            {
-                'name':'numberOfReadsToAverage',
-                'direction':'in',
-                'type':'ViInt32'
-            },
-            {
-                'name':'returnCalibratedValue',
-                'direction':'in',
-                'type':'ViBoolean'
-            },
-            {
-                'name':'calAdcValue',
                 'direction':'out',
                 'type':'ViReal64'
             }
@@ -2960,25 +2804,40 @@ functions = {
         ],
         'returns':'ViStatus'
     },
-    'WriteBinary16AnalogStaticValue':{
-        'parameters':[
+    'WriteBinary16Waveform': {
+        'parameters': [
             {
-                'name':'vi',
-                'direction':'in',
-                'type':'ViSession'
+                'direction': 'in',
+                'name': 'vi',
+                'type': 'ViSession'
             },
             {
-                'name':'channelName',
-                'direction':'in',
-                'type':'ViConstString'
+                'direction': 'in',
+                'name': 'channelName',
+                'type': 'ViConstString'
             },
             {
-                'name':'value',
-                'direction':'in',
-                'type':'ViInt16'
+                'direction': 'in',
+                'name': 'waveformHandle',
+                'type': 'ViInt32'
+            },
+            {
+                'direction': 'in',
+                'name': 'size',
+                'type': 'ViInt32'
+            },
+            {
+                'direction': 'in',
+                'name': 'data',
+                'size': {
+                    'mechanism': 'len',
+                    'value': 'size'
+                },
+                'type': 'ViInt16[]',
+                'use_array': True
             }
         ],
-        'returns':'ViStatus'
+        'returns': 'ViStatus'
     },
     'WriteComplexBinary16Waveform':{
         'parameters':[
@@ -3044,6 +2903,70 @@ functions = {
                 'size':{
                     'mechanism':'len',
                     'value':'size'
+                }
+            }
+        ],
+        'returns':'ViStatus'
+    },
+    'WriteNamedWaveformI16': {
+        'parameters': [
+            {
+                'direction': 'in',
+                'name': 'vi',
+                'type': 'ViSession'
+            },
+            {
+                'direction': 'in',
+                'name': 'channelName',
+                'type': 'ViConstString'
+            },
+            {
+                'direction': 'in',
+                'name': 'waveformName',
+                'type': 'ViConstString'
+            },
+            {
+                'direction': 'in',
+                'name': 'size',
+                'type': 'ViInt32'
+            },
+            {
+                'direction': 'in',
+                'name': 'data',
+                'size': {
+                    'mechanism': 'len',
+                    'value': 'size'
+                },
+                'type': 'ViInt16[]',
+                'use_array': True
+            }
+        ],
+        'returns': 'ViStatus'
+    },
+    'WriteP2PEndpointI16':{
+        'parameters':[
+            {
+                'name':'vi',
+                'direction':'in',
+                'type':'ViSession'
+            },
+            {
+                'name':'endpointName',
+                'direction':'in',
+                'type':'ViConstString'
+            },
+            {
+                'name':'numberOfSamples',
+                'direction':'in',
+                'type':'ViInt32'
+            },
+            {
+                'name':'endpointData',
+                'direction':'in',
+                'type':'ViInt16[]',
+                'size': {
+                    'mechanism': 'len',
+                    'value': 'numberOfSamples'
                 }
             }
         ],
