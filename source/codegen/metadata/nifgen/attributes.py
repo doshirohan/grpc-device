@@ -292,6 +292,12 @@ attributes = {
         'resettable': True,
         'type': 'ViReal64'
     },
+    1150232: {
+        'access': 'read-write',
+        'name': 'OSCILLATOR_PHASE_DAC_VALUE',
+        'resettable': True,
+        'type': 'ViInt32'
+    },
     1150233: {
         'access': 'read-write',
         'name': 'EXTERNAL_CLOCK_DELAY_BINARY_VALUE',
