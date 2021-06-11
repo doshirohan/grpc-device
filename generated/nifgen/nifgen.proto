@@ -1244,7 +1244,7 @@ message CreateWaveformFromFileF64Response {
   sint32 waveform_handle = 2;
 }
 
-message CreateWaveformFromFileHwsRequest {
+message CreateWaveformFromFileHWSRequest {
   nidevice_grpc.Session vi = 1;
   string channel_name = 2;
   string file_name = 3;
@@ -1252,7 +1252,7 @@ message CreateWaveformFromFileHwsRequest {
   bool use_gain_and_offset_from_waveform = 5;
 }
 
-message CreateWaveformFromFileHwsResponse {
+message CreateWaveformFromFileHWSResponse {
   int32 status = 1;
   sint32 waveform_handle = 2;
 }
