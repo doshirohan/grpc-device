@@ -1031,6 +1031,28 @@ functions = {
         ],
         'returns': 'ViStatus'
     },
+    "GetApertureTimeInfo": {
+        "parameters": [
+        {
+            "name": "vi",
+            "direction": "in",
+            "type": "ViSession"
+        },
+        {
+            "name": "apertureTime",
+            "direction": "out",
+            "type": "ViReal64",
+            "enum": "ApertureTime"
+        },
+        {
+            "name": "apertureTimeUnits",
+            "direction": "out",
+            "type": "ViInt32",
+            "enum": "ApertureTimeUnits"
+        }
+        ],
+        "returns": "ViStatus"
+    },
     'GetAttributeViBoolean': {
         'parameters': [
             {
