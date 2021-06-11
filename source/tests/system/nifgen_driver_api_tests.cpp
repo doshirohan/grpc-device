@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <climits>
 
 #include "nifgen/nifgen_library.h"
 #include "nifgen/nifgen_service.h"
@@ -614,7 +613,7 @@ TEST_F(NiFgenDriverApiTest, OutputModeConfiguredToSeq_CreateAdvancedArbSequenceF
 TEST_F(NiFgenDriverApiTest, OutputModeConfiguredToArb_CreateWaveformI16_CreatesSuccessfully)
 {
   const char* channel_name = "0";
-  const ViInt16 waveform_data_array[] = {0, 1, SHRT_MIN, SHRT_MAX};
+  const ViInt16 waveform_data_array[] = {0, 1, 0, 1};
   configure_output_mode(channel_name, fgen::OutputMode::OUTPUT_MODE_NIFGEN_VAL_OUTPUT_ARB);
 
   ::grpc::ClientContext context;
