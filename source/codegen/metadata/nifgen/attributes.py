@@ -1118,7 +1118,7 @@ attributes = {
     },
     1150399: {
         'access': 'read-write',
-        'enum': 'P2PAddressType',
+        'enum': 'AddressType',
         'name': 'P2P_DATA_TRANSFER_PERMISSION_ADDRESS_TYPE',
         'resettable': False,
         'type': 'ViInt32'
@@ -1137,7 +1137,7 @@ attributes = {
     },
     1150402: {
         'access': 'read-write',
-        'enum': 'P2PAddressType',
+        'enum': 'AddressType',
         'name': 'P2P_ENDPOINT_WINDOW_ADDRESS_TYPE',
         'resettable': False,
         'type': 'ViInt32'
@@ -1156,7 +1156,7 @@ attributes = {
     },
     1150406: {
         'access': 'read-write',
-        'enum': 'P2PAddressType',
+        'enum': 'AddressType',
         'name': 'P2P_DONE_NOTIFICATION_ADDRESS_TYPE',
         'resettable': False,
         'type': 'ViInt32'

@@ -2481,12 +2481,13 @@ functions = {
                 'name':'routeSignalFrom',
                 'direction':'in',
                 'type':'ViInt32',
-                'enum':'SignalRouting'
+                'enum':'RouteSignalFrom'
             },
             {
                 'name':'routeSignalTo',
                 'direction':'in',
-                'type':'ViInt32'
+                'type':'ViInt32',
+                'enum':'RouteSignalTo'
             }
         ],
         'returns':'ViStatus'

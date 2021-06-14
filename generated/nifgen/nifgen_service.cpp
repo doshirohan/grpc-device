@@ -2792,7 +2792,19 @@ namespace nifgen_grpc {
           break;
       }
 
-      ViInt32 route_signal_to = request->route_signal_to();
+      ViInt32 route_signal_to;
+      switch (request->route_signal_to_enum_case()) {
+        case nifgen_grpc::RouteSignalOutRequest::RouteSignalToEnumCase::kRouteSignalTo:
+          route_signal_to = (ViInt32)request->route_signal_to();
+          break;
+        case nifgen_grpc::RouteSignalOutRequest::RouteSignalToEnumCase::kRouteSignalToRaw:
+          route_signal_to = (ViInt32)request->route_signal_to_raw();
+          break;
+        case nifgen_grpc::RouteSignalOutRequest::RouteSignalToEnumCase::ROUTE_SIGNAL_TO_ENUM_NOT_SET:
+          return ::grpc::Status(::grpc::INVALID_ARGUMENT, "The value for route_signal_to was not specified or out of range");
+          break;
+      }
+
       auto status = library_->RouteSignalOut(vi, channel_name, route_signal_from, route_signal_to);
       response->set_status(status);
       return ::grpc::Status::OK;

@@ -410,48 +410,8 @@ enums = {
 	'OspOverflowStatus': {
         'values': [
             {
-                'name': 'NIFGEN_VAL_OSP_OVERFLOW_CFIR_FILTER_I',
-                'value': 512
-            },
-            {
-                'name': 'NIFGEN_VAL_OSP_OVERFLOW_CFIR_FILTER_Q',
-                'value': 1024
-            },
-            {
-                'name': 'NIFGEN_VAL_OSP_OVERFLOW_CIC_FILTER_I',
-                'value': 64
-            },
-            {
-                'name': 'NIFGEN_VAL_OSP_OVERFLOW_CIC_FILTER_Q',
-                'value': 128
-            },
-            {
-                'name': 'NIFGEN_VAL_OSP_OVERFLOW_COMPLEX_DATA',
-                'value': 256
-            },
-            {
-                'name': 'NIFGEN_VAL_OSP_OVERFLOW_EQUALIZER',
-                'value': 2048
-            },
-            {
-                'name': 'NIFGEN_VAL_OSP_OVERFLOW_FIR_FILTER_I',
-                'value': 16
-            },
-            {
-                'name': 'NIFGEN_VAL_OSP_OVERFLOW_FIR_FILTER_Q',
-                'value': 32
-            },
-            {
                 'name': 'NIFGEN_VAL_OSP_OVERFLOW_NONE',
                 'value': 0
-            },
-            {
-                'name': 'NIFGEN_VAL_OSP_OVERFLOW_PFIR_FILTER_I',
-                'value': 16
-            },
-            {
-                'name': 'NIFGEN_VAL_OSP_OVERFLOW_PFIR_FILTER_Q',
-                'value': 32
             },
             {
                 'name': 'NIFGEN_VAL_OSP_OVERFLOW_PRE_FILTER_GAIN_I',
@@ -468,7 +428,47 @@ enums = {
             {
                 'name': 'NIFGEN_VAL_OSP_OVERFLOW_PRE_FILTER_OFFSET_Q',
                 'value': 8
-            }
+            },
+            {
+                'name': 'NIFGEN_VAL_OSP_OVERFLOW_FIR_FILTER_I',
+                'value': 16
+            },
+            {
+                'name': 'NIFGEN_VAL_OSP_OVERFLOW_PFIR_FILTER_I',
+                'value': 16
+            },
+            {
+                'name': 'NIFGEN_VAL_OSP_OVERFLOW_FIR_FILTER_Q',
+                'value': 32
+            },
+            {
+                'name': 'NIFGEN_VAL_OSP_OVERFLOW_PFIR_FILTER_Q',
+                'value': 32
+            },
+            {
+                'name': 'NIFGEN_VAL_OSP_OVERFLOW_CIC_FILTER_I',
+                'value': 64
+            },
+            {
+                'name': 'NIFGEN_VAL_OSP_OVERFLOW_CIC_FILTER_Q',
+                'value': 128
+            },
+            {
+                'name': 'NIFGEN_VAL_OSP_OVERFLOW_COMPLEX_DATA',
+                'value': 256
+            },
+            {
+                'name': 'NIFGEN_VAL_OSP_OVERFLOW_CFIR_FILTER_I',
+                'value': 512
+            },
+            {
+                'name': 'NIFGEN_VAL_OSP_OVERFLOW_CFIR_FILTER_Q',
+                'value': 1024
+            }, 
+            {
+                'name': 'NIFGEN_VAL_OSP_OVERFLOW_EQUALIZER',
+                'value': 2048
+            }           
 		]
 	},
 	'OutputImpedance': {
@@ -507,7 +507,7 @@ enums = {
             }
         ]
     },
-    'P2PAddressType': {
+    'AddressType': {
         'values': [
             {
                 'name': 'NIFGEN_VAL_ADDR_PHYSICAL',
@@ -592,30 +592,26 @@ enums = {
             {
                 'name': 'NIFGEN_VAL_SOFTWARE_EDGE',
                 'value': 104
-            },
-            {
-                'name': 'NIFGEN_VAL_SOFTWARE_LEVEL',
-                'value': 105
             }
         ]
     },
     'Signal': {
         'values': [
             {
-                'name': 'NIFGEN_VAL_ONBOARD_REFERENCE_CLOCK',
-                'value': 1019
+                'name': 'NIFGEN_VAL_MARKER_EVENT',
+                'value': 1001
             },
             {
                 'name': 'NIFGEN_VAL_SYNC_OUT',
                 'value': 1002
             },
             {
-                'name': 'NIFGEN_VAL_START_TRIGGER',
-                'value': 1004
+                'name': 'NIFGEN_VAL_ONBOARD_REFERENCE_CLOCK',
+                'value': 1019
             },
             {
-                'name': 'NIFGEN_VAL_MARKER_EVENT',
-                'value': 1001
+                'name': 'NIFGEN_VAL_START_TRIGGER',
+                'value': 1004
             },
             {
                 'name': 'NIFGEN_VAL_SAMPLE_CLOCK_TIMEBASE',
@@ -655,7 +651,7 @@ enums = {
             }
         ]
     },
-	'SignalRouting': {
+	'RouteSignalFrom': {
         'values': [
             {
                 'name': 'NIFGEN_VAL_MARKER',
@@ -678,19 +674,111 @@ enums = {
                 'value': 1007
             },
             {
+                'name': 'NIFGEN_VAL_SOFTWARE_TRIG',
+                'value': 2
+            },
+            {
                 'name': 'NIFGEN_VAL_REF_OUT',
                 'value': 1008
             },
             {
-                'name': 'NIFGEN_VAL_CLOCK_OUT',
-                'value': 1009
+                'name': 'NIFGEN_VAL_PXI_STAR',
+                'value': 131
+            },
+            {
+                'name': 'NIFGEN_VAL_PFI_0',
+                'value': 1011
+            },
+            {
+                'name': 'NIFGEN_VAL_RTSI_0',
+                'value': 141
+            },
+            {
+                'name': 'NIFGEN_VAL_RTSI_1',
+                'value': 142
+            },
+            {
+                'name': 'NIFGEN_VAL_RTSI_2',
+                'value': 143
+            },
+            {
+                'name': 'NIFGEN_VAL_RTSI_3',
+                'value': 144
+            },
+            {
+                'name': 'NIFGEN_VAL_RTSI_4',
+                'value': 145
+            },
+            {
+                'name': 'NIFGEN_VAL_RTSI_5',
+                'value': 146
+            },
+            {
+                'name': 'NIFGEN_VAL_RTSI_6',
+                'value': 147
             },
             {
                 'name': 'NIFGEN_VAL_RTSI_7',
                 'value': 1010
+            },
+            {
+                'name': 'NIFGEN_VAL_ONBOARD_REFERENCE_CLOCK',
+                'value': 1019
             }
 		]
 	},
+	'RouteSignalTo': {
+        'values': [
+			{
+                'name': 'NIFGEN_VAL_RTSI_0',
+                'value': 141
+            },
+            {
+                'name': 'NIFGEN_VAL_RTSI_1',
+                'value': 142
+            },
+            {
+                'name': 'NIFGEN_VAL_RTSI_2',
+                'value': 143
+            },
+            {
+                'name': 'NIFGEN_VAL_RTSI_3',
+                'value': 144
+            },
+            {
+                'name': 'NIFGEN_VAL_RTSI_4',
+                'value': 145
+            },
+            {
+                'name': 'NIFGEN_VAL_RTSI_5',
+                'value': 146
+            },
+            {
+                'name': 'NIFGEN_VAL_RTSI_6',
+                'value': 147
+            },
+            {
+                'name': 'NIFGEN_VAL_RTSI_7',
+                'value': 1010
+            },
+			{
+                'name': 'NIFGEN_VAL_REF_OUT',
+                'value': 1008
+            },
+			{
+                'name': 'NIFGEN_VAL_PFI_0',
+                'value': 1011
+            },
+            {
+                'name': 'NIFGEN_VAL_PFI_1',
+                'value': 1012
+            },
+            {
+                'name': 'NIFGEN_VAL_PXI_STAR',
+                'value': 131
+            }
+        ]
+    },
     'StartTriggerDigitalEdgeEdge': {
         'values': [
             {
