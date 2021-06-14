@@ -619,14 +619,14 @@ TEST_F(NiFgenDriverApiTest, OutputModeConfiguredToArb_CreateWaveformI16_CreatesS
   fgen::CreateWaveformI16Request request;
   request.mutable_vi()->set_id(GetSessionId());
   request.set_channel_name(channel_name);
-  for(auto waveform_data : waveform_data_array){
+  for (auto waveform_data : waveform_data_array) {
     request.add_waveform_data_array(waveform_data);
   }
   fgen::CreateWaveformI16Response response;
   ::grpc::Status status = GetStub()->CreateWaveformI16(&context, request, &response);
 
   EXPECT_TRUE(status.ok());
-  expect_api_success(response.status());  
+  expect_api_success(response.status());
 }
 
 }  // namespace system
