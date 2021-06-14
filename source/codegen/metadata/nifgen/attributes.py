@@ -202,7 +202,7 @@ attributes = {
     1150208: {
         'access': 'read-write',
         'name': 'FREQ_LIST_HANDLE',
-        'enum': 'NIFGEN_VAL_FIRST_FREQ_LIST_HANDLE',
+        'enum': 'FrequencyListHandle',
         'resettable': False,
         'type': 'ViInt32'
     },
