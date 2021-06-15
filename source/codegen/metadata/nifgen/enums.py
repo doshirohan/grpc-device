@@ -307,7 +307,7 @@ enums = {
         'values': [
             {
                 'name': 'NIFGEN_VAL_MATCHED_LOAD_IMPEDANCE',
-                'value': -1.0
+                'value': -1
             }
 		]
 	},
@@ -372,14 +372,6 @@ enums = {
             {
                 'name': 'NIFGEN_VAL_LOW',
                 'value': 102
-            }
-        ]
-    },
-    'OperationMode': {
-        'values': [
-            {
-                'name': 'NIFGEN_VAL_OPERATE_CONTINUOUS',
-                'value': 0
             }
         ]
     },
@@ -475,11 +467,11 @@ enums = {
         'values': [
             {
                 'name': 'NIFGEN_VAL_50_OHMS',
-                'value': 50.0
+                'value': 50
             },
             {
                 'name': 'NIFGEN_VAL_75_OHMS',
-                'value': 75.0
+                'value': 75
             }
 		]
 	},
@@ -547,7 +539,7 @@ enums = {
         'values': [
             {
                 'name': 'NIFGEN_VAL_EXTERNAL_SAMPLE_RATE',
-                'value': -1.0
+                'value': -1
             }
 		]
 	},	

@@ -270,6 +270,7 @@ attributes = {
     },
     1150220: {
         'access': 'read-write',
+        'enum': 'LoadImpedance',
         'name': 'LOAD_IMPEDANCE',
         'resettable': True,
         'type': 'ViReal64'
@@ -1218,6 +1219,7 @@ attributes = {
     },
     1250004: {
         'access': 'read-write',
+        'enum': 'OutputImpedance',
         'name': 'OUTPUT_IMPEDANCE',
         'resettable': True,
         'type': 'ViReal64'
@@ -1280,6 +1282,7 @@ attributes = {
     },
     1250204: {
         'access': 'read-write',
+        'enum': 'SampleRate',
         'name': 'ARB_SAMPLE_RATE',
         'resettable': True,
         'type': 'ViReal64'
