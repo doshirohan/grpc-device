@@ -100,12 +100,13 @@ Metadata for following enums missing in enums.hapigen, taken from constants.hapi
 - `'ArbitraryWaveformHandle'`
 - `'ArbitrarySequenceHandle'`
 - `'BurstCount'`
-- `'CloseExtCal'`
 - `'FrequencyListHandle'`
 - `'LoadImpedance'`
 - `'OspOverflowStatus'`
 - `'OutputImpedance'`
 - `'SampleRate'`
-- `'SignalRouting'`
--  In 'ScriptTriggerType' : Following was added
-    - NIFGEN_VAL_SOFTWARE_LEVEL
+- `'AddressType'`
+- `'Signal'`
+- `'RouteSignalFrom'`
+- `'RouteSignalTo'`
+

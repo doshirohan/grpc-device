@@ -43,9 +43,9 @@ enums = {
             }
         ]
     },
-	'ArbitraryWaveformHandle': {
+    'ArbitraryWaveformHandle': {
         'values': [
-			{
+            {
                 'name': 'NIFGEN_VAL_FIRST_WAVEFORM_HANDLE',
                 'value': 10000
             },
@@ -57,9 +57,9 @@ enums = {
                 'name': 'NIFGEN_VAL_NO_WAVEFORM',
                 'value': -1
             }
-		]
-	},
-	'ArbitrarySequenceHandle': {
+        ]
+    },
+    'ArbitrarySequenceHandle': {
         'values': [
             {
                 'name': 'NIFGEN_VAL_FIRST_SEQUENCE_HANDLE',
@@ -73,16 +73,16 @@ enums = {
                 'name': 'NIFGEN_VAL_NO_SEQUENCE',
                 'value': -1
             }
-		]
-	},
-	'BurstCount': {
+        ]
+    },
+    'BurstCount': {
         'values': [
             {
                 'name': 'NIFGEN_VAL_GENERATE_CONTINUOUS',
                 'value': -1
             }
-		]
-	},
+        ]
+    },
     'BusType': {
         'values': [
             {
@@ -251,13 +251,13 @@ enums = {
             }
         ]
     },
-	'FrequencyListHandle': {
+    'FrequencyListHandle': {
         'values': [
-			{
+            {
                 'name': 'NIFGEN_VAL_FIRST_FREQ_LIST_HANDLE',
                 'value': 200000
             },
-			{
+            {
                 'name': 'NIFGEN_VAL_LAST_FREQ_LIST_HANDLE',
                 'value': 209999
             },
@@ -265,8 +265,8 @@ enums = {
                 'name': 'NIFGEN_VAL_NO_FREQ_LIST',
                 'value': -1
             }
-		]
-	},
+        ]
+    },
     'HardwareState': {
         'values': [
             {
@@ -303,14 +303,14 @@ enums = {
             }
         ]
     },
-	'LoadImpedance': {
+    'LoadImpedance': {
         'values': [
             {
                 'name': 'NIFGEN_VAL_MATCHED_LOAD_IMPEDANCE',
                 'value': -1
             }
-		]
-	},
+        ]
+    },
     'MarkerEventDelayUnits': {
         'values': [
             {
@@ -399,7 +399,7 @@ enums = {
             }
         ]
     },
-	'OspOverflowStatus': {
+    'OspOverflowStatus': {
         'values': [
             {
                 'name': 'NIFGEN_VAL_OSP_OVERFLOW_NONE',
@@ -461,9 +461,9 @@ enums = {
                 'name': 'NIFGEN_VAL_OSP_OVERFLOW_EQUALIZER',
                 'value': 2048
             }           
-		]
-	},
-	'OutputImpedance': {
+        ]
+    },
+    'OutputImpedance': {
         'values': [
             {
                 'name': 'NIFGEN_VAL_50_OHMS',
@@ -473,8 +473,8 @@ enums = {
                 'name': 'NIFGEN_VAL_75_OHMS',
                 'value': 75
             }
-		]
-	},
+        ]
+    },
     'OutputMode': {
         'values': [
             {
@@ -535,14 +535,14 @@ enums = {
             }
         ]
     },
-	'SampleRate': {
+    'SampleRate': {
         'values': [
             {
                 'name': 'NIFGEN_VAL_EXTERNAL_SAMPLE_RATE',
                 'value': -1
             }
-		]
-	},	
+        ]
+    },
     'ScriptTriggerDigitalEdgeEdge': {
         'values': [
             {
@@ -643,7 +643,7 @@ enums = {
             }
         ]
     },
-	'RouteSignalFrom': {
+    'RouteSignalFrom': {
         'values': [
             {
                 'name': 'NIFGEN_VAL_MARKER',
@@ -717,11 +717,11 @@ enums = {
                 'name': 'NIFGEN_VAL_ONBOARD_REFERENCE_CLOCK',
                 'value': 1019
             }
-		]
-	},
-	'RouteSignalTo': {
+        ]
+    },
+    'RouteSignalTo': {
         'values': [
-			{
+            {
                 'name': 'NIFGEN_VAL_RTSI_0',
                 'value': 141
             },
@@ -753,11 +753,11 @@ enums = {
                 'name': 'NIFGEN_VAL_RTSI_7',
                 'value': 1010
             },
-			{
+            {
                 'name': 'NIFGEN_VAL_REF_OUT',
                 'value': 1008
             },
-			{
+            {
                 'name': 'NIFGEN_VAL_PFI_0',
                 'value': 1011
             },
