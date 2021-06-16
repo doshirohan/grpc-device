@@ -19,7 +19,7 @@ enums = {
             }
         ]
     },
-    'FrequencyListHandleParameter': {
+    'FrequencyListOptions': {
         'values': [
             {
                 'name': 'NIFGEN_VAL_ALL_FLISTS',

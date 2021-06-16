@@ -381,9 +381,9 @@ enum AnalogPath {
   ANALOG_PATH_NIFGEN_VAL_FIXED_HIGH_GAIN_ANALOG_PATH = 3;
 }
 
-enum FrequencyListHandleParameter {
-  FREQUENCY_LIST_HANDLE_PARAMETER_UNSPECIFIED = 0;
-  FREQUENCY_LIST_HANDLE_PARAMETER_NIFGEN_VAL_ALL_FLISTS = -1;
+enum FrequencyListOptions {
+  FREQUENCY_LIST_OPTIONS_UNSPECIFIED = 0;
+  FREQUENCY_LIST_OPTIONS_NIFGEN_VAL_ALL_FLISTS = -1;
 }
 
 enum SequenceHandle {
@@ -1014,7 +1014,7 @@ message ClearErrorResponse {
 message ClearFreqListRequest {
   nidevice_grpc.Session vi = 1;
   oneof frequency_list_handle_enum {
-    FrequencyListHandleParameter frequency_list_handle = 2;
+    FrequencyListOptions frequency_list_handle = 2;
     sint32 frequency_list_handle_raw = 3;
   }
 }

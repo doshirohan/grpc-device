@@ -307,7 +307,7 @@ functions = {
                 'name':'frequencyListHandle',
                 'direction':'in',
                 'type':'ViInt32',
-                'enum':'FrequencyListHandleParameter'
+                'enum':'FrequencyListOptions'
             }
         ],
         'returns':'ViStatus'

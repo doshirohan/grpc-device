@@ -94,7 +94,7 @@ All occurrences of the following keys were removed along with their values:
 - `'documentation'`
 
 Metadata for following enums missing in enums.hapigen, taken from constants.hapigen:
-- `'FrequencyListHandleParameter'`
+- `'FrequencyListOptions'`
 - `'SequenceHandle'`
 - `'WaveformHandle'`
 - `'ArbitraryWaveformHandle'`
