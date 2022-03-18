@@ -49,6 +49,7 @@ service NiXnet {
   rpc GetPropertySize(GetPropertySizeRequest) returns (GetPropertySizeResponse);
   rpc GetSubProperty(GetSubPropertyRequest) returns (GetSubPropertyResponse);
   rpc GetSubPropertySize(GetSubPropertySizeRequest) returns (GetSubPropertySizeResponse);
+  rpc ReadFrame(ReadFrameRequest) returns (ReadFrameResponse);
   rpc ReadSignalSinglePoint(ReadSignalSinglePointRequest) returns (ReadSignalSinglePointResponse);
   rpc ReadSignalWaveform(ReadSignalWaveformRequest) returns (ReadSignalWaveformResponse);
   rpc ReadState(ReadStateRequest) returns (ReadStateResponse);
@@ -1390,6 +1391,24 @@ message GetSubPropertySizeRequest {
 message GetSubPropertySizeResponse {
   int32 status = 1;
   uint32 property_size = 2;
+}
+
+message ReadFrameRequest {
+  nidevice_grpc.Session session_ref = 1;
+  uint32 size_of_buffer = 2;
+  oneof timeout_enum {
+    TimeOut timeout = 3;
+    double timeout_raw = 4;
+  }
+  oneof frame_type_enum {
+    FrameType frame_type = 5;
+    uint32 frame_type_raw = 6;
+  }
+}
+
+message ReadFrameResponse {
+  int32 status = 1;
+  repeated FrameBuffer buffer = 2;
 }
 
 message ReadSignalSinglePointRequest {
