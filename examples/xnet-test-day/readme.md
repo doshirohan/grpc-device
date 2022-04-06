@@ -1,0 +1,1 @@
+This folder contains examples that were created for testing xnet APIs. Most of these examples are not cleaned up and are used only for validating API results (as loopback test or manually inspecting output on terminal or comparing output with equivalent C examples)
